@@ -1,4 +1,4 @@
-package de.hhu.propra.gruppen1.gruppenbildung;
+package mops.gruppen1;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
