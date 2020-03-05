@@ -1,0 +1,17 @@
+#Befehl zum Starten der Datenbank: "docker-compose up " --build(optional bei Problemen hinter den Befehl schreiben)
+version: "3.1"
+services:
+    #application:
+     #   build: .
+      #  ports:
+       #     - "8080:8080"
+    database:
+        image: mysql:latest
+        volumes:
+            - ./mysql/db/entrypoint:/docker-entrypoint-initdb.d/
+        ports:
+            - "3306:3306"
+        environment: 
+            - "MYSQL_ROOT_PASSWORD=password"
+            - "MYSQL_DATABASE=gruppen"
+        
