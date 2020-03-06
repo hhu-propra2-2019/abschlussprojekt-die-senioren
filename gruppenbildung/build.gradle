@@ -65,6 +65,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     implementation "mops:styleguide:2.0.0"
+    runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }

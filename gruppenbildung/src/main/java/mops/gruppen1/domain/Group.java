@@ -1,6 +1,5 @@
 package mops.gruppen1.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +12,17 @@ import java.util.UUID;
 @Getter
 @EqualsAndHashCode
 @RequiredArgsConstructor
+@Table(name = "groups1")
 public class Group {
-    @Id
-    @GeneratedValue
-    private UUID id;
-    private GroupName name;
-    private GroupDescription description;
-    @OneToMany
+    @OneToMany(mappedBy = "group")
     List<Membership> members;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID groupId;
+    @Embedded
+    private GroupName name;
+    @Embedded
+    private GroupDescription description;
+    @Embedded
     private GroupStatus status;
 }
