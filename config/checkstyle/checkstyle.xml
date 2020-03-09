@@ -49,11 +49,9 @@
         <property name="fileNamePattern" value="module\-info\.java$"/>
     </module>
 
-    <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
-    <module name="SuppressionFilter">
-        <property name="file" value="${org.checkstyle.sun.suppressionfilter.config}"
-                  default="checkstyle-suppressions.xml" />
-        <property name="optional" value="true"/>
+    <!-- Excludes 'SpringBootApplication' file              -->
+    <module name="BeforeExecutionExclusionFileFilter">
+        <property name="fileNamePattern" value="GruppenbildungApplication\.java$"/>
     </module>
 
     <!-- Checks that a package-info.java file exists for each package.     -->
