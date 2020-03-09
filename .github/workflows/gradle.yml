@@ -1,14 +1,14 @@
-name: Gradle
+name: CITesting
 
 on:
     push:
         branches:
-            -master
-            -dev_branch
+            - master
+            - CITesting
     pull_request:
         branches:
-            -master
-            -dev_branch
+            - master
+            - CITesting
 
 jobs:
   build:
