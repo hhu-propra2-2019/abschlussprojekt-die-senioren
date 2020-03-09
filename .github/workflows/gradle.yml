@@ -3,8 +3,7 @@ name: CITesting
 on:
     push:
         branches:
-            - master
-            - CITesting
+            - '**'
     pull_request:
         branches:
             - master
