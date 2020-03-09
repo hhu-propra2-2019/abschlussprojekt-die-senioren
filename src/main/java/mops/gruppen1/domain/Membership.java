@@ -2,7 +2,9 @@ package mops.gruppen1.domain;
 
 import java.util.UUID;
 
-
+/**
+ * Representing a membership of a user within a group.
+ */
 public class Membership {
 
     private UUID memberid;
