@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"mops"},{"l":"mops.gruppen1.applicationService"},{"l":"mops.gruppen1.domain"},{"l":"mops.gruppen1.domain.events"}]
