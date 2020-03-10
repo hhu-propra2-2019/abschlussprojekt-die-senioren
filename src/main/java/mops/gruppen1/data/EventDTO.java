@@ -1,10 +1,8 @@
 package mops.gruppen1.data;
 
 import lombok.Data;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 /**
  * DTO for Events
@@ -17,11 +15,12 @@ public class EventDTO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_ref")
     private String user;
+    @Column(name = "group_ref")
     private String group;
     private String eventType;
+    @Column(length = 2000)
     private String payload;
-
-
 
 }
