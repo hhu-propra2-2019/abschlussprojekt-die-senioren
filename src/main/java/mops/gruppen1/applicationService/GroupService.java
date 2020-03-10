@@ -19,8 +19,8 @@ import java.util.List;
 @EqualsAndHashCode
 @AllArgsConstructor
 public class GroupService {
-    HashMap<Group, List<Membership>> groupToMembers;
-    HashMap<User, List<Membership>> userToMembers;
-    HashSet<User> users;
-    HashSet<Group> groups;
+    private HashMap<Group, List<Membership>> groupToMembers;
+    private HashMap<User, List<Membership>> userToMembers;
+    private HashSet<User> users;
+    private HashSet<Group> groups;
 }
