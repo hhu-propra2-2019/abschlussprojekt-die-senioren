@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Service to manage the group entities
+ */
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor
