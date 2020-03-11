@@ -2,6 +2,7 @@ package mops.gruppen1.applicationService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.domain.events.Event;
@@ -15,16 +16,24 @@ import java.util.List;
 /**
  * Service to handle and manage events
  */
+@Getter
 @Service
 public class EventService {
 
-    List<Event> events;
-    @Autowired
-    private EventRepo eventRepo;
+    final EventRepo eventRepo;
+    private List<Event> events;
+
+    public EventService(EventRepo eventRepo) {
+        this.eventRepo = eventRepo;
+        events = new ArrayList<Event>();
+    }
 
     public void loadEvents() {
         Iterable<EventDTO> eventDTOS = eventRepo.findAll();
-        eventDTOS.forEach(e ->  events.add(transform(e)));
+        eventDTOS.forEach(e ->  {
+            Event event = transform(e);
+            events.add(event);
+        });
     }
 
 
@@ -43,6 +52,4 @@ public class EventService {
         }
 
     }
-
-
 }
