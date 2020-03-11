@@ -15,30 +15,34 @@
     </nav>
 </header>
 <main th:fragment="bodycontent">
-    <p class="h4" style="font-style: italic">Meine Gruppen</p>
-    <table class="table w-50" width="400">
-        <thead class="thead-dark">
+    <p class="h3">Meine Gruppen</p>
+    <table class="table w-50" style="width:50px">
+        <thead class="thead-light">
         <tr>
             <th scope="col">Gruppenname</th>
             <th scope="col">Veranstaltung</th>
             <th scope="col">Zugriff</th>
+            <th scope="col">Rolle</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
+            <td>Gruppe 1</td>
+            <td>Info</td>
+            <td>Restricted</td>
+            <td>Admin</td>
         </tr>
         <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
+            <td>Gruppe 2</td>
+            <td>Mathe</td>
+            <td>Public</td>
+            <td>Viewer</td>
         </tr>
         <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
+            <td>Gruppe 3</td>
+            <td>-</td>
+            <td>Restricted</td>
+            <td>Membership Request open</td>
         </tr>
         </tbody>
     </table>
