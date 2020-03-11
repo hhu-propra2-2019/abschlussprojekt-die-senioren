@@ -1,6 +1,8 @@
 package mops.gruppen1.data;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,6 +12,13 @@ import javax.persistence.*;
 @Data
 @Entity
 public class EventDTO {
+
+    public EventDTO(String user, String group, String eventType, String payload) {
+        this.user = user;
+        this.group = group;
+        this.eventType = eventType;
+        this.payload = payload;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
