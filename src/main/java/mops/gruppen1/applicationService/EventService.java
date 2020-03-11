@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.domain.events.Event;
+import mops.gruppen1.domain.events.GroupCreationEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,12 @@ public class EventService {
     }
 
 
-    private Event transform(EventDTO eventDTO) {
+    public Event transform(EventDTO eventDTO) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            Class<Event> classType = (Class<Event>) Class.forName(eventDTO.getEventType());
+
+            Class<Event> classType = (Class<Event>) Class.forName("mops.gruppen1.domain.events." + eventDTO.getEventType());
             Event event = objectMapper.readValue(eventDTO.getPayload(), classType);
             return event;
 
