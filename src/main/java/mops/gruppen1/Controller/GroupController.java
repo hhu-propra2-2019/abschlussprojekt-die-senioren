@@ -17,6 +17,7 @@ public class GroupController {
 
     /**
      * Nimmt das Authentifizierungstoken von Keycloak und erzeugt ein AccountDTO für die Views.
+     * (Entnommen aus der Vorlage 'KeycloakDemo'
      *
      * @param token
      * @return neuen Account der im Template verwendet wird
