@@ -28,7 +28,7 @@ class EventServiceTests {
         String testUserName = "test_user";
         String testGroupName = "test_group";
         String testEventType = "GroupCreationEvent";
-        String testPayload = "test_payload";
+        String testPayload = "{\"testKey\" : \"testValue\"}";
 
         EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, testEventType, testPayload);
 
