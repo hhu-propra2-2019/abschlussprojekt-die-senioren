@@ -15,11 +15,15 @@
     </nav>
 </header>
 <main th:fragment="bodycontent">
-        <p class="h3 ">Meine Gruppen <span>
-            <button class="btn btn-secondary btn-sm offset-2"  aria-pressed="true" type="button"
-                    th:href="Erstellen.html">Gruppe erstellen</button>
-            </span>
-        </p>
+    <div class="container-sm">
+        <div class="flex-row">
+            <p class="h3 offset-sm-0">Meine Gruppen <span>
+                <a class="btn btn-secondary btn-sm offset-sm-1"  aria-pressed="true" role="button"
+                   href="erstellen.html">Gruppe erstellen</a>
+                </span>
+            </p>
+        </div>
+    </div>
     <table class="table w-50">
         <thead class="thead-light">
         <tr>
