@@ -40,6 +40,13 @@ public class GroupController {
         return "index";
     }
 
+    /**
+     * Method can be used once the log-out button works properly
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) throws Exception {
         request.logout();
