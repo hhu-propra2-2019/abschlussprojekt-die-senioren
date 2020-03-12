@@ -1,15 +1,15 @@
-.container {
+.placing {
     position: relative;
     width: 100%;
 }
 
-.container img {
+.placing img {
     width: 100%;
     height: auto;
     border-radius: 10px;
 }
 
-.container .btn {
+.placing .btn {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -23,4 +23,3 @@
     width: 33%;
     padding: 5px;
 }
-
