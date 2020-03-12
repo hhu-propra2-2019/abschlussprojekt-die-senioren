@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Optional: Tabtitel', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Name des Subsystems</title>
+    <th:block th:fragment="headcontent">
+        <!-- Links, Skripts, Styles hier einfügen! -->
+    </th:block>
+</head>
+<body>
+<header>
+    <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
+        <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
+    </nav>
+</header>
+<main th:fragment="bodycontent">
+    <form class="was-validated">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="input">Gruppenname</label>
+                <input type="text" class="form-control" id="input" placeholder="Gruppenname" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputVeranstaltung">Veranstaltung</label>
+                <select class="form-control" id="inputVeranstaltung" required>
+                    <option value="">Veranstaltung wählen</option>
+                    <option value="1">Info 1</option>
+                    <option value="2">Info 2</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="GruppenstatusWählen">Gruppenstatus</label>
+            <select class="custom-select" id="GruppenstatusWählen" required>
+                <option value="">Gruppenstatus wählen</option>
+                <option value="public">Public</option>
+                <option value="restricted">Restricted</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="SucheMitglieder">Mitglieder suchen</label>
+            <input type="text" class="form-control" id="SucheMitglieder" placeholder="Suche..">
+        </div>
+        <div class="form-group">
+            <label for="MitgliederWahl">Mitglieder über CSV - Datei hinzufügen</label>
+            <div class="custom-file" id="MitgliederWahl">
+                <input type="file" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">CSV - Datei auswählen</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary">Gruppe erstellen</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>
