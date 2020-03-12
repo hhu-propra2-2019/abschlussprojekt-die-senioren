@@ -15,8 +15,12 @@
     </nav>
 </header>
 <main th:fragment="bodycontent">
-    <p class="h3">Meine Gruppen</p>
-    <table class="table w-50" style="width:50px">
+        <p class="h3 ">Meine Gruppen <span>
+            <button class="btn btn-secondary btn-sm offset-2"  aria-pressed="true" type="button"
+                    th:href="Erstellen.html">Gruppe erstellen</button>
+            </span>
+        </p>
+    <table class="table w-50">
         <thead class="thead-light">
         <tr>
             <th scope="col">Gruppenname</th>
