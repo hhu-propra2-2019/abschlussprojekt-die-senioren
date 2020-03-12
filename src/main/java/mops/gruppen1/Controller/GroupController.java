@@ -3,6 +3,7 @@ package mops.gruppen1.Controller;
 import mops.gruppen1.security.Account;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.springframework.context.annotation.Role;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,11 @@ public class GroupController {
                 principal.getKeycloakSecurityContext().getIdToken().getEmail(),
                 null,
                 token.getAccount().getRoles());
+    }
+
+    @GetMapping("/erstellen")
+    public String groupCreation()   {
+        return "erstellen";
     }
 
     @GetMapping("/")
