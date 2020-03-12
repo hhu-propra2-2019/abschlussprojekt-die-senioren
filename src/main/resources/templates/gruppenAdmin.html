@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Gruppe ansehen - Viewer', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>Gruppenbildung</title>
+    <th:block th:fragment="headcontent">
+        <!-- Links, Skripts, Styles hier einfügen! -->
+        <link rel="stylesheet" th:href="@{/css/mystyle.css}">
+    </th:block>
 </head>
 <body>
+<header>
+    <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
+        <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
+    </nav>
+</header>
+<main th:fragment="bodycontent">
 
+    <p class="h2">Gruppe 1 </p>
+
+    <a class="btn btn-secondary" href="/gruppen1/showMembers" role="button">Gruppenmitglieder anzeigen und verwalten</a>
+
+    <a class="btn btn-secondary" href="/gruppen1/showMembers" role="button">offene Gruppenanfragen</a>
+
+    <div class="row">
+        <div class="column">
+            <div class="container">
+                <img th:src="@{/img/dylan-gillis-KdeqA3aTnBY-unsplash.jpg}">
+                <a class="btn btn-secondary" href="/foren/mygroup" role="button">zum Gruppenforum</a>
+            </div>
+        </div>
+        <div class="column">
+            <div class="container">
+                <img th:src="@{/img/jamie-taylor--9C3TMXwQjQ-unsplash.jpg}">
+                <a class="btn btn-secondary" href="/materialsammlung/mygroup" role="button">zum Gruppenmaterial</a>
+            </div>
+        </div>
+        <div class="column">
+            <div class="container">
+                <img th:src="@{/img/eric-rothermel-FoKO4DpXamQ-unsplash.jpg}">
+                <a class="btn btn-secondary" href="/terminfindung/mygroup" role="button">zu den Gruppenterminen</a>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-secondary" type="submit">Gruppe verlassen</button>
+
+</main>
 </body>
 </html>

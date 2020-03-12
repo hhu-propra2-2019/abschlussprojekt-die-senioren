@@ -33,8 +33,27 @@ public class GroupController {
     }
 
     @GetMapping("/erstellen")
-    public String groupCreation()   {
+    public String groupCreation (KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
         return "erstellen";
+    }
+
+    @GetMapping("/viewer")
+    public String viewerView(KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "gruppenViewer";
+    }
+
+    @GetMapping("/admin")
+    public String adminView(KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "gruppenAdmin";
     }
 
     @GetMapping("/")
