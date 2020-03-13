@@ -1,0 +1,25 @@
+.placing {
+    position: relative;
+    width: 100%;
+}
+
+.placing img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.placing .btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    opacity: 0.7;
+}
+
+.column {
+    float: left;
+    width: 33%;
+    padding: 5px;
+}
