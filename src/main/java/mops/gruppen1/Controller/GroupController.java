@@ -3,6 +3,7 @@ package mops.gruppen1.Controller;
 import mops.gruppen1.security.Account;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.springframework.context.annotation.Role;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,51 @@ public class GroupController {
                 principal.getKeycloakSecurityContext().getIdToken().getEmail(),
                 null,
                 token.getAccount().getRoles());
+    }
+
+    @GetMapping("/erstellen")
+    @Secured("ROLE_studentin")
+    public String groupCreation (KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "erstellen";
+    }
+
+    @GetMapping("/description")
+    @Secured("ROLE_studentin")
+    public String descriptionChange(KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "changeDescription";
+    }
+
+    @GetMapping("/memberships")
+    @Secured("ROLE_studentin")
+    public String membershipChange(KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "changeMemberships";
+    }
+
+    @GetMapping("/viewer")
+    @Secured("ROLE_studentin")
+    public String viewerView(KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "gruppenViewer";
+    }
+
+    @GetMapping("/admin")
+    @Secured("ROLE_studentin")
+    public String adminView(KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "gruppenAdmin";
     }
 
     @GetMapping("/")
