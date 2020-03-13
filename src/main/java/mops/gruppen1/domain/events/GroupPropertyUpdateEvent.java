@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * edit instance attributes ‘name' or 'description' of a group
+ */
 public class GroupPropertyUpdateEvent implements Event {
 
 
