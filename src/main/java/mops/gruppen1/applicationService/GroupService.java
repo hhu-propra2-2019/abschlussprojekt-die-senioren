@@ -9,7 +9,6 @@ import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
-import mops.gruppen1.domain.Username;
 import mops.gruppen1.domain.events.Event;
 import mops.gruppen1.domain.events.GroupCreationEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Service to manage the group entities
@@ -27,13 +25,12 @@ import java.util.UUID;
 @EqualsAndHashCode
 @AllArgsConstructor
 public class GroupService {
+    @Autowired
+    EventService events;
     private HashMap<Group, List<Membership>> groupToMembers;
     private HashMap<User, List<Membership>> userToMembers;
     private HashSet<User> users;
     private HashSet<Group> groups;
-    @Autowired
-    EventService events;
-
 
     public void init() {
         events.loadEvents();
@@ -51,16 +48,20 @@ public class GroupService {
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
         String groupID = group.getGroupId().toString();
-        LocalDateTime timestamp = LocalDateTime.now();
 
+        EventDTO groupCreationEventDTO = createEventDTO(userName, groupID, "GroupCreationEvent", groupCreationEvent);
+    }
+
+    private EventDTO createEventDTO(String userName, String groupID, String eventType, Event event) {
+        LocalDateTime timestamp = LocalDateTime.now();
         ObjectMapper objectMapper = new ObjectMapper();
         String payload = "";
         try {
-            payload = objectMapper.writeValueAsString(groupCreationEvent);
+            payload = objectMapper.writeValueAsString(event);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        EventDTO eventDTO = new EventDTO(userName, groupID, timestamp, "GroupCreationEvent", payload);
+        return new EventDTO(userName, groupID, timestamp, eventType, payload);
     }
 }
