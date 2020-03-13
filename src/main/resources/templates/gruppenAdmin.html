@@ -50,8 +50,8 @@
                     Mitglieder anzeigen
                 </button>
             <a class="btn btn-outline-secondary col-3 offset-1" href="/gruppen1/groupRequests" role="button">offene Gruppenanfragen <span class="badge text-danger">10</span></a>
-            <button class="btn btn-outline-secondary col-3 offset-1" type="button" data-toggle="collapse" data-target="#collapseBeschreibung" aria-expanded="false" aria-controls="collapseBeschreibung">
-                Gruppenbeschreibung
+            <button class="btn btn-outline-secondary col-3 offset-1" type="button" data-toggle="collapse" data-target="#collapseOptionen" aria-expanded="false" aria-controls="collapseOptionen">
+                Gruppenoptionen
             </button>
             <div class="collapse" id="collapseMitglieder">
                 <div class="card card-body border-0">
@@ -63,37 +63,51 @@
                     <a class="btn btn-outline-secondary" href="/gruppen1/changeMemberships" role="button">Mitglieder verwalten</a>
                 </div>
             </div>
-            <div class="collapse" id="collapseBeschreibung" th:method="get">
+            <div class="collapse" id="collapseOptionen" th:method="get">
                 <div class="card card-body border-0">
-                    Das ist eine Gruppenbeschreibung.
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Gruppe verlassen</h4>
+                                    <p class="card-text">Hiermit wirst du die Gruppe verlassen und den Zugriff auf die
+                                        Gruppeninhalte verlieren.</p>
+                                    <button class="btn btn-danger" type="button">Verlassen</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Gruppe löschen</h4>
+                                    <p class="card-text">Hiermit wirst du diese Gruppe und sämtliche Inhalte der Gruppe
+                                        unwiderruflich löschen.</p>
+                                    <button class="btn btn-danger" type="button">Löschen</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <br>
                     <br>
-                    <a class="btn btn-outline-secondary" href="/gruppen1/description" th:type="submit">Beschreibung anpassen</a>
+
                 </div>
             </div>
         </div>
     </div>
     <br>
     <br>
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Gruppe verlassen</h4>
-                    <p class="card-text">Hiermit wirst du die Gruppe verlassen und den Zugriff auf die
-                        Gruppeninhalte verlieren.</p>
-                    <button class="btn btn-danger" type="button">Verlassen</button>
-                </div>
-            </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="h3 header">Gruppenbeschreibung</h3>
         </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Gruppe löschen</h4>
-                    <p class="card-text">Hiermit wirst du diese Gruppe und sämtliche Inhalte der Gruppe
-                    unwiderruflich löschen.</p>
-                    <button class="btn btn-danger" type="button">Löschen</button>
-                </div>
+        <div class="card-body">
+            <div class="container">
+                  Dies ist eine Gruppenbeschreibung
+                    <br>
+                    <br>
+                <a class="btn btn-outline-secondary" href="/gruppen1/description" th:type="submit">Beschreibung anpassen</a>
             </div>
         </div>
     </div>

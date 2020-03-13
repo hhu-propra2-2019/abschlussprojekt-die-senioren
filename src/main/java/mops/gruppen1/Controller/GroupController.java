@@ -33,6 +33,7 @@ public class GroupController {
     }
 
     @GetMapping("/erstellen")
+    @Secured("ROLE_studentin")
     public String groupCreation (KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
@@ -41,6 +42,7 @@ public class GroupController {
     }
 
     @GetMapping("/description")
+    @Secured("ROLE_studentin")
     public String descriptionChange(KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
@@ -49,6 +51,7 @@ public class GroupController {
     }
 
     @GetMapping("/viewer")
+    @Secured("ROLE_studentin")
     public String viewerView(KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
@@ -57,6 +60,7 @@ public class GroupController {
     }
 
     @GetMapping("/admin")
+    @Secured("ROLE_studentin")
     public String adminView(KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
