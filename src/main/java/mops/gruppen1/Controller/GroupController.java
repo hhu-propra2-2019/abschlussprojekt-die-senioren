@@ -50,6 +50,15 @@ public class GroupController {
         return "changeDescription";
     }
 
+    @GetMapping("/memberships")
+    @Secured("ROLE_studentin")
+    public String membershipChange(KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "changeMemberships";
+    }
+
     @GetMapping("/viewer")
     @Secured("ROLE_studentin")
     public String viewerView(KeycloakAuthenticationToken token, Model model) {
