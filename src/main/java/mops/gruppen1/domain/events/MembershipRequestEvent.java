@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Create a Membership with Status 'Pending'
+ * Add Membership to groupToMembers and userToMembers
+ */
 public class MembershipRequestEvent implements Event {
 
 
