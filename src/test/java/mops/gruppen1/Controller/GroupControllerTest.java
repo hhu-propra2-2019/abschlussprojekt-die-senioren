@@ -61,4 +61,38 @@ class GroupControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
     }
+
+    @Test
+    void testAdminView() throws Exception {
+        Set<String> roles = new HashSet<String>();
+        roles.add("studentin");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+        mvc.perform(get("/gruppen1/admin"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("gruppenAdmin"));
+    }
+
+    @Test
+    void testMemberView() throws Exception {
+        Set<String> roles = new HashSet<String>();
+        roles.add("studentin");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+        mvc.perform(get("/gruppen1/viewer"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("gruppenViewer"));
+    }
 }
