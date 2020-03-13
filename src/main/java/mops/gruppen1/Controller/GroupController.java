@@ -86,6 +86,15 @@ public class GroupController {
         return "index";
     }
 
+    @GetMapping("/groupRequests")
+    @Secured("ROLE_studentin")
+    public String groupRequests(KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "groupRequests";
+    }
+
     /**
      * Method can be used once the log-out button works properly
      *
