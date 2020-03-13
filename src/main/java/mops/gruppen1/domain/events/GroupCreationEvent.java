@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * create new Group with attributes groupId, name and description.
+ */
 @Data
 public class GroupCreationEvent implements Event {
 
