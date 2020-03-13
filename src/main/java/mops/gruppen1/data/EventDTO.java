@@ -1,10 +1,8 @@
 package mops.gruppen1.data;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * DTO for Events
@@ -13,9 +11,10 @@ import javax.persistence.*;
 @Entity
 public class EventDTO {
 
-    public EventDTO(String user, String group, String eventType, String payload) {
+    public EventDTO(String user, String group, LocalDateTime timestamp, String eventType, String payload) {
         this.user = user;
         this.group = group;
+        this.timestamp = timestamp;
         this.eventType = eventType;
         this.payload = payload;
     }
@@ -28,6 +27,8 @@ public class EventDTO {
     private String user;
     @Column(name = "group_ref")
     private String group;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime timestamp;
     private String eventType;
     @Column(length = 2000)
     private String payload;
