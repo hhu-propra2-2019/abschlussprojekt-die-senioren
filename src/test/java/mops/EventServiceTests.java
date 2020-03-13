@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +35,10 @@ class EventServiceTests {
         //arrange
         String testUserName = "test_user";
         String testGroupName = "test_group";
+        LocalDateTime timestamp = LocalDateTime.now();
         String testEventType = "GroupCreationEvent";
         String testPayload = "{\"testKey\" : \"testValue\"}";
-        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, testEventType, testPayload);
+        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, timestamp, testEventType, testPayload);
 
         //act
         Event testEvent = eventService.transform(testEventDTO);
@@ -51,17 +53,18 @@ class EventServiceTests {
         //Arrange
         String testUserName = "test_user";
         String testGroupName = "test_group";
+        LocalDateTime timestamp = LocalDateTime.now();
         String testEventType = "GroupCreationEvent";
         String testPayload = "{\"testKey\" : \"testValue\"}";
 
-        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, testEventType, testPayload);
+        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, timestamp, testEventType, testPayload);
         List<EventDTO> testEventDTOS = new ArrayList<EventDTO>();
         testEventDTOS.add(testEventDTO);
 
         when(eventService.getEventRepo().findAll()).thenReturn(testEventDTOS);
 
         //act
-         eventService.loadEvents();
+        eventService.loadEvents();
 
         //assert
         assertThat(eventService.getEvents(), hasSize(1));
