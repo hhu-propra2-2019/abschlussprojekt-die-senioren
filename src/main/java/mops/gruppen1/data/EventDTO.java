@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * DTO for Events
@@ -28,6 +30,8 @@ public class EventDTO {
     private String user;
     @Column(name = "group_ref")
     private String group;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime timestamp;
     private String eventType;
     @Column(length = 2000)
     private String payload;
