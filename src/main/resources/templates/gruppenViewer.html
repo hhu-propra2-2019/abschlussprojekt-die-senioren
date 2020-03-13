@@ -43,47 +43,61 @@
         </div>
     </div>
     <hr>
+
     <div class="container">
         <div class="row">
             <button class="btn btn-outline-secondary col-3" type="button" data-toggle="collapse" data-target="#collapseMitglieder" aria-expanded="false" aria-controls="collapseMitglieder">
                 Mitglieder anzeigen
             </button>
-            <button class="btn btn-outline-secondary col-3 offset-1" type="button" data-toggle="collapse" data-target="#collapseBeschreibung" aria-expanded="false" aria-controls="collapseBeschreibung">
-                Gruppenbeschreibung
+            <button class="btn btn-outline-secondary col-3 offset-1" type="button" data-toggle="collapse" data-target="#collapseOptionen" aria-expanded="false" aria-controls="collapseOptionen">
+                Gruppenoptionen
             </button>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="collapse" id="collapseMitglieder">
-                <div class="card card-body border-0">
-                    <ul>
-                        <li>Student 1</li>
-                        <li>Studentin 2</li>
-                    </ul>
+            <div class="container">
+                <div class="row">
+                    <div class="collapse" id="collapseMitglieder">
+                        <div class="card card-body border-0">
+                            <ul>
+                                <li>Student 1</li>
+                                <li>Studentin 2</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="collapse" id="collapseBeschreibung">
+            <div class="collapse" id="collapseOptionen" th:method="get">
                 <div class="card card-body border-0">
-                    Das ist eine Gruppenbeschreibung.
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Gruppe verlassen</h4>
+                                    <p class="card-text">Hiermit wirst du die Gruppe verlassen und den Zugriff auf die
+                                        Gruppeninhalte verlieren.</p>
+                                    <button class="btn btn-danger" type="button">Verlassen</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+
                 </div>
             </div>
         </div>
     </div>
-
     <br>
     <br>
 
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Gruppe verlassen</h4>
-                    <p class="card-text">Hiermit wirst du die Gruppe verlassen und den Zugriff auf die
-                        Gruppeninhalte verlieren.</p>
-                    <button class="btn btn-danger" type="button">Verlassen</button>
-                </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="h3 header">Gruppenbeschreibung</h3>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                Dies ist eine Gruppenbeschreibung
+                <br>
+                <br>
             </div>
         </div>
     </div>
