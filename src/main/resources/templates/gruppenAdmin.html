@@ -63,12 +63,12 @@
                     <a class="btn btn-outline-secondary" href="/gruppen1/changeMemberships" role="button">Mitglieder verwalten</a>
                 </div>
             </div>
-            <div class="collapse" id="collapseBeschreibung">
+            <div class="collapse" id="collapseBeschreibung" th:method="get">
                 <div class="card card-body border-0">
                     Das ist eine Gruppenbeschreibung.
                     <br>
                     <br>
-                    <a class="btn btn-outline-secondary" href="/gruppen1/changeDescription" role="button">Beschreibung anpassen</a>
+                    <a class="btn btn-outline-secondary" href="/gruppen1/description" th:type="submit">Beschreibung anpassen</a>
                 </div>
             </div>
         </div>
