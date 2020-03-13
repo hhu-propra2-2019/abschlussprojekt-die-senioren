@@ -160,4 +160,23 @@ class GroupControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeMemberships"));
     }
+
+    @Tag("controller")
+    @DisplayName("Teste Verbindung zur Anfragenseite neuer Gruppenmitglieder")
+    @Test
+    void testGroupRequests() throws Exception {
+        Set<String> roles = new HashSet<String>();
+        roles.add("studentin");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+        mvc.perform(get("/gruppen1/groupRequests"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("groupRequests"));
+    }
 }
