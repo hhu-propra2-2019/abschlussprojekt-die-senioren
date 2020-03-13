@@ -15,9 +15,10 @@ import java.time.LocalDateTime;
 @Entity
 public class EventDTO {
 
-    public EventDTO(String user, String group, String eventType, String payload) {
+    public EventDTO(String user, String group, LocalDateTime timestamp, String eventType, String payload) {
         this.user = user;
         this.group = group;
+        this.timestamp = timestamp;
         this.eventType = eventType;
         this.payload = payload;
     }

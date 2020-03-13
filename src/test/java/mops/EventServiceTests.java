@@ -38,7 +38,7 @@ class EventServiceTests {
         LocalDateTime timestamp = LocalDateTime.now();
         String testEventType = "GroupCreationEvent";
         String testPayload = "{\"testKey\" : \"testValue\"}";
-        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, testEventType, testPayload);
+        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, timestamp, testEventType, testPayload);
 
         //act
         Event testEvent = eventService.transform(testEventDTO);
@@ -57,7 +57,7 @@ class EventServiceTests {
         String testEventType = "GroupCreationEvent";
         String testPayload = "{\"testKey\" : \"testValue\"}";
 
-        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, testEventType, testPayload);
+        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, timestamp, testEventType, testPayload);
         List<EventDTO> testEventDTOS = new ArrayList<EventDTO>();
         testEventDTOS.add(testEventDTO);
 
