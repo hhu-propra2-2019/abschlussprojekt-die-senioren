@@ -50,6 +50,8 @@ public class GroupService {
         String groupID = group.getGroupId().toString();
 
         EventDTO groupCreationEventDTO = createEventDTO(userName, groupID, "GroupCreationEvent", groupCreationEvent);
+
+        events.saveToRepository(groupCreationEventDTO);
     }
 
     private EventDTO createEventDTO(String userName, String groupID, String eventType, Event event) {
