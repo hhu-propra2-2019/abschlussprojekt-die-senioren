@@ -40,6 +40,14 @@ public class GroupController {
         return "erstellen";
     }
 
+    @GetMapping("/description")
+    public String descriptionChange(KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "changeDescription";
+    }
+
     @GetMapping("/viewer")
     public String viewerView(KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
