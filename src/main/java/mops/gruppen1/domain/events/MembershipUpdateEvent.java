@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Edit Type or Status of Membership
+ */
 public class MembershipUpdateEvent implements Event {
 
 
