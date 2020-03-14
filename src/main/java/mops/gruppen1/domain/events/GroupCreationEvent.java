@@ -11,7 +11,11 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * create new Group with attributes groupId, name and description.
+ * create new Group with attributes groupId, name, description and, if added, GroupStatus (to 'active')
+ * Add Group to HashSet Groups
+ * Add creator of Group as user
+ * Create new Membership with Type ADMIN and Status ACTIVE
+ * Add Membership in groupToMembers and userToMembers
  */
 @Data
 public class GroupCreationEvent implements Event {
