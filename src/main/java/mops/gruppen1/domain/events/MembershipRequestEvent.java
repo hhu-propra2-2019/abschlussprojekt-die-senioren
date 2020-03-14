@@ -10,7 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Create a Membership with Status 'Pending'
+ * For restricted Groups:
+ * Create a Membership with Status 'PENDING'
  * Add Membership to groupToMembers and userToMembers
  */
 public class MembershipRequestEvent implements Event {

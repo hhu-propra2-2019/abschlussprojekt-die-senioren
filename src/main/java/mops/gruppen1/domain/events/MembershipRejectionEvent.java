@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * change status of Membership to 'Rejected'
+ * change status of Membership to 'REJECTED'
  */
 public class MembershipRejectionEvent implements Event {
 

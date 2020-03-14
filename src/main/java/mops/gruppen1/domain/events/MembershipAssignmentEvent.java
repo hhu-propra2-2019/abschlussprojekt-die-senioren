@@ -9,6 +9,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * For public Groups:
+ * Create a Membership with Status 'ACTIVE'
+ * Add Membership to groupToMembers and userToMembers
+ */
 public class MembershipAssignmentEvent implements Event {
 
 
