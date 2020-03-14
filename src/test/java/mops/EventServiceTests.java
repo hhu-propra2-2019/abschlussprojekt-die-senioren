@@ -3,19 +3,16 @@ package mops;
 import mops.gruppen1.applicationService.EventService;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.data.EventRepo;
+import mops.gruppen1.domain.GroupType;
 import mops.gruppen1.domain.events.Event;
+import mops.gruppen1.domain.events.TestEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import java.time.LocalDateTime;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 @SpringBootTest(classes = GruppenbildungApplicationTests.class)
@@ -31,40 +28,37 @@ class EventServiceTests {
 
     @Test
     void testTransform() {
+
         //arrange
         String testUserName = "test_user";
         String testGroupName = "test_group";
-        String testEventType = "GroupCreationEvent";
-        String testPayload = "{\"testKey\" : \"testValue\"}";
+        String testEventType = "TestEvent";
+        LocalDateTime timestamp = LocalDateTime.parse("2020-03-13T10:01:33");
+        Long testGroupID = 99L;
+        String testGroupDescription = "This is a group description.";
+        GroupType groupType= GroupType.PUBLIC;
+        Long groupCourse = 2L;
+        String testPayload = "{" +
+                "\"eventId\": \"6\"," +
+                "\"timestamp\": \"2020-03-02T13:22:14\"," +
+                "\"testEventType\": \"TestEvent\"," +
+                "\"eventParameters\": {" +
+                "\"testGroupId\": \"1245465\"," +
+                "\"testGroupName\": \"Gruppe1\"," +
+                "\"testGroupCreation\": \"2020-03-13T10:01:33\"," +
+                "\"groupCreator\": \"user1\"," +
+                "\"groupDescription\": \"This is a group description.\"," +
+                "\"groupType\": \"PUBLIC\"," +
+                "\"groupCourse\": \"2\"" +
+                "}"+
+                "}";
+
         EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, testEventType, testPayload);
 
         //act
         Event testEvent = eventService.transform(testEventDTO);
 
         //assert
-        assertThat(testEvent, isA(mops.gruppen1.domain.events.GroupCreationEvent.class));
-
+        assertThat(testEvent, isA(TestEvent.class));
     }
-
-    @Test
-    void testLoad(){
-        //Arrange
-        String testUserName = "test_user";
-        String testGroupName = "test_group";
-        String testEventType = "GroupCreationEvent";
-        String testPayload = "{\"testKey\" : \"testValue\"}";
-
-        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, testEventType, testPayload);
-        List<EventDTO> testEventDTOS = new ArrayList<EventDTO>();
-        testEventDTOS.add(testEventDTO);
-
-        when(eventService.getEventRepo().findAll()).thenReturn(testEventDTOS);
-
-        //act
-         eventService.loadEvents();
-
-        //assert
-        assertThat(eventService.getEvents(), hasSize(1));
-    }
-
 }
