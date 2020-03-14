@@ -1,6 +1,6 @@
 package mops.gruppen1.domain.events;
 
-import lombok.Data;
+import lombok.*;
 import mops.gruppen1.applicationService.GroupService;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
@@ -10,7 +10,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-@Data
+@Getter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class GroupCreationEvent implements Event {
 
     public String testKey;
