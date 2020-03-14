@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Edit Type or Status of Membership
+ * Edit Type 'ADMIN' or 'VIEWER' of Membership
  */
 public class MembershipUpdateEvent implements Event {
 
