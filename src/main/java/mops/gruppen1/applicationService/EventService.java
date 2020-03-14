@@ -22,6 +22,7 @@ public class EventService {
 
     final EventRepo eventRepo;
     private List<Event> events;
+    private final String EventClassPath = "mops.gruppen1.domain.events.";
 
     public EventService(EventRepo eventRepo) {
         this.eventRepo = eventRepo;
@@ -42,7 +43,7 @@ public class EventService {
 
         try {
 
-            Class<Event> classType = (Class<Event>) Class.forName("mops.gruppen1.domain.events." + eventDTO.getEventType());
+            Class<Event> classType = (Class<Event>) Class.forName(EventClassPath + eventDTO.getEventType());
             Event event = objectMapper.readValue(eventDTO.getPayload(), classType);
             return event;
 
