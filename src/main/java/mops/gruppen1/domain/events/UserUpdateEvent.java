@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * DELETE THIS EVENT?
+ * What attributes can be changed? is username the displayed name?
  */
 public class UserUpdateEvent implements Event {
 
