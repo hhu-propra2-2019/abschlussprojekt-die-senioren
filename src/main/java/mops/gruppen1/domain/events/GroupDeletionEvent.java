@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Change attribute GroupStatus of Group to 'deactived'. NO deletion from datastructures
+ * Change attribute GroupStatus of Group to 'deactivated'. NO deletion from datastructures
  */
 public class GroupDeletionEvent implements Event {
 
