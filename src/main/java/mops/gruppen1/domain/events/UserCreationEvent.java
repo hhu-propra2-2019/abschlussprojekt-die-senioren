@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
+ * create new instance of class User
+ * Add to HashSet users
  * DELETE THIS EVENT?
  */
 public class UserCreationEvent implements Event {
