@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Delete link of the external AppointmentService in the Group
+ * or change representation
+ */
 public class AppointmentDeletionEvent implements Event {
 
 
