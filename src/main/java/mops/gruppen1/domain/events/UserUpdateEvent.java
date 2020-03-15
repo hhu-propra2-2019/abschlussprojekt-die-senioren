@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * DELETE THIS EVENT?
- * What attributes can be changed? is username the displayed name?
+ * - Only needed if we add another to class User, e.g. displayed name or full name.
  */
 public class UserUpdateEvent implements Event {
 
