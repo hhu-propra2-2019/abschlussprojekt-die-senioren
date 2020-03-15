@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Mitgliedschaften verwalten', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Gruppenanfragen', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
 <head>
     <meta charset="utf-8">
     <title>Name des Subsystems</title>
@@ -16,11 +16,11 @@
 <body>
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
-        <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
         <ul>
             <li><a href="/gruppen1/admin">Zurück zu Gruppenübersicht</a></li>
             <li><a href="/gruppen1/">Zurück zu allen Gruppen</a></li>
         </ul>
+        <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
     </nav>
 </header>
 <main th:fragment="bodycontent">
@@ -29,48 +29,46 @@
             <table class="table table-bordered">
                 <tr>
                     <thead class="thead-light">
-                        <th class="h5">User</th>
-                        <th class="h5">Rolle</th>
-                        <th class="h5">Status</th>
-                        <th class="h5">Aktionen</th>
+                    <th class="h5">User</th>
+                    <th class="h5">Nachricht</th>
+                    <th class="h5">Aktionen</th>
                     </thead>
                 </tr>
                 <tr>
                     <td class=" h6">Student 1</td>
-                    <td class=" h6">Viewer</td>
-                    <td class=" h6">Aktiv</td>
+                    <td class="text col-6">Hallo, ich bin der Willy und ich bin ein sehr lieber Kerl.
+                        Eure Gruppe hat mich von Anfang an sehr sehr begeistert und ich würde es wirklich lieben,
+                    wenn ich dieser beitreten darf. Fancy Grüße, der Willy <3.</td>
                     <td class="btn-group-lg offset-1" role="group">
                         <button type="button" class="btn btn-success rounded-bottom">
-                            <span class="fa fa-pencil small fa-xs"></span>
+                            <span class="fa fa-check fa-xs"></span>
                         </button>
                         <button type="button" class="btn btn-danger offset-1 rounded-bottom ">
-                            <span class="fa fa-trash fa-xs"></span>
+                            <span class="fa fa-remove fa-xs"></span>
                         </button>
-                     </td>
+                    </td>
                 </tr>
                 <tr>
                     <td class=" h6">Student 2</td>
-                    <td class=" h6">Admin</td>
-                    <td class=" h6">Aktiv</td>
+                    <td class="text col-6">Bitte aufnehmen</td>
                     <td class="btn-group-lg offset-1" role="group">
                         <button type="button" class="btn btn-success rounded-bottom">
-                            <span class="fa fa-pencil small fa-xs"></span>
+                            <span class="fa fa-check fa-xs"></span>
                         </button>
                         <button type="button" class="btn btn-danger offset-1 rounded-bottom ">
-                            <span class="fa fa-trash fa-xs"></span>
+                            <span class="fa fa-remove fa-xs"></span>
                         </button>
                     </td>
                 </tr>
                 <tr>
                     <td class=" h6">Student 3</td>
-                    <td class=" h6">Viewer</td>
-                    <td class=" h6">Inaktiv</td>
+                    <td class="text col-6">Bitte aufnehmen</td>
                     <td class="btn-group-lg offset-1" role="group">
                         <button type="button" class="btn btn-success rounded-bottom">
-                            <span class="fa fa-pencil small fa-xs"></span>
+                            <span class="fa fa-check fa-xs"></span>
                         </button>
                         <button type="button" class="btn btn-danger offset-1 rounded-bottom ">
-                            <span class="fa fa-trash fa-xs"></span>
+                            <span class="fa fa-remove fa-xs"></span>
                         </button>
                     </td>
                 </tr>
