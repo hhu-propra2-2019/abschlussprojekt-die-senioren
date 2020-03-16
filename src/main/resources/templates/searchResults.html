@@ -20,7 +20,48 @@
     </nav>
 </header>
 <main th:fragment="bodycontent">
-    <!-- Restlichen Inhalt hier einfügen! -->
+    <div class="container">
+        <div class="row">
+            <div class="table table-bordered">
+                <tr>
+                    <div class="thead-light">
+                        <th class="h5">Gruppenname</th>
+                        <th class="h5">Veranstaltung</th>
+                        <th class="h5">Gruppentyp</th>
+                        <th class="h5">Gruppenbeschreibung</th>
+                        <th class="h5">Mitgliedsantrag stellen</th>
+                    </div>
+                </tr>
+                <tr>
+                    <td class="h6">Gruppe 1</td>
+                    <td class="h6">Keine</td>
+                    <td class="h6">Public</td>
+                    <td class="h6">Gruppenbeschreibung I</td>
+                    <td class="btn btn-success rounded-bottom" type="button">
+                        <span class="fa fa-user-add fa-xs"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="h6">Gruppe 2</td>
+                    <td class="h6">Info I</td>
+                    <td class="h6">Restricted</td>
+                    <td class="h6">Gruppenbeschreibung II</td>
+                    <td class="btn btn-success rounded-bottom" type="button">
+                        <span class="fa fa-user-add fa-xs"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="h6">Gruppe 3</td>
+                    <td class="h6">Keine</td>
+                    <td class="h6">Public</td>
+                    <td class="h6">Gruppenbeschreibung III</td>
+                    <td class="btn btn-success rounded-bottom" type="button">
+                        <span class="fa fa-user-add fa-xs"></span>
+                    </td>
+                </tr>
+            </div>
+        </div>
+    </div>
 </main>
 </body>
 </html>
