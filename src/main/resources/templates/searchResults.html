@@ -13,8 +13,8 @@
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
         <ul>
-            <li class="active"><a href="/gruppen1/searchResults">Gruppensuche</a></li>
-            <li><a href="/gruppen1/">Meine Gruppen</a></li>
+            <li class="active"><a th:href="@{/gruppen1/searchResults}">Gruppensuche</a></li>
+            <li><a th:href="@{/gruppen1/}">Meine Gruppen</a></li>
         </ul>
 
     </nav>

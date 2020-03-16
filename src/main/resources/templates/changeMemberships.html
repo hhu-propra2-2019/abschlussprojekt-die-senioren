@@ -18,8 +18,9 @@
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
         <ul>
-            <li><a href="/gruppen1/admin">Zurück zu Gruppenübersicht</a></li>
-            <li><a href="/gruppen1/">Zurück zu allen Gruppen</a></li>
+            <li class="active"><a th:href="@{/gruppen1/memberships}">Gruppenmitgliedschaften bearbeiten</a></li>
+            <li><a th:href="@{/gruppen1/admin}">Meine aktuelle Gruppenübersicht</a></li>
+            <li><a th:href="@{/gruppen1/}">Meinen Gruppen</a></li>
         </ul>
     </nav>
 </header>
