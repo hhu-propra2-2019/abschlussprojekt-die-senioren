@@ -15,4 +15,11 @@ public class Membership {
     private Group group;
     private Type type;
     private Status status;
+
+    public Membership(User user, Group group, Type type, Status status) {
+        this.user = user;
+        this.group = group;
+        this.type = type;
+        this.status = status;
+    }
 }
