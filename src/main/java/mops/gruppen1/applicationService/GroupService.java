@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -29,8 +28,8 @@ public class GroupService {
     EventService events;
     private HashMap<Group, List<Membership>> groupToMembers;
     private HashMap<User, List<Membership>> userToMembers;
-    private HashSet<User> users;
-    private HashSet<Group> groups;
+    private HashMap<String, Group> groups;
+    private HashMap<String, User> users;
 
     public void init() {
         events.loadEvents();
