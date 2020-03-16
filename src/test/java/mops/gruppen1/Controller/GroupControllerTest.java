@@ -53,6 +53,7 @@ class GroupControllerTest {
     void testIndex() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
+        roles.add("orga");
         KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
                 new SimpleKeycloakAccount(
                         Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
@@ -72,6 +73,7 @@ class GroupControllerTest {
     void testAdminView() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
+        roles.add("orga");
         KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
                 new SimpleKeycloakAccount(
                         Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
@@ -91,6 +93,7 @@ class GroupControllerTest {
     void testMemberView() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
+        roles.add("orga");
         KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
                 new SimpleKeycloakAccount(
                         Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
@@ -110,6 +113,7 @@ class GroupControllerTest {
     void testGroupCreation() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
+        roles.add("orga");
         KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
                 new SimpleKeycloakAccount(
                         Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
@@ -129,6 +133,7 @@ class GroupControllerTest {
     void testChangeGroupDescription() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
+        roles.add("orga");
         KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
                 new SimpleKeycloakAccount(
                         Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
@@ -148,6 +153,7 @@ class GroupControllerTest {
     void testMembershipChange() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
+        roles.add("orga");
         KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
                 new SimpleKeycloakAccount(
                         Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
@@ -167,6 +173,7 @@ class GroupControllerTest {
     void testGroupRequests() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
+        roles.add("orga");
         KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
                 new SimpleKeycloakAccount(
                         Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
