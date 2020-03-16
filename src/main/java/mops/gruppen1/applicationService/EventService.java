@@ -52,4 +52,8 @@ public class EventService {
         }
 
     }
+
+    public void saveToRepository(EventDTO eventDTO) {
+        eventRepo.save(eventDTO);
+    }
 }

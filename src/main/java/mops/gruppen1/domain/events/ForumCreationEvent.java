@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Add a link of the external ForumService to the Group
+ */
 public class ForumCreationEvent implements Event {
 
 
