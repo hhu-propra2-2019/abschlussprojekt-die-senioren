@@ -206,4 +206,24 @@ class GroupControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("error"));
     }
+
+    @Tag("controller")
+    @DisplayName("Teste Verbindung zur Suchergebnis Seite")
+    @Test
+    void testSearchPage() throws Exception {
+        Set<String> roles = new HashSet<String>();
+        roles.add("studentin");
+        roles.add("orga");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+        mvc.perform(get("/gruppen1/searchResults"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("searchResults"));
+    }
 }
