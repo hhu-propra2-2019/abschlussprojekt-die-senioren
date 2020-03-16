@@ -1,10 +1,13 @@
 package mops.gruppen1.domain;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
 /**
  * Representing a membership of a user within a group.
  */
+@Getter
 public class Membership {
 
     private UUID memberid;
