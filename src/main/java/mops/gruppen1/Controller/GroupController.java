@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -79,9 +80,13 @@ public class GroupController {
 
     @GetMapping("/")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String index(KeycloakAuthenticationToken token, Model model) {
+    public String index(KeycloakAuthenticationToken token,@RequestParam(name="search") String search, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        if (!search.equals("")) {
+            //TODO Find Groupby - Methoden müssen hierhin und Model muss damit befüllt werden
+            return "searchResults";
         }
         return "index";
     }
