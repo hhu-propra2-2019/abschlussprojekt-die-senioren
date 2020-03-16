@@ -56,7 +56,7 @@ class EventServiceTests {
                 "}"+
                 "}";
 
-        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName, testEventType, testPayload);
+        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName,timestamp, testEventType, testPayload);
 
         //act
         Event testEvent = eventService.transform(testEventDTO);
