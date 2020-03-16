@@ -7,6 +7,9 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * change status of Membership to 'REJECTED'
+ */
 public class MembershipRejectionEvent implements Event {
 
 

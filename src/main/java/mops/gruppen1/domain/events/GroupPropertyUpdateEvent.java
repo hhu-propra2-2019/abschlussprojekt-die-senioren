@@ -7,6 +7,9 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Edit attributes ‘name' or 'description' of a group
+ */
 public class GroupPropertyUpdateEvent implements Event {
 
 

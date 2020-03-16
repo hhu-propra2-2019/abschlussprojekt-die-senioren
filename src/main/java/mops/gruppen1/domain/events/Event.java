@@ -7,8 +7,11 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * All Event classes are implementing the execute method, but do not necessarily need all parameters
+ */
 public interface Event {
-    public void execute(HashMap<Group, List<Membership>> groupToMembers,
+    void execute(HashMap<Group, List<Membership>> groupToMembers,
                         HashMap<User, List<Membership>> userToMembers,
                         HashMap<String, User> users, HashMap<String, Group> groups);
 }

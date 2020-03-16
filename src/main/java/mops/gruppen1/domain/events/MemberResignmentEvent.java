@@ -7,6 +7,10 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Change attribute Status in Membership to DEACTIVATED.
+ * Delete Membership from Groups ?
+ */
 public class MemberResignmentEvent implements Event {
 
 

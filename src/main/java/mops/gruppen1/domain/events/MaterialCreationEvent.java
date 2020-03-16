@@ -7,6 +7,9 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Add a link of the external MaterialService to the Group
+ */
 public class MaterialCreationEvent implements Event {
 
 

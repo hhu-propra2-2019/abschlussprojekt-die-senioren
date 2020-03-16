@@ -5,6 +5,7 @@ import lombok.Getter;
 
 /**
  * Representing the name of a user.
+ * Will be received from KeyCloak Server and is unique.
  */
 @Getter
 @AllArgsConstructor

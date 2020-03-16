@@ -7,6 +7,10 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Delete link of the external AppointmentService in the Group
+ * or change representation
+ */
 public class AppointmentDeletionEvent implements Event {
 
 

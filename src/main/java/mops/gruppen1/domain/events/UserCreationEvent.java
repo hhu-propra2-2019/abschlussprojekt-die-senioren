@@ -7,6 +7,11 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * create new instance of class User
+ * Add to HashSet users
+ * DELETE THIS EVENT?
+ */
 public class UserCreationEvent implements Event {
 
 

@@ -7,6 +7,9 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * change attribute Status in Membership to 'Deactivated'. NO deletion from datastructures
+ */
 public class MemberDeletionEvent implements Event {
 
 

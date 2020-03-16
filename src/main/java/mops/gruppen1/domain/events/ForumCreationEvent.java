@@ -7,6 +7,9 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Add a link of the external ForumService to the Group
+ */
 public class ForumCreationEvent implements Event {
 
 

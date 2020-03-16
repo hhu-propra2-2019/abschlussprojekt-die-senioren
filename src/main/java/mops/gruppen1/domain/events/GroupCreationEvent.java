@@ -11,10 +11,15 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * create new Group with attributes groupId, name, description and, if added, GroupStatus (to 'active')
+ * Add Group to HashSet Groups
+ */
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class GroupCreationEvent implements Event {
 
     public String testKey;
