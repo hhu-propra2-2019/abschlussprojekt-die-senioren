@@ -46,10 +46,11 @@ public class GroupService {
     public void createGroupCreationEvent(String userName, Group group) {
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent("testValue");
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
+        LocalDateTime timestamp = LocalDateTime.now();
 
         String groupID = group.getGroupId().toString();
 
-        EventDTO groupCreationEventDTO = events.createEventDTO(userName, groupID, "GroupCreationEvent", groupCreationEvent);
+        EventDTO groupCreationEventDTO = events.createEventDTO(userName, groupID, timestamp, "GroupCreationEvent", groupCreationEvent);
 
         events.saveToRepository(groupCreationEventDTO);
     }
