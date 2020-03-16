@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Add a link of the external MaterialService to the Group
+ */
 public class MaterialCreationEvent implements Event {
 
 

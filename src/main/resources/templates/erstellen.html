@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Optional: Tabtitel', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Neue Gruppe Erstellen', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
 <head>
     <meta charset="utf-8">
     <title>Name des Subsystems</title>
@@ -11,6 +11,9 @@
 <body>
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
+        <ul>
+            <li><a href="/gruppen1/">Zurück zu allen Gruppen</a></li>
+        </ul>
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
     </nav>
 </header>
@@ -25,15 +28,16 @@
                 <label for="inputVeranstaltung">Veranstaltung</label>
                 <select class="form-control" id="inputVeranstaltung" required>
                     <option value="">Veranstaltung wählen</option>
+                    <option value="NO">Keine Veranstaltung</option>
                     <option value="1">Info 1</option>
                     <option value="2">Info 2</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
-            <label for="GruppenstatusWählen">Gruppenstatus</label>
-            <select class="custom-select" id="GruppenstatusWählen" required>
-                <option value="">Gruppenstatus wählen</option>
+            <label for="GruppenTypWählen">Gruppentyp</label>
+            <select class="custom-select" id="GruppenTypWählen" required>
+                <option value="">Gruppentyp wählen</option>
                 <option value="public">Public</option>
                 <option value="restricted">Restricted</option>
             </select>
@@ -48,6 +52,10 @@
                 <input type="file" class="custom-file-input" id="customFile">
                 <label class="custom-file-label" for="customFile">CSV - Datei auswählen</label>
             </div>
+        </div>
+        <div class="form-group">
+            <label for="GruppenbeschreibungInput">Gruppenbeschreibung</label>
+            <textarea class="form-control rounded-0" id="GruppenbeschreibungInput" rows="3"></textarea>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-secondary">Gruppe erstellen</button>

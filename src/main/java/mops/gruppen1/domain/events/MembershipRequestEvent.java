@@ -9,6 +9,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * For restricted Groups:
+ * Create a Membership with Status 'PENDING'
+ * Add Membership to groupToMembers and userToMembers
+ */
 public class MembershipRequestEvent implements Event {
 
 

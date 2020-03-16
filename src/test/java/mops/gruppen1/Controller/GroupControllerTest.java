@@ -1,6 +1,8 @@
 package mops.gruppen1.Controller;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
@@ -45,6 +47,8 @@ class GroupControllerTest {
                 .build();
     }
 
+    @Tag("controller")
+    @DisplayName("Teste Verbindung zur Index - Seite.")
     @Test
     void testIndex() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -60,5 +64,119 @@ class GroupControllerTest {
         mvc.perform(get("/gruppen1/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
+    }
+
+    @Tag("controller")
+    @DisplayName("Teste Verbindung zur Admin - View einer Gruppe.")
+    @Test
+    void testAdminView() throws Exception {
+        Set<String> roles = new HashSet<String>();
+        roles.add("studentin");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+        mvc.perform(get("/gruppen1/admin"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("gruppenAdmin"));
+    }
+
+    @Tag("controller")
+    @DisplayName("Teste Verbindung zur Viewer - View einer Gruppe.")
+    @Test
+    void testMemberView() throws Exception {
+        Set<String> roles = new HashSet<String>();
+        roles.add("studentin");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+        mvc.perform(get("/gruppen1/viewer"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("gruppenViewer"));
+    }
+
+    @Tag("controller")
+    @DisplayName("Teste Verbindung zur Gruppen-Erstellungs  Seite.")
+    @Test
+    void testGroupCreation() throws Exception {
+        Set<String> roles = new HashSet<String>();
+        roles.add("studentin");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+        mvc.perform(get("/gruppen1/erstellen"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("erstellen"));
+    }
+
+    @Tag("controller")
+    @DisplayName("Teste Verbindung zur Viewer - View einer Gruppe.")
+    @Test
+    void testChangeGroupDescription() throws Exception {
+        Set<String> roles = new HashSet<String>();
+        roles.add("studentin");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+        mvc.perform(get("/gruppen1/description"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("changeDescription"));
+    }
+
+    @Tag("controller")
+    @DisplayName("Teste Verbindung zur Member-Edit Seite einer Gruppe.")
+    @Test
+    void testMembershipChange() throws Exception {
+        Set<String> roles = new HashSet<String>();
+        roles.add("studentin");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+        mvc.perform(get("/gruppen1/memberships"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("changeMemberships"));
+    }
+
+    @Tag("controller")
+    @DisplayName("Teste Verbindung zur Anfragenseite neuer Gruppenmitglieder")
+    @Test
+    void testGroupRequests() throws Exception {
+        Set<String> roles = new HashSet<String>();
+        roles.add("studentin");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+        mvc.perform(get("/gruppen1/groupRequests"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("groupRequests"));
     }
 }

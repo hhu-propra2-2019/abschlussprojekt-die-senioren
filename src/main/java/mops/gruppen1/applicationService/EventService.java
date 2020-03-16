@@ -70,4 +70,8 @@ public class EventService {
             return null;
         }
     }
+
+    public void saveToRepository(EventDTO eventDTO) {
+        eventRepo.save(eventDTO);
+    }
 }
