@@ -5,7 +5,12 @@
     <meta charset="utf-8">
     <title>Gruppenbildung Übersicht</title>
     <th:block th:fragment="headcontent">
-
+        <link rel="stylesheet" th:href="@{/css/mystyle.css}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     </th:block>
 </head>
 <body>
@@ -22,14 +27,14 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div class="row">
-            <div class="table table-bordered">
+            <table class="table table-bordered">
                 <tr>
                     <div class="thead-light">
                         <th class="h5">Gruppenname</th>
                         <th class="h5">Veranstaltung</th>
                         <th class="h5">Gruppentyp</th>
-                        <th class="h5">Gruppenbeschreibung</th>
-                        <th class="h5">Mitgliedsantrag stellen</th>
+                        <th class="h5">Beschreibung</th>
+                        <th class="h5">Mitgliedsantrag</th>
                     </div>
                 </tr>
                 <tr>
@@ -37,8 +42,10 @@
                     <td class="h6">Keine</td>
                     <td class="h6">Public</td>
                     <td class="h6">Gruppenbeschreibung I</td>
-                    <td class="btn btn-success rounded-bottom" type="button">
-                        <span class="fa fa-user-add fa-xs"></span>
+                    <td>
+                        <a class="btn btn-success rounded-bottom offset-2"
+                           th:href="@{/gruppen1/requestDescription}" type="button">Beantragen
+                        </a>
                     </td>
                 </tr>
                 <tr>
@@ -46,8 +53,10 @@
                     <td class="h6">Info I</td>
                     <td class="h6">Restricted</td>
                     <td class="h6">Gruppenbeschreibung II</td>
-                    <td class="btn btn-success rounded-bottom" type="button">
-                        <span class="fa fa-user-add fa-xs"></span>
+                    <td>
+                        <a class="btn btn-success rounded-bottom offset-2"
+                           th:href="@{/gruppen1/requestDescription}" type="button">Beantragen
+                        </a>
                     </td>
                 </tr>
                 <tr>
@@ -55,11 +64,13 @@
                     <td class="h6">Keine</td>
                     <td class="h6">Public</td>
                     <td class="h6">Gruppenbeschreibung III</td>
-                    <td class="btn btn-success rounded-bottom" type="button">
-                        <span class="fa fa-user-add fa-xs"></span>
+                    <td>
+                        <a class="btn btn-success rounded-bottom offset-2"
+                           th:href="@{/gruppen1/requestDescription}" type="button">Beantragen
+                        </a>
                     </td>
                 </tr>
-            </div>
+            </table>
         </div>
     </div>
 </main>
