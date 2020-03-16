@@ -6,10 +6,7 @@ import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.domain.events.Event;
-import mops.gruppen1.domain.events.GroupCreationEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,35 +19,56 @@ public class EventService {
 
     final EventRepo eventRepo;
     private List<Event> events;
+    private final String EventClassPath = "mops.gruppen1.domain.events.";
 
+    /**
+     * Init EventService
+     * @param eventRepo
+     */
     public EventService(EventRepo eventRepo) {
         this.eventRepo = eventRepo;
         events = new ArrayList<Event>();
     }
 
+    /**
+     * Load all events from the EventRepo
+     */
     public void loadEvents() {
+
+        //Get all EventDTO´s from EventRepo
         Iterable<EventDTO> eventDTOS = eventRepo.findAll();
+
+        //Fill list of events
         eventDTOS.forEach(e ->  {
             Event event = transform(e);
             events.add(event);
         });
     }
 
-
+    /**
+     * Transformation of generic EventDTO to specifc EventType
+     * @param eventDTO
+     * @return Returns initialized Event
+     */
     public Event transform(EventDTO eventDTO) {
+
+        //Jackson ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
 
-            Class<Event> classType = (Class<Event>) Class.forName("mops.gruppen1.domain.events." + eventDTO.getEventType());
+            //Get specifc classType for eventDTO
+            Class<Event> classType = (Class<Event>) Class.forName(EventClassPath + eventDTO.getEventType());
+
+            //Deserialize Json-Payload
             Event event = objectMapper.readValue(eventDTO.getPayload(), classType);
+
             return event;
 
         } catch (JsonProcessingException | ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
-
     }
 
     public void saveToRepository(EventDTO eventDTO) {
