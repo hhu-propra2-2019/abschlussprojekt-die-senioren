@@ -9,7 +9,6 @@ import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,15 +19,15 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class GroupDeletionEvent implements Event {
 
-    Group group;
+    String groupId;
     String deletedByUser;
 
     @Override
-    public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashSet<User> users, HashSet<Group> groups) {
+    public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+        Group group = groups.get(groupId);
         groupToMembers.remove(group);
-        groups.remove(group);
-        updateUserMemberships(userToMembers);
-
+        groups.remove(groupId);
+        updateUserMemberships(userToMembers, groups);
     }
 
     /**
@@ -36,7 +35,8 @@ public class GroupDeletionEvent implements Event {
      *
      * @param userToMembers
      */
-    private void updateUserMemberships(HashMap<User, List<Membership>> userToMembers) {
+    private void updateUserMemberships(HashMap<User, List<Membership>> userToMembers, HashMap<String, Group> groups) {
+        Group group = groups.get(groupId);
         for (Map.Entry<User, List<Membership>> entry : userToMembers.entrySet()) {
             List<Membership> memberships = entry.getValue();
             List<Membership> newMemberships = memberships.stream().filter(member -> !member.getGroup().equals(group)).collect(Collectors.toList());

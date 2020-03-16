@@ -15,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Service to manage the group entities
@@ -30,8 +28,8 @@ public class GroupService {
     EventService events;
     private HashMap<Group, List<Membership>> groupToMembers;
     private HashMap<User, List<Membership>> userToMembers;
-    private HashSet<User> users;
-    private HashSet<Group> groups;
+    private HashMap<String, Group> groups;
+    private HashMap<String, User> users;
 
     public void init() {
         events.loadEvents();
@@ -66,18 +64,5 @@ public class GroupService {
         }
 
         return new EventDTO(userName, groupID, timestamp, eventType, payload);
-    }
-
-    public Group getGroupById(String id) throws NullPointerException {
-        UUID groupId = UUID.fromString(id);
-        Group target_group = null;
-        for (Group group : groups) {
-            UUID temp_id = group.getGroupId();
-            if (temp_id.equals(groupId)) {
-                target_group = group;
-                break;
-            }
-        }
-        return target_group;
     }
 }
