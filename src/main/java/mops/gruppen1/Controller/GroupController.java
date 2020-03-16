@@ -95,6 +95,15 @@ public class GroupController {
         return "groupRequests";
     }
 
+    @GetMapping("/error")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
+    public String errorPage(KeycloakAuthenticationToken token, Model model) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        return "error";
+    }
+
     /**
      * Method can be used once the log-out button works properly
      *
