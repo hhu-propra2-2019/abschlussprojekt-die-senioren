@@ -7,6 +7,8 @@ import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.domain.events.Event;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +39,10 @@ public class EventService {
 
         //Get all EventDTO´s from EventRepo
         Iterable<EventDTO> eventDTOS = eventRepo.findAll();
+
+        /**
+         * @// TODO: 16.03.20 Investigate if we have to sort eventDTOs by id at this point
+         */
 
         //Fill list of events
         eventDTOS.forEach(e ->  {
@@ -74,4 +80,20 @@ public class EventService {
     public void saveToRepository(EventDTO eventDTO) {
         eventRepo.save(eventDTO);
     }
+
+
+    EventDTO createEventDTO(String userName, String groupID, String eventType, Event event) {
+        LocalDateTime timestamp = LocalDateTime.now();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String payload = "";
+        try {
+            payload = objectMapper.writeValueAsString(event);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new EventDTO(userName, groupID, timestamp, eventType, payload);
+    }
+
+
 }

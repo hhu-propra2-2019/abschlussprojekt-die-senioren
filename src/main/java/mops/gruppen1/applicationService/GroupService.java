@@ -49,21 +49,10 @@ public class GroupService {
 
         String groupID = group.getGroupId().toString();
 
-        EventDTO groupCreationEventDTO = createEventDTO(userName, groupID, "GroupCreationEvent", groupCreationEvent);
+        EventDTO groupCreationEventDTO = events.createEventDTO(userName, groupID, "GroupCreationEvent", groupCreationEvent);
 
         events.saveToRepository(groupCreationEventDTO);
     }
 
-    private EventDTO createEventDTO(String userName, String groupID, String eventType, Event event) {
-        LocalDateTime timestamp = LocalDateTime.now();
-        ObjectMapper objectMapper = new ObjectMapper();
-        String payload = "";
-        try {
-            payload = objectMapper.writeValueAsString(event);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
 
-        return new EventDTO(userName, groupID, timestamp, eventType, payload);
-    }
 }
