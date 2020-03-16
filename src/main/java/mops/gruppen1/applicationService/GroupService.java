@@ -44,15 +44,15 @@ public class GroupService {
         ));
     }
 
-    public void createGroupCreationEvent(String userName, Group group) {
-        GroupCreationEvent groupCreationEvent = new GroupCreationEvent("testValue");
+    public void createGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator) {
+        GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
-        String groupID = group.getGroupId().toString();
 
-        EventDTO groupCreationEventDTO = createEventDTO(userName, groupID, "GroupCreationEvent", groupCreationEvent);
+        EventDTO groupCreationEventDTO = createEventDTO(groupCreator, groupCreationEvent.getGroupID(), "GroupCreationEvent", groupCreationEvent);
 
         events.saveToRepository(groupCreationEventDTO);
+
     }
 
 
