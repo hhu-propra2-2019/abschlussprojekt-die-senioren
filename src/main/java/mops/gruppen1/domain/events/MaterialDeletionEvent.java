@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Delete link of the external MaterialService in the Group
+ * or change representation
+ */
 public class MaterialDeletionEvent implements Event {
 
 

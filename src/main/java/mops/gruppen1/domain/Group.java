@@ -7,6 +7,7 @@ import java.util.UUID;
 
 /**
  * Representing the abstract model of a group.
+ * Has no attribute GroupStatus yet
  */
 
 @Getter

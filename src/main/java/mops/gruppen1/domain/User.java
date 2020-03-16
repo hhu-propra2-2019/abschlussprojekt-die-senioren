@@ -6,6 +6,5 @@ import java.util.UUID;
  * Representation of a user within the domain.
  */
 public class User {
-    private UUID userId;
     private Username username;
 }

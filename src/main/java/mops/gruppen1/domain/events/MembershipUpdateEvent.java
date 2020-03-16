@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Edit Type 'ADMIN' or 'VIEWER' of Membership
+ */
 public class MembershipUpdateEvent implements Event {
 
 

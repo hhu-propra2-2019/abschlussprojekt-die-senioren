@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Add a link of the external AppointmentService to the Group
+ */
 public class AppointmentCreationEvent implements Event {
 
 
