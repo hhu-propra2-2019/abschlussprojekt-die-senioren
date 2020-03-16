@@ -33,7 +33,7 @@ public class GroupController {
     }
 
     @GetMapping("/erstellen")
-    @Secured("ROLE_studentin")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
     public String groupCreation (KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
@@ -42,7 +42,7 @@ public class GroupController {
     }
 
     @GetMapping("/description")
-    @Secured("ROLE_studentin")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
     public String descriptionChange(KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
@@ -51,7 +51,7 @@ public class GroupController {
     }
 
     @GetMapping("/memberships")
-    @Secured("ROLE_studentin")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
     public String membershipChange(KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
@@ -60,7 +60,7 @@ public class GroupController {
     }
 
     @GetMapping("/viewer")
-    @Secured("ROLE_studentin")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
     public String viewerView(KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
@@ -69,7 +69,7 @@ public class GroupController {
     }
 
     @GetMapping("/admin")
-    @Secured("ROLE_studentin")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
     public String adminView(KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
@@ -78,7 +78,7 @@ public class GroupController {
     }
 
     @GetMapping("/")
-    @Secured("ROLE_studentin")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
     public String index(KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
@@ -87,7 +87,7 @@ public class GroupController {
     }
 
     @GetMapping("/groupRequests")
-    @Secured("ROLE_studentin")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
     public String groupRequests(KeycloakAuthenticationToken token, Model model) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
