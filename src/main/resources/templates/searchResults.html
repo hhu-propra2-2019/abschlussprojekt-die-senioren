@@ -3,15 +3,20 @@
       th:replace="~{mopslayout :: html(name='Gruppensuche', title='Suche', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
 <head>
     <meta charset="utf-8">
-    <title>Suche</title>
+    <title>Gruppenbildung Übersicht</title>
     <th:block th:fragment="headcontent">
-        <!-- Links, Skripts, Styles hier einfügen! -->
+
     </th:block>
 </head>
 <body>
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
+        <ul>
+            <li class="active"><a href="/gruppen1/searchResults">Gruppensuche</a></li>
+            <li><a href="/gruppen1/">Meine Gruppen</a></li>
+        </ul>
+
     </nav>
 </header>
 <main th:fragment="bodycontent">
