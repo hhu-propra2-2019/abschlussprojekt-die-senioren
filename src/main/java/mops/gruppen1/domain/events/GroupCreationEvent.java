@@ -5,10 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mops.gruppen1.domain.Group;
-import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.User;
+import mops.gruppen1.domain.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
