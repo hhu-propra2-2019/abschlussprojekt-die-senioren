@@ -12,9 +12,9 @@ import java.util.List;
  */
 public class MembershipRequestEvent implements IEvent {
 
-    String groupId;
-    String userName;
-    String membershipType;
+    private String groupId;
+    private String userName;
+    private String membershipType;
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {

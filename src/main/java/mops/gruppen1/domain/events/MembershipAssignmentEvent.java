@@ -13,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 public class MembershipAssignmentEvent implements IEvent {
 
-    String groupId;
-    String userName;
-    String membershipType;
+    private String groupId;
+    private String userName;
+    private String membershipType;
 
 
     @Override
