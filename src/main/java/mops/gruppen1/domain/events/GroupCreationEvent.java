@@ -34,6 +34,7 @@ public class GroupCreationEvent implements Event {
         Group newGroup = createGroup();
         this.groupID = newGroup.getGroupId().toString();
         groups.put(groupID, newGroup);
+        groupToMembers.put(newGroup, new ArrayList<>());
     }
 
     private Group createGroup() {
