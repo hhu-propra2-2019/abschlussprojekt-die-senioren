@@ -11,13 +11,11 @@ import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
 import mops.gruppen1.domain.events.Event;
 import mops.gruppen1.domain.events.GroupCreationEvent;
-import mops.gruppen1.domain.events.GroupDeletionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Service to manage the group entities
@@ -25,8 +23,9 @@ import java.util.UUID;
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor
+@Service
 public class GroupService {
-    @Autowired
+    @Autowired //TODO: Remove Autowired ?
     EventService events;
     private HashMap<Group, List<Membership>> groupToMembers;
     private HashMap<User, List<Membership>> userToMembers;
@@ -46,13 +45,12 @@ public class GroupService {
 
     public void createGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator) {
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator);
-        groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
+        groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
         EventDTO groupCreationEventDTO = createEventDTO(groupCreator, groupCreationEvent.getGroupID(), "GroupCreationEvent", groupCreationEvent);
 
         events.saveToRepository(groupCreationEventDTO);
-
     }
 
 

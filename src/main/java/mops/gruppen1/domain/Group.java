@@ -11,10 +11,8 @@ import java.util.UUID;
  * Representing the model of a group.
  * Has no attribute GroupStatus yet
  */
-
 @Getter
 @EqualsAndHashCode
-@AllArgsConstructor
 public class Group {
     List<Membership> members;
     UUID groupId;
@@ -22,4 +20,13 @@ public class Group {
     GroupDescription description;
     User groupCreator;
     GroupStatus groupStatus;
+
+    public Group (List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus) {
+       this.members = members;
+       this.groupId  = UUID.randomUUID();
+       this.name = name;
+       this.description = groupDescription;
+       this.groupCreator = groupCreator;
+       this.groupStatus = groupStatus;
+    }
 }
