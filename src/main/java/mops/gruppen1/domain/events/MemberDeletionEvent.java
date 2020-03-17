@@ -12,6 +12,9 @@ import java.util.List;
  */
 public class MemberDeletionEvent implements Event {
 
+    private String groupId;
+    private String removedUserId;
+    private String removedByUserId;
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
