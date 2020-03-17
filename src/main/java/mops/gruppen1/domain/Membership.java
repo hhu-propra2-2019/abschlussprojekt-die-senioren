@@ -15,4 +15,8 @@ public class Membership {
     private Group group;
     private Type type;
     private Status status;
+
+    public void setStatus(Status status)    {
+        this.status = status;
+    }
 }
