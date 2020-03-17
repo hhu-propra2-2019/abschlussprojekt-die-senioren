@@ -32,4 +32,8 @@ public class MemberDeletionEvent implements Event {
 
         return membership;
     }
+
+    private void deactiveMembershipInGroup(Membership membership)    {
+        membership.setStatus(Status.DEACTIVATED);
+    }
 }
