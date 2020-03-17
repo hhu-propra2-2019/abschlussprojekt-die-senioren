@@ -25,6 +25,7 @@ public class MembershipAssignmentEvent implements IEvent {
         Type membershipType = Type.valueOf(this.membershipType);
 
         Membership membership = new Membership(user,group, membershipType, Status.ACTIVE);
+        group.addMember(membership);
         groupToMembers.get(group).add(membership);
         userToMembers.get(user).add(membership);
 

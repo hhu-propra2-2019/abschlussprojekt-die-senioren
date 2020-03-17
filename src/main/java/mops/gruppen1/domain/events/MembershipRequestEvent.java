@@ -23,6 +23,7 @@ public class MembershipRequestEvent implements IEvent {
         Type membershipType = Type.valueOf(this.membershipType);
 
         Membership membership = new Membership(user,group, membershipType, Status.PENDING);
+        group.addMember(membership);
         groupToMembers.get(group).add(membership);
         userToMembers.get(user).add(membership);
 
