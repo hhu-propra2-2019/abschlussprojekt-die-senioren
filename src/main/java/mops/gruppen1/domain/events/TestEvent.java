@@ -8,7 +8,6 @@ import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +45,6 @@ public class TestEvent implements Event {
     }
 
     @Override
-
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
     }
 }

@@ -2,10 +2,8 @@ package mops.gruppen1.domain.events;
 
 import lombok.AllArgsConstructor;
 import mops.gruppen1.domain.*;
-
 import java.util.HashMap;
 import java.util.List;
-
 
 /**
  * For public Groups:

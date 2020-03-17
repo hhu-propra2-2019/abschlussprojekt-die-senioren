@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -39,6 +39,7 @@ public class EventService {
         //Get all EventDTO´s from EventRepo
         Iterable<EventDTO> eventDTOS = eventRepo.findAll();
 
+
         /**
          * @// TODO: 16.03.20 Investigate if we have to sort eventDTOs by id at this point
          */
