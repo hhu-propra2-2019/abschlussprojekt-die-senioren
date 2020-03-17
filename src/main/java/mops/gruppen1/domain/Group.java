@@ -9,7 +9,6 @@ import java.util.UUID;
 
 /**
  * Representing the model of a group.
- * Has no attribute GroupStatus yet
  */
 @Getter
 @EqualsAndHashCode

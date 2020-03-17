@@ -1,17 +1,25 @@
 package mops.gruppen1.domain.events;
 
-import lombok.*;
-import mops.gruppen1.domain.*;
-import java.util.*;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.User;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * create new Group with attributes groupId, name, description and, if added, GroupStatus (to 'active')
  * Add Group to HashSet Groups
  */
-
+@Getter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class GroupCreationEvent implements Event {
 
     private String groupID;
