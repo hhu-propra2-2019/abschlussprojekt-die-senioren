@@ -12,12 +12,14 @@ import mops.gruppen1.domain.User;
 import mops.gruppen1.domain.events.Event;
 import mops.gruppen1.domain.events.GroupCreationEvent;
 import mops.gruppen1.domain.events.MembershipAssignmentEvent;
+import mops.gruppen1.domain.events.GroupDeletionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Service to manage the group entities
@@ -66,12 +68,28 @@ public class GroupService {
 
         MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupID, userName, membershipType);
         membershipAssignmentEvent.execute(groupToMembers, userToMembers, users, groups);
+        
         LocalDateTime timestamp = LocalDateTime.now();
 
         EventDTO membershipAssignmentEventDTO = events.createEventDTO(userName, groupID, timestamp, "MembershipAssignmentEvent", membershipAssignmentEvent);
 
         events.saveToRepository(membershipAssignmentEventDTO);
     }
+  
+    public void createGroupDeletionEvent(String userName, UUID groupID) {
+        GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupID.toString(), userName);
+        groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO groupDeletionEventDTO = events.createEventDTO(userName, groupID, timestamp, "GroupDeletionEvent", groupDeletionEvent);
+
+        events.saveToRepository(groupDeletionEventDTO);      
+      
+    }
+
+
+
 
 
 }

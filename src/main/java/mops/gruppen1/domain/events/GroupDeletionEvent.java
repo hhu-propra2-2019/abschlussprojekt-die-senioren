@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+/**
+ * Change attribute GroupStatus of Group to 'deactivated'. NO deletion from datastructures
+ */
 public class GroupDeletionEvent implements Event {
 
     String groupId;
@@ -31,9 +34,9 @@ public class GroupDeletionEvent implements Event {
     }
 
     /**
-     * method deletes memberships taht map to deleted groups from userToMember Hash-Map
-     *
+     * method deletes memberships that map to deleted groups from userToMember Hash-Map
      * @param userToMembers
+     * @param groups
      */
     private void updateUserMemberships(HashMap<User, List<Membership>> userToMembers, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);

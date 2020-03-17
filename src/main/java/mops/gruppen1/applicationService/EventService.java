@@ -7,7 +7,6 @@ import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.domain.events.Event;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,6 @@ public class EventService {
         /**
          * @// TODO: 16.03.20 Investigate if we have to sort eventDTOs by id at this point
          */
-
         //Fill list of events
         eventDTOS.forEach(e ->  {
             Event event = transform(e);
