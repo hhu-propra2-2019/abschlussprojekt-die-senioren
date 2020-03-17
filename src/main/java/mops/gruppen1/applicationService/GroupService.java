@@ -7,7 +7,7 @@ import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
-import mops.gruppen1.domain.events.Event;
+import mops.gruppen1.domain.events.IEvent;
 import mops.gruppen1.domain.events.GroupCreationEvent;
 import mops.gruppen1.domain.events.GroupDeletionEvent;
 import mops.gruppen1.domain.events.MembershipAssignmentEvent;
@@ -36,7 +36,7 @@ public class GroupService {
 
     public void init() {
         events.loadEvents();
-        List<Event> eventList = events.getEvents();
+        List<IEvent> eventList = events.getEvents();
         eventList.stream().forEach(e -> e.execute(
                 groupToMembers,
                 userToMembers,
@@ -45,7 +45,7 @@ public class GroupService {
         ));
     }
 
-    public void createGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator) {
+    public void createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator) {
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
         LocalDateTime timestamp = LocalDateTime.now();
@@ -74,7 +74,7 @@ public class GroupService {
         events.saveToRepository(membershipAssignmentEventDTO);
     }
 
-    public void createGroupDeletionEvent(String userName, UUID groupID) {
+    public void deleteGroup(String userName, UUID groupID) {
         String groupId = groupID.toString();
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
         groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);

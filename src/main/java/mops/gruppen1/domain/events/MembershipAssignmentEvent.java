@@ -11,7 +11,7 @@ import java.util.List;
  * Add Membership to groupToMembers and userToMembers
  */
 @AllArgsConstructor
-public class MembershipAssignmentEvent implements Event {
+public class MembershipAssignmentEvent implements IEvent {
 
     String groupId;
     String userName;
