@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TestSetup {
-    HashMap<Group, List<Membership>> groupToMembers;
-    HashMap<User, List<Membership>> userToMembers;
-    HashMap<String, Group> groups;
+    HashMap<Group, List<Membership>> groupToMembers = new HashMap<Group, List<Membership>>();
+    HashMap<User, List<Membership>> userToMembers = new HashMap<User, List<Membership>>();
+    HashMap<String, Group> groups = new HashMap<String, Group>();
     HashMap<String, User> users = new HashMap<String, User>();
-    Group groupOne;
-    Group groupTwo;
-    List<Membership> memberships = new ArrayList<Membership>();
+    private Group groupOne;
+    private Group groupTwo;
+    private List<Membership> memberships = new ArrayList<Membership>();
 
     public TestSetup() {
         createUserMap();
@@ -21,10 +21,38 @@ public class TestSetup {
         createGroupMap();
         createMemberships();
         addMembersToGroups();
+        createGroupToMembershipHashMap();
+        createUserToMembershipHashMap();
+    }
+
+    private void createUserToMembershipHashMap() {
+        ArrayList<Membership> listMax = new ArrayList<Membership>();
+        listMax.add(memberships.get(0));
+        ArrayList<Membership> listStela = new ArrayList<Membership>();
+        listStela.add(memberships.get(1));
+        ArrayList<Membership> listNeo = new ArrayList<Membership>();
+        listNeo.add(memberships.get(2));
+        ArrayList<Membership> listSteve = new ArrayList<Membership>();
+        listSteve.add(memberships.get(3));
+
+        userToMembers.put(users.get("Max"), listMax);
+        userToMembers.put(users.get("Stela"), listStela);
+        userToMembers.put(users.get("Neo"), listNeo);
+        userToMembers.put(users.get("Steve"), listSteve);
+    }
+
+    private void createGroupToMembershipHashMap() {
+        List<Membership> membersOne = groupOne.getMembers();
+        List<Membership> membersTwo = groupTwo.getMembers();
+        groupToMembers.put(groupOne, membersOne);
+        groupToMembers.put(groupTwo, membersTwo);
     }
 
     private void addMembersToGroups() {
-        List<Membership> members = groupOne.getMembers();
+        groupOne.addMember(memberships.get(0));
+        groupOne.addMember(memberships.get(1));
+        groupTwo.addMember(memberships.get(2));
+        groupTwo.addMember(memberships.get(3));
     }
 
     private void createGroups() {
@@ -70,8 +98,6 @@ public class TestSetup {
     }
 
     private void createGroupMap() {
-
-
         groups.put(groupOne.getGroupId().toString(), groupOne);
         groups.put(groupTwo.getGroupId().toString(), groupTwo);
     }
