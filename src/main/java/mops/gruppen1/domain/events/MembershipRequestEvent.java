@@ -1,8 +1,6 @@
 package mops.gruppen1.domain.events;
 
-import mops.gruppen1.domain.Group;
-import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.User;
+import mops.gruppen1.domain.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,9 +12,20 @@ import java.util.List;
  */
 public class MembershipRequestEvent implements IEvent {
 
+    private String groupId;
+    private String userName;
+    private String membershipType;
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+        Group group = groups.get(groupId);
+        User user = users.get(userName);
+        Type membershipType = Type.valueOf(this.membershipType);
+
+        Membership membership = new Membership(user,group, membershipType, Status.PENDING);
+        group.addMember(membership);
+        groupToMembers.get(group).add(membership);
+        userToMembers.get(user).add(membership);
 
     }
 }
