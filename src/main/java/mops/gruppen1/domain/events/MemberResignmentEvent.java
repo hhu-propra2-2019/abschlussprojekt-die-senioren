@@ -11,7 +11,7 @@ import java.util.List;
  * Change attribute Status in Membership to DEACTIVATED.
  * Delete Membership from Groups ?
  */
-public class MemberResignmentEvent implements Event {
+public class MemberResignmentEvent implements IEvent {
 
 
     @Override

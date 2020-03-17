@@ -11,11 +11,11 @@ import java.util.List;
  * Add Membership to groupToMembers and userToMembers
  */
 @AllArgsConstructor
-public class MembershipAssignmentEvent implements Event {
+public class MembershipAssignmentEvent implements IEvent {
 
-    String groupId;
-    String userName;
-    String membershipType;
+    private String groupId;
+    private String userName;
+    private String membershipType;
 
 
     @Override
@@ -25,6 +25,7 @@ public class MembershipAssignmentEvent implements Event {
         Type membershipType = Type.valueOf(this.membershipType);
 
         Membership membership = new Membership(user,group, membershipType, Status.ACTIVE);
+        group.addMember(membership);
         groupToMembers.get(group).add(membership);
         userToMembers.get(user).add(membership);
 

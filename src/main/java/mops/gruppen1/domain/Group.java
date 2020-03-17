@@ -28,4 +28,7 @@ public class Group {
        this.groupCreator = groupCreator;
        this.groupStatus = groupStatus;
     }
+    public void addMember(Membership membership){
+        members.add(membership);
+    }
 }

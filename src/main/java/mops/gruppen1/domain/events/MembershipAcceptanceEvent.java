@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * change status of Membership to 'Active'
  */
-public class MembershipAcceptanceEvent implements Event {
+public class MembershipAcceptanceEvent implements IEvent {
 
 
     @Override

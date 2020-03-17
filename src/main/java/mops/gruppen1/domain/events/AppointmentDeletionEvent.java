@@ -11,7 +11,7 @@ import java.util.List;
  * Delete link of the external AppointmentService in the Group
  * or change representation
  */
-public class AppointmentDeletionEvent implements Event {
+public class AppointmentDeletionEvent implements IEvent {
 
 
     @Override
