@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * change status of Membership to 'REJECTED'
  */
-public class MembershipRejectionEvent implements Event {
+public class MembershipRejectionEvent implements IEvent {
 
 
     @Override

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * Change attribute GroupStatus of Group to 'deactivated'. NO deletion from datastructures
  */
-public class GroupDeletionEvent implements Event {
+public class GroupDeletionEvent implements IEvent {
 
     String groupId;
     String deletedByUser;

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Edit attributes ‘name' or 'description' of a group
  */
-public class GroupPropertyUpdateEvent implements Event {
+public class GroupPropertyUpdateEvent implements IEvent {
 
 
     @Override

@@ -12,7 +12,7 @@ import java.util.List;
  * Create a Membership with Status 'PENDING'
  * Add Membership to groupToMembers and userToMembers
  */
-public class MembershipRequestEvent implements Event {
+public class MembershipRequestEvent implements IEvent {
 
 
     @Override

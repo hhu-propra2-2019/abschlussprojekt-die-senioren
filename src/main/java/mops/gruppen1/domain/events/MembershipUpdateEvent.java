@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Edit Type 'ADMIN' or 'VIEWER' of Membership
  */
-public class MembershipUpdateEvent implements Event {
+public class MembershipUpdateEvent implements IEvent {
 
 
     @Override
