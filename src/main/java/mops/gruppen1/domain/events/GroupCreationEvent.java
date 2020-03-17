@@ -19,7 +19,7 @@ import java.util.List;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-public class GroupCreationEvent implements Event {
+public class GroupCreationEvent implements IEvent {
 
     private String groupID;
     private String groupDescription;

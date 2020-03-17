@@ -12,7 +12,7 @@ import java.util.List;
  * Remove Memberships ?
  * DELETE THIS EVENT?
  */
-public class UserDeactivationEvent implements Event {
+public class UserDeactivationEvent implements IEvent {
 
 
     @Override

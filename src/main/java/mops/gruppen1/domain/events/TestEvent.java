@@ -16,7 +16,7 @@ import java.util.Map;
  * Fake event, which is used for testing the transformation of DTO´s to a specific eventType and vice versa.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TestEvent implements Event {
+public class TestEvent implements IEvent {
 
     private Long eventId;
     private String testUserName;

@@ -7,7 +7,7 @@ import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
-import mops.gruppen1.domain.events.Event;
+import mops.gruppen1.domain.events.IEvent;
 import mops.gruppen1.domain.events.GroupCreationEvent;
 import mops.gruppen1.domain.events.GroupDeletionEvent;
 import mops.gruppen1.domain.events.MembershipAssignmentEvent;
@@ -36,7 +36,7 @@ public class GroupService {
 
     public void init() {
         events.loadEvents();
-        List<Event> eventList = events.getEvents();
+        List<IEvent> eventList = events.getEvents();
         eventList.stream().forEach(e -> e.execute(
                 groupToMembers,
                 userToMembers,
