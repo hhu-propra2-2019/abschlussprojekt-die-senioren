@@ -16,13 +16,13 @@ public class MemberDeletionEvent implements Event {
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-        Membership deletor = findDeletor(groups);
-        if (deletor != null && deletor.getType().equals(Type.ADMIN)) {
-            Membership toBeDeleted = findRemovedMember(groups);
-            deactiveMembership(toBeDeleted);
-            deactivateMembershipUser(userToMembers,toBeDeleted);
-            deactivateMembershipGroup(groupToMembers,toBeDeleted);
-        }
+        //TODO Ziehe Suche nach Deletor & Prüfung ob Admin in den Groupservice
+        //Membership deletor = findDeletor(groups);
+        //if (deletor != null && deletor.getType().equals(Type.ADMIN)) {
+        Membership toBeDeleted = findRemovedMember(groups);
+        deactiveMembership(toBeDeleted);
+        deactivateMembershipUser(userToMembers,toBeDeleted);
+        deactivateMembershipGroup(groupToMembers,toBeDeleted);
     }
 
     /**
