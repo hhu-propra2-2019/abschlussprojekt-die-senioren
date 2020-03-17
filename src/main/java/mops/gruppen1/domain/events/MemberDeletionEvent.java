@@ -2,7 +2,6 @@ package mops.gruppen1.domain.events;
 
 import mops.gruppen1.domain.*;
 
-import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +16,13 @@ public class MemberDeletionEvent implements Event {
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+        Membership deletor = findDeletor(groups);
+        if (deletor != null && deletor.getType().equals(Type.ADMIN)) {
+            Membership toBeDeleted = findRemovedMember(groups);
+            deactiveMembership(toBeDeleted);
+            deactivateMembershipUser(userToMembers,toBeDeleted);
+            deactivateMembershipGroup(groupToMembers,toBeDeleted);
+        }
     }
 
     /**
@@ -37,7 +43,7 @@ public class MemberDeletionEvent implements Event {
     private Membership findDeletor(HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         Membership membership = group.getMembers().stream()
-                .filter(member -> removedMemberId.equals(member.getMemberid().toString()))
+                .filter(member -> removedByMemberId.equals(member.getMemberid().toString()))
                 .findFirst()
                 .orElse(null);
 
@@ -48,7 +54,7 @@ public class MemberDeletionEvent implements Event {
      * Deactivates a given membership.
      * @param membership The membership that is to be deactivated.
      */
-    private void deactiveMembershipInGroup(Membership membership)    {
+    private void deactiveMembership(Membership membership)    {
         membership.setStatus(Status.DEACTIVATED);
     }
 
