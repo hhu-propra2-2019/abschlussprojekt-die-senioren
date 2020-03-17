@@ -4,7 +4,6 @@ import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.Status;
 import mops.gruppen1.domain.User;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +20,12 @@ public class MemberDeletionEvent implements Event {
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Membership membership = findMember(groups);
+        deactiveMembershipInGroup(membership);
+
     }
 
     /**
-     *
+     * Finds a member of a group.
      * @param groups The group in which a member is searched for.
      * @return The member that matches the removedUserId field.
      */
@@ -39,10 +40,25 @@ public class MemberDeletionEvent implements Event {
     }
 
     /**
-     *
+     * Deactivates a given membership.
      * @param membership The membership that is to be deactivated.
      */
     private void deactiveMembershipInGroup(Membership membership)    {
         membership.setStatus(Status.DEACTIVATED);
+    }
+
+    /**
+     * Deactivates the deleted,related membership of a user in userToMembers HashMap.
+     * @param userToMembers
+     * @param membership
+     */
+    private void deactivateMembershipUser(HashMap<User, List<Membership>> userToMembers,Membership membership)  {
+        User user = membership.getUser();
+        List<Membership> memberships = userToMembers.get(user);
+        for(Membership member : memberships)    {
+            if (member.equals(membership))  {
+                member.setStatus(Status.DEACTIVATED);
+            }
+        }
     }
 }
