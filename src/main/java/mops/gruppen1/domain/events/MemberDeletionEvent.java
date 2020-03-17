@@ -26,9 +26,9 @@ public class MemberDeletionEvent implements Event {
     }
 
     /**
-     * Finds a member of a group.
+     * Finds the member that is to be removed in a group.
      * @param groups The group in which a member is searched for.
-     * @return The member that matches the removedUserId field.
+     * @return The member that matches the removedMemberId.
      */
     private Membership findRemovedMember(HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
@@ -40,6 +40,11 @@ public class MemberDeletionEvent implements Event {
         return membership;
     }
 
+    /**
+     * Finds the member that is removing a member.
+     * @param groups The group in which a member is searched for.
+     * @return The member that matches the removedByMemberId.
+     */
     private Membership findDeletor(HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         Membership membership = group.getMembers().stream()
