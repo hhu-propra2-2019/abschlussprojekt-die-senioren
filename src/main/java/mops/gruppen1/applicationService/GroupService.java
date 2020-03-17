@@ -77,7 +77,7 @@ public class GroupService {
     }
   
     public void createGroupDeletionEvent(String userName, UUID groupID) {
-        String groupId = group.getGroupId().toString();
+        String groupId = groupID.toString();
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
         groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
