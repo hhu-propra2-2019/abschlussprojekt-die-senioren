@@ -20,12 +20,16 @@ public class MemberDeletionEvent implements Event {
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+        findMember(groups);
+    }
+
+    private Membership findMember(HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         Membership membership = group.getMembers().stream()
                 .filter(member -> removedUserId.equals(member.getMemberid().toString()))
                 .findFirst()
                 .orElse(null);
 
-        membership.setStatus(Status.DEACTIVATED);
+        return membership;
     }
 }
