@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/gruppen1")
@@ -80,12 +81,11 @@ public class GroupController {
 
     @GetMapping("/")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String index(KeycloakAuthenticationToken token,@RequestParam(name="search") String search, Model model) {
+    public String index(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
         }
-        if (!search.equals("")) {
-            //TODO Find Groupby - Methoden müssen hierhin und Model muss damit befüllt werden
+        if (search.isPresent()) {
             return "searchResults";
         }
         return "index";
