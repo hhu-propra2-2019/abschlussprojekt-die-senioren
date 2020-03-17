@@ -20,9 +20,14 @@ public class MemberDeletionEvent implements Event {
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-        findMember(groups);
+        Membership membership = findMember(groups);
     }
 
+    /**
+     *
+     * @param groups The group in which a member is searched for.
+     * @return The member that matches the removedUserId field.
+     */
     private Membership findMember(HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         Membership membership = group.getMembers().stream()
@@ -33,6 +38,10 @@ public class MemberDeletionEvent implements Event {
         return membership;
     }
 
+    /**
+     *
+     * @param membership The membership that is to be deactivated.
+     */
     private void deactiveMembershipInGroup(Membership membership)    {
         membership.setStatus(Status.DEACTIVATED);
     }
