@@ -11,12 +11,13 @@ import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
 import mops.gruppen1.domain.events.Event;
 import mops.gruppen1.domain.events.GroupCreationEvent;
+import mops.gruppen1.domain.events.GroupDeletionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Service to manage the group entities
@@ -29,8 +30,8 @@ public class GroupService {
     EventService events;
     private HashMap<Group, List<Membership>> groupToMembers;
     private HashMap<User, List<Membership>> userToMembers;
-    private HashSet<User> users;
-    private HashSet<Group> groups;
+    private HashMap<String, Group> groups;
+    private HashMap<String, User> users;
 
     public void init() {
         events.loadEvents();
@@ -52,6 +53,13 @@ public class GroupService {
         EventDTO groupCreationEventDTO = createEventDTO(userName, groupID, "GroupCreationEvent", groupCreationEvent);
 
         events.saveToRepository(groupCreationEventDTO);
+    }
+
+    public void createGroupDeletionEvent(String userName, UUID groupID) {
+        GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupID.toString(), userName);
+        groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        //TODO how to save as DTO?
     }
 
     private EventDTO createEventDTO(String userName, String groupID, String eventType, Event event) {
