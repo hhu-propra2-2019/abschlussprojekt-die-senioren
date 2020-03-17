@@ -12,4 +12,7 @@ class GroupServiceTest {
     void testcreateEventDTO() {
 
     }
+    @Test
+    void testAssignMembership() {
+    }
 }

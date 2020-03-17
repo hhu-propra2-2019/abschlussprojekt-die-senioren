@@ -11,6 +11,7 @@ import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
 import mops.gruppen1.domain.events.Event;
 import mops.gruppen1.domain.events.GroupCreationEvent;
+import mops.gruppen1.domain.events.MembershipAssignmentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -53,6 +54,23 @@ public class GroupService {
         EventDTO groupCreationEventDTO = events.createEventDTO(userName, groupID, timestamp, "GroupCreationEvent", groupCreationEvent);
 
         events.saveToRepository(groupCreationEventDTO);
+    }
+    public void assignMembership(String userName, Group group, String membershipType) {
+
+        /* todo check if GroupType is PUBLIC and GroupStatus is 'active'
+            todo check if group is assigned to a module/course, user has to be assigned to it as well
+             todo check if user is already a member of the group
+             todo check if group is part of hashmaps
+         */
+        String groupID = group.getGroupId().toString();
+
+        MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupID, userName, membershipType);
+        membershipAssignmentEvent.execute(groupToMembers, userToMembers, users, groups);
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipAssignmentEventDTO = events.createEventDTO(userName, groupID, timestamp, "MembershipAssignmentEvent", membershipAssignmentEvent);
+
+        events.saveToRepository(membershipAssignmentEventDTO);
     }
 
 
