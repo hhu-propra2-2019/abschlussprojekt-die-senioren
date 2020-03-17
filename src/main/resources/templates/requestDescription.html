@@ -12,6 +12,10 @@
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
+        <ul>
+            <li class="active"><a th:href="@{/gruppen1/requestMessage}">Gruppenbeitritt anfragen</a></li>
+            <li><a th:href="@{/gruppen1/}">Meine Gruppen</a></li>
+        </ul>
     </nav>
 </header>
 <main th:fragment="bodycontent">
