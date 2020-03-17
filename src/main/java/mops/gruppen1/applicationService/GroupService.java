@@ -45,7 +45,7 @@ public class GroupService {
         ));
     }
 
-    public void createGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator) {
+    public void createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator) {
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
         LocalDateTime timestamp = LocalDateTime.now();
@@ -74,7 +74,7 @@ public class GroupService {
         events.saveToRepository(membershipAssignmentEventDTO);
     }
 
-    public void createGroupDeletionEvent(String userName, UUID groupID) {
+    public void deleteGroup(String userName, UUID groupID) {
         String groupId = groupID.toString();
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
         groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
