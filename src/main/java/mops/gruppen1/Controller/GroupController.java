@@ -34,95 +34,130 @@ public class GroupController {
                 token.getAccount().getRoles());
     }
 
+    private String searchGroups(Optional search) {
+        return "searchResults";
+    }
+
+
     @GetMapping("/erstellen")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupCreation (KeycloakAuthenticationToken token, Model model) {
+    public String groupCreation (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        if (search.isPresent()) {
+           return searchGroups(search);
         }
         return "erstellen";
     }
 
     @GetMapping("/description")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String descriptionChange(KeycloakAuthenticationToken token, Model model) {
+    public String descriptionChange (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        if (search.isPresent()) {
+            return searchGroups(search);
         }
         return "changeDescription";
     }
 
     @GetMapping("/memberships")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String membershipChange(KeycloakAuthenticationToken token, Model model) {
+    public String membershipChange (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        if (search.isPresent()) {
+           return searchGroups(search);
         }
         return "changeMemberships";
     }
 
     @GetMapping("/viewer")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String viewerView(KeycloakAuthenticationToken token, Model model) {
+    public String viewerView (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        if (search.isPresent()) {
+           return searchGroups(search);
         }
         return "gruppenViewer";
     }
 
     @GetMapping("/admin")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String adminView(KeycloakAuthenticationToken token, Model model) {
+    public String adminView (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        if (search.isPresent()) {
+           return searchGroups(search);
         }
         return "gruppenAdmin";
     }
 
     @GetMapping("/")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String index(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
+    public String index (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
         }
         if (search.isPresent()) {
-            return "searchResults";
+            return searchGroups(search);
         }
         return "index";
     }
 
+
+
     @GetMapping("/groupRequests")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupRequests(KeycloakAuthenticationToken token, Model model) {
+    public String groupRequests (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        if (search.isPresent()) {
+            return searchGroups(search);
         }
         return "groupRequests";
     }
 
+
     @GetMapping("/error")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String errorPage(KeycloakAuthenticationToken token, Model model) {
+    public String errorPage (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        if (search.isPresent()) {
+            return searchGroups(search);
         }
         return "error";
     }
 
     @GetMapping("/searchResults")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupSearch(KeycloakAuthenticationToken token, Model model) {
+    public String groupSearch (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        if (search.isPresent()) {
+            return searchGroups(search);
         }
         return "searchResults";
     }
 
     @GetMapping("/requestMessage")
     @Secured("ROLE_studentin")
-    public String groupDescription(KeycloakAuthenticationToken token, Model model) {
+    public String groupDescription (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+        }
+        if (search.isPresent()) {
+            return searchGroups(search);
         }
         return "requestDescription";
     }
