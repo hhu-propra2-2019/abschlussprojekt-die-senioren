@@ -1,12 +1,10 @@
 package mops.gruppen1.domain.events;
 
-import mops.gruppen1.domain.Group;
-import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.Status;
-import mops.gruppen1.domain.User;
+import mops.gruppen1.domain.*;
+
+import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * change attribute Status in Membership to 'Deactivated'. NO deletion from datastructures
@@ -14,14 +12,11 @@ import java.util.Map;
 public class MemberDeletionEvent implements Event {
 
     private String groupId;
-    private String removedUserId;
-    private String removedByUserId;
+    private String removedMemberId;
+    private String removedByMemberId;
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-        Membership membership = findMember(groups);
-        deactiveMembershipInGroup(membership);
-
     }
 
     /**
@@ -29,10 +24,20 @@ public class MemberDeletionEvent implements Event {
      * @param groups The group in which a member is searched for.
      * @return The member that matches the removedUserId field.
      */
-    private Membership findMember(HashMap<String, Group> groups) {
+    private Membership findRemovedMember(HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         Membership membership = group.getMembers().stream()
-                .filter(member -> removedUserId.equals(member.getMemberid().toString()))
+                .filter(member -> removedMemberId.equals(member.getMemberid().toString()))
+                .findFirst()
+                .orElse(null);
+
+        return membership;
+    }
+
+    private Membership findDeletor(HashMap<String, Group> groups) {
+        Group group = groups.get(groupId);
+        Membership membership = group.getMembers().stream()
+                .filter(member -> removedMemberId.equals(member.getMemberid().toString()))
                 .findFirst()
                 .orElse(null);
 
