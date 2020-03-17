@@ -77,12 +77,14 @@ public class GroupService {
     }
   
     public void createGroupDeletionEvent(String userName, UUID groupID) {
-        GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupID.toString(), userName);
+        String groupId = group.getGroupId().toString();
+        GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
         groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
+        
         LocalDateTime timestamp = LocalDateTime.now();
 
-        EventDTO groupDeletionEventDTO = events.createEventDTO(userName, groupID, timestamp, "GroupDeletionEvent", groupDeletionEvent);
+        EventDTO groupDeletionEventDTO = events.createEventDTO(userName, groupId, timestamp, "GroupDeletionEvent", groupDeletionEvent);
 
         events.saveToRepository(groupDeletionEventDTO);      
       
