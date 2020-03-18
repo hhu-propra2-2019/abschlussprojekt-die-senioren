@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class MemberResignmentEvent implements IEvent {
 
+    private String groupId;
+    private String leavingMemberId;
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
