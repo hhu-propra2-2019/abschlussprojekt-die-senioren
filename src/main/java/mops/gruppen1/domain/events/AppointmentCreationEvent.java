@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Add a link of the external AppointmentService to the Group
+ * @// TODO: 18.03.20 Add check for already existing appointment to Group Service
  */
 @AllArgsConstructor
 public class AppointmentCreationEvent implements IEvent {
