@@ -7,7 +7,7 @@ import lombok.Getter;
  */
 @Getter
 public class Appointment {
-    String link;
+    private String link;
 
     public Appointment(String link) {
         this.link = link;
