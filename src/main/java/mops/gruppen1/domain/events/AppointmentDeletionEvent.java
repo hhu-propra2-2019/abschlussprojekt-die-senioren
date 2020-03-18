@@ -14,8 +14,6 @@ import java.util.List;
  */
 public class AppointmentDeletionEvent implements IEvent {
     private String groupId;
-    private String appointmentLink;
-    private String deletedBy;
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
