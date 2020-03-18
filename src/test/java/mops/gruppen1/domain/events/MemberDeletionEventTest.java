@@ -37,7 +37,6 @@ public class MemberDeletionEventTest {
         memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testMemberlist.stream()
-                .anyMatch(member -> member.getStatus().equals(Status.DEACTIVATED))).isEqualTo(true);
+        assertThat(testMemberlist.get(1).getStatus().equals(Status.DEACTIVATED)).isEqualTo(true);
     }
 }
