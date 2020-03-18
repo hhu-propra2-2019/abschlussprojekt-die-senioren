@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +20,7 @@ public class Group {
     GroupDescription description;
     User groupCreator;
     GroupStatus groupStatus;
+    Appointment appointment;
 
     public Group (List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus) {
        this.members = members;
@@ -28,7 +30,12 @@ public class Group {
        this.groupCreator = groupCreator;
        this.groupStatus = groupStatus;
     }
-    public void addMember(Membership membership){
+
+    public void addMember(Membership membership) {
         members.add(membership);
+    }
+
+    public void setAppointment(Appointment appointment){
+        this.appointment = appointment;
     }
 }
