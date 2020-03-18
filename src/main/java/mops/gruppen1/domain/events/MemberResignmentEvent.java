@@ -20,4 +20,19 @@ public class MemberResignmentEvent implements IEvent {
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
 
     }
+
+    /**
+     *  Finds the member that is leaving a group.
+     * @param groups HashMap of groups in which the member is searched for.
+     * @return The member that matches the leavingMemberId.
+     */
+    private Membership findLeavingMember(HashMap<String,Group> groups)  {
+        Group group = groups.get(groupId);
+        Membership membership = group.getMembers().stream()
+                .filter(member -> leavingMemberId.equals(member.getMemberid().toString()))
+                .findFirst()
+                .orElse(null);
+
+        return membership;
+    }
 }
