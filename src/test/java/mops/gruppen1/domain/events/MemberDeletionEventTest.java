@@ -15,11 +15,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MemberDeletionEventTest {
 
     private TestSetup testSetup;
+    private String testGroupId;
+    private String removedMemberId;
+    private String removedByMemberId;
+    private MemberDeletionEvent memberDeletionEvent;
 
     @BeforeEach
     void setup() {
-
+        //allgemeiner arrange - Schritt
         this.testSetup = new TestSetup();
+        this.testGroupId = testSetup.groupOne.getGroupId().toString();
+        this.removedMemberId = testSetup.memberships.get(1).getMemberid().toString();
+        this.removedByMemberId = testSetup.memberships.get(0).getMemberid().toString();
+        this.memberDeletionEvent = new MemberDeletionEvent(testGroupId, removedMemberId, removedByMemberId);
     }
 
     @Tag("EventTest")
@@ -27,10 +35,6 @@ public class MemberDeletionEventTest {
     @Test
     void testExecuteDeactivateMembershipsInGroups() {
         //arrange
-        String testGroupId = testSetup.groupOne.getGroupId().toString();
-        String removedMemberId = testSetup.memberships.get(1).getMemberid().toString();
-        String removedByMemberId = testSetup.memberships.get(0).getMemberid().toString();
-        MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(testGroupId, removedMemberId, removedByMemberId);
         List<Membership> testMemberlist = testSetup.groupOne.getMembers();
 
         //act
@@ -47,10 +51,6 @@ public class MemberDeletionEventTest {
     void testExecuteDeactivateMembershipsInGroupToMembers() {
         //arrange
         Group testGroup = testSetup.groupOne;
-        String testGroupId = testGroup.getGroupId().toString();
-        String removedMemberId = testSetup.memberships.get(1).getMemberid().toString();
-        String removedByMemberId = testSetup.memberships.get(0).getMemberid().toString();
-        MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(testGroupId, removedMemberId, removedByMemberId);
         List<Membership> testMemberlist = testSetup.groupToMembers.get(testGroup);
 
         //act
@@ -66,11 +66,7 @@ public class MemberDeletionEventTest {
     @Test
     void testExecuteDeactivateMembershipsInUserToMembers() {
         //arrange
-        String testGroupId = testSetup.groupOne.getGroupId().toString();
         User removedUser = testSetup.memberships.get(1).getUser();
-        String removedMemberId = testSetup.memberships.get(1).getMemberid().toString();
-        String removedByMemberId = testSetup.memberships.get(0).getMemberid().toString();
-        MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(testGroupId, removedMemberId, removedByMemberId);
         List<Membership> testMemberlist = testSetup.userToMembers.get(removedUser);
 
         //act
