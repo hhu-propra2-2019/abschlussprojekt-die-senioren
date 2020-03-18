@@ -20,7 +20,7 @@ public class Group {
     GroupDescription description;
     User groupCreator;
     GroupStatus groupStatus;
-    List<Appointment> appointments;
+    Appointment appointment;
 
     public Group (List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus) {
        this.members = members;
@@ -29,13 +29,13 @@ public class Group {
        this.description = groupDescription;
        this.groupCreator = groupCreator;
        this.groupStatus = groupStatus;
-       this.appointments = new ArrayList<>();
     }
+
     public void addMember(Membership membership) {
         members.add(membership);
     }
 
-    public void addAppointment(Appointment appointment){
-        appointments.add(appointment);
+    public void setAppointment(Appointment appointment){
+        this.appointment = appointment;
     }
 }

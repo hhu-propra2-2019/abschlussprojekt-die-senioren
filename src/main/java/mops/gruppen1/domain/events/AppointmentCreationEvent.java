@@ -20,6 +20,6 @@ public class AppointmentCreationEvent implements IEvent {
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         Appointment appointment = new Appointment(appointmentLink);
-        group.addAppointment(appointment);
+        group.setAppointment(appointment);
     }
 }
