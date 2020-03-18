@@ -22,8 +22,8 @@ public class Group {
     private GroupStatus groupStatus;
     private GroupType groupType;
     private Appointment appointment;
-
-
+    private Material material;
+    private Forum forum;
 
     public Group (List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus, GroupType groupType) {
        this.members = members;
@@ -61,5 +61,13 @@ public class Group {
 
     public void setGroupType(GroupType groupType) {
         this.groupType = groupType;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
+    public void setForum(Forum forum) {
+        this.forum = forum;
     }
 }
