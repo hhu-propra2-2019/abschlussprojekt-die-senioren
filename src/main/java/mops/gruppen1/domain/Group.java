@@ -39,6 +39,10 @@ public class Group {
         members.add(membership);
     }
 
+    public void removeMember(Membership membership){
+        membership.setStatus(Status.DEACTIVATED);
+    }
+
     public void setAppointment(Appointment appointment){
         this.appointment = appointment;
     }
