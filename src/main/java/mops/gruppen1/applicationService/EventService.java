@@ -81,7 +81,7 @@ public class EventService {
     }
 
 
-    EventDTO createEventDTO(String userName, String groupID, LocalDateTime timestamp, String eventType, IEvent event) {
+    public EventDTO createEventDTO(String userName, String groupID, LocalDateTime timestamp, String eventType, IEvent event) {
         ObjectMapper objectMapper = new ObjectMapper();
         String payload = "";
         try {

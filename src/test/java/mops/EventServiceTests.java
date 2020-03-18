@@ -28,33 +28,19 @@ class EventServiceTests {
     }
 
     @Test
-    void testTransform() {
+    void deserialize() {
 
         //arrange
-        String testUserName = "test_user";
-        String testGroupName = "test_group";
-        String testEventType = "TestEvent";
-        LocalDateTime timestamp = LocalDateTime.parse("2020-03-13T10:01:33");
-        Long testGroupID = 99L;
-        String testGroupDescription = "This is a group description.";
-        GroupType groupType= GroupType.PUBLIC;
-        Long groupCourse = 2L;
+        String userName = "user1";
+        String groupID = "12345";
+        String eventType = "TestEvent";
+        LocalDateTime timestamp = LocalDateTime.parse("2020-03-02T13:22:14");
         String testPayload = "{" +
-                "\"eventId\": \"6\"," +
-                "\"timestamp\": \"2020-03-02T13:22:14\"," +
-                "\"testEventType\": \"TestEvent\"," +
-                "\"eventParameters\": {" +
-                "\"testGroupId\": \"1245465\"," +
-                "\"testGroupName\": \"Gruppe1\"," +
-                "\"testGroupCreation\": \"2020-03-13T10:01:33\"," +
-                "\"groupCreator\": \"user1\"," +
                 "\"groupDescription\": \"This is a group description.\"," +
-                "\"groupType\": \"PUBLIC\"," +
-                "\"groupCourse\": \"2\"" +
-                "}"+
+                "\"groupType\": \"PUBLIC\"" +
                 "}";
 
-        EventDTO testEventDTO = new EventDTO(testUserName, testGroupName,timestamp, testEventType, testPayload);
+        EventDTO testEventDTO = new EventDTO(userName, groupID ,timestamp , eventType, testPayload);
 
         //act
         IEvent testEvent = eventService.transform(testEventDTO);
