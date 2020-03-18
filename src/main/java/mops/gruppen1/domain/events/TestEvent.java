@@ -1,6 +1,7 @@
 package mops.gruppen1.domain.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
@@ -11,6 +12,7 @@ import java.util.List;
  * Fake event, which is used for testing the transformation of DTO´s to a specific eventType and vice versa.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@AllArgsConstructor
 public class TestEvent implements IEvent {
 
     //Database and Payload fields

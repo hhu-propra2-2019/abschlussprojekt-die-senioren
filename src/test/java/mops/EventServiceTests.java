@@ -48,4 +48,31 @@ class EventServiceTests {
         //assert
         assertThat(testEvent, isA(TestEvent.class));
     }
+
+    //TODO: assert correct payload of DTO
+    @Test
+    void serialize() {
+
+        //arrange
+        TestEvent testEvent = new TestEvent("test_user", "99", "TestEvent","This is a group description.","PUBLIC");
+
+        //act
+        EventDTO eventDTO = eventService.createEventDTO("test_user", "99", LocalDateTime.parse("2020-03-13T10:01:33"), "TestEvent", testEvent);
+
+        //assert
+        assertThat(eventDTO.getUser(), is("test_user"));
+        assertThat(eventDTO.getEventType(), is("TestEvent"));
+        assertThat(eventDTO.getTimestamp(), is("2020-03-13T10:01:33"));
+        assertThat(eventDTO.getGroup(), is(99));
+//        assertThat(eventDTO.getPayload(), is("{" +
+////                "\"testEventType\": \"TestEvent\"," +
+////                "\"testGroupId\": \"1245465\"," +
+////                "\"testGroupName\": \"Gruppe1\"," +
+////                "\"testGroupCreation\": \"2020-03-13T10:01:33\"," +
+////                "\"groupCreator\": \"user1\"," +
+////                "\"groupDescription\": \"This is a group description.\"," +
+////                "\"groupType\": \"PUBLIC\"," +
+////                "\"groupCourse\": \"2\"" +
+//                "}"));
+    }
 }
