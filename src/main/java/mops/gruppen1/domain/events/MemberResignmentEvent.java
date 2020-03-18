@@ -46,4 +46,18 @@ public class MemberResignmentEvent implements IEvent {
         membership.setStatus(Status.DEACTIVATED);
     }
 
+    /**
+     * Deactivates the deleted,related membership of a user in userToMembers HashMap.
+     * @param userToMembers
+     * @param membership
+     */
+    private void deactivateMembershipUser(HashMap<User, List<Membership>> userToMembers,Membership membership)  {
+        User user = membership.getUser();
+        List<Membership> memberships = userToMembers.get(user);
+        for(Membership member : memberships)    {
+            if (member.equals(membership))  {
+                member.setStatus(Status.DEACTIVATED);
+            }
+        }
+    }
 }
