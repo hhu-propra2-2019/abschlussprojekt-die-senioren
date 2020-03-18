@@ -14,14 +14,14 @@ import java.util.UUID;
 @Getter
 @EqualsAndHashCode
 public class Group {
-    List<Membership> members;
-    UUID groupId;
-    GroupName name;
-    GroupDescription description;
-    User groupCreator;
-    GroupStatus groupStatus;
-    GroupType groupType;
-    Appointment appointment;
+    private List<Membership> members;
+    private UUID groupId;
+    private GroupName name;
+    private GroupDescription description;
+    private User groupCreator;
+    private GroupStatus groupStatus;
+    private GroupType groupType;
+    private Appointment appointment;
 
 
 
@@ -41,5 +41,21 @@ public class Group {
 
     public void setAppointment(Appointment appointment){
         this.appointment = appointment;
+    }
+
+    public void setStatus(GroupStatus groupStatus){
+        this.groupStatus = groupStatus;
+    }
+
+    public void setName(GroupName name) {
+        this.name = name;
+    }
+
+    public void setDescription(GroupDescription description) {
+        this.description = description;
+    }
+
+    public void setGroupType(GroupType groupType) {
+        this.groupType = groupType;
     }
 }
