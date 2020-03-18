@@ -65,8 +65,8 @@ public class MemberDeletionEvent implements IEvent {
 
     /**
      * Deactivates the deleted,related membership of a user in userToMembers HashMap.
-     * @param userToMembers
-     * @param membership
+     * @param userToMembers Hashmap that maps from a user to a list(his memberships)
+     * @param membership The membership that is to be deactivated.
      */
     private void deactivateMembershipUser(HashMap<User, List<Membership>> userToMembers,Membership membership)  {
         User user = membership.getUser();
