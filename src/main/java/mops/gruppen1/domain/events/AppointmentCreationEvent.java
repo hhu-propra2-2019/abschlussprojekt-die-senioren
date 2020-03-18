@@ -1,5 +1,6 @@
 package mops.gruppen1.domain.events;
 
+import lombok.AllArgsConstructor;
 import mops.gruppen1.domain.Appointment;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Add a link of the external AppointmentService to the Group
  */
+@AllArgsConstructor
 public class AppointmentCreationEvent implements IEvent {
     private String groupId;
     private String appointmentLink;
