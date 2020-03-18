@@ -1,5 +1,9 @@
 package mops.gruppen1.domain.events;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.Status;
@@ -12,6 +16,10 @@ import java.util.List;
  * Change attribute Status in Membership to DEACTIVATED.
  * Delete Membership from Groups ?
  */
+@Getter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberResignmentEvent implements IEvent {
 
     private String groupId;
