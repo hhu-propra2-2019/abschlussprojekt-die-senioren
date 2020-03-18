@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * class provides testing environment
+ * 2 groups with 2 users each
+ * GroupOne is activated, GroupTwo is deactivated
+ */
 public class TestSetup {
     HashMap<Group, List<Membership>> groupToMembers = new HashMap<Group, List<Membership>>();
     HashMap<User, List<Membership>> userToMembers = new HashMap<User, List<Membership>>();
