@@ -8,8 +8,8 @@ import java.util.List;
 
 /**
  * class provides testing environment
- * 2 groups with 2 users each
- * GroupOne is activated, GroupTwo is deactivated
+ * 3 groups with 2 users each
+ * GroupOne is active, GroupTwo is deactivated, GroupThree is active but restricted
  */
 public class TestSetup {
     HashMap<Group, List<Membership>> groupToMembers = new HashMap<Group, List<Membership>>();
