@@ -77,7 +77,9 @@ public class MemberDeletionEventTest {
         memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testMemberlist.get(1).getStatus()
+        //Da Membership - List von User, hat diese nur einen Eintrag, da jeder User im testSetup nur in genau
+        //einer Gruppe ist.
+        assertThat(testMemberlist.get(0).getStatus()
                 .equals((Status.DEACTIVATED))).isEqualTo(true);
     }
 }
