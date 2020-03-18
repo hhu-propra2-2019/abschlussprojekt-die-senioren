@@ -18,7 +18,7 @@ public class TestSetup {
     HashMap<String, User> users = new HashMap<String, User>();
     Group groupOne;
     Group groupTwo;
-    private List<Membership> memberships = new ArrayList<Membership>();
+    List<Membership> memberships = new ArrayList<Membership>();
 
     public TestSetup() {
         createUserMap();
