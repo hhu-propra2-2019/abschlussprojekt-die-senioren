@@ -20,15 +20,19 @@ public class Group {
     GroupDescription description;
     User groupCreator;
     GroupStatus groupStatus;
+    GroupType groupType;
     Appointment appointment;
 
-    public Group (List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus) {
+
+
+    public Group (List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus, GroupType groupType) {
        this.members = members;
        this.groupId  = UUID.randomUUID();
        this.name = name;
        this.description = groupDescription;
        this.groupCreator = groupCreator;
        this.groupStatus = groupStatus;
+       this.groupType = groupType;
     }
 
     public void addMember(Membership membership) {
