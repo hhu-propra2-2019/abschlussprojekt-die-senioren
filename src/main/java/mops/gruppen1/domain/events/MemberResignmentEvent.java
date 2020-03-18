@@ -2,6 +2,7 @@ package mops.gruppen1.domain.events;
 
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.Status;
 import mops.gruppen1.domain.User;
 
 import java.util.HashMap;
@@ -35,4 +36,14 @@ public class MemberResignmentEvent implements IEvent {
 
         return membership;
     }
+
+    /**
+     * Deactivates a given membership.
+     * @param membership The membership that is to be deactivated.
+     */
+    private void deactiveMembership(Membership membership)    {
+
+        membership.setStatus(Status.DEACTIVATED);
+    }
+
 }
