@@ -12,7 +12,7 @@ import java.util.List;
  * Add to HashSet users
  * DELETE THIS EVENT?
  */
-public class UserCreationEvent implements Event {
+public class UserCreationEvent implements IEvent {
 
 
     @Override

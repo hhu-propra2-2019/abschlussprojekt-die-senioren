@@ -4,15 +4,13 @@ import mops.gruppen1.applicationService.EventService;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.domain.GroupType;
-import mops.gruppen1.domain.events.Event;
+import mops.gruppen1.domain.events.IEvent;
 import mops.gruppen1.domain.events.TestEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.mock;
@@ -59,7 +57,7 @@ class EventServiceTests {
         EventDTO testEventDTO = new EventDTO(testUserName, testGroupName,timestamp, testEventType, testPayload);
 
         //act
-        Event testEvent = eventService.transform(testEventDTO);
+        IEvent testEvent = eventService.transform(testEventDTO);
 
         //assert
         assertThat(testEvent, isA(TestEvent.class));

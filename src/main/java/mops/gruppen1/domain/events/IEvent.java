@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * All Event classes are implementing the execute method, but do not necessarily need all parameters
  */
-public interface Event {
+public interface IEvent {
     void execute(HashMap<Group, List<Membership>> groupToMembers,
                         HashMap<User, List<Membership>> userToMembers,
                         HashMap<String, User> users, HashMap<String, Group> groups);

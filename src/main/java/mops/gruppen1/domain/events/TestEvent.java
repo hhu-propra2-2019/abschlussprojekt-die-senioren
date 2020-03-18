@@ -8,7 +8,6 @@ import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ import java.util.Map;
  * Fake event, which is used for testing the transformation of DTO´s to a specific eventType and vice versa.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TestEvent implements Event {
+public class TestEvent implements IEvent {
 
     private Long eventId;
     private String testUserName;
@@ -47,6 +46,5 @@ public class TestEvent implements Event {
 
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-
     }
 }

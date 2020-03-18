@@ -11,7 +11,7 @@ import java.util.List;
  * Delete link of the external MaterialService in the Group
  * or change representation
  */
-public class MaterialDeletionEvent implements Event {
+public class MaterialDeletionEvent implements IEvent {
 
 
     @Override

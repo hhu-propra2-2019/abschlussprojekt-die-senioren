@@ -7,7 +7,7 @@ import mops.gruppen1.domain.User;
 import java.util.HashMap;
 import java.util.List;
 
-public class AssignmentCreationEvent implements Event {
+public class AssignmentCreationEvent implements IEvent {
 
 
     @Override

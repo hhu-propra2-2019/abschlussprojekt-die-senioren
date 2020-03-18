@@ -11,7 +11,7 @@ import java.util.List;
  * DELETE THIS EVENT?
  * - Only needed if we add another attribute to class User, e.g. displayed name or full name.
  */
-public class UserUpdateEvent implements Event {
+public class UserUpdateEvent implements IEvent {
 
 
     @Override
