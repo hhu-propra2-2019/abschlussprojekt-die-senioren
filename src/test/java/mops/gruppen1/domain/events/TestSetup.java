@@ -67,6 +67,8 @@ public class TestSetup {
         GroupDescription groupDescriptionTwo = new GroupDescription("Less Fancy");
         GroupStatus groupStatusOne = GroupStatus.ACTIVE;
         GroupStatus groupStatusTwo = GroupStatus.DEACTIVATED;
+        GroupType groupTypeOne = GroupType.PUBLIC;
+        GroupType groupTypeTwo = GroupType.RESTRICTED;
 
         User groupCreatorOne = users.get("Max");
         User groupCreatorTwo = users.get("Neo");
@@ -74,8 +76,8 @@ public class TestSetup {
         ArrayList<Membership> membershipsOne = new ArrayList<Membership>();
         ArrayList<Membership> membershipsTwo = new ArrayList<Membership>();
 
-        this.groupOne = new Group(membershipsOne, groupNameOne, groupDescriptionOne, groupCreatorOne, groupStatusOne);
-        this.groupTwo = new Group(membershipsTwo, groupNameTwo, groupDescriptionTwo, groupCreatorTwo, groupStatusTwo);
+        this.groupOne = new Group(membershipsOne, groupNameOne, groupDescriptionOne, groupCreatorOne, groupStatusOne, groupTypeOne);
+        this.groupTwo = new Group(membershipsTwo, groupNameTwo, groupDescriptionTwo, groupCreatorTwo, groupStatusTwo, groupTypeTwo);
     }
 
     private void createMemberships() {
