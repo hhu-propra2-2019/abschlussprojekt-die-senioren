@@ -17,9 +17,19 @@ public class MemberResignmentEvent implements IEvent {
     private String groupId;
     private String leavingMemberId;
 
+    /**
+     * Deactivates the given membership in all datastructures
+     * @param groupToMembers Hashmap that maps a group to a list of memberships.
+     * @param userToMembers Hashmap that maps a user to a list of memberships
+     * @param users Hashmap that maps a String(userId) to a user.
+     * @param groups Hashmap that maps a String(groupId) to memberships within the group.
+     */
     @Override
     public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-
+        Membership leavingMember = findLeavingMember(groups);
+        deactiveMembership(leavingMember);
+        deactivateMembershipGroup(groupToMembers,leavingMember);
+        deactivateMembershipUser(userToMembers,leavingMember);
     }
 
     /**
