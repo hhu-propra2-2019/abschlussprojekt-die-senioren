@@ -60,4 +60,19 @@ public class MemberResignmentEvent implements IEvent {
             }
         }
     }
+
+    /**
+     * Deactivates the membership in the groupToMembers - Hashmap
+     * @param groupToMembers Hashmap that maps groups to a list of memberships.
+     * @param membership The membership that is to be deactivated.
+     */
+    private void deactivateMembershipGroup(HashMap<Group, List<Membership>> groupToMembers, Membership membership)  {
+        Group group = membership.getGroup();
+        List<Membership> membershipsGroup = group.getMembers();
+        for(Membership member: membershipsGroup)    {
+            if(member.equals(membership))    {
+                member.setStatus(Status.DEACTIVATED);
+            }
+        }
+    }
 }
