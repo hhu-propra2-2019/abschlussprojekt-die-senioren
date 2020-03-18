@@ -23,7 +23,7 @@ public class MemberDeletionEventTest {
     }
 
     @Tag("EventTest")
-    @DisplayName("Teste Member - Deaktivierung in ")
+    @DisplayName("Teste Member - Deaktivierung in group-Hashmap.")
     @Test
     void testExecuteDeactivateMembershipsInGroups() {
         //arrange
@@ -38,6 +38,26 @@ public class MemberDeletionEventTest {
 
         //assert
         assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getStatus()
+                .equals((Status.DEACTIVATED))).isEqualTo(true);
+    }
+
+    @Tag("EventTest")
+    @DisplayName("Teste Member - Deaktivierung in groupToMembers - Hashmap.")
+    @Test
+    void testExecuteDeactivateMembershipsInGroupToMembers() {
+        //arrange
+        Group testGroup = testSetup.groupOne;
+        String testGroupId = testGroup.getGroupId().toString();
+        String removedMemberId = testSetup.memberships.get(1).getMemberid().toString();
+        String removedByMemberId = testSetup.memberships.get(0).getMemberid().toString();
+        MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(testGroupId, removedMemberId, removedByMemberId);
+        List<Membership> testMemberlist = testSetup.groupToMembers.get(testGroup);
+
+        //act
+        memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
+
+        //assert
+        assertThat(testMemberlist.get(1).getStatus()
                 .equals((Status.DEACTIVATED))).isEqualTo(true);
     }
 }
