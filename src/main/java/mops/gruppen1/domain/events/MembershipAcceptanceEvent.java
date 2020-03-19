@@ -1,5 +1,9 @@
 package mops.gruppen1.domain.events;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.Status;
@@ -11,6 +15,10 @@ import java.util.List;
 /**
  * change status of Membership to 'Active'
  */
+@Getter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class MembershipAcceptanceEvent implements IEvent {
 
     private String groupId;
@@ -19,7 +27,7 @@ public class MembershipAcceptanceEvent implements IEvent {
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         User user = users.get(userName);
-        List<Membership> memberships = userToMembers.get(user);
+        List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
 
         Membership membership = getMembership(memberships, group);
