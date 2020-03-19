@@ -17,13 +17,13 @@ class GroupCreationEventTest {
     @Test
     void execute() {
         //arrange
-        GroupCreationEvent groupCreationEvent = new GroupCreationEvent("Ärger machen = aufs maul", "das neue Lager", "Wildschweine jagen", "Gomez");
+        GroupCreationEvent groupCreationEvent = new GroupCreationEvent("Ärger machen = aufs maul", "das neue Lager", "Wildschweine jagen", "Gomez", "public");
 
         //act
         groupCreationEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testSetup.groups).hasSize(3);
-        assertThat(testSetup.groupToMembers).hasSize(3);
+        assertThat(testSetup.groups).hasSize(4);
+        assertThat(testSetup.groupToMembers).hasSize(4);
     }
 }
