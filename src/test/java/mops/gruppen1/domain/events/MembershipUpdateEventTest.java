@@ -44,4 +44,20 @@ class MembershipUpdateEventTest {
         assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getType()
                 .equals((Type.ADMIN))).isEqualTo(true);
     }
+
+    @Tag("EventTest")
+    @DisplayName("Teste Member - Type Änderung in groupToMembers - Hashmap.")
+    @Test
+    void testExecuteDeactivateMembershipsInGroupToMembers() {
+        //arrange
+        String testGroupID = testSetup.groupOne.getGroupId().toString();
+        List<Membership> testMemberlist = testSetup.groupToMembers.get(testGroupID);
+
+        //act
+        membershipUpdateEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
+
+        //assert
+        assertThat(testMemberlist.get(1).getType()
+                .equals((Type.ADMIN))).isEqualTo(true);
+    }
 }
