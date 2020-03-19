@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Gruppenanfragen', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Gruppenanfragen</title>
+    <th:block th:fragment="headcontent">
+        <link rel="stylesheet" th:href="@{/css/mystyle.css}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    </th:block>
+</head>
+<body>
+<header>
+    <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
+        <ul>
+            <li class="active"><a th:href="@{/gruppen1/groupRequests}">Gruppenanfragen</a></li>
+            <li><a th:href="@{/gruppen1/admin}">Meine aktuelle Gruppenübersicht</a></li>
+            <li><a th:href="@{/gruppen1/}">Meine Gruppen</a></li>
+        </ul>
+        <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
+    </nav>
+</header>
+<main th:fragment="bodycontent">
+    <div class="container">
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <thead class="thead-light">
+                    <th class="h5">User</th>
+                    <th class="h5">Nachricht</th>
+                    <th class="h5">Aktionen</th>
+                    </thead>
+                </tr>
+                <tr>
+                    <td class=" h6">Student 1</td>
+                    <td class="text col-6">Hallo, ich bin der Willy und ich bin ein sehr lieber Kerl.
+                        Eure Gruppe hat mich von Anfang an sehr sehr begeistert und ich würde es wirklich lieben,
+                    wenn ich dieser beitreten darf. Fancy Grüße, der Willy <3.</td>
+                    <td class="btn-group-lg offset-1" role="group">
+                        <button type="button" class="btn btn-success rounded-bottom">
+                            <span class="fa fa-check fa-xs"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger offset-1 rounded-bottom ">
+                            <span class="fa fa-remove fa-xs"></span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class=" h6">Student 2</td>
+                    <td class="text col-6">Bitte aufnehmen</td>
+                    <td class="btn-group-lg offset-1" role="group">
+                        <button type="button" class="btn btn-success rounded-bottom">
+                            <span class="fa fa-check fa-xs"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger offset-1 rounded-bottom ">
+                            <span class="fa fa-remove fa-xs"></span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class=" h6">Student 3</td>
+                    <td class="text col-6">Bitte aufnehmen</td>
+                    <td class="btn-group-lg offset-1" role="group">
+                        <button type="button" class="btn btn-success rounded-bottom">
+                            <span class="fa fa-check fa-xs"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger offset-1 rounded-bottom ">
+                            <span class="fa fa-remove fa-xs"></span>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>

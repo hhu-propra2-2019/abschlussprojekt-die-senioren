@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Gruppe ansehen - Viewer', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Gruppe ansehen', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
 <head>
     <meta charset="utf-8">
     <title>Gruppenbildung</title>
@@ -16,6 +16,10 @@
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
+        <ul>
+            <li class="active"><a th:href="@{/gruppen1/admin}">Aktuelle Gruppe</a></li>
+            <li><a th:href="@{/gruppen1/}">Meine Gruppen</a></li>
+        </ul>
     </nav>
 </header>
 <main th:fragment="bodycontent">

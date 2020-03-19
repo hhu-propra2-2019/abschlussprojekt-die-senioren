@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Optional: Tabtitel', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Mitgliedschaften verwalten', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
 <head>
     <meta charset="utf-8">
-    <title>Name des Subsystems</title>
+    <title>Mitgliedschaften bearbeiten</title>
     <th:block th:fragment="headcontent">
         <link rel="stylesheet" th:href="@{/css/mystyle.css}">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -17,6 +17,11 @@
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
+        <ul>
+            <li class="active"><a th:href="@{/gruppen1/memberships}">Gruppenmitgliedschaften bearbeiten</a></li>
+            <li><a th:href="@{/gruppen1/admin}">Meine aktuelle Gruppenübersicht</a></li>
+            <li><a th:href="@{/gruppen1/}">Meinen Gruppen</a></li>
+        </ul>
     </nav>
 </header>
 <main th:fragment="bodycontent">

@@ -1,19 +1,29 @@
 package mops.gruppen1.domain.events;
 
-import mops.gruppen1.applicationService.GroupService;
-import mops.gruppen1.domain.Group;
-import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.User;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import mops.gruppen1.domain.*;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
-public class AssignmentCreationEvent implements Event {
-
+/**
+ * TODO: Add check if assignment link has already been assigned and assignment empty to group service.
+ */
+@EqualsAndHashCode
+@Getter
+@AllArgsConstructor
+public class AssignmentCreationEvent implements IEvent {
+    private String groupId;
+    private String assignmentLink;
+    private String createdBy;
 
     @Override
-    public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashSet<User> users, HashSet<Group> groups) {
-
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+        Group group = groups.get(groupId);
+        Assignment assignment = new Assignment(assignmentLink);
+        group.setAssignment(assignment);
     }
 }
+
