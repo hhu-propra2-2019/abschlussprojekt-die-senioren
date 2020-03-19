@@ -30,8 +30,6 @@ public class MemberDeletionEvent implements IEvent {
         //if (deletor != null && deletor.getType().equals(Type.ADMIN)) {
         Membership toBeDeleted = findRemovedMember(groups);
         deactiveMembership(toBeDeleted);
-        deactivateMembershipUser(userToMembers, toBeDeleted);
-        deactivateMembershipGroup(groupToMembers, toBeDeleted);
     }
 
     /**
@@ -73,37 +71,5 @@ public class MemberDeletionEvent implements IEvent {
      */
     private void deactiveMembership(Membership membership) {
         membership.setStatus(Status.DEACTIVATED);
-    }
-
-    /**
-     * Deactivates the deleted,related membership of a user in userToMembers HashMap.
-     *
-     * @param userToMembers Hashmap that maps from a user to a list(his memberships)
-     * @param membership    The membership that is to be deactivated.
-     */
-    private void deactivateMembershipUser(HashMap<User, List<Membership>> userToMembers, Membership membership) {
-        User user = membership.getUser();
-        List<Membership> memberships = userToMembers.get(user);
-        for (Membership member : memberships) {
-            if (member.equals(membership)) {
-                member.setStatus(Status.DEACTIVATED);
-            }
-        }
-    }
-
-    /**
-     * Deactivates the membership in the groupToMembers - Hashmap
-     *
-     * @param groupToMembers Hashmap that maps groups to a list of memberships.
-     * @param membership     The membership that is to be deactivated.
-     */
-    private void deactivateMembershipGroup(HashMap<Group, List<Membership>> groupToMembers, Membership membership) {
-        Group group = membership.getGroup();
-        List<Membership> membershipsGroup = group.getMembers();
-        for (Membership member : membershipsGroup) {
-            if (member.equals(membership)) {
-                member.setStatus(Status.DEACTIVATED);
-            }
-        }
     }
 }
