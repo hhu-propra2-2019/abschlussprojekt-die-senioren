@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AppointmentCreationEventTest {
+class MaterialCreationEventTest {
 
     private TestSetup testSetup;
 
@@ -18,22 +18,22 @@ class AppointmentCreationEventTest {
     }
 
     @Tag("EventTest")
-    @DisplayName("Test AppointmentCreationEvent")
+    @DisplayName("Test MaterialCreationEvent")
     @Test
     void execute() {
         //arrange
         Group groupOne = testSetup.groupOne;
         String groupId = testSetup.groupOne.getGroupId().toString();
-        AppointmentCreationEvent appointmentCreationEvent = new AppointmentCreationEvent( groupId,
-                 "http://www.hierkommstduzudeinenterminen.de",
+        MaterialCreationEvent materialCreationEvent = new MaterialCreationEvent( groupId,
+                 "http://www.hierkommstduzudeinenmaterialien.de",
                 "VonWemhabenwadas");
 
         //act
-        appointmentCreationEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
+        materialCreationEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(groupOne.getAppointment()).isNotNull();
-        assertThat(groupOne.getAppointment().getLink()).isEqualTo("http://www.hierkommstduzudeinenterminen.de");
+        assertThat(groupOne.getMaterial()).isNotNull();
+        assertThat(groupOne.getMaterial().getLink()).isEqualTo("http://www.hierkommstduzudeinenmaterialien.de");
 
     }
 }

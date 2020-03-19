@@ -1,6 +1,7 @@
 package mops.gruppen1.domain.events;
 
 import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.Material;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -8,7 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AppointmentCreationEventTest {
+
+public class MaterialDeletionEventTest {
 
     private TestSetup testSetup;
 
@@ -18,22 +20,19 @@ class AppointmentCreationEventTest {
     }
 
     @Tag("EventTest")
-    @DisplayName("Test AppointmentCreationEvent")
+    @DisplayName("Test MaterialDeletionEvent")
     @Test
     void execute() {
         //arrange
         Group groupOne = testSetup.groupOne;
         String groupId = testSetup.groupOne.getGroupId().toString();
-        AppointmentCreationEvent appointmentCreationEvent = new AppointmentCreationEvent( groupId,
-                 "http://www.hierkommstduzudeinenterminen.de",
-                "VonWemhabenwadas");
+        groupOne.setMaterial(new Material("http://www.hierkommstduzudeinenmaterialien.de"));
+        MaterialDeletionEvent materialDeletionEvent = new MaterialDeletionEvent(groupId);
 
         //act
-        appointmentCreationEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
+        materialDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(groupOne.getAppointment()).isNotNull();
-        assertThat(groupOne.getAppointment().getLink()).isEqualTo("http://www.hierkommstduzudeinenterminen.de");
-
+        assertThat(groupOne.getMaterial()).isNull();
     }
 }
