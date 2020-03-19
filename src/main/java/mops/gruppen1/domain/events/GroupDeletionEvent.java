@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.GroupStatus;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
 
@@ -28,8 +29,8 @@ public class GroupDeletionEvent implements IEvent {
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
-        groupToMembers.remove(group);
-        groups.remove(groupId);
+        groupToMembers.remove(groupId);
+        group.setStatus(GroupStatus.DEACTIVATED);
         updateUserMemberships(userToMembers, groups);
     }
 
@@ -39,9 +40,9 @@ public class GroupDeletionEvent implements IEvent {
      * @param userToMembers
      * @param groups
      */
-    private void updateUserMemberships(HashMap<User, List<Membership>> userToMembers, HashMap<String, Group> groups) {
+    private void updateUserMemberships(HashMap<String, List<Membership>> userToMembers, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
-        for (Map.Entry<User, List<Membership>> entry : userToMembers.entrySet()) {
+        for (Map.Entry<String, List<Membership>> entry : userToMembers.entrySet()) {
             List<Membership> memberships = entry.getValue();
             List<Membership> newMemberships = memberships.stream().filter(member -> !member.getGroup().equals(group)).collect(Collectors.toList());
             entry.setValue(newMemberships);
