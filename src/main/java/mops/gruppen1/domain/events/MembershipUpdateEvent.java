@@ -25,8 +25,9 @@ public class MembershipUpdateEvent implements IEvent {
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
             List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         //TODO Ziehe Suche nach Updater & Prüfung ob Admin in den Groupservice
+        //TODO Prüfe, dass ein Member sich selbst nicht ändern kann(updatedBy ungleich memberId)
         //Membership updater = findUpdater(groups);
-        //if (deletor != null && deletor.getType().equals(Type.ADMIN)) {
+        //if (updater != null && updater.getType().equals(Type.ADMIN)) {
         Membership toBeUpdated = findUpdatedMember(groups);
         changeMembershipType(toBeUpdated);
     }
