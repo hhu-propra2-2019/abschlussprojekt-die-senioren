@@ -23,6 +23,14 @@ public class MemberDeletionEvent implements IEvent {
     private String removedMemberId;
     private String removedByMemberId;
 
+    /**
+     * Deactivates the given membership in all datastructures
+     *
+     * @param groupToMembers Hashmap that maps a String(groupId) to a list of memberships.
+     * @param userToMembers  Hashmap that maps a String(userId) to a list of memberships
+     * @param users          Hashmap that maps a String(userId) to a user.
+     * @param groups         Hashmap that maps a String(groupId) to memberships within the group.
+     */
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         //TODO Ziehe Suche nach Deletor & Prüfung ob Admin in den Groupservice
