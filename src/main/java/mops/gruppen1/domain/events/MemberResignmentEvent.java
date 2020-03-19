@@ -28,8 +28,8 @@ public class MemberResignmentEvent implements IEvent {
     /**
      * Deactivates the given membership in all datastructures
      *
-     * @param groupToMembers Hashmap that maps a group to a list of memberships.
-     * @param userToMembers  Hashmap that maps a user to a list of memberships
+     * @param groupToMembers Hashmap that maps a String(groupId) to a list of memberships.
+     * @param userToMembers  Hashmap that maps a String(userId) to a list of memberships
      * @param users          Hashmap that maps a String(userId) to a user.
      * @param groups         Hashmap that maps a String(groupId) to memberships within the group.
      */
@@ -37,8 +37,6 @@ public class MemberResignmentEvent implements IEvent {
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Membership leavingMember = findLeavingMember(groups);
         deactiveMembership(leavingMember);
-        deactivateMembershipGroup(groupToMembers, leavingMember);
-        deactivateMembershipUser(userToMembers, leavingMember);
     }
 
     /**
@@ -65,37 +63,5 @@ public class MemberResignmentEvent implements IEvent {
     private void deactiveMembership(Membership membership) {
 
         membership.setStatus(Status.DEACTIVATED);
-    }
-
-    /**
-     * Deactivates the deleted,related membership of a user in userToMembers HashMap.
-     *
-     * @param userToMembers
-     * @param membership
-     */
-    private void deactivateMembershipUser(HashMap<User, List<Membership>> userToMembers, Membership membership) {
-        User user = membership.getUser();
-        List<Membership> memberships = userToMembers.get(user);
-        for (Membership member : memberships) {
-            if (member.equals(membership)) {
-                member.setStatus(Status.DEACTIVATED);
-            }
-        }
-    }
-
-    /**
-     * Deactivates the membership in the groupToMembers - Hashmap
-     *
-     * @param groupToMembers Hashmap that maps groups to a list of memberships.
-     * @param membership     The membership that is to be deactivated.
-     */
-    private void deactivateMembershipGroup(HashMap<Group, List<Membership>> groupToMembers, Membership membership) {
-        Group group = membership.getGroup();
-        List<Membership> membershipsGroup = group.getMembers();
-        for (Membership member : membershipsGroup) {
-            if (member.equals(membership)) {
-                member.setStatus(Status.DEACTIVATED);
-            }
-        }
     }
 }
