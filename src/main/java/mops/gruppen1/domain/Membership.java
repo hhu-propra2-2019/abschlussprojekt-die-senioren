@@ -27,4 +27,8 @@ public class Membership {
         this.type = type;
         this.status = status;
     }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
 }
