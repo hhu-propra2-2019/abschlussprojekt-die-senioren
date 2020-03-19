@@ -1,6 +1,8 @@
 package mops.gruppen1.domain.events;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import mops.gruppen1.domain.*;
 
 import java.util.HashMap;
@@ -9,8 +11,10 @@ import java.util.List;
 
 /**
  * Add a link of the external MaterialService to the Group
- * @all: TODO: Add check for already existing Material link to Group Service
+ * TODO: 19.03.20  : Add check for already existing Material link to Group Service
  */
+@Getter
+@EqualsAndHashCode
 @AllArgsConstructor
 public class MaterialCreationEvent implements IEvent {
     private String groupId;
