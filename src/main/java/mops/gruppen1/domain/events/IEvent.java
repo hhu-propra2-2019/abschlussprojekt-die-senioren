@@ -11,7 +11,7 @@ import java.util.List;
  * All Event classes are implementing the execute method, but do not necessarily need all parameters
  */
 public interface IEvent {
-    void execute(HashMap<Group, List<Membership>> groupToMembers,
-                        HashMap<User, List<Membership>> userToMembers,
-                        HashMap<String, User> users, HashMap<String, Group> groups);
+    void execute(HashMap<String, List<Membership>> groupToMembers,
+                 HashMap<String, List<Membership>> userToMembers,
+                 HashMap<String, User> users, HashMap<String, Group> groups);
 }

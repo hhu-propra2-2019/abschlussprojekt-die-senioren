@@ -50,8 +50,8 @@ public class MemberDeletionEventTest {
     @Test
     void testExecuteDeactivateMembershipsInGroupToMembers() {
         //arrange
-        Group testGroup = testSetup.groupOne;
-        List<Membership> testMemberlist = testSetup.groupToMembers.get(testGroup);
+        String testGroupID = testSetup.groupOne.getGroupId().toString();
+        List<Membership> testMemberlist = testSetup.groupToMembers.get(testGroupID);
 
         //act
         memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
@@ -66,7 +66,7 @@ public class MemberDeletionEventTest {
     @Test
     void testExecuteDeactivateMembershipsInUserToMembers() {
         //arrange
-        User removedUser = testSetup.memberships.get(1).getUser();
+        String removedUser = testSetup.memberships.get(1).getUser().getUsername().getUsername();
         List<Membership> testMemberlist = testSetup.userToMembers.get(removedUser);
 
         //act

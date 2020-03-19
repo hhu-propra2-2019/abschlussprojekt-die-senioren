@@ -6,6 +6,7 @@ import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.GroupType;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -31,20 +32,21 @@ public class TestEvent implements IEvent {
 
     /**
      * Called by Jackson in order to map JSON-Payload to corresponding fields in TestEvent
+     *
      * @param eventParameters
      */
     @JsonProperty("eventParameters")
-    private void deserializeNestedParameters(Map<String,Object> eventParameters){
+    private void deserializeNestedParameters(Map<String, Object> eventParameters) {
         this.testGroupID = Long.parseLong(eventParameters.get("testGroupId").toString());
-        this.testGroupName =(String) eventParameters.get("testGroupName");
+        this.testGroupName = (String) eventParameters.get("testGroupName");
         this.timestamp = LocalDateTime.parse(eventParameters.get("testGroupCreation").toString());
-        this.testUserName =(String) eventParameters.get("groupCreator");
-        this.testGroupDescription =(String) eventParameters.get("groupDescription");
+        this.testUserName = (String) eventParameters.get("groupCreator");
+        this.testGroupDescription = (String) eventParameters.get("groupDescription");
         this.groupType = GroupType.valueOf(eventParameters.get("groupType").toString());
-        this.groupCourseID =Long.parseLong(eventParameters.get("groupCourse").toString());
+        this.groupCourseID = Long.parseLong(eventParameters.get("groupCourse").toString());
     }
 
     @Override
-    public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
     }
 }
