@@ -7,9 +7,9 @@ import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
-import mops.gruppen1.domain.events.IEvent;
 import mops.gruppen1.domain.events.GroupCreationEvent;
 import mops.gruppen1.domain.events.GroupDeletionEvent;
+import mops.gruppen1.domain.events.IEvent;
 import mops.gruppen1.domain.events.MembershipAssignmentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +29,8 @@ import java.util.UUID;
 public class GroupService {
     @Autowired //TODO: Remove Autowired ?
             EventService events;
-    private HashMap<Group, List<Membership>> groupToMembers;
-    private HashMap<User, List<Membership>> userToMembers;
+    private HashMap<String, List<Membership>> groupToMembers;
+    private HashMap<String, List<Membership>> userToMembers;
     private HashMap<String, Group> groups;
     private HashMap<String, User> users;
 
@@ -45,8 +45,8 @@ public class GroupService {
         ));
     }
 
-    public void createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator) {
-        GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator);
+    public void createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
+        GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
         LocalDateTime timestamp = LocalDateTime.now();
 
