@@ -4,7 +4,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>index</title>
+    <title>Gruppenbildung Übersicht</title>
     <th:block th:fragment="headcontent">
 
     </th:block>
@@ -19,7 +19,7 @@
         <div class="flex-row">
             <p class="h3 offset-sm-0">Meine Gruppen <span>
                 <a class="btn btn-secondary btn-sm offset-sm-1"  aria-pressed="true" role="button"
-                   href="/gruppen1/erstellen">Gruppe erstellen</a>
+                   th:href="@{/gruppen1/erstellen}">Gruppe erstellen</a>
                 </span>
             </p>
         </div>
