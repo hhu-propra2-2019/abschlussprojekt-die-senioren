@@ -12,8 +12,10 @@ import java.util.List;
 
 /**
  * Add a link of the external ForumService to the Group
+ * TODO: Add check for already existing Forum to Group Service
  */
 @Getter
+@EqualsAndHashCode
 @AllArgsConstructor
 public class ForumCreationEvent implements IEvent {
     private String groupId;
