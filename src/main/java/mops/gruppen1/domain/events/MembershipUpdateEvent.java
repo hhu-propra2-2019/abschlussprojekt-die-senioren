@@ -37,4 +37,20 @@ public class MembershipUpdateEvent implements IEvent {
 
         return membership;
     }
+
+    /**
+     * Finds the member that is updating a member.
+     *
+     * @param groups The group in which a member is searched for.
+     * @return The member that matches updatedBy.
+     */
+    private Membership findUpdater(HashMap<String, Group> groups) {
+        Group group = groups.get(groupId);
+        Membership membership = group.getMembers().stream()
+                .filter(member -> updatedBy.equals(member.getMemberid().toString()))
+                .findFirst()
+                .orElse(null);
+
+        return membership;
+    }
 }
