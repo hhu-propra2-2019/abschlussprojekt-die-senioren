@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class GroupDeletionEvent implements IEvent {
     String deletedByUser;
 
     @Override
-    public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         groupToMembers.remove(group);
         groups.remove(groupId);
@@ -34,6 +35,7 @@ public class GroupDeletionEvent implements IEvent {
 
     /**
      * method deletes memberships that map to deleted groups from userToMember Hash-Map
+     *
      * @param userToMembers
      * @param groups
      */

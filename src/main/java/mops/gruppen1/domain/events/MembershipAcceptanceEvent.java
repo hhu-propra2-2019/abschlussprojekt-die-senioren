@@ -17,7 +17,7 @@ public class MembershipAcceptanceEvent implements IEvent {
     private String userName;
 
     @Override
-    public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(user);
         Group group = groups.get(groupId);

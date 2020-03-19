@@ -17,12 +17,12 @@ public class MembershipRequestEvent implements IEvent {
     private String membershipType;
 
     @Override
-    public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         User user = users.get(userName);
         Type membershipType = Type.valueOf(this.membershipType);
 
-        Membership membership = new Membership(user,group, membershipType, Status.PENDING);
+        Membership membership = new Membership(user, group, membershipType, Status.PENDING);
         group.addMember(membership);
         groupToMembers.get(group).add(membership);
         userToMembers.get(user).add(membership);
