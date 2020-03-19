@@ -21,6 +21,6 @@ public class MaterialCreationEvent implements IEvent {
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         Material material = new Material(materialLink);
-     //   group.setAppointment(appointment);
+        group.setMaterial(material);
     }
 }
