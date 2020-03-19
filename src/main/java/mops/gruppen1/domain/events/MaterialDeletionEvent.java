@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * Delete link of the external MaterialService in the Group
  * or change representation
+ * TODO decide if event is necessary.
  */
 @Getter
 @AllArgsConstructor
