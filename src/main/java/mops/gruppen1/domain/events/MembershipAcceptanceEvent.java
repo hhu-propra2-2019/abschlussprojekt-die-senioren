@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.Status;
+import mops.gruppen1.domain.MembershipStatus;
 import mops.gruppen1.domain.User;
 
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class MembershipAcceptanceEvent implements IEvent {
         Group group = groups.get(groupId);
 
         Membership membership = getMembership(memberships, group);
-        membership.setStatus(Status.ACTIVE);
+        membership.setMembershipStatus(MembershipStatus.ACTIVE);
     }
 
     private Membership getMembership(List<Membership> memberships, Group group) {

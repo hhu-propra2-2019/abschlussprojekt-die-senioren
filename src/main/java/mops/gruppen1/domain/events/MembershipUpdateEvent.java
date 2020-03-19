@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Edit Type 'ADMIN' or 'VIEWER' of Membership
+ * Edit MembershipType 'ADMIN' or 'VIEWER' of Membership
  */
 @AllArgsConstructor
 @Getter
@@ -27,7 +27,7 @@ public class MembershipUpdateEvent implements IEvent {
         //TODO Ziehe Suche nach Updater & Prüfung ob Admin in den Groupservice
         //TODO Prüfe, dass ein Member sich selbst nicht ändern kann(updatedBy ungleich memberId)
         //Membership updater = findUpdater(groups);
-        //if (updater != null && updater.getType().equals(Type.ADMIN)) {
+        //if (updater != null && updater.getMembershipType().equals(MembershipType.ADMIN)) {
         Membership toBeUpdated = findUpdatedMember(groups);
         changeMembershipType(toBeUpdated);
     }
@@ -65,15 +65,15 @@ public class MembershipUpdateEvent implements IEvent {
     }
 
     /**
-     * Changes the Type of a given membership.
+     * Changes the MembershipType of a given membership.
      *
      * @param membership The membership whose type is to be changes.
      */
     private void changeMembershipType(Membership membership) {
-        if (membership.getType().equals(Type.ADMIN) && updatedTo.equalsIgnoreCase("VIEWER")) {
-            membership.setType(Type.VIEWER);
-        } else if (membership.getType().equals(Type.VIEWER) && updatedTo.equalsIgnoreCase("ADMIN")) {
-            membership.setType(Type.ADMIN);
+        if (membership.getMembershipType().equals(MembershipType.ADMIN) && updatedTo.equalsIgnoreCase("VIEWER")) {
+            membership.setMembershipType(MembershipType.VIEWER);
+        } else if (membership.getMembershipType().equals(MembershipType.VIEWER) && updatedTo.equalsIgnoreCase("ADMIN")) {
+            membership.setMembershipType(MembershipType.ADMIN);
         }
     }
 }

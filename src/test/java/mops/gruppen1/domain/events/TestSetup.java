@@ -101,12 +101,12 @@ public class TestSetup {
     }
 
     private void createMemberships() {
-        Membership memberOne = new Membership(users.get("Max"), groupOne, Type.ADMIN, Status.ACTIVE);
-        Membership memberTwo = new Membership(users.get("Stela"), groupOne, Type.VIEWER, Status.ACTIVE);
-        Membership memberThree = new Membership(users.get("Neo"), groupTwo, Type.ADMIN, Status.ACTIVE);
-        Membership memberFour = new Membership(users.get("Steve"), groupTwo, Type.VIEWER, Status.ACTIVE);
-        Membership memberFive = new Membership(users.get("Diego"), groupThree, Type.ADMIN, Status.ACTIVE);
-        Membership memberSix = new Membership(users.get("Milten"), groupThree, Type.VIEWER, Status.PENDING);
+        Membership memberOne = new Membership(users.get("Max"), groupOne, MembershipType.ADMIN, MembershipStatus.ACTIVE);
+        Membership memberTwo = new Membership(users.get("Stela"), groupOne, MembershipType.VIEWER, MembershipStatus.ACTIVE);
+        Membership memberThree = new Membership(users.get("Neo"), groupTwo, MembershipType.ADMIN, MembershipStatus.ACTIVE);
+        Membership memberFour = new Membership(users.get("Steve"), groupTwo, MembershipType.VIEWER, MembershipStatus.ACTIVE);
+        Membership memberFive = new Membership(users.get("Diego"), groupThree, MembershipType.ADMIN, MembershipStatus.ACTIVE);
+        Membership memberSix = new Membership(users.get("Milten"), groupThree, MembershipType.VIEWER, MembershipStatus.PENDING);
 
         memberships.add(memberOne);
         memberships.add(memberTwo);
