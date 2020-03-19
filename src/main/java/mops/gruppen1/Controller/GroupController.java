@@ -1,6 +1,9 @@
 package mops.gruppen1.Controller;
 
+import lombok.AllArgsConstructor;
+import mops.gruppen1.applicationService.GroupService;
 import mops.gruppen1.security.Account;
+import mops.gruppen1.domain.*;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.context.annotation.Role;
@@ -15,9 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/gruppen1")
 public class GroupController {
 
+    private GroupService groupService;
     /**
      * Nimmt das Authentifizierungstoken von Keycloak und erzeugt ein AccountDTO für die Views.
      * (Entnommen aus der Vorlage 'KeycloakDemo'
@@ -103,7 +108,11 @@ public class GroupController {
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String index (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
-            model.addAttribute("account", createAccountFromPrincipal(token));
+            Account account = createAccountFromPrincipal(token);
+            model.addAttribute("account", account);
+            User user = new User(new Username(account.getName()));
+            model.addAttribute("user",user);
+            model.addAttribute("gruppen",groupService.getUserToMembers().get(user.getUsername().getUsername()));
         }
         if (search.isPresent()) {
             return searchGroups(search);
