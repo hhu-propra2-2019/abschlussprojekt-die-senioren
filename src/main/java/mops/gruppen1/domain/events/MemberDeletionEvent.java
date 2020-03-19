@@ -1,5 +1,8 @@
 package mops.gruppen1.domain.events;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import mops.gruppen1.domain.*;
 
 import java.util.HashMap;
@@ -8,6 +11,9 @@ import java.util.List;
 /**
  * change attribute Status in Membership to 'Deactivated'. NO deletion from datastructures
  */
+@AllArgsConstructor
+@EqualsAndHashCode
+@Getter
 public class MemberDeletionEvent implements IEvent {
 
     private String groupId;
@@ -65,8 +71,8 @@ public class MemberDeletionEvent implements IEvent {
 
     /**
      * Deactivates the deleted,related membership of a user in userToMembers HashMap.
-     * @param userToMembers
-     * @param membership
+     * @param userToMembers Hashmap that maps from a user to a list(his memberships)
+     * @param membership The membership that is to be deactivated.
      */
     private void deactivateMembershipUser(HashMap<User, List<Membership>> userToMembers,Membership membership)  {
         User user = membership.getUser();

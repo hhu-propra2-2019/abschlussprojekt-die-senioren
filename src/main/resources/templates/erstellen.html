@@ -3,7 +3,7 @@
       th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Neue Gruppe Erstellen', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
 <head>
     <meta charset="utf-8">
-    <title>Name des Subsystems</title>
+    <title>Neue Gruppe erstellen</title>
     <th:block th:fragment="headcontent">
         <!-- Links, Skripts, Styles hier einfügen! -->
     </th:block>
@@ -12,7 +12,8 @@
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <ul>
-            <li><a href="/gruppen1/">Zurück zu allen Gruppen</a></li>
+            <li class="active"><a th:href="@{/gruppen1/erstellen}">Neue Gruppe erstellen</a></li>
+            <li><a th:href="@{/gruppen1/}">Meine Gruppen</a></li>
         </ul>
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
     </nav>
