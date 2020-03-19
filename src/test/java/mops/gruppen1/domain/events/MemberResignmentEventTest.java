@@ -43,4 +43,19 @@ class MemberResignmentEventTest {
     }
 
 
+    @Tag("EventTest")
+    @DisplayName("Teste Member - Deaktivierung in groupToMembers - Hashmap.")
+    @Test
+    void testExecuteDeactivateMembershipsInGroupToMembers() {
+        //arrange
+        String testGroupID = testSetup.groupOne.getGroupId().toString();
+        List<Membership> testMemberlist = testSetup.groupToMembers.get(testGroupID);
+
+        //act
+        memberResignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
+
+        //assert
+        assertThat(testMemberlist.get(1).getStatus()
+                .equals((Status.DEACTIVATED))).isEqualTo(true);
+    }
 }
