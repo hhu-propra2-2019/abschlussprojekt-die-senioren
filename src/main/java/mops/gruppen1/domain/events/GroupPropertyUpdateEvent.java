@@ -3,7 +3,6 @@ package mops.gruppen1.domain.events;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.*;
 
 import java.util.HashMap;
@@ -15,7 +14,6 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor
 public class GroupPropertyUpdateEvent implements IEvent {
 
     private String groupId;
