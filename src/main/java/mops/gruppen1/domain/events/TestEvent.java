@@ -1,7 +1,8 @@
 package mops.gruppen1.domain.events;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
@@ -11,13 +12,14 @@ import java.util.List;
 /**
  * Fake event, which is used for testing the transformation of DTO´s to a specific eventType and vice versa.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class TestEvent implements IEvent {
 
     //Database and Payload fields
-    private String userName;
-    private String groupID;
+    private String user;
+    private String group;
     private String eventType;
 
     //Payload fields
