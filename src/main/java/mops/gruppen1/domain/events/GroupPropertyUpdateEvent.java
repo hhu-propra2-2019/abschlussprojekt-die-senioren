@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Edit attributes ‘name' or 'description' of a group
+ * Update GroupProperties (name, description and type)
+ * <p>
+ * TODO: 18.03.20 Add check that changing user is GroupAdmin
  */
 @Getter
 @EqualsAndHashCode
