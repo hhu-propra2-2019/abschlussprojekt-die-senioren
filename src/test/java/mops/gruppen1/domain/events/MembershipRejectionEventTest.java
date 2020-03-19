@@ -23,7 +23,7 @@ class MembershipRejectionEventTest {
     void execute() {
         //Arrange
         String groupId = testSetup.groupThree.getGroupId().toString();
-        String user = testSetup.users.get("Milten").getUsername().getUsername();
+        String user = "Milten";
         MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, user);
 
         //Act
