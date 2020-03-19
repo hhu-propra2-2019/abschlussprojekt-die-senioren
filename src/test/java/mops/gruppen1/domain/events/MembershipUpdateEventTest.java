@@ -100,6 +100,6 @@ class MembershipUpdateEventTest {
 
         //assert
         assertThat(testSetup.groups.get(testGroupId).getMembers().get(0).getType()
-                .equals((Type.ADMIN))).isEqualTo(true);
+                .equals((Type.VIEWER))).isEqualTo(true);
     }
 }
