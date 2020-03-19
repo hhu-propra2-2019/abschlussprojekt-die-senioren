@@ -19,7 +19,7 @@ public class TestSetup {
     Group groupOne;
     Group groupTwo;
     Group groupThree;
-    private List<Membership> memberships = new ArrayList<Membership>();
+    List<Membership> memberships = new ArrayList<Membership>();
 
     public TestSetup() {
         createUserMap();
