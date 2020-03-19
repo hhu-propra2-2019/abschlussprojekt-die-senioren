@@ -28,8 +28,8 @@ public class MemberResignmentEvent implements IEvent {
     /**
      * Deactivates the given membership in all datastructures
      *
-     * @param groupToMembers Hashmap that maps a group to a list of memberships.
-     * @param userToMembers  Hashmap that maps a user to a list of memberships
+     * @param groupToMembers Hashmap that maps a String(groupId) to a list of memberships.
+     * @param userToMembers  Hashmap that maps a String(userId) to a list of memberships
      * @param users          Hashmap that maps a String(userId) to a user.
      * @param groups         Hashmap that maps a String(groupId) to memberships within the group.
      */
