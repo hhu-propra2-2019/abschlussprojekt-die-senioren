@@ -26,14 +26,16 @@ public class GroupCreationEvent implements IEvent {
     private String groupName;
     private String groupCourse;
     private String groupCreator;
+    private String groupType;
     //TODO how to handle optional groupCourse?
 
 
-    public GroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator) {
+    public GroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
         this.groupDescription = groupDescription;
         this.groupName = groupName;
         this.groupCourse = groupCourse;
         this.groupCreator = groupCreator;
+        this.groupType = groupType;
     }
 
     @Override
@@ -50,8 +52,9 @@ public class GroupCreationEvent implements IEvent {
         GroupDescription description = new GroupDescription(this.groupDescription);
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         User groupCreator = new User(new Username(this.groupCreator));
+        GroupType groupType = GroupType.valueOf(this.groupType.toUpperCase());
         //add groupCourse?
 
-        return new Group(members, name, description, groupCreator, groupStatus);
+        return new Group(members, name, description, groupCreator, groupStatus, groupType);
     }
 }

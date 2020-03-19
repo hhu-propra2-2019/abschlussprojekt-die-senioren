@@ -45,8 +45,8 @@ public class GroupService {
         ));
     }
 
-    public void createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator) {
-        GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator);
+    public void createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
+        GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
         LocalDateTime timestamp = LocalDateTime.now();
 
