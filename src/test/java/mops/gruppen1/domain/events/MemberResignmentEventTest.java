@@ -1,33 +1,30 @@
 package mops.gruppen1.domain.events;
 
-import mops.gruppen1.domain.*;
+import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MemberDeletionEventTest {
+class MemberResignmentEventTest {
 
     private TestSetup testSetup;
     private String testGroupId;
-    private String removedMemberId;
-    private String removedByMemberId;
-    private MemberDeletionEvent memberDeletionEvent;
+    private String leavingMemberID;
+    private MemberResignmentEvent memberResignmentEvent;
 
     @BeforeEach
     void setup() {
         //allgemeiner arrange - Schritt
         this.testSetup = new TestSetup();
         this.testGroupId = testSetup.groupOne.getGroupId().toString();
-        this.removedMemberId = testSetup.memberships.get(1).getMemberid().toString();
-        this.removedByMemberId = testSetup.memberships.get(0).getMemberid().toString();
-        this.memberDeletionEvent = new MemberDeletionEvent(testGroupId, removedMemberId, removedByMemberId);
+        this.leavingMemberID = testSetup.memberships.get(1).getMemberid().toString();
+        this.memberResignmentEvent = new MemberResignmentEvent(testGroupId, leavingMemberID);
     }
 
     @Tag("EventTest")
@@ -38,12 +35,13 @@ public class MemberDeletionEventTest {
         List<Membership> testMemberlist = testSetup.groupOne.getMembers();
 
         //act
-        memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
+        memberResignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
         assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getStatus()
                 .equals((Status.DEACTIVATED))).isEqualTo(true);
     }
+
 
     @Tag("EventTest")
     @DisplayName("Teste Member - Deaktivierung in groupToMembers - Hashmap.")
@@ -54,7 +52,7 @@ public class MemberDeletionEventTest {
         List<Membership> testMemberlist = testSetup.groupToMembers.get(testGroupID);
 
         //act
-        memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
+        memberResignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
         assertThat(testMemberlist.get(1).getStatus()
@@ -70,7 +68,7 @@ public class MemberDeletionEventTest {
         List<Membership> testMemberlist = testSetup.userToMembers.get(removedUser);
 
         //act
-        memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
+        memberResignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
         //Da Membership - List von User, hat diese nur einen Eintrag, da jeder User im testSetup nur in genau

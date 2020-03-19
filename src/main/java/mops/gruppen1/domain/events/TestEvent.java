@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +28,6 @@ public class TestEvent implements IEvent {
     private String groupType;
 
     @Override
-    public void execute(HashMap<Group, List<Membership>> groupToMembers, HashMap<User, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
     }
 }
