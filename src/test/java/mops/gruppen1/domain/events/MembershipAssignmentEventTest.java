@@ -6,6 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -28,6 +30,7 @@ public class MembershipAssignmentEventTest {
         Username username = new Username("Hand-Test");
         User newUser = new User(username);
         testSetup.users.put(username.toString(), newUser);
+        testSetup.userToMembers.put(username.toString(), new ArrayList<>());
         Type membershipType = Type.VIEWER;
 
         MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId,username.toString(),membershipType.toString());
