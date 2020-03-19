@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +42,7 @@ public class GroupCreationEvent implements IEvent {
         Group newGroup = createGroup();
         this.groupID = newGroup.getGroupId().toString();
         groups.put(groupID, newGroup);
-        groupToMembers.put(newGroup, new ArrayList<>());
+        groupToMembers.put(this.groupID, new ArrayList<>());
     }
 
     private Group createGroup() {
