@@ -58,4 +58,22 @@ class MemberResignmentEventTest {
         assertThat(testMemberlist.get(1).getStatus()
                 .equals((Status.DEACTIVATED))).isEqualTo(true);
     }
+
+    @Tag("EventTest")
+    @DisplayName("Teste Member - Deaktivierung in userToMembers - Hashmap.")
+    @Test
+    void testExecuteDeactivateMembershipsInUserToMembers() {
+        //arrange
+        String removedUser = testSetup.memberships.get(1).getUser().getUsername().getUsername();
+        List<Membership> testMemberlist = testSetup.userToMembers.get(removedUser);
+
+        //act
+        memberResignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
+
+        //assert
+        //Da Membership - List von User, hat diese nur einen Eintrag, da jeder User im testSetup nur in genau
+        //einer Gruppe ist.
+        assertThat(testMemberlist.get(0).getStatus()
+                .equals((Status.DEACTIVATED))).isEqualTo(true);
+    }
 }
