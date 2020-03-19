@@ -24,6 +24,7 @@ public class Group {
     private Appointment appointment;
     private Material material;
     private Forum forum;
+    private Assignment assignment;
 
     public Group (List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus, GroupType groupType) {
        this.members = members;
@@ -69,5 +70,9 @@ public class Group {
 
     public void setForum(Forum forum) {
         this.forum = forum;
+    }
+
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
     }
 }
