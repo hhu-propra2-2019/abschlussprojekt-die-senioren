@@ -21,6 +21,7 @@ public class Membership {
     }
     
     public Membership(User user, Group group, Type type, Status status) {
+        this.memberid = UUID.randomUUID();
         this.user = user;
         this.group = group;
         this.type = type;

@@ -12,14 +12,14 @@ import java.util.List;
  * GroupOne is active, GroupTwo is deactivated, GroupThree is active but restricted
  */
 public class TestSetup {
-    HashMap<Group, List<Membership>> groupToMembers = new HashMap<Group, List<Membership>>();
-    HashMap<User, List<Membership>> userToMembers = new HashMap<User, List<Membership>>();
+    HashMap<String, List<Membership>> groupToMembers = new HashMap<String, List<Membership>>();
+    HashMap<String, List<Membership>> userToMembers = new HashMap<String, List<Membership>>();
     HashMap<String, Group> groups = new HashMap<String, Group>();
     HashMap<String, User> users = new HashMap<String, User>();
     Group groupOne;
     Group groupTwo;
     Group groupThree;
-    private List<Membership> memberships = new ArrayList<Membership>();
+    List<Membership> memberships = new ArrayList<Membership>();
 
     public TestSetup() {
         createUserMap();
@@ -46,21 +46,21 @@ public class TestSetup {
         listMilten.add(memberships.get(5));
 
 
-        userToMembers.put(users.get("Max"), listMax);
-        userToMembers.put(users.get("Stela"), listStela);
-        userToMembers.put(users.get("Neo"), listNeo);
-        userToMembers.put(users.get("Steve"), listSteve);
-        userToMembers.put(users.get("Diego"), listDiego);
-        userToMembers.put(users.get("Milten"), listMilten);
+        userToMembers.put(users.get("Max").getUsername().getUsername(), listMax);
+        userToMembers.put(users.get("Stela").getUsername().getUsername(), listStela);
+        userToMembers.put(users.get("Neo").getUsername().getUsername(), listNeo);
+        userToMembers.put(users.get("Steve").getUsername().getUsername(), listSteve);
+        userToMembers.put(users.get("Diego").getUsername().getUsername(), listDiego);
+        userToMembers.put(users.get("Milten").getUsername().getUsername(), listMilten);
     }
 
     private void createGroupToMembershipHashMap() {
         List<Membership> membersOne = groupOne.getMembers();
         List<Membership> membersTwo = groupTwo.getMembers();
         List<Membership> membersThree = groupThree.getMembers();
-        groupToMembers.put(groupOne, membersOne);
-        groupToMembers.put(groupTwo, membersTwo);
-        groupToMembers.put(groupThree, membersThree);
+        groupToMembers.put(groupOne.getGroupId().toString(), membersOne);
+        groupToMembers.put(groupTwo.getGroupId().toString(), membersTwo);
+        groupToMembers.put(groupThree.getGroupId().toString(), membersThree);
     }
 
     private void addMembersToGroups() {
