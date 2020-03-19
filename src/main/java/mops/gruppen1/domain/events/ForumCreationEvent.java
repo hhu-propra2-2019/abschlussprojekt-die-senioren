@@ -2,6 +2,7 @@ package mops.gruppen1.domain.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.EqualsAndHashCode;
 import mops.gruppen1.domain.Forum;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
