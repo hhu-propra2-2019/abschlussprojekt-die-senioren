@@ -23,7 +23,7 @@ class GroupDeletionEventTest {
     void testExecute() {
         //Arrange
         String groupId = testSetup.groupOne.getGroupId().toString();
-        String deletedBy = testSetup.users.get("Max").getUsername().getUsername();
+        String deletedBy = "Max";
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, deletedBy);
 
         //Act
