@@ -88,7 +88,7 @@ public class GroupService {
         return validationResult;
     }
 
-    public ValidationResult delteAppointment(String groupId, String deletedBy, String link) {
+    public ValidationResult deleteAppointment(String groupId, String deletedBy, String link) {
         ValidationResult validationResult = isAdmin(deletedBy, groupId, new ValidationResult());
         validationResult = isGroupActive(groupId, validationResult);
         validationResult = hasAppointment(groupId, validationResult);
