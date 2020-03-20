@@ -125,7 +125,18 @@ public class GroupService {
         validationResult = isGroupActive(groupId, validationResult);
         validationResult = hasNoMaterial(groupId, validationResult);
         if (validationResult.isValid()) {
-            performAssignmentCreationEvent(groupId, createdBy, link);
+            performMaterialCreationEvent(groupId, createdBy, link);
+            return validationResult;
+        }
+        return validationResult;
+    }
+
+    public ValidationResult deleteMaterial(String groupId, String createdBy) {
+        ValidationResult validationResult = isAdmin(createdBy, groupId, new ValidationResult());
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = hasMaterial(groupId, validationResult);
+        if (validationResult.isValid()) {
+            performMaterialDeletionEvent(groupId, createdBy);
             return validationResult;
         }
         return validationResult;
@@ -392,6 +403,17 @@ public class GroupService {
         EventDTO materialCreationEventDTO = events.createEventDTO(createdBy, groupId, timestamp, "MaterialCreationEvent", materialCreationEvent);
 
         events.saveToRepository(materialCreationEventDTO);
+    }
+
+    private void performMaterialDeletionEvent(String groupId, String createdBy) {
+        MaterialDeletionEvent materialDeletionEvent = new MaterialDeletionEvent(groupId);
+        materialDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO materialDeletionEventDTO = events.createEventDTO(createdBy, groupId, timestamp, "MaterialDeletionEvent", materialDeletionEvent);
+
+        events.saveToRepository(materialDeletionEventDTO);
     }
 
 }
