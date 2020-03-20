@@ -143,9 +143,17 @@ public class GroupService {
     }
 
     public ValidationResult createUser(String userName) {
-        ValidationResult validationResult = new ValidationResult();
+        ValidationResult validationResult = doesUserExist(userName, new ValidationResult());
         performUserCreationEvent(userName);
         return validationResult;
+    }
+
+    private ValidationResult doesUserExist(String username, ValidationResult validationResult) {
+        boolean userDoesNotExist = !users.containsKey(username);
+        if (userDoesNotExist) {
+            return validationResult;
+        }
+        validationResult.addError("Nutzer existiert bereits.");
     }
 
     private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
