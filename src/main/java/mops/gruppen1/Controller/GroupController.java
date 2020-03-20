@@ -91,9 +91,33 @@ public class GroupController {
 
     @GetMapping("/description")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String descriptionChange (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
+    public String descriptionChange (KeycloakAuthenticationToken token, Model model,
+                                     @RequestParam(name = "search") Optional search,
+                                     @RequestParam(name = "groupId") String groupId) {
         if (token != null) {
-            model.addAttribute("account", createAccountFromPrincipal(token));
+            Account account = createAccountFromPrincipal(token);
+            model.addAttribute("account", account);
+            model.addAttribute("memberships",groupService.getUserToMembers().get(account.getName()));
+            model.addAttribute("placeholder_groupname",groupService.getGroups().get(groupId).getName());
+            model.addAttribute("placeholder_groupdescription",groupService.getGroups().get(groupId).getDescription());
+        }
+        if (search.isPresent()) {
+            return searchGroups(search);
+        }
+        return "changeDescription"+groupId;
+    }
+
+    @PostMapping("/description/{id}")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
+    public String descriptionChange (KeycloakAuthenticationToken token, Model model,
+                                     @RequestParam(name = "search") Optional search,
+                                     @RequestParam(name = "groupName") String groupname,
+                                     @RequestParam(name = "groupDescription") String groupDescription) {
+
+        if (token != null) {
+            Account account = createAccountFromPrincipal(token);
+            model.addAttribute("account", account);
+
         }
         if (search.isPresent()) {
             return searchGroups(search);
@@ -116,7 +140,7 @@ public class GroupController {
     @GetMapping("/viewer/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String viewerView (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search,
-                              @PathVariable("id") long id) {
+                              @PathVariable("id") String id) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
         }
@@ -129,9 +153,10 @@ public class GroupController {
     @GetMapping("/admin/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String adminView (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search,
-                             @PathVariable("id") long id) {
+                             @PathVariable("id") String id) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+            model.addAttribute("groupId",id);
         }
         if (search.isPresent()) {
            return searchGroups(search);
@@ -139,15 +164,14 @@ public class GroupController {
         return "gruppenAdmin";
     }
 
+
     @GetMapping("/")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String index (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
-            User user = new User(new Username(account.getName()));
-            model.addAttribute("user",user);
-            model.addAttribute("memberships",groupService.getUserToMembers().get(user.getUsername().getUsername()));
+            model.addAttribute("memberships",groupService.getUserToMembers().get(account.getName()));
         }
         if (search.isPresent()) {
             return searchGroups(search);
