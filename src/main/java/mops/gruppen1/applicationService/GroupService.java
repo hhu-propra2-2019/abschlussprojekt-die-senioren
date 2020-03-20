@@ -212,7 +212,7 @@ public class GroupService {
         events.saveToRepository(membershipRequestEventDTO);
     }
 
-    public void rejectMembership(String userName, String groupId, String membershipType) {
+    public void rejectMembership(String userName, String groupId) {
 
         ValidationResult validationResult = new ValidationResult();
         validationResult = isRestricted(groupId, validationResult);
@@ -220,12 +220,12 @@ public class GroupService {
         validationResult = membershipIsPending(userName, groupId, validationResult);
 
         try {
-            performMembershipRejectEvent(userName, groupId, membershipType);
+            performMembershipRejectEvent(userName, groupId);
         }
         catch (RuntimeException exception){}
     }
 
-    private void performMembershipRejectEvent(String userName, String groupId, String membershipType){
+    private void performMembershipRejectEvent(String userName, String groupId) {
         MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, userName);
         membershipRejectionEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -235,6 +235,31 @@ public class GroupService {
 
         events.saveToRepository(membershipRejectionEventDTO);
     }
+
+    public void acceptMembership(String userName, String groupId) {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isRestricted(groupId, validationResult);
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = membershipIsPending(userName, groupId, validationResult);
+
+        try {
+            performMembershipAcceptanceEvent(userName, groupId);
+        }
+        catch (RuntimeException exception){}
+    }
+
+    private void performMembershipAcceptanceEvent(String userName, String groupId){
+        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName);
+        membershipAcceptanceEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipAcceptanceEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipAcceptanceEvent", membershipAcceptanceEvent);
+
+        events.saveToRepository(membershipAcceptanceEventDTO);
+    }
+
 
 
     public void deleteGroup(String userName, UUID groupID) {
