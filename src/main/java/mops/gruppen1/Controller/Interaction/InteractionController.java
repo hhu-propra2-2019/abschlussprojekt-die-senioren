@@ -1,4 +1,4 @@
-package mops.gruppen1.Controller;
+package mops.gruppen1.Controller.Interaction;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
