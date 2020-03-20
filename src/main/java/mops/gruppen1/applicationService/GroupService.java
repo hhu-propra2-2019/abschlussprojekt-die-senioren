@@ -110,6 +110,17 @@ public class GroupService {
         return validationResult;
     }
 
+    public ValidationResult createAssignment(String groupId, String createdBy, String link) {
+        ValidationResult validationResult = isGroupActive(groupId, new ValidationResult());
+        validationResult = hasNoAssignment(groupId, validationResult);
+        if (validationResult.isValid()) {
+            performAssignmentCreationEvent(groupId, createdBy, link);
+            return validationResult;
+        }
+        return validationResult;
+
+    }
+
     private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
         boolean isActive = group.getGroupStatus().equals(GroupStatus.ACTIVE);
@@ -120,10 +131,21 @@ public class GroupService {
         return validationResult;
     }
 
+    private ValidationResult hasNoAssignment(String groupId, ValidationResult validationResult) {
+        Group group = groups.get(groupId);
+        boolean hasNoAssignment = group.getAssignment() == null;
+        if (hasNoAssignment) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe hat bereits eine bereits bestehende Abgabe.");
+        return validationResult;
+    }
+
+
     private ValidationResult hasNoForum(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
-        boolean hasAppointment = group.getForum() == null;
-        if (hasAppointment) {
+        boolean hasNoForum = group.getForum() == null;
+        if (hasNoForum) {
             return validationResult;
         }
         validationResult.addError("Die Gruppe hat bereits ein Forum.");
@@ -142,8 +164,8 @@ public class GroupService {
 
     private ValidationResult hasNoAppointment(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
-        boolean hasAppointment = group.getAppointment() == null;
-        if (hasAppointment) {
+        boolean hasNoAppointment = group.getAppointment() == null;
+        if (hasNoAppointment) {
             return validationResult;
         }
         validationResult.addError("Die Gruppe hat bereits ein Appointment.");
@@ -318,7 +340,17 @@ public class GroupService {
         EventDTO forumCreationEventDTO = events.createEventDTO(createdBy, groupId, timestamp, "ForumCreationEvent", forumCreationEvent);
 
         events.saveToRepository(forumCreationEventDTO);
-        ;
+    }
+
+    private void performAssignmentCreationEvent(String groupId, String createdBy, String link) {
+        AssignmentCreationEvent assignmentCreationEvent = new AssignmentCreationEvent(groupId, link, createdBy);
+        assignmentCreationEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO assignmentCreationEventDTO = events.createEventDTO(createdBy, groupId, timestamp, "AssignmentCreationEvent", assignmentCreationEvent);
+
+        events.saveToRepository(assignmentCreationEventDTO);
     }
 
 }
