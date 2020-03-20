@@ -5,10 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.*;
-import mops.gruppen1.domain.events.GroupCreationEvent;
-import mops.gruppen1.domain.events.GroupDeletionEvent;
-import mops.gruppen1.domain.events.IEvent;
-import mops.gruppen1.domain.events.MembershipAssignmentEvent;
+import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -187,6 +184,32 @@ public class GroupService {
         EventDTO membershipAssignmentEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipAssignmentEvent", membershipAssignmentEvent);
 
         events.saveToRepository(membershipAssignmentEventDTO);
+    }
+
+    public void requestMembership(String userName, String groupId, String membershipType) {
+        /*
+            todo check if group is assigned to a module/course, user has to be assigned to it as well
+         */
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isRestricted(groupId, validationResult);
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = isNotMember(userName, groupId, validationResult);
+
+        try {
+            performMembershipRequestEvent(userName, groupId, membershipType);
+        }
+        catch (RuntimeException exception){}
+    }
+
+    private void performMembershipRequestEvent(String userName, String groupId, String membershipType){
+        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType);
+        membershipRequestEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipRequestEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipRequestEvent", membershipRequestEvent);
+
+        events.saveToRepository(membershipRequestEventDTO);
     }
 
     public void deleteGroup(String userName, UUID groupID) {
