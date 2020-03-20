@@ -77,6 +77,17 @@ public class GroupService {
         return validationResult;
     }
 
+    public ValidationResult addAppointment(String groupId, String createdBy, String link) {
+        ValidationResult validationResult = isAdmin(createdBy, groupId, new ValidationResult());
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = hasNoAppointment(groupId, validationResult);
+        if (validationResult.isValid()) {
+            performAppointmentCreationEvent(groupId, createdBy, link);
+            return validationResult;
+        }
+        return validationResult;
+    }
+
     private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
         boolean isActive = group.getGroupStatus().equals(GroupStatus.ACTIVE);
@@ -84,6 +95,26 @@ public class GroupService {
             return validationResult;
         }
         validationResult.addError("Die Gruppe ist nicht aktiv.");
+        return validationResult;
+    }
+
+    private ValidationResult hasAppointment(String groupId, ValidationResult validationResult) {
+        Group group = groups.get(groupId);
+        boolean hasAppointment = group.getAppointment() != null;
+        if (hasAppointment) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe hat kein Appointment");
+        return validationResult;
+    }
+
+    private ValidationResult hasNoAppointment(String groupId, ValidationResult validationResult) {
+        Group group = groups.get(groupId);
+        boolean hasAppointment = group.getAppointment() == null;
+        if (hasAppointment) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe hat bereits ein Appointment");
         return validationResult;
     }
 
@@ -222,6 +253,17 @@ public class GroupService {
         EventDTO groupPropertyUpdateEventDTO = events.createEventDTO(updatedBy, groupId, timestamp, "GroupPropertyUpdateEvent", groupPropertyUpdateEvent);
 
         events.saveToRepository(groupPropertyUpdateEventDTO);
+    }
+
+    private void performAppointmentCreationEvent(String groupId, String createdBy, String link) {
+        AppointmentCreationEvent appointmentCreationEvent = new AppointmentCreationEvent(groupId, link, createdBy);
+        appointmentCreationEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO appointmentCreationEventDTO = events.createEventDTO(createdBy, groupId, timestamp, "AppointmentCreationEvent", appointmentCreationEvent);
+
+        events.saveToRepository(appointmentCreationEventDTO);
     }
 
 }
