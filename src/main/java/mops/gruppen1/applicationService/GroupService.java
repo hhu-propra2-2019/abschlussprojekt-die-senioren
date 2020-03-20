@@ -154,6 +154,7 @@ public class GroupService {
             return validationResult;
         }
         validationResult.addError("Nutzer existiert bereits.");
+        return validationResult;
     }
 
     private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
