@@ -53,7 +53,7 @@ public class GroupService {
         if (isActive) {
             return validationResult;
         }
-        validationResult.addError("Die ruppe ist nicht aktiv.");
+        validationResult.addError("Die Gruppe ist nicht aktiv.");
         return validationResult;
     }
 
