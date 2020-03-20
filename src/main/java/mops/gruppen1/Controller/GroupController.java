@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
 import java.lang.reflect.Member;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -51,9 +52,11 @@ public class GroupController {
     public String groupCreation (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+            //TODO Brauchen hier Methoden zum fetchen aller User und Module
+            //TODO Informieren, wie CSV Einbindung funktioniert
             //Get all users from user - Hashmap
             model.addAttribute("allUsers",groupService.getUsers().values());
-
+            //model.addAttribute("modules",groupService.getAllModules());
         }
         if (search.isPresent()) {
            return searchGroups(search);
@@ -67,18 +70,23 @@ public class GroupController {
                                  @RequestParam(value = "groupname") String groupName,
                                  @RequestParam(value = "groupModule") String module,
                                  @RequestParam(value = "groupType") String groupType,
-                                 @RequestParam(value = "groupDescription") String groupDescription) {
+                                 @RequestParam(value = "groupDescription") String groupDescription,
+                                 @RequestParam(value = "csv", required = false) String csvFileName,
+                                 @RequestParam(value = "members", required = false) List<String> members)
+    {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
-            model.addAttribute("account", account);
+            System.out.println(groupName+" "+groupDescription+" "+groupType+" "+module);
             //account - Name gleich Username
             groupService.createGroup(groupDescription,groupName,module,account.getName(),groupType);
-        }
+            System.out.println(groupService.getUserToMembers());
+         }
+
         if (search.isPresent()) {
             return searchGroups(search);
         }
-        return "redirect:/gruppen1/";
+        return "redirect:/";
     }
 
     @GetMapping("/description")
