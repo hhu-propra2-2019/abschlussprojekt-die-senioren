@@ -142,6 +142,12 @@ public class GroupService {
         return validationResult;
     }
 
+    public ValidationResult createUser(String userName) {
+        ValidationResult validationResult = new ValidationResult();
+        performUserCreationEvent(userName);
+        return validationResult;
+    }
+
     private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
         boolean isActive = group.getGroupStatus().equals(GroupStatus.ACTIVE);
@@ -414,6 +420,17 @@ public class GroupService {
         EventDTO materialDeletionEventDTO = events.createEventDTO(createdBy, groupId, timestamp, "MaterialDeletionEvent", materialDeletionEvent);
 
         events.saveToRepository(materialDeletionEventDTO);
+    }
+
+    private void performUserCreationEvent(String userName) {
+        UserCreationEvent userCreationEvent = new UserCreationEvent(userName);
+        userCreationEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO userCreationEventDTO = events.createEventDTO(null, null, timestamp, "UserCreationEvent", userCreationEvent);
+
+        events.saveToRepository(userCreationEventDTO);
     }
 
 }
