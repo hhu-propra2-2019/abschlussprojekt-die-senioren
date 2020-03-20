@@ -212,6 +212,31 @@ public class GroupService {
         events.saveToRepository(membershipRequestEventDTO);
     }
 
+    public void rejectMembership(String userName, String groupId, String membershipType) {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isRestricted(groupId, validationResult);
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = membershipIsPending(userName, groupId, validationResult);
+
+        try {
+            performMembershipRejectEvent(userName, groupId, membershipType);
+        }
+        catch (RuntimeException exception){}
+    }
+
+    private void performMembershipRejectEvent(String userName, String groupId, String membershipType){
+        MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, userName);
+        membershipRejectionEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipRejectionEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipRejectionEvent", membershipRejectionEvent);
+
+        events.saveToRepository(membershipRejectionEventDTO);
+    }
+
+
     public void deleteGroup(String userName, UUID groupID) {
         String groupId = groupID.toString();
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
