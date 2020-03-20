@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +31,7 @@ class MembershipUpdateEventTest {
     }
 
     @Tag("EventTest")
-    @DisplayName("Teste Member - Type Änderung von Viewer zu Admin in group-Hashmap.")
+    @DisplayName("Teste Member - MembershipType Änderung von Viewer zu Admin in group-Hashmap.")
     @Test
     void testExecuteChangeTypeInGroups() {
         //arrange
@@ -42,12 +41,12 @@ class MembershipUpdateEventTest {
         membershipUpdateEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getType()
-                .equals((Type.ADMIN))).isEqualTo(true);
+        assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getMembershipType()
+                .equals((MembershipType.ADMIN))).isEqualTo(true);
     }
 
     @Tag("EventTest")
-    @DisplayName("Teste Member - Type Änderung von Viewer zu Admin in groupToMembers - Hashmap.")
+    @DisplayName("Teste Member - MembershipType Änderung von Viewer zu Admin in groupToMembers - Hashmap.")
     @Test
     void testExecuteDeactivateMembershipsInGroupToMembers() {
         //arrange
@@ -58,12 +57,12 @@ class MembershipUpdateEventTest {
         membershipUpdateEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testMemberlist.get(1).getType()
-                .equals((Type.ADMIN))).isEqualTo(true);
+        assertThat(testMemberlist.get(1).getMembershipType()
+                .equals((MembershipType.ADMIN))).isEqualTo(true);
     }
 
     @Tag("EventTest")
-    @DisplayName("Teste Member - Type Änderung von Viewer zu Admin in userToMembers - Hashmap.")
+    @DisplayName("Teste Member - MembershipType Änderung von Viewer zu Admin in userToMembers - Hashmap.")
     @Test
     void testExecuteDeactivateMembershipsInUserToMembers() {
         //arrange
@@ -76,12 +75,12 @@ class MembershipUpdateEventTest {
         //assert
         //Da Membership - List von User, hat diese nur einen Eintrag, da jeder User im testSetup nur in genau
         //einer Gruppe ist.
-        assertThat(testMemberlist.get(0).getType()
-                .equals((Type.ADMIN))).isEqualTo(true);
+        assertThat(testMemberlist.get(0).getMembershipType()
+                .equals((MembershipType.ADMIN))).isEqualTo(true);
     }
 
     @Tag("EventTest")
-    @DisplayName("Teste Member - Type Änderung von Admin zu Viewer in group-Hashmap.")
+    @DisplayName("Teste Member - MembershipType Änderung von Admin zu Viewer in group-Hashmap.")
     @Test
     void testExecuteChangeTypeInGroupsAdminToViewer() {
         //arrange
@@ -99,7 +98,7 @@ class MembershipUpdateEventTest {
                 testSetup.groups);
 
         //assert
-        assertThat(testSetup.groups.get(testGroupId).getMembers().get(0).getType()
-                .equals((Type.VIEWER))).isEqualTo(true);
+        assertThat(testSetup.groups.get(testGroupId).getMembers().get(0).getMembershipType()
+                .equals((MembershipType.VIEWER))).isEqualTo(true);
     }
 }
