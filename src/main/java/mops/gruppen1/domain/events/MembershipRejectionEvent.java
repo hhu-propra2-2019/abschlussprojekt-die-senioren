@@ -29,14 +29,14 @@ public class MembershipRejectionEvent implements IEvent {
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
 
-        Membership membership = getMembership(memberships, group);
+        Membership membership = getMembership(memberships, groupId);
         membership.setMembershipStatus(MembershipStatus.REJECTED);
     }
 
-    private Membership getMembership(List<Membership> memberships, Group group) {
+    private Membership getMembership(List<Membership> memberships, String groupId) {
         Membership membership = null;
         for (Membership m : memberships) {
-            if (m.getGroup().equals(group)) {
+            if (m.getGroup().getGroupId().toString().equals(groupId)) {
                 membership = m;
                 break;
             }

@@ -285,6 +285,31 @@ public class GroupService {
         events.saveToRepository(membershipDeletionEventDTO);
     }
 
+    public void updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = membershipIsActive(userName, groupId, validationResult);
+        validationResult = membershipIsActive(updatedBy, groupId, validationResult);
+        validationResult = isAdmin(updatedBy, groupId, validationResult);
+
+        try {
+            performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
+        }
+        catch (RuntimeException exception){}
+    }
+
+    private void performMembershipUpdateEvent(String userName, String groupId, String deletedBy, String updatedTo) {
+        MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName,deletedBy, updatedTo);
+        membershipUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipUpdateEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipUpdateEvent", membershipUpdateEvent);
+
+        events.saveToRepository(membershipUpdateEventDTO);
+    }
+
     public void acceptMembership(String userName, String groupId) {
 
         ValidationResult validationResult = new ValidationResult();

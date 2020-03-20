@@ -15,7 +15,7 @@ class MemberResignmentEventTest {
 
     private TestSetup testSetup;
     private String testGroupId;
-    private String leavingMemberID;
+    private String leavingUserID;
     private MemberResignmentEvent memberResignmentEvent;
 
     @BeforeEach
@@ -23,8 +23,8 @@ class MemberResignmentEventTest {
         //allgemeiner arrange - Schritt
         this.testSetup = new TestSetup();
         this.testGroupId = testSetup.groupOne.getGroupId().toString();
-        this.leavingMemberID = testSetup.memberships.get(1).getMemberid().toString();
-        this.memberResignmentEvent = new MemberResignmentEvent(testGroupId, leavingMemberID);
+        this.leavingUserID = testSetup.groupOne.getMembers().get(1).getUser().getUsername().getUsername();
+        this.memberResignmentEvent = new MemberResignmentEvent(testGroupId, leavingUserID);
     }
 
     @Tag("EventTest")
