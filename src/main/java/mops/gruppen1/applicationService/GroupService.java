@@ -43,8 +43,22 @@ public class GroupService {
         ));
     }
 
-    public void createGroup() {
-
+    /**
+     * calls performGroupCreationEvent to create, execute and save GroupCreationEvent.
+     * Does not include a real validation check because one cannot search for
+     * non-existant groups and every user can create groups.
+     *
+     * @param groupDescription
+     * @param groupName
+     * @param groupCourse
+     * @param groupCreator
+     * @param groupType
+     * @return ValidationResult (always successful)
+     */
+    public ValidationResult createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
+        ValidationResult validationResult = new ValidationResult();
+        performGroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
+        return validationResult;
     }
 
     private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
