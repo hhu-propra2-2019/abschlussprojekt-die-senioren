@@ -112,7 +112,7 @@ public class GroupController {
             model.addAttribute("account", account);
             User user = new User(new Username(account.getName()));
             model.addAttribute("user",user);
-            model.addAttribute("gruppen",groupService.getUserToMembers().get(user.getUsername().getUsername()));
+            model.addAttribute("memberships",groupService.getUserToMembers().get(user.getUsername().getUsername()));
         }
         if (search.isPresent()) {
             return searchGroups(search);
