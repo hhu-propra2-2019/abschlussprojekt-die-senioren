@@ -43,6 +43,10 @@ public class GroupService {
         ));
     }
 
+    public void createGroup() {
+
+    }
+
     private boolean isGroupActive(String groupId) {
         Group group = groups.get(groupId);
         boolean isActive = group.getGroupStatus().equals(GroupStatus.ACTIVE);
@@ -86,7 +90,6 @@ public class GroupService {
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
         Membership membership = getMembership(memberships, group);
-
         boolean isPending = membership.getStatus().equals(Status.PENDING);
         return isPending;
     }
@@ -99,7 +102,7 @@ public class GroupService {
         boolean isMember = getMembership(memberships, group) != null;
         return isMember;
     }
-    
+
     private Membership getMembership(List<Membership> memberships, Group group) {
         Membership membership = null;
         for (Membership m : memberships) {
@@ -111,7 +114,7 @@ public class GroupService {
         return membership;
     }
 
-    public void createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
+    public void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
         LocalDateTime timestamp = LocalDateTime.now();
@@ -152,6 +155,5 @@ public class GroupService {
         events.saveToRepository(groupDeletionEventDTO);
 
     }
-
 
 }
