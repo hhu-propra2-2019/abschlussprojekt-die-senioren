@@ -5,17 +5,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.*;
-import mops.gruppen1.domain.events.GroupCreationEvent;
-import mops.gruppen1.domain.events.GroupDeletionEvent;
-import mops.gruppen1.domain.events.IEvent;
-import mops.gruppen1.domain.events.MembershipAssignmentEvent;
+import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Service to manage the group entities
@@ -58,6 +54,26 @@ public class GroupService {
     public ValidationResult createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
         ValidationResult validationResult = new ValidationResult();
         performGroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
+        return validationResult;
+    }
+
+    public ValidationResult deleteGroup(String groupId, String userName) {
+        ValidationResult validationResult = isAdmin(userName, groupId, new ValidationResult());
+        validationResult = isGroupActive(groupId, validationResult);
+        if (validationResult.isValid()) {
+            performGroupDeletionEvent(userName, groupId);
+            return validationResult;
+        }
+        return validationResult;
+    }
+
+    public ValidationResult updateGroupProperties(String groupId, String updatedBy, String groupName, String description, String groupType) {
+        ValidationResult validationResult = isAdmin(updatedBy, groupId, new ValidationResult());
+        validationResult = isGroupActive(groupId, validationResult);
+        if (validationResult.isValid()) {
+            performGroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
+            return validationResult;
+        }
         return validationResult;
     }
 
@@ -185,8 +201,7 @@ public class GroupService {
         events.saveToRepository(membershipAssignmentEventDTO);
     }
 
-    public void deleteGroup(String userName, UUID groupID) {
-        String groupId = groupID.toString();
+    public void performGroupDeletionEvent(String userName, String groupId) {
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
         groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -196,6 +211,17 @@ public class GroupService {
 
         events.saveToRepository(groupDeletionEventDTO);
 
+    }
+
+    private void performGroupPropertyUpdateEvent(String groupId, String updatedBy, String groupName, String description, String groupType) {
+        GroupPropertyUpdateEvent groupPropertyUpdateEvent = new GroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
+        groupPropertyUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO groupPropertyUpdateEventDTO = events.createEventDTO(updatedBy, groupId, timestamp, "GroupPropertyUpdateEvent", groupPropertyUpdateEvent);
+
+        events.saveToRepository(groupPropertyUpdateEventDTO);
     }
 
 }
