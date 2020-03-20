@@ -99,6 +99,17 @@ public class GroupService {
         return validationResult;
     }
 
+    public ValidationResult createForum(String groupId, String createdBy, String link) {
+        ValidationResult validationResult = isAdmin(createdBy, groupId, new ValidationResult());
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = hasNoForum(groupId, validationResult);
+        if (validationResult.isValid()) {
+            performForumCreationEvent(groupId, createdBy, link);
+            return validationResult;
+        }
+        return validationResult;
+    }
+
     private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
         boolean isActive = group.getGroupStatus().equals(GroupStatus.ACTIVE);
@@ -109,13 +120,23 @@ public class GroupService {
         return validationResult;
     }
 
+    private ValidationResult hasNoForum(String groupId, ValidationResult validationResult) {
+        Group group = groups.get(groupId);
+        boolean hasAppointment = group.getForum() == null;
+        if (hasAppointment) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe hat bereits ein Forum.");
+        return validationResult;
+    }
+
     private ValidationResult hasAppointment(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
         boolean hasAppointment = group.getAppointment() != null;
         if (hasAppointment) {
             return validationResult;
         }
-        validationResult.addError("Die Gruppe hat kein Appointment");
+        validationResult.addError("Die Gruppe hat kein Appointment.");
         return validationResult;
     }
 
@@ -125,7 +146,7 @@ public class GroupService {
         if (hasAppointment) {
             return validationResult;
         }
-        validationResult.addError("Die Gruppe hat bereits ein Appointment");
+        validationResult.addError("Die Gruppe hat bereits ein Appointment.");
         return validationResult;
     }
 
@@ -286,6 +307,18 @@ public class GroupService {
         EventDTO appointmentDeletionEventDTO = events.createEventDTO(deletedBy, groupId, timestamp, "AppointmentDeletionEvent", appointmentDeletionEvent);
 
         events.saveToRepository(appointmentDeletionEventDTO);
+    }
+
+    private void performForumCreationEvent(String groupId, String createdBy, String link) {
+        ForumCreationEvent forumCreationEvent = new ForumCreationEvent(groupId, link, createdBy);
+        forumCreationEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO forumCreationEventDTO = events.createEventDTO(createdBy, groupId, timestamp, "ForumCreationEvent", forumCreationEvent);
+
+        events.saveToRepository(forumCreationEventDTO);
+        ;
     }
 
 }
