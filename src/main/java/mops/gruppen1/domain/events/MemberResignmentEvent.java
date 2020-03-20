@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.Status;
+import mops.gruppen1.domain.MembershipStatus;
 import mops.gruppen1.domain.User;
 
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class MemberResignmentEvent implements IEvent {
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Membership leavingMember = findLeavingMember(groups);
-        deactiveMembership(leavingMember);
+        deactivateMembership(leavingMember);
     }
 
     /**
@@ -60,8 +60,8 @@ public class MemberResignmentEvent implements IEvent {
      *
      * @param membership The membership that is to be deactivated.
      */
-    private void deactiveMembership(Membership membership) {
+    private void deactivateMembership(Membership membership) {
 
-        membership.setStatus(Status.DEACTIVATED);
+        membership.setMembershipStatus(MembershipStatus.DEACTIVATED);
     }
 }

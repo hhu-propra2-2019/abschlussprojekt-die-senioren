@@ -31,7 +31,7 @@ public class MembershipAssignmentEventTest {
         User newUser = new User(username);
         testSetup.users.put(username.toString(), newUser);
         testSetup.userToMembers.put(username.toString(), new ArrayList<>());
-        Type membershipType = Type.VIEWER;
+        MembershipType membershipType = MembershipType.VIEWER;
 
         MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId,username.toString(),membershipType.toString());
 
