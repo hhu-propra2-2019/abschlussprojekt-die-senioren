@@ -88,6 +88,17 @@ public class GroupService {
         return validationResult;
     }
 
+    public ValidationResult delteAppointment(String groupId, String deletedBy, String link) {
+        ValidationResult validationResult = isAdmin(deletedBy, groupId, new ValidationResult());
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = hasAppointment(groupId, validationResult);
+        if (validationResult.isValid()) {
+            performAppointmentDeletionEvent(groupId, deletedBy);
+            return validationResult;
+        }
+        return validationResult;
+    }
+
     private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
         boolean isActive = group.getGroupStatus().equals(GroupStatus.ACTIVE);
@@ -264,6 +275,17 @@ public class GroupService {
         EventDTO appointmentCreationEventDTO = events.createEventDTO(createdBy, groupId, timestamp, "AppointmentCreationEvent", appointmentCreationEvent);
 
         events.saveToRepository(appointmentCreationEventDTO);
+    }
+
+    private void performAppointmentDeletionEvent(String groupId, String deletedBy) {
+        AppointmentDeletionEvent appointmentDeletionEvent = new AppointmentDeletionEvent(groupId);
+        appointmentDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO appointmentDeletionEventDTO = events.createEventDTO(deletedBy, groupId, timestamp, "AppointmentDeletionEvent", appointmentDeletionEvent);
+
+        events.saveToRepository(appointmentDeletionEventDTO);
     }
 
 }
