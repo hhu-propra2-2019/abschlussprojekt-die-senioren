@@ -47,60 +47,88 @@ public class GroupService {
 
     }
 
-    private boolean isGroupActive(String groupId) {
+    private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
         boolean isActive = group.getGroupStatus().equals(GroupStatus.ACTIVE);
-        return isActive;
+        if (isActive) {
+            return validationResult;
+        }
+        validationResult.addError("Die ruppe ist nicht aktiv.");
+        return validationResult;
     }
 
-    private boolean isPublic(String groupId) {
+    private ValidationResult isPublic(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
         boolean isPublic = group.getGroupType().equals(GroupType.PUBLIC);
-        return isPublic;
+        if (isPublic) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe ist nicht öffentlich.");
+        return validationResult;
     }
 
-    private boolean isRestricted(String groupId) {
+    private ValidationResult isRestricted(String groupId, ValidationResult validationResult) {
         Group group = groups.get(groupId);
         boolean isRestricted = group.getGroupType().equals(GroupType.RESTRICTED);
-        return isRestricted;
+        if (isRestricted) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe ist nicht zugangsbeschränkt.");
+        return validationResult;
     }
 
-    private boolean isAdmin(String userName, String groupId) {
+    private ValidationResult isAdmin(String userName, String groupId, ValidationResult validationResult) {
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
         Membership membership = getMembership(memberships, group);
 
-        boolean isAdmin = membership.getType().equals(Type.ADMIN);
-        return isAdmin;
+        boolean isAdmin = membership.getMembershipType().equals(MembershipType.ADMIN);
+        if (isAdmin) {
+            return validationResult;
+        }
+        validationResult.addError("Der Nutzer ist kein Administrator der Gruppe.");
+        return validationResult;
     }
 
-    private boolean isActive(String userName, String groupId) {
+    private ValidationResult membershipIsActive(String userName, String groupId, ValidationResult validationResult) {
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
         Membership membership = getMembership(memberships, group);
 
-        boolean isActive = membership.getStatus().equals(Status.ACTIVE);
-        return isActive;
+        boolean isActive = membership.getMembershipStatus().equals(MembershipStatus.ACTIVE);
+        if (isActive) {
+            return validationResult;
+        }
+        validationResult.addError("Der Nutzer ist kein aktives Mitglied der Gruppe.");
+        return validationResult;
     }
 
-    private boolean isPending(String userName, String groupId) {
+    private ValidationResult membershipIsPending(String userName, String groupId, ValidationResult validationResult) {
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
         Membership membership = getMembership(memberships, group);
-        boolean isPending = membership.getStatus().equals(Status.PENDING);
-        return isPending;
+        boolean isPending = membership.getMembershipStatus().equals(MembershipStatus.PENDING);
+        if (isPending) {
+            return validationResult;
+        }
+        validationResult.addError("Die Mitgliedschaftsanfrage existiert nicht.");
+        return validationResult;
     }
 
-    private boolean isMember(String userName, String groupId) {
+    private ValidationResult isMember(String userName, String groupId, ValidationResult validationResult) {
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
 
         boolean isMember = getMembership(memberships, group) != null;
-        return isMember;
+        if (isMember) {
+            return validationResult;
+        }
+        validationResult.addError("Der Nutzer ist nicht Mitglied der Gruppe.");
+        return validationResult;
     }
 
     private Membership getMembership(List<Membership> memberships, Group group) {
