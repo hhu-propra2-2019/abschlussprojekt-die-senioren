@@ -151,7 +151,7 @@ public class GroupService {
         events.saveToRepository(groupCreationEventDTO);
     }
 
-    public void assignMembership(String userName, Group group, String membershipType) {
+    public void assignMembership(String userName, String groupId, String membershipType) {
 
 
         /* todo check if GroupType is PUBLIC and GroupStatus is 'active'
@@ -159,14 +159,14 @@ public class GroupService {
              todo check if user is already a member of the group
              todo check if group is part of hashmaps
          */
-        String groupID = group.getGroupId().toString();
 
-        MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupID, userName, membershipType);
+
+        MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, userName, membershipType);
         membershipAssignmentEvent.execute(groupToMembers, userToMembers, users, groups);
 
         LocalDateTime timestamp = LocalDateTime.now();
 
-        EventDTO membershipAssignmentEventDTO = events.createEventDTO(userName, groupID, timestamp, "MembershipAssignmentEvent", membershipAssignmentEvent);
+        EventDTO membershipAssignmentEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipAssignmentEvent", membershipAssignmentEvent);
 
         events.saveToRepository(membershipAssignmentEventDTO);
     }
