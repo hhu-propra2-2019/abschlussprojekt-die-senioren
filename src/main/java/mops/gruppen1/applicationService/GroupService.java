@@ -213,7 +213,6 @@ public class GroupService {
     }
 
     public void resignMembership(String userName, String groupId) {
-
         ValidationResult validationResult = new ValidationResult();
         validationResult = isGroupActive(groupId, validationResult);
         validationResult = isMember(userName, groupId, validationResult);
@@ -259,6 +258,31 @@ public class GroupService {
         EventDTO membershipRejectionEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipRejectionEvent", membershipRejectionEvent);
 
         events.saveToRepository(membershipRejectionEventDTO);
+    }
+
+    public void deleteMembership(String userName, String groupId, String deletedBy) {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = membershipIsActive(userName, groupId, validationResult);
+        validationResult = membershipIsActive(deletedBy, groupId, validationResult);
+        validationResult = isAdmin(deletedBy, groupId, validationResult);
+
+        try {
+            performMembershipDeletionEvent(userName, groupId, deletedBy);
+        }
+        catch (RuntimeException exception){}
+    }
+
+    private void performMembershipDeletionEvent(String userName, String groupId, String deletedBy) {
+        MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(groupId, userName,deletedBy);
+        memberDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipDeletionEventDTO = events.createEventDTO(userName, groupId, timestamp, "MemberDeletionEvent", memberDeletionEvent);
+
+        events.saveToRepository(membershipDeletionEventDTO);
     }
 
     public void acceptMembership(String userName, String groupId) {
