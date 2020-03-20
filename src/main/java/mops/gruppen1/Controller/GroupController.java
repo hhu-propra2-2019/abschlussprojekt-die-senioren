@@ -2,6 +2,7 @@ package mops.gruppen1.Controller;
 
 import lombok.AllArgsConstructor;
 import mops.gruppen1.applicationService.GroupService;
+import mops.gruppen1.domain.Module;
 import mops.gruppen1.security.Account;
 import mops.gruppen1.domain.*;
 import org.keycloak.KeycloakPrincipal;
@@ -10,12 +11,10 @@ import org.springframework.context.annotation.Role;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -52,11 +51,34 @@ public class GroupController {
     public String groupCreation (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+            //Get all users from user - Hashmap
+            model.addAttribute("allUsers",groupService.getUsers().values());
+
         }
         if (search.isPresent()) {
            return searchGroups(search);
         }
         return "erstellen";
+    }
+
+    @PostMapping("/erstellen")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
+    public String groupCreation (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search,
+                                 @RequestParam(value = "groupname") String groupName,
+                                 @RequestParam(value = "groupModule") String module,
+                                 @RequestParam(value = "groupType") String groupType,
+                                 @RequestParam(value = "groupDescription") String groupDescription) {
+        if (token != null) {
+            Account account = createAccountFromPrincipal(token);
+            model.addAttribute("account", account);
+            model.addAttribute("account", account);
+            //account - Name gleich Username
+            groupService.createGroup(groupDescription,groupName,module,account.getName(),groupType);
+        }
+        if (search.isPresent()) {
+            return searchGroups(search);
+        }
+        return "redirect:/gruppen1/";
     }
 
     @GetMapping("/description")
