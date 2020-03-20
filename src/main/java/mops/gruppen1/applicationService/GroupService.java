@@ -130,6 +130,18 @@ public class GroupService {
         validationResult.addError("Der Nutzer ist nicht Mitglied der Gruppe.");
         return validationResult;
     }
+    private ValidationResult isNotMember(String userName, String groupId, ValidationResult validationResult) {
+        User user = users.get(userName);
+        List<Membership> memberships = userToMembers.get(userName);
+        Group group = groups.get(groupId);
+
+        boolean isNotMember = getMembership(memberships, group) == null;
+        if (isNotMember) {
+            return validationResult;
+        }
+        validationResult.addError("Der Nutzer ist bereits Mitglied der Gruppe.");
+        return validationResult;
+    }
 
     private Membership getMembership(List<Membership> memberships, Group group) {
         Membership membership = null;
@@ -152,15 +164,21 @@ public class GroupService {
     }
 
     public void assignMembership(String userName, String groupId, String membershipType) {
-
-
-        /* todo check if GroupType is PUBLIC and GroupStatus is 'active'
+        /*
             todo check if group is assigned to a module/course, user has to be assigned to it as well
-             todo check if user is already a member of the group
-             todo check if group is part of hashmaps
          */
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isPublic(groupId, validationResult);
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = isNotMember(userName, groupId, validationResult);
 
+        try {
+            performMembershipAssignmentEvent(userName, groupId, membershipType);
+        }
+        catch (RuntimeException exception){}
+    }
 
+    private void performMembershipAssignmentEvent(String userName, String groupId, String membershipType){
         MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, userName, membershipType);
         membershipAssignmentEvent.execute(groupToMembers, userToMembers, users, groups);
 
