@@ -118,7 +118,17 @@ public class GroupService {
             return validationResult;
         }
         return validationResult;
+    }
 
+    public ValidationResult createMaterial(String groupId, String createdBy, String link) {
+        ValidationResult validationResult = isAdmin(createdBy, groupId, new ValidationResult());
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = hasNoMaterial(groupId, validationResult);
+        if (validationResult.isValid()) {
+            performAssignmentCreationEvent(groupId, createdBy, link);
+            return validationResult;
+        }
+        return validationResult;
     }
 
     private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
@@ -149,6 +159,26 @@ public class GroupService {
             return validationResult;
         }
         validationResult.addError("Die Gruppe hat bereits ein Forum.");
+        return validationResult;
+    }
+
+    private ValidationResult hasMaterial(String groupId, ValidationResult validationResult) {
+        Group group = groups.get(groupId);
+        boolean hasMaterial = group.getMaterial() != null;
+        if (hasMaterial) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe hat keine Materialsammlung.");
+        return validationResult;
+    }
+
+    private ValidationResult hasNoMaterial(String groupId, ValidationResult validationResult) {
+        Group group = groups.get(groupId);
+        boolean hasNoMaterial = group.getMaterial() == null;
+        if (hasNoMaterial) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe hat bereits eine Materialsammlung.");
         return validationResult;
     }
 
@@ -351,6 +381,17 @@ public class GroupService {
         EventDTO assignmentCreationEventDTO = events.createEventDTO(createdBy, groupId, timestamp, "AssignmentCreationEvent", assignmentCreationEvent);
 
         events.saveToRepository(assignmentCreationEventDTO);
+    }
+
+    private void performMaterialCreationEvent(String groupId, String createdBy, String link) {
+        MaterialCreationEvent materialCreationEvent = new MaterialCreationEvent(groupId, link, createdBy);
+        materialCreationEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO materialCreationEventDTO = events.createEventDTO(createdBy, groupId, timestamp, "MaterialCreationEvent", materialCreationEvent);
+
+        events.saveToRepository(materialCreationEventDTO);
     }
 
 }
