@@ -11,10 +11,13 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Member;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -80,9 +83,10 @@ public class GroupController {
         return "changeMemberships";
     }
 
-    @GetMapping("/viewer")
+    @GetMapping("/viewer/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String viewerView (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
+    public String viewerView (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search,
+                              @PathVariable("id") long id) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
         }
@@ -92,9 +96,10 @@ public class GroupController {
         return "gruppenViewer";
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/admin/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String adminView (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
+    public String adminView (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search,
+                             @PathVariable("id") long id) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
         }
