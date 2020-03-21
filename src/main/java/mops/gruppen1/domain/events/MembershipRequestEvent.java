@@ -1,5 +1,8 @@
 package mops.gruppen1.domain.events;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import mops.gruppen1.domain.*;
 
 import java.util.HashMap;
@@ -10,6 +13,9 @@ import java.util.List;
  * Create a Membership with Status 'PENDING'
  * Add Membership to groupToMembers and userToMembers
  */
+@AllArgsConstructor
+@Getter
+@EqualsAndHashCode
 public class MembershipRequestEvent implements IEvent {
 
     private String groupId;
