@@ -24,25 +24,22 @@ public class EventService {
 
     /**
      * Init EventService
-     * @param eventRepo
+     * @param eventRepo the CrudRepository
      */
     public EventService(EventRepo eventRepo) {
         this.eventRepo = eventRepo;
-        events = new ArrayList<IEvent>();
+        events = new ArrayList<>();
     }
 
     /**
      * Load all events from the EventRepo
+     * TODO: 16.03.20 Investigate if we have to sort eventDTOs by id at this point
      */
     public void loadEvents() {
 
         //Get all EventDTO´s from EventRepo
         Iterable<EventDTO> eventDTOS = eventRepo.findAll();
 
-
-        /**
-         * @// TODO: 16.03.20 Investigate if we have to sort eventDTOs by id at this point
-         */
         //Fill list of events
         eventDTOS.forEach(e ->  {
             IEvent event = transform(e);
@@ -51,8 +48,8 @@ public class EventService {
     }
 
     /**
-     * Transformation of generic EventDTO to specifc EventType
-     * @param eventDTO
+     * Transformation of generic EventDTO to specific EventType
+     * @param eventDTO the DTO to be transformed
      * @return Returns initialized Event
      */
     public IEvent transform(EventDTO eventDTO) {
@@ -76,11 +73,24 @@ public class EventService {
         }
     }
 
+    /**
+     * stores the EventDTO to the CrudRepository EventRepo
+     * @param eventDTO the EventDTO to be saved
+     */
     public void saveToRepository(EventDTO eventDTO) {
         eventRepo.save(eventDTO);
     }
 
 
+    /**
+     * creates the EventDTO
+     * @param userName necessary parameter for all EventDTOs
+     * @param groupID necessary parameter for all EventDTOs
+     * @param timestamp necessary parameter for all EventDTOs
+     * @param eventType necessary parameter for all EventDTOs
+     * @param event necessary parameter for all EventDTOs
+     * @return the created EventDTO by objectMapper and Json
+     */
     public EventDTO createEventDTO(String userName, String groupID, LocalDateTime timestamp, String eventType, IEvent event) {
         ObjectMapper objectMapper = new ObjectMapper();
         String payload = "";
