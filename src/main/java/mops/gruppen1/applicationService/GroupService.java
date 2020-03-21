@@ -7,6 +7,8 @@ import mops.gruppen1.domain.*;
 import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -121,6 +123,7 @@ public class GroupService {
         validationResult.addError("Der Nutzer ist nicht Mitglied der Gruppe.");
         return validationResult;
     }
+
     private ValidationResult isNotMember(String userName, String groupId, ValidationResult validationResult) {
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
@@ -145,16 +148,8 @@ public class GroupService {
         return membership;
     }
 
-    public void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
-        GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
-        groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
-        LocalDateTime timestamp = LocalDateTime.now();
 
-        EventDTO groupCreationEventDTO = events.createEventDTO(groupCreator, groupCreationEvent.getGroupID(), timestamp, "GroupCreationEvent", groupCreationEvent);
-        events.saveToRepository(groupCreationEventDTO);
-    }
-
-    public void assignMembership(String userName, String groupId, String membershipType) {
+    public ValidationResult assignMembership(String userName, String groupId, String membershipType) {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
@@ -163,11 +158,18 @@ public class GroupService {
         validationResult = isGroupActive(groupId, validationResult);
         validationResult = isNotMember(userName, groupId, validationResult);
 
-        try {
-            performMembershipAssignmentEvent(userName, groupId, membershipType);
+        if(validationResult.isValid()) {
+            try {
+                performMembershipAssignmentEvent(userName, groupId, membershipType);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
         }
-        catch (RuntimeException exception){}
+        return validationResult;
     }
+
+
 
     private void performMembershipAssignmentEvent(String userName, String groupId, String membershipType){
         MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, userName, membershipType);
@@ -180,7 +182,7 @@ public class GroupService {
         events.saveToRepository(membershipAssignmentEventDTO);
     }
 
-    public void requestMembership(String userName, String groupId, String membershipType) {
+    public ValidationResult requestMembership(String userName, String groupId, String membershipType) {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
@@ -189,10 +191,15 @@ public class GroupService {
         validationResult = isGroupActive(groupId, validationResult);
         validationResult = isNotMember(userName, groupId, validationResult);
 
-        try {
-            performMembershipRequestEvent(userName, groupId, membershipType);
+        if(validationResult.isValid()) {
+            try {
+                performMembershipRequestEvent(userName, groupId, membershipType);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
         }
-        catch (RuntimeException exception){}
+        return validationResult;
     }
 
     private void performMembershipRequestEvent(String userName, String groupId, String membershipType){
@@ -206,16 +213,21 @@ public class GroupService {
         events.saveToRepository(membershipRequestEventDTO);
     }
 
-    public void resignMembership(String userName, String groupId) {
+    public ValidationResult resignMembership(String userName, String groupId) {
         ValidationResult validationResult = new ValidationResult();
         validationResult = isGroupActive(groupId, validationResult);
         validationResult = isMember(userName, groupId, validationResult);
         validationResult = membershipIsActive(userName, groupId, validationResult);
 
-        try {
-            performMembershipResignmentEvent(userName, groupId);
+        if(validationResult.isValid()) {
+            try {
+                performMembershipResignmentEvent(userName, groupId);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
         }
-        catch (RuntimeException exception){}
+        return validationResult;
     }
 
     private void performMembershipResignmentEvent(String userName, String groupId) {
@@ -230,18 +242,25 @@ public class GroupService {
     }
 
 
-    public void rejectMembership(String userName, String groupId) {
+    public ValidationResult rejectMembership(String userName, String groupId) {
 
         ValidationResult validationResult = new ValidationResult();
         validationResult = isRestricted(groupId, validationResult);
         validationResult = isGroupActive(groupId, validationResult);
         validationResult = membershipIsPending(userName, groupId, validationResult);
 
-        try {
-            performMembershipRejectEvent(userName, groupId);
+        if(validationResult.isValid()) {
+            try {
+                performMembershipRejectEvent(userName, groupId);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
         }
-        catch (RuntimeException exception){}
+        return validationResult;
     }
+
+
 
     private void performMembershipRejectEvent(String userName, String groupId) {
         MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, userName);
@@ -254,7 +273,7 @@ public class GroupService {
         events.saveToRepository(membershipRejectionEventDTO);
     }
 
-    public void deleteMembership(String userName, String groupId, String deletedBy) {
+    public ValidationResult deleteMembership(String userName, String groupId, String deletedBy) {
 
         ValidationResult validationResult = new ValidationResult();
         validationResult = isGroupActive(groupId, validationResult);
@@ -262,11 +281,17 @@ public class GroupService {
         validationResult = membershipIsActive(deletedBy, groupId, validationResult);
         validationResult = isAdmin(deletedBy, groupId, validationResult);
 
-        try {
-            performMembershipDeletionEvent(userName, groupId, deletedBy);
+        if(validationResult.isValid()) {
+            try {
+                performMembershipDeletionEvent(userName, groupId, deletedBy);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
         }
-        catch (RuntimeException exception){}
+        return validationResult;
     }
+
 
     private void performMembershipDeletionEvent(String userName, String groupId, String deletedBy) {
         MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(groupId, userName,deletedBy);
@@ -279,7 +304,7 @@ public class GroupService {
         events.saveToRepository(membershipDeletionEventDTO);
     }
 
-    public void updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
+    public ValidationResult updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
 
         ValidationResult validationResult = new ValidationResult();
         validationResult = isGroupActive(groupId, validationResult);
@@ -287,11 +312,18 @@ public class GroupService {
         validationResult = membershipIsActive(updatedBy, groupId, validationResult);
         validationResult = isAdmin(updatedBy, groupId, validationResult);
 
-        try {
-            performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
+        if(validationResult.isValid()) {
+            try {
+                performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
         }
-        catch (RuntimeException exception){}
+        return validationResult;
     }
+
+
 
     private void performMembershipUpdateEvent(String userName, String groupId, String deletedBy, String updatedTo) {
         MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName,deletedBy, updatedTo);
@@ -304,18 +336,25 @@ public class GroupService {
         events.saveToRepository(membershipUpdateEventDTO);
     }
 
-    public void acceptMembership(String userName, String groupId) {
+    public ValidationResult acceptMembership(String userName, String groupId) {
 
         ValidationResult validationResult = new ValidationResult();
         validationResult = isRestricted(groupId, validationResult);
         validationResult = isGroupActive(groupId, validationResult);
         validationResult = membershipIsPending(userName, groupId, validationResult);
 
-        try {
-            performMembershipAcceptanceEvent(userName, groupId);
+        if(validationResult.isValid()) {
+            try {
+                performMembershipAcceptanceEvent(userName, groupId);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
         }
-        catch (RuntimeException exception){}
+        return validationResult;
     }
+
+
 
     private void performMembershipAcceptanceEvent(String userName, String groupId){
         MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName);
@@ -328,16 +367,5 @@ public class GroupService {
         events.saveToRepository(membershipAcceptanceEventDTO);
     }
 
-    public void deleteGroup(String userName, String groupId) {
-        GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
-        groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
-
-        LocalDateTime timestamp = LocalDateTime.now();
-
-        EventDTO groupDeletionEventDTO = events.createEventDTO(userName, groupId, timestamp, "GroupDeletionEvent", groupDeletionEvent);
-
-        events.saveToRepository(groupDeletionEventDTO);
-
-    }
 
 }
