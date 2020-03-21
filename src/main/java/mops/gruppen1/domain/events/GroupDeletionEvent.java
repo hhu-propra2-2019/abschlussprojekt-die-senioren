@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 /**
  * Change attribute GroupStatus of Group to 'deactivated'. NO deletion from datastructures
+ * Delete UserMemberships for members of that Group
  */
 public class GroupDeletionEvent implements IEvent {
 
