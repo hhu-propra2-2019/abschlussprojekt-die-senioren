@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * For public Groups:
  * Create a Membership with Status 'ACTIVE'
- * Add Membership to groupToMembers and userToMembers
+ * Add Membership to groupToMembers and userToMembers and the group's list of members
  */
 @AllArgsConstructor
 public class MembershipAssignmentEvent implements IEvent {
@@ -18,7 +18,14 @@ public class MembershipAssignmentEvent implements IEvent {
     private String userName;
     private String membershipType;
 
-
+    /**
+     * Adds a new membership with Status ACTIVE in all datastructures
+     *
+     * @param groupToMembers Hashmap that maps a String(groupId) to a list of memberships.
+     * @param userToMembers  Hashmap that maps a String(userId) to a list of memberships
+     * @param users          Hashmap that maps a String(userId) to a user.
+     * @param groups         Hashmap that maps a String(groupId) to memberships within the group.
+     */
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
