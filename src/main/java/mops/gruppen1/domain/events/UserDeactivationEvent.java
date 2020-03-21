@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Remove User from HashSet users
  * Remove Memberships ?
- * DELETE THIS EVENT?
+ * TODO DELETE THIS EVENT?
  */
 public class UserDeactivationEvent implements IEvent {
 
