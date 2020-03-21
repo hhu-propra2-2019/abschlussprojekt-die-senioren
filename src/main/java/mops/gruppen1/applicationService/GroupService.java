@@ -9,6 +9,7 @@ import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -302,6 +303,19 @@ public class GroupService {
         return validationResult;
     }
 
+    private ValidationResult isNotMember(String userName, String groupId, ValidationResult validationResult) {
+        User user = users.get(userName);
+        List<Membership> memberships = userToMembers.get(userName);
+        Group group = groups.get(groupId);
+
+        boolean isNotMember = getMembership(memberships, group) == null;
+        if (isNotMember) {
+            return validationResult;
+        }
+        validationResult.addError("Der Nutzer ist bereits Mitglied der Gruppe.");
+        return validationResult;
+    }
+
     private Membership getMembership(List<Membership> memberships, Group group) {
         Membership membership = null;
         for (Membership m : memberships) {
@@ -322,27 +336,7 @@ public class GroupService {
         events.saveToRepository(groupCreationEventDTO);
     }
 
-    public void assignMembership(String userName, Group group, String membershipType) {
-
-
-        /* todo check if GroupType is PUBLIC and GroupStatus is 'active'
-            todo check if group is assigned to a module/course, user has to be assigned to it as well
-             todo check if user is already a member of the group
-             todo check if group is part of hashmaps
-         */
-        String groupID = group.getGroupId().toString();
-
-        MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupID, userName, membershipType);
-        membershipAssignmentEvent.execute(groupToMembers, userToMembers, users, groups);
-
-        LocalDateTime timestamp = LocalDateTime.now();
-
-        EventDTO membershipAssignmentEventDTO = events.createEventDTO(userName, groupID, timestamp, "MembershipAssignmentEvent", membershipAssignmentEvent);
-
-        events.saveToRepository(membershipAssignmentEventDTO);
-    }
-
-    public void performGroupDeletionEvent(String userName, String groupId) {
+    private void performGroupDeletionEvent(String userName, String groupId) {
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
         groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -441,5 +435,220 @@ public class GroupService {
 
         events.saveToRepository(userCreationEventDTO);
     }
+
+    public ValidationResult assignMembership(String userName, String groupId, String membershipType) {
+        /*
+            TODO check if group is assigned to a module/course, user has to be assigned to it as well
+         */
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isPublic(groupId, validationResult);
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = isNotMember(userName, groupId, validationResult);
+
+        if(validationResult.isValid()) {
+            try {
+                performMembershipAssignmentEvent(userName, groupId, membershipType);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
+        }
+        return validationResult;
+    }
+
+    private void performMembershipAssignmentEvent(String userName, String groupId, String membershipType){
+        MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, userName, membershipType);
+        membershipAssignmentEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipAssignmentEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipAssignmentEvent", membershipAssignmentEvent);
+
+        events.saveToRepository(membershipAssignmentEventDTO);
+    }
+
+    public ValidationResult requestMembership(String userName, String groupId, String membershipType) {
+        /*
+            TODO check if group is assigned to a module/course, user has to be assigned to it as well
+         */
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isRestricted(groupId, validationResult);
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = isNotMember(userName, groupId, validationResult);
+
+        if(validationResult.isValid()) {
+            try {
+                performMembershipRequestEvent(userName, groupId, membershipType);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
+        }
+        return validationResult;
+    }
+
+    private void performMembershipRequestEvent(String userName, String groupId, String membershipType){
+        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType);
+        membershipRequestEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipRequestEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipRequestEvent", membershipRequestEvent);
+
+        events.saveToRepository(membershipRequestEventDTO);
+    }
+
+    public ValidationResult resignMembership(String userName, String groupId) {
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = isMember(userName, groupId, validationResult);
+        validationResult = membershipIsActive(userName, groupId, validationResult);
+
+        if(validationResult.isValid()) {
+            try {
+                performMembershipResignmentEvent(userName, groupId);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
+        }
+        return validationResult;
+    }
+
+    private void performMembershipResignmentEvent(String userName, String groupId) {
+        MemberResignmentEvent memberResignmentEvent = new MemberResignmentEvent(groupId, userName);
+        memberResignmentEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO memberResignmentEventDTO = events.createEventDTO(userName, groupId, timestamp, "MemberResignmentEvent", memberResignmentEvent);
+
+        events.saveToRepository(memberResignmentEventDTO);
+    }
+
+    public ValidationResult rejectMembership(String userName, String groupId) {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isRestricted(groupId, validationResult);
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = membershipIsPending(userName, groupId, validationResult);
+
+        if(validationResult.isValid()) {
+            try {
+                performMembershipRejectEvent(userName, groupId);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
+        }
+        return validationResult;
+    }
+
+    private void performMembershipRejectEvent(String userName, String groupId) {
+        MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, userName);
+        membershipRejectionEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipRejectionEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipRejectionEvent", membershipRejectionEvent);
+
+        events.saveToRepository(membershipRejectionEventDTO);
+    }
+
+    public ValidationResult deleteMembership(String userName, String groupId, String deletedBy) {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = membershipIsActive(userName, groupId, validationResult);
+        validationResult = membershipIsActive(deletedBy, groupId, validationResult);
+        validationResult = isAdmin(deletedBy, groupId, validationResult);
+
+        if(validationResult.isValid()) {
+            try {
+                performMembershipDeletionEvent(userName, groupId, deletedBy);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
+        }
+        return validationResult;
+    }
+
+
+    private void performMembershipDeletionEvent(String userName, String groupId, String deletedBy) {
+        MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(groupId, userName,deletedBy);
+        memberDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipDeletionEventDTO = events.createEventDTO(userName, groupId, timestamp, "MemberDeletionEvent", memberDeletionEvent);
+
+        events.saveToRepository(membershipDeletionEventDTO);
+    }
+
+    public ValidationResult updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = membershipIsActive(userName, groupId, validationResult);
+        validationResult = membershipIsActive(updatedBy, groupId, validationResult);
+        validationResult = isAdmin(updatedBy, groupId, validationResult);
+
+        if(validationResult.isValid()) {
+            try {
+                performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
+        }
+        return validationResult;
+    }
+
+    private void performMembershipUpdateEvent(String userName, String groupId, String deletedBy, String updatedTo) {
+        MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName,deletedBy, updatedTo);
+        membershipUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipUpdateEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipUpdateEvent", membershipUpdateEvent);
+
+        events.saveToRepository(membershipUpdateEventDTO);
+    }
+
+    public ValidationResult acceptMembership(String userName, String groupId) {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = isRestricted(groupId, validationResult);
+        validationResult = isGroupActive(groupId, validationResult);
+        validationResult = membershipIsPending(userName, groupId, validationResult);
+
+        if(validationResult.isValid()) {
+            try {
+                performMembershipAcceptanceEvent(userName, groupId);
+            }
+            catch (RuntimeException exception){
+                validationResult.addError("Unexpected failure");
+            }
+        }
+        return validationResult;
+    }
+
+
+
+    private void performMembershipAcceptanceEvent(String userName, String groupId){
+        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName);
+        membershipAcceptanceEvent.execute(groupToMembers, userToMembers, users, groups);
+
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO membershipAcceptanceEventDTO = events.createEventDTO(userName, groupId, timestamp, "MembershipAcceptanceEvent", membershipAcceptanceEvent);
+
+        events.saveToRepository(membershipAcceptanceEventDTO);
+    }
+
+
+}
+
 
 }
