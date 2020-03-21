@@ -11,8 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * create new Group with attributes groupId, name, description and, if added, GroupStatus (to 'active')
- * Add Group to HashSet Groups
+ * Create new Group with attributes groupID, description, name, groupCreator, groupType
+ * GroupStatus 'ACTIVE' and empty List of members
+ * Add Group to HashMaps groups and groupToMembers
  */
 @Getter
 @EqualsAndHashCode

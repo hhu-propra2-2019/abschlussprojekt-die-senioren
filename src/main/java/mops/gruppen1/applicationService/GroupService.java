@@ -9,7 +9,6 @@ import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -327,7 +326,7 @@ public class GroupService {
         return membership;
     }
 
-    public void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
+    private void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
         LocalDateTime timestamp = LocalDateTime.now();
@@ -646,9 +645,6 @@ public class GroupService {
 
         events.saveToRepository(membershipAcceptanceEventDTO);
     }
-
-
 }
 
 
-}

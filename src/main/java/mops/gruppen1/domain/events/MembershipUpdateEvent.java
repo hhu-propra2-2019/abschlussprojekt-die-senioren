@@ -17,51 +17,17 @@ import java.util.List;
 public class MembershipUpdateEvent implements IEvent {
 
     private String groupId;
-    private String memberId;
+    private String userName;
     private String updatedBy;
     private String updatedTo;
 
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
             List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-        //TODO Ziehe Suche nach Updater & Prüfung ob Admin in den Groupservice
         //TODO Prüfe, dass ein Member sich selbst nicht ändern kann(updatedBy ungleich memberId)
-        //Membership updater = findUpdater(groups);
-        //if (updater != null && updater.getMembershipType().equals(MembershipType.ADMIN)) {
-        Membership toBeUpdated = findUpdatedMember(groups);
-        changeMembershipType(toBeUpdated);
-    }
-
-    /**
-     * Finds the member that is to be updated in a group.
-     *
-     * @param groups The group in which a member is searched for.
-     * @return The member that matches the memberId.
-     */
-    private Membership findUpdatedMember(HashMap<String, Group> groups) {
-        Group group = groups.get(groupId);
-        Membership membership = group.getMembers().stream()
-                .filter(member -> memberId.equals(member.getMemberid().toString()))
-                .findFirst()
-                .orElse(null);
-
-        return membership;
-    }
-
-    /**
-     * Finds the member that is updating a member.
-     *
-     * @param groups The group in which a member is searched for.
-     * @return The member that matches updatedBy.
-     */
-    private Membership findUpdater(HashMap<String, Group> groups) {
-        Group group = groups.get(groupId);
-        Membership membership = group.getMembers().stream()
-                .filter(member -> updatedBy.equals(member.getMemberid().toString()))
-                .findFirst()
-                .orElse(null);
-
-        return membership;
+        List<Membership> memberships = userToMembers.get(userName);
+        Membership membership= getMembership(memberships, groupId);
+        changeMembershipType(membership);
     }
 
     /**
@@ -70,10 +36,29 @@ public class MembershipUpdateEvent implements IEvent {
      * @param membership The membership whose type is to be changes.
      */
     private void changeMembershipType(Membership membership) {
-        if (membership.getMembershipType().equals(MembershipType.ADMIN) && updatedTo.equalsIgnoreCase("VIEWER")) {
+        if (updatedTo.equalsIgnoreCase("VIEWER")) {
             membership.setMembershipType(MembershipType.VIEWER);
-        } else if (membership.getMembershipType().equals(MembershipType.VIEWER) && updatedTo.equalsIgnoreCase("ADMIN")) {
+        } else if (updatedTo.equalsIgnoreCase("ADMIN")) {
             membership.setMembershipType(MembershipType.ADMIN);
         }
     }
+
+    /**
+     * finds the membership of the user in the group
+     * @param memberships The user's memberships
+     * @param groupId The group in which the user becomes ADMIN or VIEWER
+     * @return the membership belonging to groupID and contained in memberships
+     */
+    private Membership getMembership(List<Membership> memberships, String groupId) {
+        Membership membership = null;
+        for (Membership m : memberships) {
+            if (m.getGroup().getGroupId().toString().equals(groupId)) {
+                membership = m;
+                break;
+            }
+        }
+        return membership;
+    }
+
+
 }
