@@ -342,7 +342,7 @@ public class GroupService {
         events.saveToRepository(membershipAssignmentEventDTO);
     }
 
-    public void performGroupDeletionEvent(String userName, String groupId) {
+    private void performGroupDeletionEvent(String userName, String groupId) {
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
         groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
