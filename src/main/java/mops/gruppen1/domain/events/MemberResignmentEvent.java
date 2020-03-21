@@ -52,6 +52,12 @@ public class MemberResignmentEvent implements IEvent {
         membership.setMembershipStatus(MembershipStatus.DEACTIVATED);
     }
 
+    /**
+     * finds the membership of the user in the group they are leaving
+     * @param memberships The user's memberships
+     * @param groupId The Group the user is leaving
+     * @return the membership belonging to groupID and contained in memberships
+     */
     private Membership getMembership(List<Membership> memberships, String groupId) {
         Membership membership = null;
         for (Membership m : memberships) {
