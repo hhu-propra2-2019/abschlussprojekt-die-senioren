@@ -43,6 +43,12 @@ public class MembershipUpdateEvent implements IEvent {
         }
     }
 
+    /**
+     * finds the membership of the user in the group
+     * @param memberships The user's memberships
+     * @param groupId The group in which the user becomes ADMIN or VIEWER
+     * @return the membership belonging to groupID and contained in memberships
+     */
     private Membership getMembership(List<Membership> memberships, String groupId) {
         Membership membership = null;
         for (Membership m : memberships) {
