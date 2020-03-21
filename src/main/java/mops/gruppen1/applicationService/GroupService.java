@@ -1,5 +1,4 @@
 package mops.gruppen1.applicationService;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,7 +7,6 @@ import mops.gruppen1.domain.*;
 import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -38,10 +36,6 @@ public class GroupService {
                 users,
                 groups
         ));
-    }
-
-    public void createGroup() {
-
     }
 
     private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
@@ -162,7 +156,7 @@ public class GroupService {
 
     public void assignMembership(String userName, String groupId, String membershipType) {
         /*
-            todo check if group is assigned to a module/course, user has to be assigned to it as well
+            TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
         ValidationResult validationResult = new ValidationResult();
         validationResult = isPublic(groupId, validationResult);
@@ -188,7 +182,7 @@ public class GroupService {
 
     public void requestMembership(String userName, String groupId, String membershipType) {
         /*
-            todo check if group is assigned to a module/course, user has to be assigned to it as well
+            TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
         ValidationResult validationResult = new ValidationResult();
         validationResult = isRestricted(groupId, validationResult);
@@ -334,10 +328,7 @@ public class GroupService {
         events.saveToRepository(membershipAcceptanceEventDTO);
     }
 
-
-
-    public void deleteGroup(String userName, UUID groupID) {
-        String groupId = groupID.toString();
+    public void deleteGroup(String userName, String groupId) {
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
         groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
