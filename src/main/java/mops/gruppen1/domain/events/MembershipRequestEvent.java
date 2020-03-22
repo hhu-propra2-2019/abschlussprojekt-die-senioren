@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * For restricted Groups:
  * Create a Membership with Status 'PENDING'
- * Add Membership to groupToMembers and userToMembers
+ * Add Membership to groupToMembers, userToMembers and group's list of members
  */
 @AllArgsConstructor
 @Getter
@@ -30,8 +30,8 @@ public class MembershipRequestEvent implements IEvent {
 
         Membership membership = new Membership(user, group, membershipType, MembershipStatus.PENDING);
         group.addMember(membership);
-        groupToMembers.get(group).add(membership);
-        userToMembers.get(user).add(membership);
+        groupToMembers.get(groupId).add(membership);
+        userToMembers.get(userName).add(membership);
 
     }
 }
