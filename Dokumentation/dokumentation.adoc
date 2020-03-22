@@ -1,0 +1,6 @@
+== Dokumentation der Software -  des Gruppenbildungsprojekt
+
+Dieses Dokument dient sowohl der Dokumentation, als auch der Kommunikation der
+Software - Archtitektur des Gruppenbildungs - Projekts. +
+Die vorliegende Dokumentation orientiert sich dabei am https://www.arc42.de[arc42 - Template] für Software -
+Architektur Dokumentationen.
