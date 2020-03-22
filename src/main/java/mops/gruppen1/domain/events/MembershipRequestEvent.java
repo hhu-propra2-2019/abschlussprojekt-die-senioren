@@ -24,14 +24,21 @@ public class MembershipRequestEvent implements IEvent {
 
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+
+        // TODO: move check to Group Service ?
+        if (!users.containsKey(userName)) {
+            System.out.println(userName + " NICHT drin");
+            User newUser = new User(new Username("username"));
+            users.put(userName, newUser);
+        }
         Group group = groups.get(groupId);
         User user = users.get(userName);
         MembershipType membershipType = MembershipType.valueOf(this.membershipType);
-
         Membership membership = new Membership(user, group, membershipType, MembershipStatus.PENDING);
+
         group.addMember(membership);
-        groupToMembers.get(groupId).add(membership);
-        userToMembers.get(userName).add(membership);
+        //groupToMembers.get(groupId).add(membership);
+        //userToMembers.get(userName).add(membership);
 
     }
 }

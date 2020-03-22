@@ -35,5 +35,13 @@ public class MembershipRequestEventTest {
 
         //Act
         membershipRequestEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
-   }
+
+        //Assert
+        System.out.println(testSetup.groups.get(groupThreeID).getMembers().get(1).getUser().getUsername().getUsername()); // Milten
+        System.out.println(testSetup.groups.get(groupThreeID).getMembers().get(2)); // Membership not null
+        System.out.println("USER:" + testSetup.groups.get(groupThreeID).getMembers().get(2).getUser()); // should not be null !
+
+        assertThat(testSetup.groups.get(groupThreeID).getMembers().get(2)).isNotNull();
+
+    }
 }
