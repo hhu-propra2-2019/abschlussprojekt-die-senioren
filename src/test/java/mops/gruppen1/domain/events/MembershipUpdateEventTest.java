@@ -92,7 +92,7 @@ class MembershipUpdateEventTest {
                 updatedBy2, updatedToViewer);
 
         //act
-        //First: Change viewer to admin who will after that change antoher admin to viewer.
+        //First: Change viewer to admin who will after that change another admin to viewer.
         membershipUpdateEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users,
                 testSetup.groups);
         membershipUpdateEvent2.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users,
