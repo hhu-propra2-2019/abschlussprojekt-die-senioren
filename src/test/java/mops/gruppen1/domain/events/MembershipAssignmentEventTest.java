@@ -40,5 +40,6 @@ public class MembershipAssignmentEventTest {
 
         //assert
         assertThat(groupOne.getMembers().stream().filter(membership -> membership.getUser().equals(newUser)));
+        assertThat(groupOne.getMembers().stream().filter(membership -> membership.getUser().equals(new User(new Username("garfield")))));
     }
 }
