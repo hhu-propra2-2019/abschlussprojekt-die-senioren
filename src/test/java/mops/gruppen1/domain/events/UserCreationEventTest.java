@@ -30,6 +30,6 @@ class UserCreationEventTest {
         assertThat(testSetup.users.get("Ich-bin-der-Neue")).isNotNull();
         assertThat(testSetup.userToMembers.containsKey("Ich-bin-der-Neue")).isTrue();
         assertThat(testSetup.userToMembers.get("Ich-bin-der-Neue")).isNotNull();
-        assertThat(testSetup.userToMembers.get("Ich-bin-der-Neue")).isEmpty();
+        assertThat(testSetup.userToMembers.get("Ich-bin-der-Neue")).isEmpty(); // hat keine Mitgliedschaft
     }
 }
