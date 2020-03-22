@@ -27,6 +27,7 @@ public class MembershipRequestEvent implements IEvent {
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
 
         // TODO: move check to Group Service ?
+        // what about group existence in group, needs to be checked?
         if (!users.containsKey(userName)) {
             User newUser = new User(new Username(userName));
             users.put(userName, newUser);

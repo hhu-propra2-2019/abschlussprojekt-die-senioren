@@ -38,10 +38,13 @@ public class MembershipRequestEventTest {
         //Assert
         assertThat(testSetup.groups.get(groupThreeID).getMembers().get(2)).isNotNull();
         assertThat(testSetup.groups.get(groupThreeID).getMembers().get(2).getUser().getUsername().getUsername()).isEqualTo("Willi will beitreten");
+        assertThat(testSetup.groups.get(groupThreeID).getMembers().get(2).getMembershipStatus()).isEqualTo(MembershipStatus.PENDING);
 
         assertThat(testSetup.groupToMembers.get(groupThreeID).get(2).getUser()).isNotNull();
         assertThat(testSetup.groupToMembers.get(groupThreeID).get(2).getUser().getUsername().getUsername()).isEqualTo("Willi will beitreten");
+        assertThat(testSetup.groupToMembers.get(groupThreeID).get(2).getMembershipStatus()).isEqualTo(MembershipStatus.PENDING);
 
         assertThat(testSetup.userToMembers.get("Willi will beitreten").get(0).getGroup().getGroupId().toString()).isEqualTo(groupThreeID);
+        assertThat(testSetup.userToMembers.get("Willi will beitreten").get(0).getMembershipStatus()).isEqualTo(MembershipStatus.PENDING);
     }
 }
