@@ -7,7 +7,11 @@ Architektur Dokumentationen.
 
 == Einführung und Ziele
 
-=== Geschäftsziele
+Dieser Abschnitt führt in die Aufgabenstellung des
+Gruppenbildungsprojekts ein und soll die Ziele, sowohl
+die geschäftlichen als auch Qualitätsziele, darlegen.
+
+=== Aufgabenstellung
 
 Das primäre Ziel des Projektes ist, eine Self-Contained-System bereitzustellen, welches die
 Funktionen der
@@ -22,7 +26,7 @@ vereint, sodass diese Funktionalitäten in der Zukunft nicht mehr verstreut sind
 Systeme. Dies soll das Organisieren von eigenen Lerngruppen und das gemeinsame Arbeiten an
 Vorlesungsinhalten und/oder Übungsblättern erleichtern.
 
-Darüber hinaus ist ein weiteres Ziel, dass dieses System Schnittstellen zu weiteren Systemen
+Ein weiteres Ziel ist, dass dieses System Schnittstellen zu weiteren Systemen
 bieten soll, in denen die studentischen Gruppen relevant sind. +
 Diese Systeme sind:
 
@@ -30,3 +34,22 @@ Diese Systeme sind:
 * Terminfindung
 * Foren
 * Abgabesystem
+
+=== Qualitätsziele
+
+Die folgende Tabelle beschreibt die Qualitätsziele des
+Gruppenbildungssystems. +
+Dabei spielt die Reihenfolge *keine Rolle* bezüglich der
+Wichtigkeit der Ziele.
+
+|===
+|*Qualitätsziel*|*Motivation & Erläuterung*
+|Leicht zugänglich & übersichtlich| User des Gruppenbildungssystems sollen
+sich schnell zurecht finden. Dabei soll die UI nur notwendigste
+Elemente besitzen.
+|Autarkes SCS, Modularität|Die verwendete Onion - Architektur sorgt dafür,
+dass externe Komponenten wie Datenbanken leicht ausgetauscht werden können,
+da Abhängigkeiten zu externen Services vermieden werden.
+|Gute Performance|Durch eine eventbasierte Datenbank, sowie schnellen
+In - Memory Datenstrukturen wird eine gute Performance des Systems gewährleistet.
+|===
