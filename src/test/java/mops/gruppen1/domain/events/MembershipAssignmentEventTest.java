@@ -39,7 +39,6 @@ public class MembershipAssignmentEventTest {
         membershipAssignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(groupOne.getMembers().stream().filter(membership -> membership.getUser().equals(newUser)));
-        assertThat(groupOne.getMembers().stream().filter(membership -> membership.getUser().equals(new User(new Username("garfield")))));
+        assertThat(groupOne.getMembers().stream().filter(membership -> membership.getUser().equals(newUser))).isNotEmpty();
     }
 }
