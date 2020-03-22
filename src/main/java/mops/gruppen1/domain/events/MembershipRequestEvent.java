@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mops.gruppen1.domain.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,9 +28,15 @@ public class MembershipRequestEvent implements IEvent {
 
         // TODO: move check to Group Service ?
         if (!users.containsKey(userName)) {
-            System.out.println(userName + " NICHT drin");
-            User newUser = new User(new Username("username"));
+            System.out.println(userName + " NICHT in users drin");
+            User newUser = new User(new Username(userName));
             users.put(userName, newUser);
+        }
+        // TODO: move check to Group Service ?
+        if (!userToMembers.containsKey(userName)) {
+            System.out.println(userName + " NICHT in userToMembers drin");
+            User newUser = new User(new Username(userName));
+            userToMembers.put(userName, new ArrayList<>());
         }
         Group group = groups.get(groupId);
         User user = users.get(userName);
@@ -38,7 +45,6 @@ public class MembershipRequestEvent implements IEvent {
 
         group.addMember(membership);
         //groupToMembers.get(groupId).add(membership);
-        //userToMembers.get(userName).add(membership);
-
+        userToMembers.get(userName).add(membership);
     }
 }

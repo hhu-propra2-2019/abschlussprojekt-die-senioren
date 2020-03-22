@@ -42,6 +42,12 @@ public class MembershipRequestEventTest {
         System.out.println("USER:" + testSetup.groups.get(groupThreeID).getMembers().get(2).getUser()); // should not be null !
 
         assertThat(testSetup.groups.get(groupThreeID).getMembers().get(2)).isNotNull();
+        assertThat(testSetup.groups.get(groupThreeID).getMembers().get(2).getUser().getUsername().getUsername()).isEqualTo("Willi will beitreten");
 
+        System.out.println(testSetup.groupToMembers.get(groupThreeID).get(2).getUser().getUsername().getUsername() + " ...sein name");
+        assertThat(testSetup.groupToMembers.get(groupThreeID).get(2).getUser()).isNotNull();
+        assertThat(testSetup.groupToMembers.get(groupThreeID).get(2).getUser().getUsername().getUsername()).isEqualTo("Willi will beitreten");
+
+        assertThat(testSetup.userToMembers.get("Willi will beitreten").get(0).getGroup().getGroupId().toString()).isEqualTo(groupThreeID);
     }
 }
