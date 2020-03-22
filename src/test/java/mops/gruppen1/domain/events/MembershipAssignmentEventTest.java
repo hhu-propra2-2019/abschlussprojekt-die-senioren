@@ -40,5 +40,10 @@ public class MembershipAssignmentEventTest {
 
         //assert
         assertThat(groupOne.getMembers().stream().filter(membership -> membership.getUser().equals(newUser))).isNotEmpty();
+        assertThat(groupOne.getMembers().get(2).getStatus().toString()).isEqualTo("ACTIVE");
+        assertThat(testSetup.userToMembers.get(username.toString()).get(0).getUser().getUsername()).isEqualTo(username);
+        assertThat(testSetup.userToMembers.get(username.toString()).get(0).getStatus().toString()).isEqualTo("ACTIVE");
+        assertThat(testSetup.groupToMembers.get(groupId).get(2).getUser().getUsername()).isEqualTo(username);
+        assertThat(testSetup.groupToMembers.get(groupId).get(2).getStatus().toString()).isEqualTo("ACTIVE");
     }
 }
