@@ -1,6 +1,32 @@
-== Dokumentation der Software -  des Gruppenbildungsprojekt
+== Dokumentation der Software - Architektur des Gruppenbildungsprojekt
 
 Dieses Dokument dient sowohl der Dokumentation, als auch der Kommunikation der
 Software - Archtitektur des Gruppenbildungs - Projekts. +
 Die vorliegende Dokumentation orientiert sich dabei am https://www.arc42.de[arc42 - Template] für Software -
 Architektur Dokumentationen.
+
+== Einführung und Ziele
+
+=== Geschäftsziele
+
+Das primäre Ziel des Projektes ist, eine Self-Contained-System bereitzustellen, welches die
+Funktionen der
+
+* Gruppenbildung
+** Gruppensuche nach bestehenden Gruppen
+* Gruppenarbeit
+* Gruppenabgaben
+** Zuordnung einer Veranstaltung zu einer Gruppe
+
+vereint, sodass diese Funktionalitäten in der Zukunft nicht mehr verstreut sind über mehrere
+Systeme. Dies soll das Organisieren von eigenen Lerngruppen und das gemeinsame Arbeiten an
+Vorlesungsinhalten und/oder Übungsblättern erleichtern.
+
+Darüber hinaus ist ein weiteres Ziel, dass dieses System Schnittstellen zu weiteren Systemen
+bieten soll, in denen die studentischen Gruppen relevant sind. +
+Diese Systeme sind:
+
+* Materialsammlung
+* Terminfindung
+* Foren
+* Abgabesystem
