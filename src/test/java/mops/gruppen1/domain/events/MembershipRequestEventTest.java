@@ -26,7 +26,6 @@ public class MembershipRequestEventTest {
         String groupThreeID = groupThree.getGroupId().toString();
 
         Username username = new Username("Willi will beitreten");
-        User userRequesting = new User(username);
 
         MembershipType Type = MembershipType.VIEWER;
         String membershipType = Type.toString();
@@ -37,14 +36,9 @@ public class MembershipRequestEventTest {
         membershipRequestEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //Assert
-        System.out.println(testSetup.groups.get(groupThreeID).getMembers().get(1).getUser().getUsername().getUsername()); // Milten
-        System.out.println(testSetup.groups.get(groupThreeID).getMembers().get(2)); // Membership not null
-        System.out.println("USER:" + testSetup.groups.get(groupThreeID).getMembers().get(2).getUser()); // should not be null !
-
         assertThat(testSetup.groups.get(groupThreeID).getMembers().get(2)).isNotNull();
         assertThat(testSetup.groups.get(groupThreeID).getMembers().get(2).getUser().getUsername().getUsername()).isEqualTo("Willi will beitreten");
 
-        System.out.println(testSetup.groupToMembers.get(groupThreeID).get(2).getUser().getUsername().getUsername() + " ...sein name");
         assertThat(testSetup.groupToMembers.get(groupThreeID).get(2).getUser()).isNotNull();
         assertThat(testSetup.groupToMembers.get(groupThreeID).get(2).getUser().getUsername().getUsername()).isEqualTo("Willi will beitreten");
 

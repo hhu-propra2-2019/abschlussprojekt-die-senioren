@@ -28,14 +28,11 @@ public class MembershipRequestEvent implements IEvent {
 
         // TODO: move check to Group Service ?
         if (!users.containsKey(userName)) {
-            System.out.println(userName + " NICHT in users drin");
             User newUser = new User(new Username(userName));
             users.put(userName, newUser);
         }
         // TODO: move check to Group Service ?
         if (!userToMembers.containsKey(userName)) {
-            System.out.println(userName + " NICHT in userToMembers drin");
-            User newUser = new User(new Username(userName));
             userToMembers.put(userName, new ArrayList<>());
         }
         Group group = groups.get(groupId);
@@ -44,7 +41,7 @@ public class MembershipRequestEvent implements IEvent {
         Membership membership = new Membership(user, group, membershipType, MembershipStatus.PENDING);
 
         group.addMember(membership);
-        //groupToMembers.get(groupId).add(membership);
+        groupToMembers.get(groupId).add(membership);
         userToMembers.get(userName).add(membership);
     }
 }
