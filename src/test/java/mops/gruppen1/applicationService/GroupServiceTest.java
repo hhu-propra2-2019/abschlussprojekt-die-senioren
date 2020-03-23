@@ -419,4 +419,61 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isFalse();
     }
 
+    @Tag("GroupTest")
+    @Test
+    void testCreateGroupPositiveChecks() {
+        //Arrange
+        String groupDescription = "description";
+        String groupName = "name";
+        String groupCourse = "course";
+        String groupCreator = "creator";
+        String groupType = "type";
+
+        // Es wird kein ValidationResult erzeugt, da es auch keine checks gibt.
+
+        //act
+        ValidationResult validationResult = groupService.createGroup(groupDescription, groupName, groupCourse, groupCreator, groupType);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testDeleteGroupPositiveChecks() {
+        //Arrange
+        String groupId = "1";
+        String userName = "Test";
+
+        ValidationResult validationResult1 = new ValidationResult();
+
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+
+        //act
+        ValidationResult validationResult = groupService.deleteGroup(groupId, userName);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testDeleteGroupFalseChecks() {
+        //Arrange
+        String groupId = "1";
+        String userName = "Test";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        validationResult1.addError("Test");
+
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+
+        //act
+        ValidationResult validationResult = groupService.deleteGroup(groupId, userName);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
+
 }
