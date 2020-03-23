@@ -14,16 +14,12 @@ die geschäftlichen als auch Qualitätsziele, darlegen.
 === Aufgabenstellung
 
 Das primäre Ziel des Projektes ist, eine Self-Contained-System bereitzustellen, welches die
-Funktionen der
+Funktion der
 
 * Gruppenbildung
 ** Gruppensuche nach bestehenden Gruppen
-* Gruppenarbeit
-* Gruppenabgaben
-** Zuordnung einer Veranstaltung zu einer Gruppe
 
-vereint, sodass diese Funktionalitäten in der Zukunft nicht mehr verstreut sind über mehrere
-Systeme. Dies soll das Organisieren von eigenen Lerngruppen und das gemeinsame Arbeiten an
+bereitstellt. Dies soll das Organisieren von eigenen Lerngruppen/Abgabengruppen und das gemeinsame Arbeiten an
 Vorlesungsinhalten und/oder Übungsblättern erleichtern.
 
 Ein weiteres Ziel ist, dass dieses System Schnittstellen zu weiteren Systemen
