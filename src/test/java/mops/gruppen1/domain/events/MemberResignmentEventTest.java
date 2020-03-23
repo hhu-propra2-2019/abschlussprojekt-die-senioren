@@ -38,7 +38,7 @@ class MemberResignmentEventTest {
         memberResignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testMemberlist.get(1).getStatus()
+        assertThat(testMemberlist.get(1).getMembershipStatus()
                 .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 
@@ -55,7 +55,7 @@ class MemberResignmentEventTest {
         memberResignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testMemberlist.get(1).getStatus()
+        assertThat(testMemberlist.get(1).getMembershipStatus()
                 .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 
@@ -73,7 +73,7 @@ class MemberResignmentEventTest {
         //assert
         //Da Membership - List von User, hat diese nur einen Eintrag, da jeder User im testSetup nur in genau
         //einer Gruppe ist.
-        assertThat(testMemberlist.get(0).getStatus()
+        assertThat(testMemberlist.get(0).getMembershipStatus()
                 .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 }
