@@ -1,18 +1,18 @@
 == Dokumentation der Software - Architektur des Gruppenbildungsprojekt
-****
+
 Dieses Dokument dient sowohl der Dokumentation, als auch der Kommunikation der
 Software - Archtitektur des Gruppenbildungs - Projekts. +
 Die vorliegende Dokumentation orientiert sich dabei am https://www.arc42.de[arc42 - Template] für Software -
 Architektur Dokumentationen.
-****
+
 == Einführung und Ziele
-****
+
 Dieser Abschnitt führt in die Aufgabenstellung des
 Gruppenbildungsprojekts ein und soll die Ziele, sowohl
 die geschäftlichen als auch Qualitätsziele, darlegen.
-****
+
 === Aufgabenstellung
-****
+
 Das primäre Ziel des Projektes ist, eine Self-Contained-System bereitzustellen, welches die
 Funktion der
 
@@ -31,7 +31,7 @@ Diese Systeme sind:
 * Foren
 * Abgabesystem
 
-*Qualitätsziele*
+=== Qualitätsziele
 
 Die folgende Tabelle beschreibt die Qualitätsziele des
 Gruppenbildungssystems. +
@@ -50,7 +50,7 @@ da Abhängigkeiten zu externen Services vermieden werden.
 In - Memory Datenstrukturen wird eine gute Performance des Systems gewährleistet.
 |===
 
-*Stakeholder*
+=== Stakeholder
 
 Die folgende Tabelle beschreibt Personengruppen, die einen Bezug und ein Interesse am Projekt aufweisen.
 
@@ -233,3 +233,47 @@ ohne Zustimmung eines Admins beigetreten werden kann.
 
 *Schnittstellen*
 //TODO Schnittstellen auf Klassenebene hinzufügen
+
+== Entscheidungen
+
+=== Generierung der EventID
+
+Die EventID soll in der Datenbank erzeugt werden (ist also keine UUID), da die ID in der Datenbank die Reihenfolge der
+Erstellung mit abbildet.
+
+Attribute des GroupService
+
+Wir haben uns entschieden, für groups und users HashMaps (statt HashSets) zu verwenden, da so ein einfacherer Zugriff
+(über die jeweilige ID bzw. den Namen) auf die entsprechenden Objekte erfolgen kann.
+
+=== Testing
+
+Das Testen der Eventklassen soll in einzelnen entsprechenden Testklassen erfolgen (und nicht in einer einzigen
+Testklasse). Es gibt eine Hilfsklasse (TestSetup), in der ein SetUp an Datenstrukturen erstellt wird, auf die sich
+die einzelnen Event-Tests dann beziehen können.
+
+Gruppenlöschungen vs. Gruppe verlassen - User Management
+
+Wir haben uns entschieden, dass wir bei Gruppenlöschungen auch direkt die Memberships mit löschen und die Gruppe selbst
+als deaktiviert hinterlegen. Sofern ein User lediglich eine Gruppe verlässt oder von einem Administrator aus der Gruppe
+entfernt wird haben wir uns dahingegen dazu entschieden diesen nicht vollständig aus der Gruppe zu löschen, sondern
+seinen Status lediglich auf deaktiviert setzen. Dies hat den Hintergrund, dass man so z.B. im Nachhinein anhand des
+Status verschiedene Optionen für einen deaktivierten User offen lässt, beispielsweise, dass er optional nicht mehr der
+Gruppe beitreten darf, wenn er die Gruppe einmal verlassen hat. Solche Änderungen wären bei einer direkten Löschung
+nicht mehr möglich.
+
+=== Implementierung der Suche
+
+Wir haben uns aktuell dazu entschieden die Suche nach neuen Gruppen auf jeder von uns implementierten Seite zu
+ermöglichen, da uns nicht empfohlen wurde das Suchicon per css-File zu überschreiben, und wir, sofern dieses bestehen
+bleibt, auch eine Implementierung für sinnvoll erachten. Sollte es im Nachhinein eine Änderungen diesbezüglich geben,
+so kann die Implementierung der Suche leicht gelöscht werden, da diese im Controller in eine Methode ausgelagert wurde.
+
+=== Input - Transfer
+
+Die Weitergabe der vom Controller bereitgestellten Parameter soll über ApplicationService und GroupService bis hin zu
+den einzelnen Events als Strings/Primitives erfolgen. Dies hat den Hintergrund, dass alle Eventklassen nur Strings als
+Attribute besitzen, um das JSON-Mapping (Jackson) von Objekt -→ JSON-String und umgekehrt zu erleichtern. Jackson stellt
+keine simple Methode bereit, die verschiedene Objekt-Attribute in einen geschachtelten JSON-String umwandeln kann.
+Alle Attribute sollten sich also im JSON-String auf der gleichen Ebene befinden, da dort unterschiedliche Objekte
+nicht mehr mit abgebildet werden können.
