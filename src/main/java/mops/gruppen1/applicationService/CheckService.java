@@ -64,7 +64,7 @@ public class CheckService {
         return validationResult;
     }
 
-    public ValidationResult membershipIsActive(String userName, String groupId, HashMap<String, Group> groups,
+    public ValidationResult isMembershipActive(String userName, String groupId, HashMap<String, Group> groups,
                                                HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers,
                                                ValidationResult validationResult) {
         User user = users.get(userName);
@@ -80,7 +80,7 @@ public class CheckService {
         return validationResult;
     }
 
-    public ValidationResult membershipIsPending(String userName, String groupId, HashMap<String, Group> groups,
+    public ValidationResult isMembershipPending(String userName, String groupId, HashMap<String, Group> groups,
                                                 HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers,
                                                 ValidationResult validationResult) {
         User user = users.get(userName);

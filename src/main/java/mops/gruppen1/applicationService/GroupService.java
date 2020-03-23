@@ -172,7 +172,7 @@ public class GroupService {
         ValidationResult validationResult = new ValidationResult();
         validationResult = checkService.isGroupActive(groupId, groups, validationResult);
         validationResult = checkService.isMember(userName, groupId, groups, users, userToMembers, validationResult);
-        validationResult = checkService.membershipIsActive(userName, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.isMembershipActive(userName, groupId, groups, users, userToMembers, validationResult);
 
         if (validationResult.isValid()) {
             try {
@@ -196,7 +196,7 @@ public class GroupService {
         ValidationResult validationResult = new ValidationResult();
         validationResult = checkService.isRestricted(groupId, groups, validationResult);
         validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.membershipIsPending(userName, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.isMembershipPending(userName, groupId, groups, users, userToMembers, validationResult);
 
         if (validationResult.isValid()) {
             try {
@@ -219,8 +219,8 @@ public class GroupService {
 
         ValidationResult validationResult = new ValidationResult();
         validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.membershipIsActive(userName, groupId, groups, users, userToMembers, validationResult);
-        validationResult = checkService.membershipIsActive(deletedBy, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.isMembershipActive(userName, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.isMembershipActive(deletedBy, groupId, groups, users, userToMembers, validationResult);
         validationResult = checkService.isAdmin(deletedBy, groupId, groups, users, userToMembers, validationResult);
 
         if (validationResult.isValid()) {
@@ -245,8 +245,8 @@ public class GroupService {
 
         ValidationResult validationResult = new ValidationResult();
         validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.membershipIsActive(userName, groupId, groups, users, userToMembers, validationResult);
-        validationResult = checkService.membershipIsActive(updatedBy, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.isMembershipActive(userName, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.isMembershipActive(updatedBy, groupId, groups, users, userToMembers, validationResult);
         validationResult = checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers, validationResult);
 
         if (validationResult.isValid()) {
@@ -271,7 +271,7 @@ public class GroupService {
         ValidationResult validationResult = new ValidationResult();
         validationResult = checkService.isRestricted(groupId, groups, validationResult);
         validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.membershipIsPending(userName, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.isMembershipPending(userName, groupId, groups, users, userToMembers, validationResult);
 
         if (validationResult.isValid()) {
             try {
