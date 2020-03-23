@@ -384,4 +384,39 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isFalse();
     }
 
+    @Tag("GroupTest")
+    @Test
+    void testCreateUserPositiveChecks() {
+        //Arrange
+        String userName = "Test";
+
+        ValidationResult validationResult1 = new ValidationResult();
+
+        when(checkServiceMock.doesUserExist()).thenReturn(validationResult1);
+
+        //act
+        ValidationResult validationResult = groupService.createUser(userName);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testCreateUserFalseChecks() {
+        //Arrange
+        String userName = "Test";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        validationResult1.addError("Test");
+
+        when(checkServiceMock.doesUserExist()).thenReturn(validationResult1);
+
+        //act
+        ValidationResult validationResult = groupService.createUser(userName);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
 }
