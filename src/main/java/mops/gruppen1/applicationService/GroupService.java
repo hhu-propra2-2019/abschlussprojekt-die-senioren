@@ -61,6 +61,15 @@ public class GroupService {
         return validationResult;
     }
 
+    private void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
+        GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
+        groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        EventDTO groupCreationEventDTO = events.createEventDTO(groupCreator, groupCreationEvent.getGroupID(), timestamp, "GroupCreationEvent", groupCreationEvent);
+        events.saveToRepository(groupCreationEventDTO);
+    }
+
     public ValidationResult deleteGroup(String groupId, String userName) {
         ValidationResult validationResult = checkService.isAdmin(userName, groupId, groups, users, userToMembers, new ValidationResult());
         validationResult = checkService.isGroupActive(groupId, groups, validationResult);
@@ -69,31 +78,6 @@ public class GroupService {
             return validationResult;
         }
         return validationResult;
-    }
-
-    public ValidationResult updateGroupProperties(String groupId, String updatedBy, String groupName, String description, String groupType) {
-        ValidationResult validationResult = checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers, new ValidationResult());
-        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        if (validationResult.isValid()) {
-            performGroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
-            return validationResult;
-        }
-        return validationResult;
-    }
-
-    public ValidationResult createUser(String userName) {
-        ValidationResult validationResult = checkService.doesUserExist(userName, users, new ValidationResult());
-        performUserCreationEvent(userName);
-        return validationResult;
-    }
-
-    private void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
-        GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
-        groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
-        LocalDateTime timestamp = LocalDateTime.now();
-
-        EventDTO groupCreationEventDTO = events.createEventDTO(groupCreator, groupCreationEvent.getGroupID(), timestamp, "GroupCreationEvent", groupCreationEvent);
-        events.saveToRepository(groupCreationEventDTO);
     }
 
     private void performGroupDeletionEvent(String userName, String groupId) {
@@ -108,6 +92,16 @@ public class GroupService {
 
     }
 
+    public ValidationResult updateGroupProperties(String groupId, String updatedBy, String groupName, String description, String groupType) {
+        ValidationResult validationResult = checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers, new ValidationResult());
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
+        if (validationResult.isValid()) {
+            performGroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
+            return validationResult;
+        }
+        return validationResult;
+    }
+
     private void performGroupPropertyUpdateEvent(String groupId, String updatedBy, String groupName, String description, String groupType) {
         GroupPropertyUpdateEvent groupPropertyUpdateEvent = new GroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
         groupPropertyUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
@@ -117,6 +111,12 @@ public class GroupService {
         EventDTO groupPropertyUpdateEventDTO = events.createEventDTO(updatedBy, groupId, timestamp, "GroupPropertyUpdateEvent", groupPropertyUpdateEvent);
 
         events.saveToRepository(groupPropertyUpdateEventDTO);
+    }
+
+    public ValidationResult createUser(String userName) {
+        ValidationResult validationResult = checkService.doesUserExist(userName, users, new ValidationResult());
+        performUserCreationEvent(userName);
+        return validationResult;
     }
 
     private void performUserCreationEvent(String userName) {
