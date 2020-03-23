@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
-import mops.gruppen1.domain.*;
+import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.User;
 import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ import java.util.List;
 public class GroupService {
     @Autowired //TODO: Remove Autowired ?
             EventService events;
+    @Autowired
+    private CheckService checkService;
     private HashMap<String, List<Membership>> groupToMembers;
     private HashMap<String, List<Membership>> userToMembers;
     private HashMap<String, Group> groups;
@@ -58,8 +62,8 @@ public class GroupService {
     }
 
     public ValidationResult deleteGroup(String groupId, String userName) {
-        ValidationResult validationResult = isAdmin(userName, groupId, new ValidationResult());
-        validationResult = isGroupActive(groupId, validationResult);
+        ValidationResult validationResult = checkService.isAdmin(userName, groupId, groups, users, userToMembers, new ValidationResult());
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
         if (validationResult.isValid()) {
             performGroupDeletionEvent(userName, groupId);
             return validationResult;
@@ -68,8 +72,8 @@ public class GroupService {
     }
 
     public ValidationResult updateGroupProperties(String groupId, String updatedBy, String groupName, String description, String groupType) {
-        ValidationResult validationResult = isAdmin(updatedBy, groupId, new ValidationResult());
-        validationResult = isGroupActive(groupId, validationResult);
+        ValidationResult validationResult = checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers, new ValidationResult());
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
         if (validationResult.isValid()) {
             performGroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
             return validationResult;
@@ -78,8 +82,8 @@ public class GroupService {
     }
 
     public ValidationResult addAppointment(String groupId, String createdBy, String link) {
-        ValidationResult validationResult = isAdmin(createdBy, groupId, new ValidationResult());
-        validationResult = isGroupActive(groupId, validationResult);
+        ValidationResult validationResult = checkService.isAdmin(createdBy, groupId, groups, users, userToMembers, new ValidationResult());
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
         validationResult = hasNoAppointment(groupId, validationResult);
         if (validationResult.isValid()) {
             performAppointmentCreationEvent(groupId, createdBy, link);
@@ -143,27 +147,8 @@ public class GroupService {
     }
 
     public ValidationResult createUser(String userName) {
-        ValidationResult validationResult = doesUserExist(userName, new ValidationResult());
+        ValidationResult validationResult = checkService.doesUserExist(userName, users, new ValidationResult());
         performUserCreationEvent(userName);
-        return validationResult;
-    }
-
-    private ValidationResult doesUserExist(String username, ValidationResult validationResult) {
-        boolean userDoesNotExist = !users.containsKey(username);
-        if (userDoesNotExist) {
-            return validationResult;
-        }
-        validationResult.addError("Nutzer existiert bereits.");
-        return validationResult;
-    }
-
-    private ValidationResult isGroupActive(String groupId, ValidationResult validationResult) {
-        Group group = groups.get(groupId);
-        boolean isActive = group.getGroupStatus().equals(GroupStatus.ACTIVE);
-        if (isActive) {
-            return validationResult;
-        }
-        validationResult.addError("Die Gruppe ist nicht aktiv.");
         return validationResult;
     }
 
@@ -226,104 +211,6 @@ public class GroupService {
         }
         validationResult.addError("Die Gruppe hat bereits ein Appointment.");
         return validationResult;
-    }
-
-    private ValidationResult isPublic(String groupId, ValidationResult validationResult) {
-        Group group = groups.get(groupId);
-        boolean isPublic = group.getGroupType().equals(GroupType.PUBLIC);
-        if (isPublic) {
-            return validationResult;
-        }
-        validationResult.addError("Die Gruppe ist nicht öffentlich.");
-        return validationResult;
-    }
-
-    private ValidationResult isRestricted(String groupId, ValidationResult validationResult) {
-        Group group = groups.get(groupId);
-        boolean isRestricted = group.getGroupType().equals(GroupType.RESTRICTED);
-        if (isRestricted) {
-            return validationResult;
-        }
-        validationResult.addError("Die Gruppe ist nicht zugangsbeschränkt.");
-        return validationResult;
-    }
-
-    private ValidationResult isAdmin(String userName, String groupId, ValidationResult validationResult) {
-        User user = users.get(userName);
-        List<Membership> memberships = userToMembers.get(userName);
-        Group group = groups.get(groupId);
-        Membership membership = getMembership(memberships, group);
-
-        boolean isAdmin = membership.getMembershipType().equals(MembershipType.ADMIN);
-        if (isAdmin) {
-            return validationResult;
-        }
-        validationResult.addError("Der Nutzer ist kein Administrator der Gruppe.");
-        return validationResult;
-    }
-
-    private ValidationResult membershipIsActive(String userName, String groupId, ValidationResult validationResult) {
-        User user = users.get(userName);
-        List<Membership> memberships = userToMembers.get(userName);
-        Group group = groups.get(groupId);
-        Membership membership = getMembership(memberships, group);
-
-        boolean isActive = membership.getMembershipStatus().equals(MembershipStatus.ACTIVE);
-        if (isActive) {
-            return validationResult;
-        }
-        validationResult.addError("Der Nutzer ist kein aktives Mitglied der Gruppe.");
-        return validationResult;
-    }
-
-    private ValidationResult membershipIsPending(String userName, String groupId, ValidationResult validationResult) {
-        User user = users.get(userName);
-        List<Membership> memberships = userToMembers.get(userName);
-        Group group = groups.get(groupId);
-        Membership membership = getMembership(memberships, group);
-        boolean isPending = membership.getMembershipStatus().equals(MembershipStatus.PENDING);
-        if (isPending) {
-            return validationResult;
-        }
-        validationResult.addError("Die Mitgliedschaftsanfrage existiert nicht.");
-        return validationResult;
-    }
-
-    private ValidationResult isMember(String userName, String groupId, ValidationResult validationResult) {
-        User user = users.get(userName);
-        List<Membership> memberships = userToMembers.get(userName);
-        Group group = groups.get(groupId);
-
-        boolean isMember = getMembership(memberships, group) != null;
-        if (isMember) {
-            return validationResult;
-        }
-        validationResult.addError("Der Nutzer ist nicht Mitglied der Gruppe.");
-        return validationResult;
-    }
-
-    private ValidationResult isNotMember(String userName, String groupId, ValidationResult validationResult) {
-        User user = users.get(userName);
-        List<Membership> memberships = userToMembers.get(userName);
-        Group group = groups.get(groupId);
-
-        boolean isNotMember = getMembership(memberships, group) == null;
-        if (isNotMember) {
-            return validationResult;
-        }
-        validationResult.addError("Der Nutzer ist bereits Mitglied der Gruppe.");
-        return validationResult;
-    }
-
-    private Membership getMembership(List<Membership> memberships, Group group) {
-        Membership membership = null;
-        for (Membership m : memberships) {
-            if (m.getGroup().equals(group)) {
-                membership = m;
-                break;
-            }
-        }
-        return membership;
     }
 
     private void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
@@ -440,22 +327,21 @@ public class GroupService {
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
         ValidationResult validationResult = new ValidationResult();
-        validationResult = isPublic(groupId, validationResult);
-        validationResult = isGroupActive(groupId, validationResult);
-        validationResult = isNotMember(userName, groupId, validationResult);
+        validationResult = checkService.isPublic(groupId, groups, validationResult);
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
+        validationResult = checkService.isNotMember(userName, groupId, groups, users, userToMembers, validationResult);
 
-        if(validationResult.isValid()) {
+        if (validationResult.isValid()) {
             try {
                 performMembershipAssignmentEvent(userName, groupId, membershipType);
-            }
-            catch (RuntimeException exception){
+            } catch (RuntimeException exception) {
                 validationResult.addError("Unexpected failure");
             }
         }
         return validationResult;
     }
 
-    private void performMembershipAssignmentEvent(String userName, String groupId, String membershipType){
+    private void performMembershipAssignmentEvent(String userName, String groupId, String membershipType) {
         MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, userName, membershipType);
         membershipAssignmentEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -471,22 +357,21 @@ public class GroupService {
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
         ValidationResult validationResult = new ValidationResult();
-        validationResult = isRestricted(groupId, validationResult);
-        validationResult = isGroupActive(groupId, validationResult);
-        validationResult = isNotMember(userName, groupId, validationResult);
+        validationResult = checkService.isRestricted(groupId, groups, validationResult);
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
+        validationResult = checkService.isNotMember(userName, groupId, groups, users, userToMembers, validationResult);
 
-        if(validationResult.isValid()) {
+        if (validationResult.isValid()) {
             try {
                 performMembershipRequestEvent(userName, groupId, membershipType);
-            }
-            catch (RuntimeException exception){
+            } catch (RuntimeException exception) {
                 validationResult.addError("Unexpected failure");
             }
         }
         return validationResult;
     }
 
-    private void performMembershipRequestEvent(String userName, String groupId, String membershipType){
+    private void performMembershipRequestEvent(String userName, String groupId, String membershipType) {
         MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType);
         membershipRequestEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -499,15 +384,14 @@ public class GroupService {
 
     public ValidationResult resignMembership(String userName, String groupId) {
         ValidationResult validationResult = new ValidationResult();
-        validationResult = isGroupActive(groupId, validationResult);
-        validationResult = isMember(userName, groupId, validationResult);
-        validationResult = membershipIsActive(userName, groupId, validationResult);
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
+        validationResult = checkService.isMember(userName, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.membershipIsActive(userName, groupId, groups, users, userToMembers, validationResult);
 
-        if(validationResult.isValid()) {
+        if (validationResult.isValid()) {
             try {
                 performMembershipResignmentEvent(userName, groupId);
-            }
-            catch (RuntimeException exception){
+            } catch (RuntimeException exception) {
                 validationResult.addError("Unexpected failure");
             }
         }
@@ -528,15 +412,14 @@ public class GroupService {
     public ValidationResult rejectMembership(String userName, String groupId) {
 
         ValidationResult validationResult = new ValidationResult();
-        validationResult = isRestricted(groupId, validationResult);
-        validationResult = isGroupActive(groupId, validationResult);
-        validationResult = membershipIsPending(userName, groupId, validationResult);
+        validationResult = checkService.isRestricted(groupId, groups, validationResult);
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
+        validationResult = checkService.membershipIsPending(userName, groupId, groups, users, userToMembers, validationResult);
 
-        if(validationResult.isValid()) {
+        if (validationResult.isValid()) {
             try {
                 performMembershipRejectEvent(userName, groupId);
-            }
-            catch (RuntimeException exception){
+            } catch (RuntimeException exception) {
                 validationResult.addError("Unexpected failure");
             }
         }
@@ -557,16 +440,15 @@ public class GroupService {
     public ValidationResult deleteMembership(String userName, String groupId, String deletedBy) {
 
         ValidationResult validationResult = new ValidationResult();
-        validationResult = isGroupActive(groupId, validationResult);
-        validationResult = membershipIsActive(userName, groupId, validationResult);
-        validationResult = membershipIsActive(deletedBy, groupId, validationResult);
-        validationResult = isAdmin(deletedBy, groupId, validationResult);
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
+        validationResult = checkService.membershipIsActive(userName, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.membershipIsActive(deletedBy, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.isAdmin(deletedBy, groupId, groups, users, userToMembers, validationResult);
 
-        if(validationResult.isValid()) {
+        if (validationResult.isValid()) {
             try {
                 performMembershipDeletionEvent(userName, groupId, deletedBy);
-            }
-            catch (RuntimeException exception){
+            } catch (RuntimeException exception) {
                 validationResult.addError("Unexpected failure");
             }
         }
@@ -575,7 +457,7 @@ public class GroupService {
 
 
     private void performMembershipDeletionEvent(String userName, String groupId, String deletedBy) {
-        MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(groupId, userName,deletedBy);
+        MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(groupId, userName, deletedBy);
         memberDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
         LocalDateTime timestamp = LocalDateTime.now();
@@ -588,16 +470,15 @@ public class GroupService {
     public ValidationResult updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
 
         ValidationResult validationResult = new ValidationResult();
-        validationResult = isGroupActive(groupId, validationResult);
-        validationResult = membershipIsActive(userName, groupId, validationResult);
-        validationResult = membershipIsActive(updatedBy, groupId, validationResult);
-        validationResult = isAdmin(updatedBy, groupId, validationResult);
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
+        validationResult = checkService.membershipIsActive(userName, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.membershipIsActive(updatedBy, groupId, groups, users, userToMembers, validationResult);
+        validationResult = checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers, validationResult);
 
-        if(validationResult.isValid()) {
+        if (validationResult.isValid()) {
             try {
                 performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
-            }
-            catch (RuntimeException exception){
+            } catch (RuntimeException exception) {
                 validationResult.addError("Unexpected failure");
             }
         }
@@ -605,7 +486,7 @@ public class GroupService {
     }
 
     private void performMembershipUpdateEvent(String userName, String groupId, String deletedBy, String updatedTo) {
-        MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName,deletedBy, updatedTo);
+        MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName, deletedBy, updatedTo);
         membershipUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
 
         LocalDateTime timestamp = LocalDateTime.now();
@@ -618,15 +499,14 @@ public class GroupService {
     public ValidationResult acceptMembership(String userName, String groupId) {
 
         ValidationResult validationResult = new ValidationResult();
-        validationResult = isRestricted(groupId, validationResult);
-        validationResult = isGroupActive(groupId, validationResult);
-        validationResult = membershipIsPending(userName, groupId, validationResult);
+        validationResult = checkService.isRestricted(groupId, groups, validationResult);
+        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
+        validationResult = checkService.membershipIsPending(userName, groupId, groups, users, userToMembers, validationResult);
 
-        if(validationResult.isValid()) {
+        if (validationResult.isValid()) {
             try {
                 performMembershipAcceptanceEvent(userName, groupId);
-            }
-            catch (RuntimeException exception){
+            } catch (RuntimeException exception) {
                 validationResult.addError("Unexpected failure");
             }
         }
@@ -634,8 +514,7 @@ public class GroupService {
     }
 
 
-
-    private void performMembershipAcceptanceEvent(String userName, String groupId){
+    private void performMembershipAcceptanceEvent(String userName, String groupId) {
         MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName);
         membershipAcceptanceEvent.execute(groupToMembers, userToMembers, users, groups);
 

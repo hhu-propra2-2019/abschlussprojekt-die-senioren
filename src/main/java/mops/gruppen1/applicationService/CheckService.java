@@ -1,10 +1,12 @@
 package mops.gruppen1.applicationService;
 
 import mops.gruppen1.domain.*;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Component
 public class CheckService {
 
     public ValidationResult doesUserExist(String username, HashMap<String, User> users, ValidationResult validationResult) {
