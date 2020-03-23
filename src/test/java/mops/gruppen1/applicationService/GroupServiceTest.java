@@ -21,7 +21,7 @@ class GroupServiceTest {
         this.groupService = new GroupService(eventServiceMock,checkServiceMock);
     }
 
-
+    @Tag("GroupTest")
     @Test
     void testAssignMembershipPositiveChecks() {
         //Arrange
@@ -44,6 +44,7 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isTrue();
     }
 
+    @Tag("GroupTest")
     @Test
     void testAssignMembershipFalseChecks() {
         //Arrange
@@ -67,6 +68,7 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isFalse();
     }
 
+    @Tag("GroupTest")
     @Test
     void testAcceptMembershipPositiveChecks() {
         //Arrange
@@ -88,6 +90,7 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isTrue();
     }
 
+    @Tag("GroupTest")
     @Test
     void testAcceptMembershipFalseChecks() {
         //Arrange
@@ -110,6 +113,7 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isFalse();
     }
 
+    @Tag("GroupTest")
     @Test
     void testRejectMembershipPositiveChecks() {
         //Arrange
@@ -131,6 +135,7 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isTrue();
     }
 
+    @Tag("GroupTest")
     @Test
     void testRejectMembershipFalseChecks() {
         //Arrange
@@ -153,6 +158,7 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isFalse();
     }
 
+    @Tag("GroupTest")
     @Test
     void testRequestMembershipPositiveChecks() {
         //Arrange
@@ -175,6 +181,7 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isTrue();
     }
 
+    @Tag("GroupTest")
     @Test
     void testRequestMembershipFalseChecks() {
         //Arrange
@@ -198,6 +205,7 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isFalse();
     }
 
+    @Tag("GroupTest")
     @Test
     void testUpdateMembershipPositiveChecks() {
         //Arrange
