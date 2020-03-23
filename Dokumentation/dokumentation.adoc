@@ -90,8 +90,8 @@ Auf diese Weise werden alle Vorkommnisse innerhalb des Systems zur Verfügung ge
 
 *Terminfindung (Fremdsystem)*
 
-Termine können erstellt werden und optional können die Gruppenmitglieder
-einer Gruppe hinzugefügt werden.
+Wenn ein Termin im Fremdsystem Terminfindung erstellt werden soll, können alle Gruppenmitglieder zu diesem Termin
+hinzugefügt werden(falls eine zugehörige Gruppe existiert).
 
 *Abgaben (Fremdsystem)*
 
@@ -99,7 +99,8 @@ Eine Gruppe kann Abgaben zu einer bestimmten Veranstaltung erstellen.
 
 *Forum (Fremdsystem)*
 
-Eine Gruppe enthält ein Forum, das zum Austausch der Mitglieder gedacht ist.
+Wenn eine Gruppe erstellt wird, wird vom Forum - Fremdsystem ein Forum für diese Gruppe angelegt, um den
+Austausch zwischen den Mitgliedern zu ermöglichen.
 
 *Materialsammlung (Fremdsystem)*
 
