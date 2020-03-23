@@ -211,7 +211,7 @@ class GroupServiceTest {
         ValidationResult validationResult3 = new ValidationResult();
 
         when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.isMembershipActive()).thenReturn(validationResult2);
+        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult2);
         when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
 
         //act
@@ -236,7 +236,7 @@ class GroupServiceTest {
         ValidationResult validationResult3 = new ValidationResult();
 
         when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.isMembershipActive()).thenReturn(validationResult2);
+        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult2);
         when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
 
         //act
@@ -259,7 +259,7 @@ class GroupServiceTest {
         ValidationResult validationResult3 = new ValidationResult();
 
         when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.isMembershipActive()).thenReturn(validationResult2);
+        when(checkServiceMock.membershipIsAcitve()).thenReturn(validationResult2);
         when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
 
         //act
@@ -283,7 +283,53 @@ class GroupServiceTest {
         ValidationResult validationResult3 = new ValidationResult();
 
         when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.isMembershipActive()).thenReturn(validationResult2);
+        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult2);
+        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.deleteMembership(userName, groupId, deletedBy);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+    @Tag("GroupTest")
+    @Test
+    void testDeleteMembershipPositiveChecks() {
+        //Arrange
+        String userName = "Test";
+        String deletedBy = "Test2";
+        String groupId = "1";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult2);
+        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.deleteMembership(userName, groupId, deletedBy);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testDeleteMembershipFalseChecks() {
+        //Arrange
+        String userName = "Test";
+        String deletedBy = "Test2";
+        String groupId = "1";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        validationResult1.addError("Test");
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult2);
         when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
 
         //act
@@ -293,5 +339,49 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isFalse();
     }
 
+    @Tag("GroupTest")
+    @Test
+    void testResignMembershipPositiveChecks() {
+        //Arrange
+        String userName = "Test";
+        String groupId = "1";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(checkServiceMock.isMember()).thenReturn(validationResult2);
+        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.resignMembership(userName, groupId);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testResignMembershipFalseChecks() {
+        //Arrange
+        String userName = "Test";
+        String groupId = "1";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        validationResult1.addError("Test");
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(checkServiceMock.isMember()).thenReturn(validationResult2);
+        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.resignMembership(userName, groupId);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
 
 }
