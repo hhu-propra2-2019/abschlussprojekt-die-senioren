@@ -2,6 +2,7 @@ package mops.gruppen1.applicationService;
 
 import org.graalvm.compiler.nodes.extended.ArrayRangeWrite;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import sun.jvm.hotspot.utilities.Assert;
 
@@ -192,6 +193,101 @@ class GroupServiceTest {
 
         //act
         ValidationResult validationResult = groupService.requestMembership(userName,groupId, membershipType);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
+    @Test
+    void testUpdateMembershipPositiveChecks() {
+        //Arrange
+        String userName = "Test";
+        String updatedBy = "Test2";
+        String groupId = "1";
+        String updatedTo = "VIEWER";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(checkServiceMock.isMembershipActive()).thenReturn(validationResult2);
+        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.updateMembership(userName, groupId,  updatedBy, updatedTo);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testUpdateMembershipFalseChecks() {
+        //Arrange
+        String userName = "Test";
+        String updatedBy = "Test2";
+        String groupId = "1";
+        String updatedTo = "VIEWER";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        validationResult1.addError("Test");
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(checkServiceMock.isMembershipActive()).thenReturn(validationResult2);
+        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.updateMembership(userName, groupId,  updatedBy, updatedTo);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testDeleteMembershipPositiveChecks() {
+        //Arrange
+        String userName = "Test";
+        String deletedBy = "Test2";
+        String groupId = "1";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(checkServiceMock.isMembershipActive()).thenReturn(validationResult2);
+        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.deleteMembership(userName, groupId, deletedBy);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testDeleteMembershipFalseChecks() {
+        //Arrange
+        String userName = "Test";
+        String deletedBy = "Test2";
+        String groupId = "1";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        validationResult1.addError("Test");
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(checkServiceMock.isMembershipActive()).thenReturn(validationResult2);
+        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.deleteMembership(userName, groupId, deletedBy);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
