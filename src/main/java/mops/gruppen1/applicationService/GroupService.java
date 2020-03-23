@@ -28,19 +28,10 @@ public class GroupService {
             EventService events;
     @Autowired
     private CheckService checkService;
-    private HashMap<String, List<Membership>> groupToMembers;
-    private HashMap<String, List<Membership>> userToMembers;
-    private HashMap<String, Group> groups;
-    private HashMap<String, User> users;
-
-    public GroupService(EventService events, CheckService checkService) {
-        this.events = events;
-        this.checkService = checkService;
-        groupToMembers = new HashMap<String, List<Membership>>();
-        userToMembers = new HashMap<String, List<Membership>>();
-        groups = new HashMap<String, Group>();
-        users = new HashMap<String, User>();
-    }
+    private HashMap<String, List<Membership>> groupToMembers = new HashMap<String, List<Membership>>();
+    private HashMap<String, List<Membership>> userToMembers = new HashMap<String, List<Membership>>();
+    private HashMap<String, Group> groups = new HashMap<String, Group>();
+    private HashMap<String, User> users = new HashMap<String, User>();
 
     public void init() {
         events.loadEvents();
