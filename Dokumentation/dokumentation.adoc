@@ -65,15 +65,14 @@ und für Gruppenabgaben +
 |Organisatoren|- Wollen selbstständig Gruppen für Ihre Veranstaltungen anlegen +
 - Wollen performantes System haben
 |===
-****
 
 == Kontextabgrenzung
-****
+
 Der folgende Abschnitt beschreibt die Umgebung in der sich das Gruppenbildungsprojekt befindet. +
 Dabei wird darauf eingegangen, welche Nutzer das System verwenden werden und mit welchen externen
 Systemen das Gruppenbildungssystem interagieren wird.
 
-*Fachlicher Kontext*
+=== Fachlicher Kontext
 
 .Kontextabgrenzung des Gruppenbildungssystems
 image::kontextabgrenzung.png[]
@@ -106,17 +105,16 @@ Eine Gruppe enthält ein Forum, das zum Austausch der Mitglieder gedacht ist.
 
 Gruppen können Materialien ablegen und verwalten.
 
-*Technischer Kontext*
+=== Technischer Kontext
 //TODO RESTFUL API, JSON
 
-****
 == Bausteinsicht
-****
+
 Der folgende Abschnitt zeigt die Zerlegung des Gruppenbildungssystems in einzelne
 Module. Dabei wird die Sicht beschränkt auf die erste Zerlegungsebene, welche die
 Subsysteme inklusive ihrer Schnittstellen darstellt.
 
-*Ebene 1*
+=== Ebene 1
 
 Folgende Abbildung zeigt die Zerlegung des Gruppenbildungssystems in Subsysteme.
 Die Pfeile stellen fachliche Abhängigkeiten der Subsysteme untereinander
@@ -135,9 +133,9 @@ und der Admin - Sicht(User mit erweiterten Rechten) differenziert.
 restringierte Gruppen gesucht werden.
 |===
 
-*Blackbox - Sichten der Subsysteme*
+=== Blackbox - Sichten der Subsysteme
 
-*Gruppenerstellung*
+==== Gruppenerstellung
 
 *Zweck/Verantwortlichkeit*
 
@@ -150,14 +148,13 @@ Folgende Felder sind dabei obligatorisch:
 * Veranstaltung(auch _keine Veranstaltung_ möglich)
 * Gruppentyp(Public/Restricted)
 * Gruppenbeschreibung
-****
 
 Mitglieder können per Suche(einzeln) oder per CSV - Datei hinzugefügt werden.
 
 *Schnittstellen*
 //TODO Schnittstellen auf Klassenebene hinzufügen
 
-*Gruppenansicht*
+==== Gruppenansicht
 
 *Zweck/Verantwortlichkeit*
 
@@ -165,7 +162,6 @@ Dieses Subsystem bietet die Übersicht einer Gruppe. +
 Über diese Ansicht kann auf die Services der Fremdsysteme für die jeweilige Gruppe per
 Link zugegriffen werden.(Material,Abgaben) +
 Es wird eine Unterscheidung zwischen einem Viewer und einem Admin getroffen. +
-
 
 |===
 |*Aktion*|*Viewer Erlaubt*|*Admin Erlaubt*
@@ -178,7 +174,7 @@ Es wird eine Unterscheidung zwischen einem Viewer und einem Admin getroffen. +
 *Ein Admin kann eine Gruppe nur verlassen, wenn ein weiterer Admin vorhanden ist. +
 Ansonsten muss ein anderes Mitglied der Gruppe als Admin über die Gruppenverwaltung ausgewählt werden.
 
-=== Abhängigkeiten der Gruppenansicht
+===== Abhängigkeiten der Gruppenansicht
 
 Es besteht eine Abhängigkeit zur Gruppenerstellung, da nur vorhandene Gruppen eine
 Ansicht besitzen.
@@ -186,7 +182,7 @@ Ansicht besitzen.
 *Schnittstellen*
 //TODO Schnittstellen auf Klassenebene hinzufügen
 
-=== Gruppenverwaltung
+==== Gruppenverwaltung
 
 *Zweck/Verantwortlichkeit*
 
@@ -198,7 +194,7 @@ zu verwalten: +
 * Offene Gruppenanfragen beantworten
 * Gruppenmitgliedschaften verwalten
 
-==== Abhängigkeiten der Gruppenverwaltung
+===== Abhängigkeiten der Gruppenverwaltung
 
 Es besteht eine Abhängigkeit zur Gruppenansicht, da man nur über die Gruppenansicht
 zu Gruppenverwaltungs - Aufgaben gelangt.
@@ -206,7 +202,7 @@ zu Gruppenverwaltungs - Aufgaben gelangt.
 *Schnittstellen*
 //TODO Schnittstellen auf Klassenebene hinzufügen
 
-=== Gruppensuche
+==== Gruppensuche
 
 *Zweck/Verantwortlichkeit*
 
@@ -217,14 +213,14 @@ Dieses Subsystem ermöglicht es nach bestehenden Gruppen zu suchen. +
 *Schnittstellen*
 //TODO Schnittstellen auf Klassenebene hinzufügen
 
-=== Gruppenbeitritt
+==== Gruppenbeitritt
 
 *Zweck/Verantwortlichkeit*
 
 Dieses Subsystem ermöglicht es einer öffentlichen Gruppe beizutreten oder
 an eine restringierte Gruppe einen Aufnahmeantrag zu stellen. +
 
-==== Abhängigkeiten
+===== Abhängigkeiten
 
 Es besteht eine Abhängigkeit zur Gruppensuche, da man nur Gruppen beitreten kann, die
 zuvor über die Suche gefunden wurden. +
@@ -277,3 +273,7 @@ Attribute besitzen, um das JSON-Mapping (Jackson) von Objekt -→ JSON-String un
 keine simple Methode bereit, die verschiedene Objekt-Attribute in einen geschachtelten JSON-String umwandeln kann.
 Alle Attribute sollten sich also im JSON-String auf der gleichen Ebene befinden, da dort unterschiedliche Objekte
 nicht mehr mit abgebildet werden können.
+
+== Risiken
+
+//TODO Risiken absprechen
