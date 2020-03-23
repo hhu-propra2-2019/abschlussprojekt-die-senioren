@@ -49,3 +49,17 @@ da Abhängigkeiten zu externen Services vermieden werden.
 |Gute Performance|Durch eine eventbasierte Datenbank, sowie schnellen
 In - Memory Datenstrukturen wird eine gute Performance des Systems gewährleistet.
 |===
+
+=== Stakeholder
+
+|===
+|*Wer?*|*Interesse, Bezug*
+|Studenten|- Wollen schnell und unkompliziert Gruppen bilden und suchen +
+- erhoffen sich dadurch Zeitersparnis bei der Suche nach Kommilitonen für das gemeinsame Lernen
+und für Gruppenabgaben +
+- Wollen performantes System haben
+|Entwickler|- Wollen System mit vertretbarem Aufwand erweitern +
+- Wollen neue Systeme mit vertretbarem Aufwand an das Gruppenbildungssystem anbinden +
+|Organisatoren|- Wollen selbstständig Gruppen für Ihre Veranstaltungen anlegen +
+- Wollen performantes System haben
+|===
