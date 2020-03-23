@@ -1,18 +1,18 @@
 == Dokumentation der Software - Architektur des Gruppenbildungsprojekt
-
+****
 Dieses Dokument dient sowohl der Dokumentation, als auch der Kommunikation der
 Software - Archtitektur des Gruppenbildungs - Projekts. +
 Die vorliegende Dokumentation orientiert sich dabei am https://www.arc42.de[arc42 - Template] für Software -
 Architektur Dokumentationen.
-
+****
 == Einführung und Ziele
-
+****
 Dieser Abschnitt führt in die Aufgabenstellung des
 Gruppenbildungsprojekts ein und soll die Ziele, sowohl
 die geschäftlichen als auch Qualitätsziele, darlegen.
-
+****
 === Aufgabenstellung
-
+****
 Das primäre Ziel des Projektes ist, eine Self-Contained-System bereitzustellen, welches die
 Funktion der
 
@@ -31,7 +31,7 @@ Diese Systeme sind:
 * Foren
 * Abgabesystem
 
-=== Qualitätsziele
+*Qualitätsziele*
 
 Die folgende Tabelle beschreibt die Qualitätsziele des
 Gruppenbildungssystems. +
@@ -50,7 +50,7 @@ da Abhängigkeiten zu externen Services vermieden werden.
 In - Memory Datenstrukturen wird eine gute Performance des Systems gewährleistet.
 |===
 
-=== Stakeholder
+*Stakeholder*
 
 Die folgende Tabelle beschreibt Personengruppen, die einen Bezug und ein Interesse am Projekt aufweisen.
 
@@ -65,17 +65,18 @@ und für Gruppenabgaben +
 |Organisatoren|- Wollen selbstständig Gruppen für Ihre Veranstaltungen anlegen +
 - Wollen performantes System haben
 |===
+****
 
 == Kontextabgrenzung
-
+****
 Der folgende Abschnitt beschreibt die Umgebung in der sich das Gruppenbildungsprojekt befindet. +
 Dabei wird darauf eingegangen, welche Nutzer das System verwenden werden und mit welchen externen
 Systemen das Gruppenbildungssystem interagieren wird.
 
-== Fachlicher Kontext
+*Fachlicher Kontext*
 
 .Kontextabgrenzung des Gruppenbildungssystems
-image::kontextabgrenzung.png[,550]
+image::kontextabgrenzung.png[]
 
 *Studenten/Organisatoren (Benutzer)*
 
@@ -104,3 +105,32 @@ Eine Gruppe enthält ein Forum, das zum Austausch der Mitglieder gedacht ist.
 *Materialsammlung (Fremdsystem)*
 
 Gruppen können Materialien ablegen und verwalten.
+
+*Technischer Kontext*
+//TODO RESTFUL API, JSON
+
+****
+== Bausteinsicht
+****
+Der folgende Abschnitt zeigt die Zerlegung des Gruppenbildungssystems in einzelne
+Module. Dabei wird die Sicht beschränkt auf die erste Zerlegungsebene, welche die
+Subsysteme inklusive ihrer Schnittstellen darstellt.
+
+*Ebene 1*
+
+Folgende Abbildung zeigt die Zerlegung des Gruppenbildungssystems in Subsysteme.
+Die Pfeile stellen fachliche Abhängigkeiten der Subsysteme untereinander
+dar (“x -> y” für “x ist abhängig von y”). Die Quadrate auf der Membran des Systems sind
+Interaktionspunkte mit externen Systeme.
+
+image::bausteinsicht_ebene1.png[]
+
+|===
+|*Subsystem*|*Kurzbeschreibung*
+|Gruppenerstellung|Realisiert die Erstellung einer Gruppe
+|Gruppenbeitritt|Realisiert den Gruppenbeitritt eines Users bei restringierten Gruppen.
+|Gruppenansicht|Realisiert die Ansicht einer Gruppe. Dabei wird zwischen der Viewer - Sicht(einfacher User)
+und der Admin - Sicht(User mit erweiterten Rechten) differenziert.
+|Gruppensuche|Realisiert die Suche einer Gruppe. Dabei können sowohl öffentliche, als auch
+restringierte Gruppen gesucht werden.
+|===
