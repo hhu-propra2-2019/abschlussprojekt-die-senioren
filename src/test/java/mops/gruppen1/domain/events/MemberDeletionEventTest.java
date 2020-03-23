@@ -41,7 +41,7 @@ public class MemberDeletionEventTest {
 
         //assert
         assertThat(testMemberlist.get(1).getStatus()
-                .equals((Status.DEACTIVATED))).isTrue();
+                .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 
     @Tag("EventTest")
@@ -57,7 +57,7 @@ public class MemberDeletionEventTest {
 
         //assert
         assertThat(testMemberlist.get(1).getStatus()
-                .equals((Status.DEACTIVATED))).isTrue();
+                .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 
     @Tag("EventTest")
@@ -75,6 +75,6 @@ public class MemberDeletionEventTest {
         //Da Membership - List von User, hat diese nur einen Eintrag, da jeder User im testSetup nur in genau
         //einer Gruppe ist.
         assertThat(testMemberlist.get(0).getStatus()
-                .equals((Status.DEACTIVATED))).isTrue();
+                .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 }
