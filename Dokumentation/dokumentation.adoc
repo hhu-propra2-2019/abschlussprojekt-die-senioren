@@ -123,6 +123,7 @@ Die Pfeile stellen fachliche Abhängigkeiten der Subsysteme untereinander
 dar (“x -> y” für “x ist abhängig von y”). Die Quadrate auf der Membran des Systems sind
 Interaktionspunkte mit externen Systeme.
 
+.Bausteinsicht der Ebene 1
 image::bausteinsicht_ebene1.png[]
 
 |===
@@ -134,3 +135,25 @@ und der Admin - Sicht(User mit erweiterten Rechten) differenziert.
 |Gruppensuche|Realisiert die Suche einer Gruppe. Dabei können sowohl öffentliche, als auch
 restringierte Gruppen gesucht werden.
 |===
+
+*Blackbox - Sichten der Subsysteme*
+
+. Gruppenerstellung
+
+*Zweck/Verantwortlichkeit*
+
+Dieses Subsystem ermöglicht es eine neue Gruppe zu erstellen. +
+Dabei liest das System Felder eines Formulars ein und wandelt diese dann mittels
+event - basiertet Logik in ein neues Gruppen - Objekt um. +
+Folgende Felder sind dabei obligatorisch:
+
+* Gruppenname
+* Veranstaltung(auch _keine Veranstaltung_ möglich)
+* Gruppentyp(Public/Restricted)
+* Gruppenbeschreibung
+****
+
+Mitglieder können per Suche(einzeln) oder per CSV - Datei hinzugefügt werden.
+
+*Schnittstellen*
+//TODO Schnittstellen auf Klassenebene hinzufügen
