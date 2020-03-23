@@ -106,4 +106,99 @@ class CheckServiceTest {
         assertThat(validationResult.isValid()).isFalse();
     }
 
+    @Tag("CheckServiceTest")
+    @Test
+    void testIsPublicPositive() {
+        //Arrange
+        String userName1 = "groupCreator";
+        List<Membership> members = new ArrayList<>();
+        GroupName groupName = new GroupName("groupName");
+        GroupDescription description = new GroupDescription("description");
+        User groupCreator = new User(new Username(userName1));
+        GroupStatus groupStatus = GroupStatus.ACTIVE;
+        GroupType groupType = GroupType.PUBLIC;
+
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        HashMap groups = new HashMap<String, Group>();
+        String groupId = group.getGroupId().toString();
+        groups.put(groupId, group);
+
+        //act
+        ValidationResult validationResult = checkService.isPublic(groupId, groups);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("CheckServiceTest")
+    @Test
+    void testIsPublicFalse() {
+        //Arrange
+        String userName1 = "groupCreator";
+        List<Membership> members = new ArrayList<>();
+        GroupName groupName = new GroupName("groupName");
+        GroupDescription description = new GroupDescription("description");
+        User groupCreator = new User(new Username(userName1));
+        GroupStatus groupStatus = GroupStatus.DEACTIVATED;
+        GroupType groupType = GroupType.RESTRICTED;
+
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        HashMap groups = new HashMap<String, Group>();
+        String groupId = group.getGroupId().toString();
+        groups.put(groupId, group);
+
+        //act
+        ValidationResult validationResult = checkService.isPublic(groupId, groups);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
+    @Tag("CheckServiceTest")
+    @Test
+    void testIsRestrictedPositive() {
+        //Arrange
+        String userName1 = "groupCreator";
+        List<Membership> members = new ArrayList<>();
+        GroupName groupName = new GroupName("groupName");
+        GroupDescription description = new GroupDescription("description");
+        User groupCreator = new User(new Username(userName1));
+        GroupStatus groupStatus = GroupStatus.DEACTIVATED;
+        GroupType groupType = GroupType.RESTRICTED;
+
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        HashMap groups = new HashMap<String, Group>();
+        String groupId = group.getGroupId().toString();
+        groups.put(groupId, group);
+
+        //act
+        ValidationResult validationResult = checkService.isRestricted(groupId, groups);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("CheckServiceTest")
+    @Test
+    void testIsRestrictedFalse() {
+        //Arrange
+        String userName1 = "groupCreator";
+        List<Membership> members = new ArrayList<>();
+        GroupName groupName = new GroupName("groupName");
+        GroupDescription description = new GroupDescription("description");
+        User groupCreator = new User(new Username(userName1));
+        GroupStatus groupStatus = GroupStatus.DEACTIVATED;
+        GroupType groupType = GroupType.PUBLIC;
+
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        HashMap groups = new HashMap<String, Group>();
+        String groupId = group.getGroupId().toString();
+        groups.put(groupId, group);
+
+        //act
+        ValidationResult validationResult = checkService.isRestricted(groupId, groups);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
 }
