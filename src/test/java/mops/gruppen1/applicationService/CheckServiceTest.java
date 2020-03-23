@@ -1,12 +1,13 @@
 package mops.gruppen1.applicationService;
 
-import mops.gruppen1.domain.User;
-import mops.gruppen1.domain.Username;
+import mops.gruppen1.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,6 +53,54 @@ class CheckServiceTest {
 
         //act
         ValidationResult validationResult = checkService.doesUserExist(userName2, users);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
+    @Tag("CheckServiceTest")
+    @Test
+    void testIsGroupActivePositive() {
+        //Arrange
+        String userName1 = "groupCreator";
+        List<Membership> members = new ArrayList<>();
+        GroupName groupName = new GroupName("groupName");
+        GroupDescription description = new GroupDescription("description");
+        User groupCreator = new User(new Username(userName1));
+        GroupStatus groupStatus = GroupStatus.ACTIVE;
+        GroupType groupType = GroupType.PUBLIC;
+
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        HashMap groups = new HashMap<String, Group>();
+        String groupId = group.getGroupId().toString();
+        groups.put(groupId, group);
+
+        //act
+        ValidationResult validationResult = checkService.isGroupActive(groupId, groups);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("CheckServiceTest")
+    @Test
+    void testIsGroupActiveFalse() {
+        //Arrange
+        String userName1 = "groupCreator";
+        List<Membership> members = new ArrayList<>();
+        GroupName groupName = new GroupName("groupName");
+        GroupDescription description = new GroupDescription("description");
+        User groupCreator = new User(new Username(userName1));
+        GroupStatus groupStatus = GroupStatus.DEACTIVATED;
+        GroupType groupType = GroupType.PUBLIC;
+
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        HashMap groups = new HashMap<String, Group>();
+        String groupId = group.getGroupId().toString();
+        groups.put(groupId, group);
+
+        //act
+        ValidationResult validationResult = checkService.isGroupActive(groupId, groups);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
