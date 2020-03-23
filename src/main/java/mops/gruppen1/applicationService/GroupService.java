@@ -3,6 +3,7 @@ package mops.gruppen1.applicationService;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
@@ -23,15 +24,25 @@ import java.util.List;
 @EqualsAndHashCode
 @AllArgsConstructor
 @Service
+@NoArgsConstructor
 public class GroupService {
     @Autowired
     EventService events;
     @Autowired
     private CheckService checkService;
-    private HashMap<String, List<Membership>> groupToMembers = new HashMap<String, List<Membership>>();
-    private HashMap<String, List<Membership>> userToMembers = new HashMap<String, List<Membership>>();
-    private HashMap<String, Group> groups = new HashMap<String, Group>();
-    private HashMap<String, User> users = new HashMap<String, User>();
+    private HashMap<String, List<Membership>> groupToMembers ;
+    private HashMap<String, List<Membership>> userToMembers ;
+    private HashMap<String, Group> groups ;
+    private HashMap<String, User> users;
+
+    public GroupService(EventService eventService, CheckService checkService) {
+        this.events = eventService;
+        this.checkService = checkService;
+        this.groupToMembers = new HashMap<String, List<Membership>>();
+        userToMembers = new HashMap<String, List<Membership>>();
+        groups = new HashMap<String, Group>();
+        users = new HashMap<String, User>();
+    }
 
     public void init() {
         events.loadEvents();
