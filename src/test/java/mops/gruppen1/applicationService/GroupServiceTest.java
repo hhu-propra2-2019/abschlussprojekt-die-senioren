@@ -109,4 +109,93 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isFalse();
     }
 
+    @Test
+    void testRejectMembershipPositiveChecks() {
+        //Arrange
+        String userName = "Test";
+        String groupId = "1";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isRestricted()).thenReturn(validationResult1);
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
+        when(checkServiceMock.membershipIsPending()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.rejectMembership(userName,groupId);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Test
+    void testRejectMembershipFalseChecks() {
+        //Arrange
+        String userName = "Test";
+        String groupId = "1";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        validationResult1.addError("Test");
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isRestricted()).thenReturn(validationResult1);
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
+        when(checkServiceMock.membershipIsPending()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.rejectMembership(userName,groupId);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
+    @Test
+    void testRequestMembershipPositiveChecks() {
+        //Arrange
+        String userName = "Test";
+        String groupId = "1";
+        String membershipType = "VIEWER";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isRestricted()).thenReturn(validationResult1);
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
+        when(checkServiceMock.isNotMember()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.requestMembership(userName,groupId, membershipType);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Test
+    void testRequestMembershipFalseChecks() {
+        //Arrange
+        String userName = "Test";
+        String groupId = "1";
+        String membershipType = "VIEWER";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        validationResult1.addError("Test");
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(checkServiceMock.isRestricted()).thenReturn(validationResult1);
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
+        when(checkServiceMock.isNotMember()).thenReturn(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.requestMembership(userName,groupId, membershipType);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
+
 }
