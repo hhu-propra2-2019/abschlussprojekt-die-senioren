@@ -238,6 +238,7 @@ class CheckServiceTest {
         //assert
         assertThat(validationResult.isValid()).isTrue();
     }
+
     @Tag("CheckServiceTest")
     @Test
     void testIsAdminFalse() {
@@ -270,6 +271,152 @@ class CheckServiceTest {
 
         //act
         ValidationResult validationResult = checkService.isAdmin(userName1, groupId, groups, users, userToMembers);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
+    @Tag("CheckServiceTest")
+    @Test
+    void testIsMembershipActivePositive() {
+        //Arrange
+        String userName1 = "groupCreator";
+        List<Membership> members = new ArrayList<>();
+        GroupName groupName = new GroupName("groupName");
+        GroupDescription description = new GroupDescription("description");
+        User groupCreator = new User(new Username(userName1));
+        GroupStatus groupStatus = GroupStatus.DEACTIVATED;
+        GroupType groupType = GroupType.PUBLIC;
+
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        HashMap groups = new HashMap<String, Group>();
+        String groupId = group.getGroupId().toString();
+        groups.put(groupId, group);
+
+        String userName2 = "Admin";
+        User admin = new User(new Username(userName2));
+        HashMap<String, User> users = new HashMap<>();
+        users.put(userName1, admin);
+
+        MembershipType membershipType = MembershipType.VIEWER;
+        MembershipStatus membershipStatus = MembershipStatus.ACTIVE;
+
+        Membership membership = new Membership(admin, group, membershipType, membershipStatus);
+        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+        userToMembers.put(userName1, new ArrayList<>());
+        userToMembers.get(userName1).add(membership);
+
+        //act
+        ValidationResult validationResult = checkService.isMembershipActive(userName1, groupId, groups, users, userToMembers);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+    @Tag("CheckServiceTest")
+    @Test
+    void testIsMembershipActiveFalse() {
+        //Arrange
+        String userName1 = "groupCreator";
+        List<Membership> members = new ArrayList<>();
+        GroupName groupName = new GroupName("groupName");
+        GroupDescription description = new GroupDescription("description");
+        User groupCreator = new User(new Username(userName1));
+        GroupStatus groupStatus = GroupStatus.DEACTIVATED;
+        GroupType groupType = GroupType.PUBLIC;
+
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        HashMap groups = new HashMap<String, Group>();
+        String groupId = group.getGroupId().toString();
+        groups.put(groupId, group);
+
+        String userName2 = "Admin";
+        User admin = new User(new Username(userName2));
+        HashMap<String, User> users = new HashMap<>();
+        users.put(userName1, admin);
+
+        MembershipType membershipType = MembershipType.VIEWER;
+        MembershipStatus membershipStatus = MembershipStatus.DEACTIVATED;
+
+        Membership membership = new Membership(admin, group, membershipType, membershipStatus);
+        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+        userToMembers.put(userName1, new ArrayList<>());
+        userToMembers.get(userName1).add(membership);
+
+        //act
+        ValidationResult validationResult = checkService.isMembershipActive(userName1, groupId, groups, users, userToMembers);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+    @Tag("CheckServiceTest")
+    @Test
+    void testIsMembershipPendingPositive() {
+        //Arrange
+        String userName1 = "groupCreator";
+        List<Membership> members = new ArrayList<>();
+        GroupName groupName = new GroupName("groupName");
+        GroupDescription description = new GroupDescription("description");
+        User groupCreator = new User(new Username(userName1));
+        GroupStatus groupStatus = GroupStatus.DEACTIVATED;
+        GroupType groupType = GroupType.PUBLIC;
+
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        HashMap groups = new HashMap<String, Group>();
+        String groupId = group.getGroupId().toString();
+        groups.put(groupId, group);
+
+        String userName2 = "Admin";
+        User admin = new User(new Username(userName2));
+        HashMap<String, User> users = new HashMap<>();
+        users.put(userName1, admin);
+
+        MembershipType membershipType = MembershipType.VIEWER;
+        MembershipStatus membershipStatus = MembershipStatus.PENDING;
+
+        Membership membership = new Membership(admin, group, membershipType, membershipStatus);
+        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+        userToMembers.put(userName1, new ArrayList<>());
+        userToMembers.get(userName1).add(membership);
+
+        //act
+        ValidationResult validationResult = checkService.isMembershipPending(userName1, groupId, groups, users, userToMembers);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("CheckServiceTest")
+    @Test
+    void testIsMembershipPendingFalse() {
+        //Arrange
+        String userName1 = "groupCreator";
+        List<Membership> members = new ArrayList<>();
+        GroupName groupName = new GroupName("groupName");
+        GroupDescription description = new GroupDescription("description");
+        User groupCreator = new User(new Username(userName1));
+        GroupStatus groupStatus = GroupStatus.DEACTIVATED;
+        GroupType groupType = GroupType.PUBLIC;
+
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        HashMap groups = new HashMap<String, Group>();
+        String groupId = group.getGroupId().toString();
+        groups.put(groupId, group);
+
+        String userName2 = "Admin";
+        User admin = new User(new Username(userName2));
+        HashMap<String, User> users = new HashMap<>();
+        users.put(userName1, admin);
+
+        MembershipType membershipType = MembershipType.VIEWER;
+        MembershipStatus membershipStatus = MembershipStatus.REJECTED;
+
+        Membership membership = new Membership(admin, group, membershipType, membershipStatus);
+        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+        userToMembers.put(userName1, new ArrayList<>());
+        userToMembers.get(userName1).add(membership);
+
+        //act
+        ValidationResult validationResult = checkService.isMembershipPending(userName1, groupId, groups, users, userToMembers);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
