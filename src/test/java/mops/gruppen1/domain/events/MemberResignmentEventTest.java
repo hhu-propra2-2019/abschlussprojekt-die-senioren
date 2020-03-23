@@ -1,7 +1,7 @@
 package mops.gruppen1.domain.events;
 
 import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.Status;
+import mops.gruppen1.domain.MembershipStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -15,7 +15,7 @@ class MemberResignmentEventTest {
 
     private TestSetup testSetup;
     private String testGroupId;
-    private String leavingMemberID;
+    private String leavingUserID;
     private MemberResignmentEvent memberResignmentEvent;
 
     @BeforeEach
@@ -23,8 +23,8 @@ class MemberResignmentEventTest {
         //allgemeiner arrange - Schritt
         this.testSetup = new TestSetup();
         this.testGroupId = testSetup.groupOne.getGroupId().toString();
-        this.leavingMemberID = testSetup.memberships.get(1).getMemberid().toString();
-        this.memberResignmentEvent = new MemberResignmentEvent(testGroupId, leavingMemberID);
+        this.leavingUserID = testSetup.groupOne.getMembers().get(1).getUser().getUsername().getUsername();
+        this.memberResignmentEvent = new MemberResignmentEvent(testGroupId, leavingUserID);
     }
 
     @Tag("EventTest")
@@ -38,8 +38,8 @@ class MemberResignmentEventTest {
         memberResignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getStatus()
-                .equals((Status.DEACTIVATED))).isEqualTo(true);
+        assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getMembershipStatus()
+                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
     }
 
 
@@ -55,8 +55,8 @@ class MemberResignmentEventTest {
         memberResignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testMemberlist.get(1).getStatus()
-                .equals((Status.DEACTIVATED))).isEqualTo(true);
+        assertThat(testMemberlist.get(1).getMembershipStatus()
+                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
     }
 
     @Tag("EventTest")
@@ -73,7 +73,7 @@ class MemberResignmentEventTest {
         //assert
         //Da Membership - List von User, hat diese nur einen Eintrag, da jeder User im testSetup nur in genau
         //einer Gruppe ist.
-        assertThat(testMemberlist.get(0).getStatus()
-                .equals((Status.DEACTIVATED))).isEqualTo(true);
+        assertThat(testMemberlist.get(0).getMembershipStatus()
+                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
     }
 }
