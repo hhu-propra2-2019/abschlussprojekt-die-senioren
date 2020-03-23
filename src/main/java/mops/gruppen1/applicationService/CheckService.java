@@ -9,7 +9,8 @@ import java.util.List;
 @Component
 public class CheckService {
 
-    public ValidationResult doesUserExist(String username, HashMap<String, User> users, ValidationResult validationResult) {
+    public ValidationResult doesUserExist(String username, HashMap<String, User> users) {
+        ValidationResult validationResult = new ValidationResult();
         boolean userDoesNotExist = !users.containsKey(username);
         if (userDoesNotExist) {
             return validationResult;
@@ -18,7 +19,8 @@ public class CheckService {
         return validationResult;
     }
 
-    public ValidationResult isGroupActive(String groupId, HashMap<String, Group> groups, ValidationResult validationResult) {
+    public ValidationResult isGroupActive(String groupId, HashMap<String, Group> groups) {
+        ValidationResult validationResult = new ValidationResult();
         Group group = groups.get(groupId);
         boolean isActive = group.getGroupStatus().equals(GroupStatus.ACTIVE);
         if (isActive) {
@@ -28,7 +30,8 @@ public class CheckService {
         return validationResult;
     }
 
-    public ValidationResult isPublic(String groupId, HashMap<String, Group> groups, ValidationResult validationResult) {
+    public ValidationResult isPublic(String groupId, HashMap<String, Group> groups) {
+        ValidationResult validationResult = new ValidationResult();
         Group group = groups.get(groupId);
         boolean isPublic = group.getGroupType().equals(GroupType.PUBLIC);
         if (isPublic) {
@@ -38,7 +41,8 @@ public class CheckService {
         return validationResult;
     }
 
-    public ValidationResult isRestricted(String groupId, HashMap<String, Group> groups, ValidationResult validationResult) {
+    public ValidationResult isRestricted(String groupId, HashMap<String, Group> groups) {
+        ValidationResult validationResult = new ValidationResult();
         Group group = groups.get(groupId);
         boolean isRestricted = group.getGroupType().equals(GroupType.RESTRICTED);
         if (isRestricted) {
@@ -49,8 +53,8 @@ public class CheckService {
     }
 
     public ValidationResult isAdmin(String userName, String groupId, HashMap<String, Group> groups,
-                                    HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers,
-                                    ValidationResult validationResult) {
+                                    HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
+        ValidationResult validationResult = new ValidationResult();
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
@@ -65,8 +69,8 @@ public class CheckService {
     }
 
     public ValidationResult isMembershipActive(String userName, String groupId, HashMap<String, Group> groups,
-                                               HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers,
-                                               ValidationResult validationResult) {
+                                               HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
+        ValidationResult validationResult = new ValidationResult();
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
@@ -81,8 +85,8 @@ public class CheckService {
     }
 
     public ValidationResult isMembershipPending(String userName, String groupId, HashMap<String, Group> groups,
-                                                HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers,
-                                                ValidationResult validationResult) {
+                                                HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
+        ValidationResult validationResult = new ValidationResult();
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
@@ -96,8 +100,8 @@ public class CheckService {
     }
 
     public ValidationResult isMember(String userName, String groupId, HashMap<String, Group> groups,
-                                     HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers,
-                                     ValidationResult validationResult) {
+                                     HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
+        ValidationResult validationResult = new ValidationResult();
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
@@ -111,8 +115,8 @@ public class CheckService {
     }
 
     public ValidationResult isNotMember(String userName, String groupId, HashMap<String, Group> groups,
-                                        HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers,
-                                        ValidationResult validationResult) {
+                                        HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
+        ValidationResult validationResult = new ValidationResult();
         User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);

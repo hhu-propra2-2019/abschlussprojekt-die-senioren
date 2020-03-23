@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,8 +74,10 @@ public class GroupService {
     }
 
     public ValidationResult deleteGroup(String groupId, String userName) {
-        ValidationResult validationResult = checkService.isAdmin(userName, groupId, groups, users, userToMembers, new ValidationResult());
-        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
+        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        validationResults.add(checkService.isAdmin(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isGroupActive(groupId, groups));
+        ValidationResult validationResult = collectCheck(validationResults);
         if (validationResult.isValid()) {
             try {
                 performGroupDeletionEvent(userName, groupId);
@@ -93,8 +96,10 @@ public class GroupService {
     }
 
     public ValidationResult updateGroupProperties(String groupId, String updatedBy, String groupName, String description, String groupType) {
-        ValidationResult validationResult = checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers, new ValidationResult());
-        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
+        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        validationResults.add(checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isGroupActive(groupId, groups));
+        ValidationResult validationResult = collectCheck(validationResults);
         if (validationResult.isValid()) {
             try {
                 performGroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
@@ -113,7 +118,7 @@ public class GroupService {
     }
 
     public ValidationResult createUser(String userName) {
-        ValidationResult validationResult = checkService.doesUserExist(userName, users, new ValidationResult());
+        ValidationResult validationResult = checkService.doesUserExist(userName, users);
         try {
             performUserCreationEvent(userName);
         } catch (Exception e) {
@@ -134,10 +139,11 @@ public class GroupService {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
-        ValidationResult validationResult = new ValidationResult();
-        validationResult = checkService.isPublic(groupId, groups, validationResult);
-        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.isNotMember(userName, groupId, groups, users, userToMembers, validationResult);
+        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        validationResults.add(checkService.isPublic(groupId, groups));
+        validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isNotMember(userName, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
             try {
@@ -160,10 +166,11 @@ public class GroupService {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
-        ValidationResult validationResult = new ValidationResult();
-        validationResult = checkService.isRestricted(groupId, groups, validationResult);
-        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.isNotMember(userName, groupId, groups, users, userToMembers, validationResult);
+        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        validationResults.add(checkService.isRestricted(groupId, groups));
+        validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isNotMember(userName, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
             try {
@@ -183,10 +190,11 @@ public class GroupService {
     }
 
     public ValidationResult resignMembership(String userName, String groupId) {
-        ValidationResult validationResult = new ValidationResult();
-        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.isMember(userName, groupId, groups, users, userToMembers, validationResult);
-        validationResult = checkService.isMembershipActive(userName, groupId, groups, users, userToMembers, validationResult);
+        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isMember(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
             try {
@@ -206,11 +214,11 @@ public class GroupService {
     }
 
     public ValidationResult rejectMembership(String userName, String groupId) {
-
-        ValidationResult validationResult = new ValidationResult();
-        validationResult = checkService.isRestricted(groupId, groups, validationResult);
-        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.isMembershipPending(userName, groupId, groups, users, userToMembers, validationResult);
+        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        validationResults.add(checkService.isRestricted(groupId, groups));
+        validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isMembershipPending(userName, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
             try {
@@ -230,12 +238,12 @@ public class GroupService {
     }
 
     public ValidationResult deleteMembership(String userName, String groupId, String deletedBy) {
-
-        ValidationResult validationResult = new ValidationResult();
-        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.isMembershipActive(userName, groupId, groups, users, userToMembers, validationResult);
-        validationResult = checkService.isMembershipActive(deletedBy, groupId, groups, users, userToMembers, validationResult);
-        validationResult = checkService.isAdmin(deletedBy, groupId, groups, users, userToMembers, validationResult);
+        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isMembershipActive(deletedBy, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isAdmin(deletedBy, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
             try {
@@ -256,12 +264,12 @@ public class GroupService {
     }
 
     public ValidationResult updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
-
-        ValidationResult validationResult = new ValidationResult();
-        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.isMembershipActive(userName, groupId, groups, users, userToMembers, validationResult);
-        validationResult = checkService.isMembershipActive(updatedBy, groupId, groups, users, userToMembers, validationResult);
-        validationResult = checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers, validationResult);
+        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isMembershipActive(updatedBy, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
             try {
@@ -281,11 +289,11 @@ public class GroupService {
     }
 
     public ValidationResult acceptMembership(String userName, String groupId) {
-
-        ValidationResult validationResult = new ValidationResult();
-        validationResult = checkService.isRestricted(groupId, groups, validationResult);
-        validationResult = checkService.isGroupActive(groupId, groups, validationResult);
-        validationResult = checkService.isMembershipPending(userName, groupId, groups, users, userToMembers, validationResult);
+        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        validationResults.add(checkService.isRestricted(groupId, groups));
+        validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isMembershipPending(userName, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
             try {
@@ -311,6 +319,16 @@ public class GroupService {
         EventDTO membershipAcceptanceEventDTO = events.createEventDTO(userName, groupId, timestamp, eventType, event);
 
         events.saveToRepository(membershipAcceptanceEventDTO);
+    }
+
+    private ValidationResult collectCheck(List<ValidationResult> checks) {
+        ValidationResult validationResult = new ValidationResult();
+        for (ValidationResult check : checks) {
+            if (!check.isValid()) {
+                validationResult.addError(check.getErrorMessages().stream().toString());
+            }
+        }
+        return validationResult;
     }
 }
 
