@@ -33,6 +33,15 @@ public class GroupService {
     private HashMap<String, Group> groups;
     private HashMap<String, User> users;
 
+    public GroupService(EventService events, CheckService checkService) {
+        this.events = events;
+        this.checkService = checkService;
+        groupToMembers = new HashMap<String, List<Membership>>();
+        userToMembers = new HashMap<String, List<Membership>>();
+        groups = new HashMap<String, Group>();
+        users = new HashMap<String, User>();
+    }
+
     public void init() {
         events.loadEvents();
         List<IEvent> eventList = events.getEvents();
