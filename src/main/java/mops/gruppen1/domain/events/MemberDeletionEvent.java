@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.Status;
+import mops.gruppen1.domain.MembershipStatus;
 import mops.gruppen1.domain.User;
 
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public class MemberDeletionEvent implements IEvent {
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         //TODO Ziehe Suche nach Deletor & Prüfung ob Admin in den Groupservice
         //Membership deletor = findDeletor(groups);
-        //if (deletor != null && deletor.getType().equals(Type.ADMIN)) {
+        //if (deletor != null && deletor.getMembershipType().equals(MembershipType.ADMIN)) {
         Membership toBeDeleted = findRemovedMember(groups);
         deactiveMembership(toBeDeleted);
     }
@@ -78,6 +78,6 @@ public class MemberDeletionEvent implements IEvent {
      * @param membership The membership that is to be deactivated.
      */
     private void deactiveMembership(Membership membership) {
-        membership.setStatus(Status.DEACTIVATED);
+        membership.setMembershipStatus(MembershipStatus.DEACTIVATED);
     }
 }

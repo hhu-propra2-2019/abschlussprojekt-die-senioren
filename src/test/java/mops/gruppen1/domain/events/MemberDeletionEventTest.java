@@ -6,9 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,8 +39,8 @@ public class MemberDeletionEventTest {
         memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getStatus()
-                .equals((Status.DEACTIVATED))).isEqualTo(true);
+        assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getMembershipStatus()
+                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
     }
 
     @Tag("EventTest")
@@ -57,8 +55,8 @@ public class MemberDeletionEventTest {
         memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testMemberlist.get(1).getStatus()
-                .equals((Status.DEACTIVATED))).isEqualTo(true);
+        assertThat(testMemberlist.get(1).getMembershipStatus()
+                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
     }
 
     @Tag("EventTest")
@@ -75,7 +73,7 @@ public class MemberDeletionEventTest {
         //assert
         //Da Membership - List von User, hat diese nur einen Eintrag, da jeder User im testSetup nur in genau
         //einer Gruppe ist.
-        assertThat(testMemberlist.get(0).getStatus()
-                .equals((Status.DEACTIVATED))).isEqualTo(true);
+        assertThat(testMemberlist.get(0).getMembershipStatus()
+                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
     }
 }
