@@ -75,6 +75,7 @@ Systemen das Gruppenbildungssystem interagieren wird.
 == Fachlicher Kontext
 
 .Kontextabgrenzung des Gruppenbildungssystems
+[https://github.com/hhu-propra2/abschlussprojekt-die-senioren/blob/168_Dokumentation/Dokumentation/kontextabgrenzung.png]
 image::kontextabgrenzung.png[,550]
 
 *Studenten/Organisatoren (Benutzer)*
@@ -104,3 +105,4 @@ Eine Gruppe enthält ein Forum, das zum Austausch der Mitglieder gedacht ist.
 *Materialsammlung (Fremdsystem)*
 
 Gruppen können Materialien ablegen und verwalten.
+
