@@ -3,9 +3,11 @@ package mops.gruppen1.applicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class GroupServiceTest {
 
@@ -15,7 +17,7 @@ class GroupServiceTest {
     public void setUp() {
         EventService eventServiceMock = mock(EventService.class);
         CheckService checkServiceMock = mock(CheckService.class);
-        this.groupService = new GroupService(eventServiceMock,checkServiceMock);
+        this.groupService = new GroupService(eventServiceMock, checkServiceMock);
     }
 
     @Tag("GroupTest")
@@ -34,9 +36,11 @@ class GroupServiceTest {
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
         when(groupService.checkService.isNotMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        GroupService groupService1 = Mockito.spy(groupService);
+        Mockito.doNothing().when(groupService1).performMembershipAssignmentEvent(userName, groupId, membershipType);
 
         //act
-        ValidationResult validationResult = groupService.assignMembership(userName,groupId,membershipType);
+        ValidationResult validationResult = groupService1.assignMembership(userName, groupId, membershipType);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -60,9 +64,11 @@ class GroupServiceTest {
         when(groupService.checkService.isNotMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
-        //act
-        ValidationResult validationResult = groupService.assignMembership(userName,groupId,membershipType);
+        GroupService groupService1 = Mockito.spy(groupService);
+        Mockito.doNothing().when(groupService1).performMembershipAssignmentEvent(userName, groupId, membershipType);
 
+        //act
+        ValidationResult validationResult = groupService1.assignMembership(userName, groupId, membershipType);
         //assert
         assertThat(validationResult.isValid()).isFalse();
     }
@@ -73,7 +79,7 @@ class GroupServiceTest {
         //Arrange
         String userName = "Test";
         String groupId = "1";
-        
+
         ValidationResult validationResult1 = new ValidationResult();
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
@@ -84,7 +90,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
-        ValidationResult validationResult = groupService.acceptMembership(userName,groupId);
+        ValidationResult validationResult = groupService.acceptMembership(userName, groupId);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -108,7 +114,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
-        ValidationResult validationResult = groupService.acceptMembership(userName,groupId);
+        ValidationResult validationResult = groupService.acceptMembership(userName, groupId);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
@@ -131,7 +137,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
-        ValidationResult validationResult = groupService.rejectMembership(userName,groupId);
+        ValidationResult validationResult = groupService.rejectMembership(userName, groupId);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -155,7 +161,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
-        ValidationResult validationResult = groupService.rejectMembership(userName,groupId);
+        ValidationResult validationResult = groupService.rejectMembership(userName, groupId);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
@@ -179,7 +185,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
-        ValidationResult validationResult = groupService.requestMembership(userName,groupId, membershipType);
+        ValidationResult validationResult = groupService.requestMembership(userName, groupId, membershipType);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -204,7 +210,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
-        ValidationResult validationResult = groupService.requestMembership(userName,groupId, membershipType);
+        ValidationResult validationResult = groupService.requestMembership(userName, groupId, membershipType);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
@@ -230,7 +236,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
-        ValidationResult validationResult = groupService.updateMembership(userName, groupId,  updatedBy, updatedTo);
+        ValidationResult validationResult = groupService.updateMembership(userName, groupId, updatedBy, updatedTo);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -257,12 +263,12 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
-        ValidationResult validationResult = groupService.updateMembership(userName, groupId,  updatedBy, updatedTo);
+        ValidationResult validationResult = groupService.updateMembership(userName, groupId, updatedBy, updatedTo);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
     }
-    
+
     @Tag("GroupTest")
     @Test
     void testDeleteMembershipPositiveChecks() {

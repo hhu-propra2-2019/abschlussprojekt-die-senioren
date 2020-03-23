@@ -30,9 +30,9 @@ public class GroupService {
     EventService events;
     @Autowired
     CheckService checkService;
-    private HashMap<String, List<Membership>> groupToMembers ;
-    private HashMap<String, List<Membership>> userToMembers ;
-    private HashMap<String, Group> groups ;
+    private HashMap<String, List<Membership>> groupToMembers;
+    private HashMap<String, List<Membership>> userToMembers;
+    private HashMap<String, Group> groups;
     private HashMap<String, User> users;
 
     public GroupService(EventService eventService, CheckService checkService) {
@@ -166,7 +166,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performMembershipAssignmentEvent(String userName, String groupId, String membershipType) {
+    void performMembershipAssignmentEvent(String userName, String groupId, String membershipType) {
         MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, userName, membershipType);
         membershipAssignmentEvent.execute(groupToMembers, userToMembers, users, groups);
 
