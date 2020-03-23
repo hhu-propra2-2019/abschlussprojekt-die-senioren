@@ -1,14 +1,11 @@
 package mops.gruppen1.applicationService;
 
-import org.graalvm.compiler.nodes.extended.ArrayRangeWrite;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import sun.jvm.hotspot.utilities.Assert;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class GroupServiceTest {
 
@@ -33,9 +30,10 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isPublic()).thenReturn(validationResult1);
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
-        when(checkServiceMock.isNotMember()).thenReturn(validationResult3);
+        when(groupService.checkService.isPublic(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
+        when(groupService.checkService.isNotMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.assignMembership(userName,groupId,membershipType);
@@ -57,9 +55,10 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isPublic()).thenReturn(validationResult1);
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
-        when(checkServiceMock.isNotMember()).thenReturn(validationResult3);
+        when(groupService.checkService.isPublic(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
+        when(groupService.checkService.isNotMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.assignMembership(userName,groupId,membershipType);
@@ -74,14 +73,15 @@ class GroupServiceTest {
         //Arrange
         String userName = "Test";
         String groupId = "1";
-
+        
         ValidationResult validationResult1 = new ValidationResult();
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isRestricted()).thenReturn(validationResult1);
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
-        when(checkServiceMock.membershipIsPending()).thenReturn(validationResult3);
+        when(groupService.checkService.isRestricted(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
+        when(groupService.checkService.isMembershipPending(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.acceptMembership(userName,groupId);
@@ -102,9 +102,10 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isRestricted()).thenReturn(validationResult1);
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
-        when(checkServiceMock.membershipIsPending()).thenReturn(validationResult3);
+        when(groupService.checkService.isRestricted(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
+        when(groupService.checkService.isMembershipPending(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.acceptMembership(userName,groupId);
@@ -124,9 +125,10 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isRestricted()).thenReturn(validationResult1);
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
-        when(checkServiceMock.membershipIsPending()).thenReturn(validationResult3);
+        when(groupService.checkService.isRestricted(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
+        when(groupService.checkService.isMembershipPending(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.rejectMembership(userName,groupId);
@@ -147,9 +149,10 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isRestricted()).thenReturn(validationResult1);
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
-        when(checkServiceMock.membershipIsPending()).thenReturn(validationResult3);
+        when(groupService.checkService.isRestricted(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
+        when(groupService.checkService.isMembershipPending(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.rejectMembership(userName,groupId);
@@ -170,9 +173,10 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isRestricted()).thenReturn(validationResult1);
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
-        when(checkServiceMock.isNotMember()).thenReturn(validationResult3);
+        when(groupService.checkService.isRestricted(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
+        when(groupService.checkService.isNotMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.requestMembership(userName,groupId, membershipType);
@@ -194,9 +198,10 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isRestricted()).thenReturn(validationResult1);
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult2);
-        when(checkServiceMock.isNotMember()).thenReturn(validationResult3);
+        when(groupService.checkService.isRestricted(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
+        when(groupService.checkService.isNotMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.requestMembership(userName,groupId, membershipType);
@@ -218,9 +223,11 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult2);
-        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult2);
+        when(groupService.checkService.isAdmin(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.updateMembership(userName, groupId,  updatedBy, updatedTo);
@@ -243,9 +250,11 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult2);
-        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult2);
+        when(groupService.checkService.isAdmin(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.updateMembership(userName, groupId,  updatedBy, updatedTo);
@@ -253,7 +262,7 @@ class GroupServiceTest {
         //assert
         assertThat(validationResult.isValid()).isFalse();
     }
-
+    
     @Tag("GroupTest")
     @Test
     void testDeleteMembershipPositiveChecks() {
@@ -266,9 +275,11 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.membershipIsAcitve()).thenReturn(validationResult2);
-        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult2);
+        when(groupService.checkService.isAdmin(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.deleteMembership(userName, groupId, deletedBy);
@@ -290,55 +301,11 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult2);
-        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
-
-        //act
-        ValidationResult validationResult = groupService.deleteMembership(userName, groupId, deletedBy);
-
-        //assert
-        assertThat(validationResult.isValid()).isFalse();
-    }
-    @Tag("GroupTest")
-    @Test
-    void testDeleteMembershipPositiveChecks() {
-        //Arrange
-        String userName = "Test";
-        String deletedBy = "Test2";
-        String groupId = "1";
-
-        ValidationResult validationResult1 = new ValidationResult();
-        ValidationResult validationResult2 = new ValidationResult();
-        ValidationResult validationResult3 = new ValidationResult();
-
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult2);
-        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
-
-        //act
-        ValidationResult validationResult = groupService.deleteMembership(userName, groupId, deletedBy);
-
-        //assert
-        assertThat(validationResult.isValid()).isTrue();
-    }
-
-    @Tag("GroupTest")
-    @Test
-    void testDeleteMembershipFalseChecks() {
-        //Arrange
-        String userName = "Test";
-        String deletedBy = "Test2";
-        String groupId = "1";
-
-        ValidationResult validationResult1 = new ValidationResult();
-        validationResult1.addError("Test");
-        ValidationResult validationResult2 = new ValidationResult();
-        ValidationResult validationResult3 = new ValidationResult();
-
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult2);
-        when(checkServiceMock.isAdmin()).thenReturn(validationResult3);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult2);
+        when(groupService.checkService.isAdmin(deletedBy, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.deleteMembership(userName, groupId, deletedBy);
@@ -358,9 +325,11 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.isMember()).thenReturn(validationResult2);
-        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult3);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult2);
+        when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.resignMembership(userName, groupId);
@@ -381,9 +350,11 @@ class GroupServiceTest {
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
 
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
-        when(checkServiceMock.isMember()).thenReturn(validationResult2);
-        when(checkServiceMock.membershipIsActive()).thenReturn(validationResult3);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult2);
+        when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
 
         //act
         ValidationResult validationResult = groupService.resignMembership(userName, groupId);
@@ -400,7 +371,7 @@ class GroupServiceTest {
 
         ValidationResult validationResult1 = new ValidationResult();
 
-        when(checkServiceMock.doesUserExist()).thenReturn(validationResult1);
+        when(groupService.checkService.doesUserExist(userName, groupService.getUsers())).thenReturn(validationResult1);
 
         //act
         ValidationResult validationResult = groupService.createUser(userName);
@@ -418,7 +389,7 @@ class GroupServiceTest {
         ValidationResult validationResult1 = new ValidationResult();
         validationResult1.addError("Test");
 
-        when(checkServiceMock.doesUserExist()).thenReturn(validationResult1);
+        when(groupService.checkService.doesUserExist(userName, groupService.getUsers())).thenReturn(validationResult1);
 
         //act
         ValidationResult validationResult = groupService.createUser(userName);
@@ -454,13 +425,20 @@ class GroupServiceTest {
         String userName = "Test";
 
         ValidationResult validationResult1 = new ValidationResult();
+        ValidationResult validationResult2 = new ValidationResult();
 
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        System.out.println(validationResult1.isValid());
+        System.out.println(validationResult2.isValid());
+
+        when(groupService.checkService.isAdmin(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
 
         //act
         ValidationResult validationResult = groupService.deleteGroup(groupId, userName);
 
         //assert
+        System.out.println(validationResult.isValid());
         assertThat(validationResult.isValid()).isTrue();
     }
 
@@ -472,9 +450,12 @@ class GroupServiceTest {
         String userName = "Test";
 
         ValidationResult validationResult1 = new ValidationResult();
+        ValidationResult validationResult2 = new ValidationResult();
         validationResult1.addError("Test");
 
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(groupService.checkService.isAdmin(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
 
         //act
         ValidationResult validationResult = groupService.deleteGroup(groupId, userName);
@@ -495,8 +476,9 @@ class GroupServiceTest {
 
         ValidationResult validationResult1 = new ValidationResult();
 
-        when(checkServiceMock.isAdmin()).thenReturn(validationResult1);
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(groupService.checkService.isAdmin(updatedBy, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
 
         //act
         ValidationResult validationResult = groupService.updateGroupProperties(groupId, updatedBy, groupName, description, groupType);
@@ -518,8 +500,9 @@ class GroupServiceTest {
         ValidationResult validationResult1 = new ValidationResult();
         validationResult1.addError("Test");
 
-        when(checkServiceMock.isAdmin()).thenReturn(validationResult1);
-        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+        when(groupService.checkService.isAdmin(updatedBy, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
 
         //act
         ValidationResult validationResult = groupService.updateGroupProperties(groupId, updatedBy, groupName, description, groupType);

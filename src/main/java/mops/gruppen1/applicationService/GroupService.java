@@ -29,7 +29,7 @@ public class GroupService {
     @Autowired
     EventService events;
     @Autowired
-    private CheckService checkService;
+    CheckService checkService;
     private HashMap<String, List<Membership>> groupToMembers ;
     private HashMap<String, List<Membership>> userToMembers ;
     private HashMap<String, Group> groups ;
