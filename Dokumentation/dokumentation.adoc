@@ -123,7 +123,6 @@ Die Pfeile stellen fachliche Abhängigkeiten der Subsysteme untereinander
 dar (“x -> y” für “x ist abhängig von y”). Die Quadrate auf der Membran des Systems sind
 Interaktionspunkte mit externen Systeme.
 
-.Bausteinsicht der Ebene 1
 image::bausteinsicht_ebene1.png[]
 
 |===
@@ -138,7 +137,7 @@ restringierte Gruppen gesucht werden.
 
 *Blackbox - Sichten der Subsysteme*
 
-. Gruppenerstellung
+*Gruppenerstellung*
 
 *Zweck/Verantwortlichkeit*
 
@@ -154,6 +153,83 @@ Folgende Felder sind dabei obligatorisch:
 ****
 
 Mitglieder können per Suche(einzeln) oder per CSV - Datei hinzugefügt werden.
+
+*Schnittstellen*
+//TODO Schnittstellen auf Klassenebene hinzufügen
+
+*Gruppenansicht*
+
+*Zweck/Verantwortlichkeit*
+
+Dieses Subsystem bietet die Übersicht einer Gruppe. +
+Über diese Ansicht kann auf die Services der Fremdsysteme für die jeweilige Gruppe per
+Link zugegriffen werden.(Material,Abgaben) +
+Es wird eine Unterscheidung zwischen einem Viewer und einem Admin getroffen. +
+
+
+|===
+|*Aktion*|*Viewer Erlaubt*|*Admin Erlaubt*
+|Gruppenverwaltung|Nein|Ja
+|Mitglieder anzeigen|Ja|Ja
+|Gruppenbeschreibung anzeigen|Ja|Ja
+|Gruppe verlassen|Ja|eingeschränkt*
+|===
+
+*Ein Admin kann eine Gruppe nur verlassen, wenn ein weiterer Admin vorhanden ist. +
+Ansonsten muss ein anderes Mitglied der Gruppe als Admin über die Gruppenverwaltung ausgewählt werden.
+
+=== Abhängigkeiten der Gruppenansicht
+
+Es besteht eine Abhängigkeit zur Gruppenerstellung, da nur vorhandene Gruppen eine
+Ansicht besitzen.
+
+*Schnittstellen*
+//TODO Schnittstellen auf Klassenebene hinzufügen
+
+=== Gruppenverwaltung
+
+*Zweck/Verantwortlichkeit*
+
+Dieses Subsystem ermöglicht es dem Admin einer Gruppe gruppenspezifische Dinge
+zu verwalten: +
+
+* Gesamte Gruppe löschen
+* Gruppenbeschreibung/Gruppenname ändern
+* Offene Gruppenanfragen beantworten
+* Gruppenmitgliedschaften verwalten
+
+==== Abhängigkeiten der Gruppenverwaltung
+
+Es besteht eine Abhängigkeit zur Gruppenansicht, da man nur über die Gruppenansicht
+zu Gruppenverwaltungs - Aufgaben gelangt.
+
+*Schnittstellen*
+//TODO Schnittstellen auf Klassenebene hinzufügen
+
+=== Gruppensuche
+
+*Zweck/Verantwortlichkeit*
+
+Dieses Subsystem ermöglicht es nach bestehenden Gruppen zu suchen. +
+
+//TODO Matching erklären
+
+*Schnittstellen*
+//TODO Schnittstellen auf Klassenebene hinzufügen
+
+=== Gruppenbeitritt
+
+*Zweck/Verantwortlichkeit*
+
+Dieses Subsystem ermöglicht es einer öffentlichen Gruppe beizutreten oder
+an eine restringierte Gruppe einen Aufnahmeantrag zu stellen. +
+
+==== Abhängigkeiten
+
+Es besteht eine Abhängigkeit zur Gruppensuche, da man nur Gruppen beitreten kann, die
+zuvor über die Suche gefunden wurden. +
+Es besteht eine Abhängigkeit zur Gruppenverwaltung, da restringierten Gruppen nicht
+ohne Zustimmung eines Admins beigetreten werden kann.
 
 *Schnittstellen*
 //TODO Schnittstellen auf Klassenebene hinzufügen
