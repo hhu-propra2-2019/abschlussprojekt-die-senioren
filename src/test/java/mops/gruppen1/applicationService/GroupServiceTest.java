@@ -475,5 +475,50 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isFalse();
     }
 
+    @Tag("GroupTest")
+    @Test
+    void testUpdateGroupPropertiesPositiveChecks() {
+        //Arrange
+        String groupId = "1";
+        String updatedBy = "updatedBy";
+        String groupName = "Test";
+        String description = "description";
+        String groupType = "groupType";
+
+        ValidationResult validationResult1 = new ValidationResult();
+
+        when(checkServiceMock.isAdmin()).thenReturn(validationResult1);
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+
+        //act
+        ValidationResult validationResult = groupService.updateGroupProperties(groupId, updatedBy, groupName, description, groupType);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testUpdateGroupPropertiesFalseChecks() {
+        //Arrange
+        String groupId = "1";
+        String updatedBy = "updatedBy";
+        String groupName = "Test";
+        String description = "description";
+        String groupType = "groupType";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        validationResult1.addError("Test");
+
+        when(checkServiceMock.isAdmin()).thenReturn(validationResult1);
+        when(checkServiceMock.isGroupActive()).thenReturn(validationResult1);
+
+        //act
+        ValidationResult validationResult = groupService.updateGroupProperties(groupId, updatedBy, groupName, description, groupType);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
 
 }
