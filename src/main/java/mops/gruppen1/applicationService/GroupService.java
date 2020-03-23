@@ -77,7 +77,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
+    void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -99,7 +99,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performGroupDeletionEvent(String userName, String groupId) {
+    void performGroupDeletionEvent(String userName, String groupId) {
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
         groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -121,7 +121,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performGroupPropertyUpdateEvent(String groupId, String updatedBy, String groupName, String description, String groupType) {
+    void performGroupPropertyUpdateEvent(String groupId, String updatedBy, String groupName, String description, String groupType) {
         GroupPropertyUpdateEvent groupPropertyUpdateEvent = new GroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
         groupPropertyUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -138,7 +138,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performUserCreationEvent(String userName) {
+    void performUserCreationEvent(String userName) {
         UserCreationEvent userCreationEvent = new UserCreationEvent(userName);
         userCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -193,7 +193,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performMembershipRequestEvent(String userName, String groupId, String membershipType) {
+    void performMembershipRequestEvent(String userName, String groupId, String membershipType) {
         MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType);
         membershipRequestEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -217,7 +217,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performMembershipResignmentEvent(String userName, String groupId) {
+    void performMembershipResignmentEvent(String userName, String groupId) {
         MemberResignmentEvent memberResignmentEvent = new MemberResignmentEvent(groupId, userName);
         memberResignmentEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -241,7 +241,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performMembershipRejectEvent(String userName, String groupId) {
+    void performMembershipRejectEvent(String userName, String groupId) {
         MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, userName);
         membershipRejectionEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -267,7 +267,7 @@ public class GroupService {
     }
 
 
-    private void performMembershipDeletionEvent(String userName, String groupId, String deletedBy) {
+    void performMembershipDeletionEvent(String userName, String groupId, String deletedBy) {
         MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(groupId, userName, deletedBy);
         memberDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -292,7 +292,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performMembershipUpdateEvent(String userName, String groupId, String deletedBy, String updatedTo) {
+    void performMembershipUpdateEvent(String userName, String groupId, String deletedBy, String updatedTo) {
         MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName, deletedBy, updatedTo);
         membershipUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -317,14 +317,14 @@ public class GroupService {
     }
 
 
-    private void performMembershipAcceptanceEvent(String userName, String groupId) {
+    void performMembershipAcceptanceEvent(String userName, String groupId) {
         MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName);
         membershipAcceptanceEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipAcceptanceEvent", membershipAcceptanceEvent);
     }
 
-    private void persistEvent(String userName, String groupId, String eventType, IEvent event) {
+    void persistEvent(String userName, String groupId, String eventType, IEvent event) {
         LocalDateTime timestamp = LocalDateTime.now();
 
         EventDTO membershipAcceptanceEventDTO = events.createEventDTO(userName, groupId, timestamp, eventType, event);
