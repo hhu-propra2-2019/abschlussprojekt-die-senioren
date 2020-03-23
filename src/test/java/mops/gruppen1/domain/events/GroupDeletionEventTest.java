@@ -19,7 +19,7 @@ class GroupDeletionEventTest {
 
     @Test
     @Tag("EventTest")
-    @DisplayName("Test GroupeDeletionEvent")
+    @DisplayName("Test GroupDeletionEvent")
     void testExecute() {
         //Arrange
         String groupId = testSetup.groupOne.getGroupId().toString();
@@ -31,5 +31,6 @@ class GroupDeletionEventTest {
 
         //Assert
         assertThat(testSetup.groupOne.getGroupStatus()).isEqualTo(GroupStatus.DEACTIVATED);
+        assertThat(testSetup.groupToMembers.containsKey(groupId)).isFalse();
     }
 }

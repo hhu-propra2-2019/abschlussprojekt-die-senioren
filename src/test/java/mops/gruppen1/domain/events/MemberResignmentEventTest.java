@@ -32,19 +32,19 @@ class MemberResignmentEventTest {
     @Test
     void testExecuteDeactivateMembershipsInGroups() {
         //arrange
-        List<Membership> testMemberlist = testSetup.groupOne.getMembers();
+        List<Membership> testMemberlist = testSetup.groups.get(testGroupId).getMembers();
 
         //act
         memberResignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getMembershipStatus()
-                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
+        assertThat(testMemberlist.get(1).getMembershipStatus()
+                .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 
 
     @Tag("EventTest")
-    @DisplayName("Teste Member - Deaktivierung in groupToMembers - Hashmap.")
+    @DisplayName("Teste Member - Deaktivierung in groupToMembers-Hashmap.")
     @Test
     void testExecuteDeactivateMembershipsInGroupToMembers() {
         //arrange
@@ -56,11 +56,11 @@ class MemberResignmentEventTest {
 
         //assert
         assertThat(testMemberlist.get(1).getMembershipStatus()
-                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
+                .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 
     @Tag("EventTest")
-    @DisplayName("Teste Member - Deaktivierung in userToMembers - Hashmap.")
+    @DisplayName("Teste Member - Deaktivierung in userToMembers-Hashmap.")
     @Test
     void testExecuteDeactivateMembershipsInUserToMembers() {
         //arrange
@@ -74,6 +74,6 @@ class MemberResignmentEventTest {
         //Da Membership - List von User, hat diese nur einen Eintrag, da jeder User im testSetup nur in genau
         //einer Gruppe ist.
         assertThat(testMemberlist.get(0).getMembershipStatus()
-                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
+                .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 }

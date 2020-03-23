@@ -1,6 +1,7 @@
 package mops.gruppen1.domain.events;
 
-import mops.gruppen1.domain.*;
+import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.MembershipStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -33,14 +34,14 @@ public class MemberDeletionEventTest {
     @Test
     void testExecuteDeactivateMembershipsInGroups() {
         //arrange
-        List<Membership> testMemberlist = testSetup.groupOne.getMembers();
+        List<Membership> testMemberlist = testSetup.groups.get(testGroupId).getMembers();
 
         //act
         memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(testSetup.groups.get(testGroupId).getMembers().get(1).getMembershipStatus()
-                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
+        assertThat(testMemberlist.get(1).getMembershipStatus()
+                .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 
     @Tag("EventTest")
@@ -56,7 +57,7 @@ public class MemberDeletionEventTest {
 
         //assert
         assertThat(testMemberlist.get(1).getMembershipStatus()
-                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
+                .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 
     @Tag("EventTest")
@@ -74,6 +75,6 @@ public class MemberDeletionEventTest {
         //Da Membership - List von User, hat diese nur einen Eintrag, da jeder User im testSetup nur in genau
         //einer Gruppe ist.
         assertThat(testMemberlist.get(0).getMembershipStatus()
-                .equals((MembershipStatus.DEACTIVATED))).isEqualTo(true);
+                .equals((MembershipStatus.DEACTIVATED))).isTrue();
     }
 }
