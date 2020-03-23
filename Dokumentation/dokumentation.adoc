@@ -1,4 +1,4 @@
-== Dokumentation der Software - Architektur des Gruppenbildungsprojekt
+== Dokumentation der Software - Architektur des Gruppenbildungsprojekts
 
 Dieses Dokument dient sowohl der Dokumentation, als auch der Kommunikation der
 Software - Archtitektur des Gruppenbildungs - Projekts. +
@@ -91,7 +91,7 @@ Auf diese Weise werden alle Vorkommnisse innerhalb des Systems zur Verfügung ge
 *Terminfindung (Fremdsystem)*
 
 Wenn ein Termin im Fremdsystem Terminfindung erstellt werden soll, können alle Gruppenmitglieder zu diesem Termin
-hinzugefügt werden(falls eine zugehörige Gruppe existiert).
+hinzugefügt werden (falls eine zugehörige Gruppe existiert).
 
 *Abgaben (Fremdsystem)*
 
@@ -120,7 +120,7 @@ Subsysteme inklusive ihrer Schnittstellen darstellt.
 Folgende Abbildung zeigt die Zerlegung des Gruppenbildungssystems in Subsysteme.
 Die Pfeile stellen fachliche Abhängigkeiten der Subsysteme untereinander
 dar (“x -> y” für “x ist abhängig von y”). Die Quadrate auf der Membran des Systems sind
-Interaktionspunkte mit externen Systeme.
+Interaktionspunkte mit externen Systemen.
 
 image::bausteinsicht_ebene1.png[]
 
@@ -128,8 +128,8 @@ image::bausteinsicht_ebene1.png[]
 |*Subsystem*|*Kurzbeschreibung*
 |Gruppenerstellung|Realisiert die Erstellung einer Gruppe
 |Gruppenbeitritt|Realisiert den Gruppenbeitritt eines Users bei restringierten Gruppen.
-|Gruppenansicht|Realisiert die Ansicht einer Gruppe. Dabei wird zwischen der Viewer - Sicht(einfacher User)
-und der Admin - Sicht(User mit erweiterten Rechten) differenziert.
+|Gruppenansicht|Realisiert die Ansicht einer Gruppe. Dabei wird zwischen der Viewer - Sicht (einfacher User)
+und der Admin - Sicht (User mit erweiterten Rechten) differenziert.
 |Gruppensuche|Realisiert die Suche einer Gruppe. Dabei können sowohl öffentliche, als auch
 restringierte Gruppen gesucht werden.
 |===
@@ -142,15 +142,15 @@ restringierte Gruppen gesucht werden.
 
 Dieses Subsystem ermöglicht es eine neue Gruppe zu erstellen. +
 Dabei liest das System Felder eines Formulars ein und wandelt diese dann mittels
-event - basiertet Logik in ein neues Gruppen - Objekt um. +
+event - basierter Logik in ein neues Gruppen - Objekt um. +
 Folgende Felder sind dabei obligatorisch:
 
 * Gruppenname
-* Veranstaltung(auch _keine Veranstaltung_ möglich)
-* Gruppentyp(Public/Restricted)
+* Veranstaltung (auch _keine Veranstaltung_ möglich)
+* Gruppentyp (Public/Restricted)
 * Gruppenbeschreibung
 
-Mitglieder können per Suche(einzeln) oder per CSV - Datei hinzugefügt werden.
+Mitglieder können per Suche (einzeln) oder per CSV - Datei hinzugefügt werden.
 
 *Schnittstellen*
 //TODO Schnittstellen auf Klassenebene hinzufügen
@@ -191,7 +191,7 @@ Dieses Subsystem ermöglicht es dem Admin einer Gruppe gruppenspezifische Dinge
 zu verwalten: +
 
 * Gesamte Gruppe löschen
-* Gruppenbeschreibung/Gruppenname ändern
+* Gruppenbeschreibung/Gruppennamen ändern
 * Offene Gruppenanfragen beantworten
 * Gruppenmitgliedschaften verwalten
 
@@ -249,7 +249,7 @@ Das Testen der Eventklassen soll in einzelnen entsprechenden Testklassen erfolge
 Testklasse). Es gibt eine Hilfsklasse (TestSetup), in der ein SetUp an Datenstrukturen erstellt wird, auf die sich
 die einzelnen Event-Tests dann beziehen können.
 
-Gruppenlöschungen vs. Gruppe verlassen - User Management
+=== Gruppenlöschungen vs. Gruppe verlassen - User Management
 
 Wir haben uns entschieden, dass wir bei Gruppenlöschungen auch direkt die Memberships mit löschen und die Gruppe selbst
 als deaktiviert hinterlegen. Sofern ein User lediglich eine Gruppe verlässt oder von einem Administrator aus der Gruppe
