@@ -332,11 +332,11 @@ public class GroupService {
         events.saveToRepository(membershipAcceptanceEventDTO);
     }
 
-    private ValidationResult collectCheck(List<ValidationResult> checks) {
+     ValidationResult collectCheck(List<ValidationResult> checks) {
         ValidationResult validationResult = new ValidationResult();
         for (ValidationResult check : checks) {
             if (!check.isValid()) {
-                validationResult.addError(check.getErrorMessages().stream().toString());
+                validationResult.addError(String.join(" ", check.getErrorMessages()));
             }
         }
         return validationResult;

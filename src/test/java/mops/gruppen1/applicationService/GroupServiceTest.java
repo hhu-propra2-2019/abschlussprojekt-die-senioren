@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -570,6 +573,34 @@ class GroupServiceTest {
         //assert
         assertThat(validationResult.isValid()).isFalse();
     }
+
+    @Tag("GroupTest")
+    @Test
+    void testCollectCheck() {
+        //Arrange
+        ValidationResult validationResult1 = new ValidationResult();
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+        validationResult1.addError("Das ist.");
+        validationResult1.addError("ein.");
+        validationResult3.addError("Test");
+
+        List<ValidationResult> validationResults = new ArrayList<>();
+        validationResults.add(validationResult1);
+        validationResults.add(validationResult2);
+        validationResults.add(validationResult3);
+
+        //act
+        ValidationResult validationResult = groupService.collectCheck(validationResults);
+        System.out.println(validationResult.getErrorMessages().get(0));
+        System.out.println(validationResult3.getErrorMessages().get(0));
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+        assertThat(validationResult.getErrorMessages().get(0).toString()).isEqualTo("Das ist. ein.");
+        assertThat(validationResult.getErrorMessages().get(1).toString()).isEqualTo("Test");
+    }
+
 
 
 }
