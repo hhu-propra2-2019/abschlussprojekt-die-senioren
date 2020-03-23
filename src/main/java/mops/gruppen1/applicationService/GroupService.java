@@ -57,7 +57,11 @@ public class GroupService {
      */
     public ValidationResult createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
         ValidationResult validationResult = new ValidationResult();
-        performGroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
+        try {
+            performGroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
+        } catch (Exception e) {
+            validationResult.addError("Unexpected failure.");
+        }
         return validationResult;
     }
 
@@ -72,8 +76,11 @@ public class GroupService {
         ValidationResult validationResult = checkService.isAdmin(userName, groupId, groups, users, userToMembers, new ValidationResult());
         validationResult = checkService.isGroupActive(groupId, groups, validationResult);
         if (validationResult.isValid()) {
-            performGroupDeletionEvent(userName, groupId);
-            return validationResult;
+            try {
+                performGroupDeletionEvent(userName, groupId);
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
+            }
         }
         return validationResult;
     }
@@ -89,8 +96,11 @@ public class GroupService {
         ValidationResult validationResult = checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers, new ValidationResult());
         validationResult = checkService.isGroupActive(groupId, groups, validationResult);
         if (validationResult.isValid()) {
-            performGroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
-            return validationResult;
+            try {
+                performGroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
+            }
         }
         return validationResult;
     }
@@ -104,7 +114,11 @@ public class GroupService {
 
     public ValidationResult createUser(String userName) {
         ValidationResult validationResult = checkService.doesUserExist(userName, users, new ValidationResult());
-        performUserCreationEvent(userName);
+        try {
+            performUserCreationEvent(userName);
+        } catch (Exception e) {
+            validationResult.addError("Unexpected failure.");
+        }
         return validationResult;
     }
 
@@ -128,8 +142,8 @@ public class GroupService {
         if (validationResult.isValid()) {
             try {
                 performMembershipAssignmentEvent(userName, groupId, membershipType);
-            } catch (RuntimeException exception) {
-                validationResult.addError("Unexpected failure");
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
             }
         }
         return validationResult;
@@ -154,8 +168,8 @@ public class GroupService {
         if (validationResult.isValid()) {
             try {
                 performMembershipRequestEvent(userName, groupId, membershipType);
-            } catch (RuntimeException exception) {
-                validationResult.addError("Unexpected failure");
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
             }
         }
         return validationResult;
@@ -177,8 +191,8 @@ public class GroupService {
         if (validationResult.isValid()) {
             try {
                 performMembershipResignmentEvent(userName, groupId);
-            } catch (RuntimeException exception) {
-                validationResult.addError("Unexpected failure");
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
             }
         }
         return validationResult;
@@ -201,8 +215,8 @@ public class GroupService {
         if (validationResult.isValid()) {
             try {
                 performMembershipRejectEvent(userName, groupId);
-            } catch (RuntimeException exception) {
-                validationResult.addError("Unexpected failure");
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
             }
         }
         return validationResult;
@@ -226,8 +240,8 @@ public class GroupService {
         if (validationResult.isValid()) {
             try {
                 performMembershipDeletionEvent(userName, groupId, deletedBy);
-            } catch (RuntimeException exception) {
-                validationResult.addError("Unexpected failure");
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
             }
         }
         return validationResult;
@@ -252,8 +266,8 @@ public class GroupService {
         if (validationResult.isValid()) {
             try {
                 performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
-            } catch (RuntimeException exception) {
-                validationResult.addError("Unexpected failure");
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
             }
         }
         return validationResult;
@@ -276,8 +290,8 @@ public class GroupService {
         if (validationResult.isValid()) {
             try {
                 performMembershipAcceptanceEvent(userName, groupId);
-            } catch (RuntimeException exception) {
-                validationResult.addError("Unexpected failure");
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
             }
         }
         return validationResult;
