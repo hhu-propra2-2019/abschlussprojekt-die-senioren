@@ -24,10 +24,10 @@ class CheckServiceTest {
     @Test
     void testDoesUserExistPositive() {
         //Arrange
-
         String userName1 = "Test User1";
         String userName2 = "Test User2";
         User user1 = new User(new Username(userName1));
+
         HashMap<String, User> users = new HashMap<>();
         users.put(userName1, user1);
 
@@ -42,11 +42,11 @@ class CheckServiceTest {
     @Test
     void testDoesUserExistFalse() {
         //Arrange
-
         String userName1 = "Test User1";
         String userName2 = "Test User2";
         User user1 = new User(new Username(userName1));
         User user2 = new User(new Username(userName2));
+
         HashMap<String, User> users = new HashMap<>();
         users.put(userName1, user1);
         users.put(userName2, user2);
@@ -63,16 +63,16 @@ class CheckServiceTest {
     void testIsGroupActivePositive() {
         //Arrange
         String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         GroupType groupType = GroupType.PUBLIC;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
@@ -89,16 +89,16 @@ class CheckServiceTest {
     void testIsGroupActiveFalse() {
         //Arrange
         String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
@@ -117,14 +117,15 @@ class CheckServiceTest {
         String userName1 = "groupCreator";
         User user1 = new User(new Username(userName1));
 
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         GroupType groupType = GroupType.PUBLIC;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
@@ -141,16 +142,16 @@ class CheckServiceTest {
     void testIsPublicFalse() {
         //Arrange
         String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.RESTRICTED;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
@@ -167,16 +168,16 @@ class CheckServiceTest {
     void testIsRestrictedPositive() {
         //Arrange
         String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.RESTRICTED;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
@@ -193,16 +194,16 @@ class CheckServiceTest {
     void testIsRestrictedFalse() {
         //Arrange
         String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
@@ -218,36 +219,41 @@ class CheckServiceTest {
     @Test
     void testIsAdminPositive() {
         //Arrange
-        String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add users:
+        String userName1 = "groupCreator";
+        String userName2 = "Admin";
+        User user1 = new User(new Username(userName1));
+        User user2 = new User(new Username(userName2));
+
+        HashMap<String, User> users = new HashMap<>();
+        users.put(userName1, user1);
+        users.put(userName2, user2);
+
+        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+        userToMembers.put(userName1, new ArrayList<>());
+        userToMembers.put(userName2, new ArrayList<>());
+
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
 
-        String userName2 = "Admin";
-        User admin = new User(new Username(userName2));
-        HashMap<String, User> users = new HashMap<>();
-        users.put(userName1, admin);
-
+        // add membership for admin user2
         MembershipType membershipType = MembershipType.ADMIN;
-        MembershipStatus membershipStatus = MembershipStatus.ACTIVE;
-
+        MembershipStatus membershipStatus = MembershipStatus.PENDING;
         Membership membership = new Membership(user1, group, membershipType, membershipStatus);
-        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
-        userToMembers.put(userName1, new ArrayList<>());
-        userToMembers.get(userName1).add(membership);
-
+        userToMembers.get(userName2).add(membership);
         //act
-        ValidationResult validationResult = checkService.isAdmin(userName1, groupId, groups, users, userToMembers);
+        ValidationResult validationResult = checkService.isAdmin(userName2, groupId, groups, users, userToMembers);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -257,34 +263,39 @@ class CheckServiceTest {
     @Test
     void testIsAdminFalse() {
         //Arrange
-        String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add users:
+        String userName1 = "groupCreator";
+        String userName2 = "Admin";
+        User user1 = new User(new Username(userName1));
+        User user2 = new User(new Username(userName2));
+
+        HashMap<String, User> users = new HashMap<>();
+        users.put(userName1, user1);
+        users.put(userName2, user2);
+
+        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+        userToMembers.put(userName1, new ArrayList<>());
+        userToMembers.put(userName2, new ArrayList<>());
+
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
 
-        String userName2 = "Admin";
-        User admin = new User(new Username(userName2));
-        HashMap<String, User> users = new HashMap<>();
-        users.put(userName1, admin);
-
+        // add membership for user1
         MembershipType membershipType = MembershipType.VIEWER;
-        MembershipStatus membershipStatus = MembershipStatus.ACTIVE;
-
+        MembershipStatus membershipStatus = MembershipStatus.PENDING;
         Membership membership = new Membership(user1, group, membershipType, membershipStatus);
-        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
-        userToMembers.put(userName1, new ArrayList<>());
         userToMembers.get(userName1).add(membership);
-
         //act
         ValidationResult validationResult = checkService.isAdmin(userName1, groupId, groups, users, userToMembers);
 
@@ -296,34 +307,39 @@ class CheckServiceTest {
     @Test
     void testIsMembershipActivePositive() {
         //Arrange
-        String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add users:
+        String userName1 = "groupCreator";
+        String userName2 = "Admin";
+        User user1 = new User(new Username(userName1));
+        User user2 = new User(new Username(userName2));
+
+        HashMap<String, User> users = new HashMap<>();
+        users.put(userName1, user1);
+        users.put(userName2, user2);
+
+        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+        userToMembers.put(userName1, new ArrayList<>());
+        userToMembers.put(userName2, new ArrayList<>());
+
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
 
-        String userName2 = "Admin";
-        User admin = new User(new Username(userName2));
-        HashMap<String, User> users = new HashMap<>();
-        users.put(userName1, admin);
-
+        // add membership for user1
         MembershipType membershipType = MembershipType.VIEWER;
         MembershipStatus membershipStatus = MembershipStatus.ACTIVE;
-
         Membership membership = new Membership(user1, group, membershipType, membershipStatus);
-        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
-        userToMembers.put(userName1, new ArrayList<>());
         userToMembers.get(userName1).add(membership);
-
         //act
         ValidationResult validationResult = checkService.isMembershipActive(userName1, groupId, groups, users, userToMembers);
 
@@ -335,34 +351,39 @@ class CheckServiceTest {
     @Test
     void testIsMembershipActiveFalse() {
         //Arrange
-        String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add users:
+        String userName1 = "groupCreator";
+        String userName2 = "Admin";
+        User user1 = new User(new Username(userName1));
+        User user2 = new User(new Username(userName2));
+
+        HashMap<String, User> users = new HashMap<>();
+        users.put(userName1, user1);
+        users.put(userName2, user2);
+
+        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+        userToMembers.put(userName1, new ArrayList<>());
+        userToMembers.put(userName2, new ArrayList<>());
+
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
 
-        String userName2 = "Admin";
-        User admin = new User(new Username(userName2));
-        HashMap<String, User> users = new HashMap<>();
-        users.put(userName1, admin);
-
+        // add membership for user1
         MembershipType membershipType = MembershipType.VIEWER;
         MembershipStatus membershipStatus = MembershipStatus.DEACTIVATED;
-
         Membership membership = new Membership(user1, group, membershipType, membershipStatus);
-        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
-        userToMembers.put(userName1, new ArrayList<>());
         userToMembers.get(userName1).add(membership);
-
         //act
         ValidationResult validationResult = checkService.isMembershipActive(userName1, groupId, groups, users, userToMembers);
 
@@ -374,32 +395,38 @@ class CheckServiceTest {
     @Test
     void testIsMembershipPendingPositive() {
         //Arrange
-        String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add users:
+        String userName1 = "groupCreator";
+        String userName2 = "Admin";
+        User user1 = new User(new Username(userName1));
+        User user2 = new User(new Username(userName2));
+
+        HashMap<String, User> users = new HashMap<>();
+        users.put(userName1, user1);
+        users.put(userName2, user2);
+
+        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+        userToMembers.put(userName1, new ArrayList<>());
+        userToMembers.put(userName2, new ArrayList<>());
+
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
 
-        String userName2 = "Admin";
-        User admin = new User(new Username(userName2));
-        HashMap<String, User> users = new HashMap<>();
-        users.put(userName1, admin);
-
+        // add membership for user1
         MembershipType membershipType = MembershipType.VIEWER;
         MembershipStatus membershipStatus = MembershipStatus.PENDING;
-
         Membership membership = new Membership(user1, group, membershipType, membershipStatus);
-        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
-        userToMembers.put(userName1, new ArrayList<>());
         userToMembers.get(userName1).add(membership);
 
         //act
@@ -413,34 +440,39 @@ class CheckServiceTest {
     @Test
     void testIsMembershipPendingFalse() {
         //Arrange
-        String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
+        // Create & add users:
+        String userName1 = "groupCreator";
+        String userName2 = "Admin";
+        User user1 = new User(new Username(userName1));
+        User user2 = new User(new Username(userName2));
+
+        HashMap<String, User> users = new HashMap<>();
+        users.put(userName1, user1);
+        users.put(userName2, user2);
+
+        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+        userToMembers.put(userName1, new ArrayList<>());
+        userToMembers.put(userName2, new ArrayList<>());
+
+        // Create & add group
         List<Membership> members = new ArrayList<>();
         GroupName groupName = new GroupName("groupName");
         GroupDescription description = new GroupDescription("description");
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
         groups.put(groupId, group);
 
-        String userName2 = "Admin";
-        User admin = new User(new Username(userName2));
-        HashMap<String, User> users = new HashMap<>();
-        users.put(userName1, admin);
-
+        // add membership for user1
         MembershipType membershipType = MembershipType.VIEWER;
         MembershipStatus membershipStatus = MembershipStatus.REJECTED;
-
         Membership membership = new Membership(user1, group, membershipType, membershipStatus);
-        HashMap<String, List<Membership>> userToMembers = new HashMap<>();
-        userToMembers.put(userName1, new ArrayList<>());
         userToMembers.get(userName1).add(membership);
-
         //act
         ValidationResult validationResult = checkService.isMembershipPending(userName1, groupId, groups, users, userToMembers);
 
