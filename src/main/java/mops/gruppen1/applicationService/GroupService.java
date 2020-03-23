@@ -24,8 +24,8 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class GroupService {
-    @Autowired //TODO: Remove Autowired ?
-            EventService events;
+    @Autowired
+    EventService events;
     @Autowired
     private CheckService checkService;
     private HashMap<String, List<Membership>> groupToMembers = new HashMap<String, List<Membership>>();
