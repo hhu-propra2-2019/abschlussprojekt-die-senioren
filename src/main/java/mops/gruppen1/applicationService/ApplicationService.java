@@ -68,9 +68,10 @@ public class ApplicationService {
         return requestedUsers;
     }
 
+
     // alle Veranstaltungen als Liste (noch nicht möglich)
 
     // alle Events
-    
+
     // neuer Check für isNotTheOnlyAdmin oder doesGroupStillHaveAnAdmin
 }
