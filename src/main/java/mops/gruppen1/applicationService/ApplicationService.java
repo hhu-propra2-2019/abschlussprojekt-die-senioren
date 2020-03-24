@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Service that controles calls to GroupService
+ * Service that controls calls to GroupService
  */
 @Service
 public class ApplicationService {
@@ -73,7 +73,7 @@ public class ApplicationService {
     }
 
     /**
-     * returns List of Groups whose groupName fits the the given group name
+     * returns List of Groups whose groupName fits the given group name
      *
      * @param groupName
      * @return list of groups
@@ -206,7 +206,7 @@ public class ApplicationService {
      *
      * @param userName
      * @param groupId
-     * @return ValidationResult that tells whether the user successfully joined or applied for the given grouo
+     * @return ValidationResult that tells whether the user successfully joined or applied for the given group
      */
     public ValidationResult joinGroup(String userName, String groupId) {
         ValidationResult validationResult;
