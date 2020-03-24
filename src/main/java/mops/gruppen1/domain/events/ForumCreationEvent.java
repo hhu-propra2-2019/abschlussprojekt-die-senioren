@@ -3,6 +3,7 @@ package mops.gruppen1.domain.events;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Forum;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
@@ -16,6 +17,7 @@ import java.util.List;
  * TODO: Add check for already existing Forum to Group Service
  */
 @Getter
+@NoArgsConstructor
 @EqualsAndHashCode
 @AllArgsConstructor
 public class ForumCreationEvent implements IEvent {

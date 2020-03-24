@@ -3,6 +3,7 @@ package mops.gruppen1.domain.events;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.GroupStatus;
 import mops.gruppen1.domain.Membership;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  * Change attribute GroupStatus of Group to 'deactivated'. NO deletion from datastructures
  */
 @Getter
+@NoArgsConstructor
 @EqualsAndHashCode
 @AllArgsConstructor
 public class GroupDeletionEvent implements IEvent {
