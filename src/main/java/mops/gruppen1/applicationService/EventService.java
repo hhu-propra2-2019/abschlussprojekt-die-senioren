@@ -6,7 +6,9 @@ import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.domain.events.IEvent;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +17,17 @@ import java.util.List;
  * Service to handle and manage events
  */
 @Getter
+@Component
 @Service
 public class EventService {
 
     final EventRepo eventRepo;
-    private List<IEvent> events;
     private final String EventClassPath = "mops.gruppen1.domain.events.";
+    private List<IEvent> events;
 
     /**
      * Init EventService
+     *
      * @param eventRepo
      */
     public EventService(EventRepo eventRepo) {
@@ -44,7 +48,7 @@ public class EventService {
          * @// TODO: 16.03.20 Investigate if we have to sort eventDTOs by id at this point
          */
         //Fill list of events
-        eventDTOS.forEach(e ->  {
+        eventDTOS.forEach(e -> {
             IEvent event = transform(e);
             events.add(event);
         });
@@ -52,6 +56,7 @@ public class EventService {
 
     /**
      * Transformation of generic EventDTO to specifc EventType
+     *
      * @param eventDTO
      * @return Returns initialized Event
      */
