@@ -95,6 +95,7 @@ class GroupServiceTest {
         when(groupService.checkService.isAdmin(acceptedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
+
         GroupService groupService1 = Mockito.spy(groupService);
         Mockito.doNothing().when(groupService1).performMembershipAcceptanceEvent(userName, groupId);
 
@@ -607,6 +608,4 @@ class GroupServiceTest {
         assertThat(validationResult.getErrorMessages().get(0)).isEqualTo("Das ist. ein.");
         assertThat(validationResult.getErrorMessages().get(1)).isEqualTo("Test");
     }
-
-
 }

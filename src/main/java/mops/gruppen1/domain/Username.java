@@ -12,4 +12,9 @@ import lombok.Getter;
 public class Username {
 
     private String username;
+
+    @Override
+    public String toString() {
+        return username;
+    }
 }
