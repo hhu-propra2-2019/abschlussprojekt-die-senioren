@@ -17,12 +17,24 @@ public class ApplicationService {
     @Autowired
     GroupService groupService;
 
+    /**
+     * method returns all members belonging to the requested group
+     *
+     * @param groupId
+     * @return List of Memberships
+     */
     public List<Membership> getMembersOfGroup(String groupId) {
         HashMap<String, List<Membership>> groupToMembers = groupService.getGroupToMembers();
         List<Membership> memberships = groupToMembers.get(groupId);
         return memberships;
     }
 
+    /**
+     * method returns all groups belonging to a single user
+     *
+     * @param userName
+     * @return List of Groups
+     */
     public List<Group> getGroupsOfUser(String userName) {
         HashMap<String, List<Membership>> userToMembers = groupService.getUserToMembers();
         List<Membership> memberships = userToMembers.get(userName);
@@ -30,6 +42,12 @@ public class ApplicationService {
         return groups;
     }
 
+    /**
+     * method returns all users with a pending membership request to the group
+     *
+     * @param groupId
+     * @return List of Memberships
+     */
     public List<Membership> getPendingRequestOfGroup(String groupId) {
         HashMap<String, List<Membership>> groupToMembers = groupService.getGroupToMembers();
         List<Membership> memberships = groupToMembers.get(groupId);
