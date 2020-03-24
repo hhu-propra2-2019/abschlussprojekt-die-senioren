@@ -82,6 +82,7 @@ class GroupServiceTest {
         //Arrange
         String userName = "Test";
         String groupId = "1";
+        String acceptedBy = "Admin";
 
         ValidationResult validationResult1 = new ValidationResult();
         ValidationResult validationResult2 = new ValidationResult();
@@ -91,12 +92,15 @@ class GroupServiceTest {
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
         when(groupService.checkService.isMembershipPending(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        when(groupService.checkService.isAdmin(acceptedBy, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
+
 
         GroupService groupService1 = Mockito.spy(groupService);
         Mockito.doNothing().when(groupService1).performMembershipAcceptanceEvent(userName, groupId);
 
         //act
-        ValidationResult validationResult = groupService1.acceptMembership(userName, groupId);
+        ValidationResult validationResult = groupService1.acceptMembership(userName, groupId, acceptedBy);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -108,6 +112,7 @@ class GroupServiceTest {
         //Arrange
         String userName = "Test";
         String groupId = "1";
+        String acceptedBy = "Admin";
 
         ValidationResult validationResult1 = new ValidationResult();
         validationResult1.addError("Test");
@@ -118,11 +123,14 @@ class GroupServiceTest {
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
         when(groupService.checkService.isMembershipPending(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        when(groupService.checkService.isAdmin(acceptedBy, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
+
         GroupService groupService1 = Mockito.spy(groupService);
         Mockito.doNothing().when(groupService1).performMembershipAcceptanceEvent(userName, groupId);
 
         //act
-        ValidationResult validationResult = groupService.acceptMembership(userName, groupId);
+        ValidationResult validationResult = groupService1.acceptMembership(userName, groupId, acceptedBy);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
@@ -597,10 +605,7 @@ class GroupServiceTest {
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
-        assertThat(validationResult.getErrorMessages().get(0).toString()).isEqualTo("Das ist. ein.");
-        assertThat(validationResult.getErrorMessages().get(1).toString()).isEqualTo("Test");
+        assertThat(validationResult.getErrorMessages().get(0)).isEqualTo("Das ist. ein.");
+        assertThat(validationResult.getErrorMessages().get(1)).isEqualTo("Test");
     }
-
-
-
 }
