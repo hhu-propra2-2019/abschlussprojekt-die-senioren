@@ -56,7 +56,7 @@ VALUES (
            'userRST',
            'group123',
            '2020-03-02 13:24:14',
-           'MembershipAssignmentEvent','{"groupId": "group123","userName": "userRST","membershipType": "Viewer"}');
+           'MembershipAssignmentEvent','{"groupId": "group123","userName": "userRST","membershipType": "VIEWER"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
@@ -115,7 +115,7 @@ VALUES (
            'group345',
            '2020-03-02 15:22:14',
            'MembershipRequestEvent',
-           '{"groupId": "group345","userName": "userABC","membershipType": "Viewer"}');
+           '{"groupId": "group345","userName": "userABC","membershipType": "VIEWER"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
@@ -135,7 +135,7 @@ VALUES (
            'group345',
            '2020-03-02 16:22:14',
            'MembershipRequestEvent',
-           '{"groupId": "group345","userName": "userDEF","membershipType": "Admin"}');
+           '{"groupId": "group345","userName": "userDEF","membershipType": "ADMIN"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
@@ -154,7 +154,7 @@ VALUES (
            'group345',
            '2020-03-02 14:22:14',
            'MembershipAssignmentEvent',
-           '{"groupId": "group345","userName": "userABC","membershipType": "Viewer"}');
+           '{"groupId": "group345","userName": "userABC","membershipType": "VIEWER"}');
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
