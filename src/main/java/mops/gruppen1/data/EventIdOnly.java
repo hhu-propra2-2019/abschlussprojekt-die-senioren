@@ -1,5 +1,5 @@
 package mops.gruppen1.data;
 
-interface EventIdOnly {
+public interface EventIdOnly {
     Long getId();
 }
