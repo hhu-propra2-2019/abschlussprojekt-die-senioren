@@ -33,15 +33,14 @@ public class RestService {
      */
     public UpdatedGroupsDAO getUpdatedGroups(Long oldEventId) {
         Long latestEventId = getLatestEventId();
-        UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(latestEventId);
         if (isEventIdUpToDate(oldEventId, latestEventId)) {
-            return updatedGroupsDAO;
+            return (new UpdatedGroupsDAO(latestEventId));
         }
-        updatedGroupsDAO = addGroupDAOs(latestEventId, updatedGroupsDAO);
-        return updatedGroupsDAO;
+        return createUpdatedGroupsDAOs(latestEventId);
     }
 
-    private UpdatedGroupsDAO addGroupDAOs(Long latestEventId, UpdatedGroupsDAO updatedGroupsDAO) {
+    private UpdatedGroupsDAO createUpdatedGroupsDAOs(Long latestEventId) {
+        UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(latestEventId);
         List<GroupIdOnly> changedGroupIds = eventRepo.findAllByIdAfter(latestEventId);
         for (GroupIdOnly groupId : changedGroupIds) {
             String id = groupId.getGroup();
@@ -67,7 +66,7 @@ public class RestService {
     /**
      * creates a DAO with necessary attributes retrieved from domain group
      *
-     * @param groupId
+     * @param groupId is groupId
      */
     private GroupDAO createGroupDAO(String groupId) {
         Group group = groupService.getGroups().get(groupId);
