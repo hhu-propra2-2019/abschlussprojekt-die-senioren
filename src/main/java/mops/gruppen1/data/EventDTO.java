@@ -1,6 +1,10 @@
 package mops.gruppen1.data;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -9,6 +13,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name="events")
 public class EventDTO {
 
@@ -33,5 +38,4 @@ public class EventDTO {
     private String eventType;
     @Column(length = 2000)
     private String payload;
-
 }

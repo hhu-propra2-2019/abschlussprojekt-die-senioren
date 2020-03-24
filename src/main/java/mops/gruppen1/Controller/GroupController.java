@@ -176,6 +176,7 @@ public class GroupController {
             String userName = "userX";
             applicationService.groupService.init();
             List<Membership> memberships = applicationService.getMembershipsOfUser(userName);
+            System.out.println(memberships);
             model.addAttribute("memberships",memberships);
         }
         if (search.isPresent()) {

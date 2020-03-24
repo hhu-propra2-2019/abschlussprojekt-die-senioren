@@ -24,17 +24,15 @@ import java.util.List;
 @EqualsAndHashCode
 @AllArgsConstructor
 @Service
-@NoArgsConstructor
 public class GroupService {
-    @Autowired
     EventService events;
-    @Autowired
     CheckService checkService;
     private HashMap<String, List<Membership>> groupToMembers;
     private HashMap<String, List<Membership>> userToMembers;
     private HashMap<String, Group> groups;
     private HashMap<String, User> users;
 
+    @Autowired
     public GroupService(EventService eventService, CheckService checkService) {
         this.events = eventService;
         this.checkService = checkService;

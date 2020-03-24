@@ -28,7 +28,7 @@ INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, paylo
     "group123",
     '2020-03-02 13:22:14',
     "UserCreationEvent",
-    "{“username”: “userX”}");
+    "{\“username\”: \“userX\”}");
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 	VALUES (
