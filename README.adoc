@@ -6,11 +6,14 @@
 
 === Problemstatement
 
-*Aktuell* gibt es kein integriertes System für:
+Das primäre Ziel des Projektes ist, eine Self-Contained-System bereitzustellen, welches die
+Funktion der
 
 * Gruppenbildung
-* Gruppenarbeit
-* Gruppenabgaben
+** Gruppensuche nach bestehenden Gruppen
+
+bereitstellt. Dies soll das Organisieren von eigenen Lerngruppen/Abgabengruppen und das gemeinsame Arbeiten an
+Vorlesungsinhalten und/oder Übungsblättern erleichtern.
 
 Bisher war es umständlich und zeitaufwendig eine Gruppe zum Lernen und/oder für Abgaben zu finden. +
 Insbesondere für Studierende, die noch nicht viele Kommilitonen kennengelernt haben, ist dies aktuell problematisch.
@@ -36,4 +39,8 @@ Wesentliche Features sind:
 
 == Hinweise zu Dokumentationen
 
-Als *primäre* Referenz kann das https://github.com/hhu-propra2/abschlussprojekt-die-senioren/wiki/[Wiki] herangezogen werden. Im Wiki befinden sich verschiedene Dokumentationen zu einzelnen Aspekten des Projekts.
+* Als *primäre* Referenz sollte die
+https://github.com/hhu-propra2/abschlussprojekt-die-senioren/blob/168_Dokumentation/Dokumentation/dokumentation.adoc[Dokumentation]
+* Als *sekundäre* Referenz kann das
+https://github.com/hhu-propra2/abschlussprojekt-die-senioren/wiki/[Wiki] herangezogen werden.
+Im Wiki befinden sich verschiedenste Dokumentationen zu einzelnen Aspekten des Projekts.
