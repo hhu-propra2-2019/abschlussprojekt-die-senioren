@@ -29,19 +29,19 @@ public class GroupService {
     @Autowired
     EventService events;
     @Autowired
-    private CheckService checkService;
-    private HashMap<String, List<Membership>> groupToMembers ;
-    private HashMap<String, List<Membership>> userToMembers ;
-    private HashMap<String, Group> groups ;
+    CheckService checkService;
+    private HashMap<String, List<Membership>> groupToMembers;
+    private HashMap<String, List<Membership>> userToMembers;
+    private HashMap<String, Group> groups;
     private HashMap<String, User> users;
 
     public GroupService(EventService eventService, CheckService checkService) {
         this.events = eventService;
         this.checkService = checkService;
-        this.groupToMembers = new HashMap<String, List<Membership>>();
-        userToMembers = new HashMap<String, List<Membership>>();
-        groups = new HashMap<String, Group>();
-        users = new HashMap<String, User>();
+        this.groupToMembers = new HashMap<>();
+        userToMembers = new HashMap<>();
+        groups = new HashMap<>();
+        users = new HashMap<>();
     }
 
     public void init() {
@@ -77,7 +77,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
+    void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -99,7 +99,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performGroupDeletionEvent(String userName, String groupId) {
+    void performGroupDeletionEvent(String userName, String groupId) {
         GroupDeletionEvent groupDeletionEvent = new GroupDeletionEvent(groupId, userName);
         groupDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -107,7 +107,7 @@ public class GroupService {
     }
 
     public ValidationResult updateGroupProperties(String groupId, String updatedBy, String groupName, String description, String groupType) {
-        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isGroupActive(groupId, groups));
         ValidationResult validationResult = collectCheck(validationResults);
@@ -121,7 +121,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performGroupPropertyUpdateEvent(String groupId, String updatedBy, String groupName, String description, String groupType) {
+    void performGroupPropertyUpdateEvent(String groupId, String updatedBy, String groupName, String description, String groupType) {
         GroupPropertyUpdateEvent groupPropertyUpdateEvent = new GroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
         groupPropertyUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -138,7 +138,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performUserCreationEvent(String userName) {
+    void performUserCreationEvent(String userName) {
         UserCreationEvent userCreationEvent = new UserCreationEvent(userName);
         userCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -150,7 +150,7 @@ public class GroupService {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
-        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isPublic(groupId, groups));
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isNotMember(userName, groupId, groups, users, userToMembers));
@@ -166,7 +166,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performMembershipAssignmentEvent(String userName, String groupId, String membershipType) {
+    void performMembershipAssignmentEvent(String userName, String groupId, String membershipType) {
         MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, userName, membershipType);
         membershipAssignmentEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -177,7 +177,7 @@ public class GroupService {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
-        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isRestricted(groupId, groups));
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isNotMember(userName, groupId, groups, users, userToMembers));
@@ -193,7 +193,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performMembershipRequestEvent(String userName, String groupId, String membershipType) {
+    void performMembershipRequestEvent(String userName, String groupId, String membershipType) {
         MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType);
         membershipRequestEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -201,7 +201,7 @@ public class GroupService {
     }
 
     public ValidationResult resignMembership(String userName, String groupId) {
-        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMember(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
@@ -217,7 +217,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performMembershipResignmentEvent(String userName, String groupId) {
+    void performMembershipResignmentEvent(String userName, String groupId) {
         MemberResignmentEvent memberResignmentEvent = new MemberResignmentEvent(groupId, userName);
         memberResignmentEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -225,7 +225,7 @@ public class GroupService {
     }
 
     public ValidationResult rejectMembership(String userName, String groupId) {
-        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isRestricted(groupId, groups));
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMembershipPending(userName, groupId, groups, users, userToMembers));
@@ -241,7 +241,7 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performMembershipRejectEvent(String userName, String groupId) {
+    void performMembershipRejectEvent(String userName, String groupId) {
         MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, userName);
         membershipRejectionEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -249,7 +249,7 @@ public class GroupService {
     }
 
     public ValidationResult deleteMembership(String userName, String groupId, String deletedBy) {
-        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(deletedBy, groupId, groups, users, userToMembers));
@@ -267,7 +267,7 @@ public class GroupService {
     }
 
 
-    private void performMembershipDeletionEvent(String userName, String groupId, String deletedBy) {
+    void performMembershipDeletionEvent(String userName, String groupId, String deletedBy) {
         MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(groupId, userName, deletedBy);
         memberDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
@@ -275,7 +275,7 @@ public class GroupService {
     }
 
     public ValidationResult updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
-        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+        List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(updatedBy, groupId, groups, users, userToMembers));
@@ -292,18 +292,19 @@ public class GroupService {
         return validationResult;
     }
 
-    private void performMembershipUpdateEvent(String userName, String groupId, String deletedBy, String updatedTo) {
+    void performMembershipUpdateEvent(String userName, String groupId, String deletedBy, String updatedTo) {
         MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName, deletedBy, updatedTo);
         membershipUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipUpdateEvent", membershipUpdateEvent);
     }
 
-    public ValidationResult acceptMembership(String userName, String groupId) {
-        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
+    public ValidationResult acceptMembership(String userName, String groupId, String acceptedBy) {
+        List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isRestricted(groupId, groups));
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMembershipPending(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isAdmin(acceptedBy, groupId, groups, users, userToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
@@ -317,14 +318,14 @@ public class GroupService {
     }
 
 
-    private void performMembershipAcceptanceEvent(String userName, String groupId) {
+    void performMembershipAcceptanceEvent(String userName, String groupId) {
         MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName);
         membershipAcceptanceEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipAcceptanceEvent", membershipAcceptanceEvent);
     }
 
-    private void persistEvent(String userName, String groupId, String eventType, IEvent event) {
+    void persistEvent(String userName, String groupId, String eventType, IEvent event) {
         LocalDateTime timestamp = LocalDateTime.now();
 
         EventDTO membershipAcceptanceEventDTO = events.createEventDTO(userName, groupId, timestamp, eventType, event);
@@ -332,11 +333,11 @@ public class GroupService {
         events.saveToRepository(membershipAcceptanceEventDTO);
     }
 
-    private ValidationResult collectCheck(List<ValidationResult> checks) {
+    ValidationResult collectCheck(List<ValidationResult> checks) {
         ValidationResult validationResult = new ValidationResult();
         for (ValidationResult check : checks) {
             if (!check.isValid()) {
-                validationResult.addError(check.getErrorMessages().stream().toString());
+                validationResult.addError(String.join(" ", check.getErrorMessages()));
             }
         }
         return validationResult;
