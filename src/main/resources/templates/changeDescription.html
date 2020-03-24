@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Gruppenbeschreibung bearbeiten', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+      th:replace="~{mopslayout :: html(name='Gruppenbildung', title='Gruppeneigenschaften bearbeiten', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
 <head>
     <meta charset="utf-8">
-    <title>Beschreibung ändern</title>
+    <title>Gruppeneigenschaften ändern</title>
     <th:block th:fragment="headcontent">
         <link rel="stylesheet" th:href="@{/css/mystyle.css}">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -32,13 +32,21 @@
             <form method="post" th:action="@{/gruppen1/description}">
                 <div class="form-group">
                     <label for="NewGroupName">Neuer Gruppenname</label>
-                    <input type="text" th:name="groupName" th:placeholder="${placeholder_groupname}" id="NewGroupName" required
+                    <input type="text" th:name="groupName" id="NewGroupName"
+                           required
                     class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="NewGroupdescription">Neue Gruppenbeschreibung</label>
                     <input th:name="groupDescription" class="form-control" th:rows="3" type="text"
-                              th:placeholder="${placeholder_groupdescription}" id="NewGroupdescription" required>
+                           id="NewGroupdescription" required>
+                </div>
+                <div class="form-group">
+                    <label for="GruppenTypWählen">Neuer Gruppentyp</label>
+                    <select th:name="groupType" class="custom-select" id="GruppenTypWählen" required>
+                        <option value="PUBLIC">Public</option>
+                        <option value="RESTRICTED">Restricted</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-outline-secondary" value="submit">
