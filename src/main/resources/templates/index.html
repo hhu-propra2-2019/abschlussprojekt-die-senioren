@@ -40,14 +40,14 @@
 
                 <tr th:each="membership:${memberships}">
                     <td th:text="${membership.group.name}">
-                        <div th:switch="${membership.type}">
+                        <div th:switch="${membership.membershipType}">
                             <a th:case="ADMIN" th:href="@{/gruppen1/admin/{id}(id=${membership.group.groupId})}">Gruppe 1</a>
                             <a th:case="VIEWER" th:href="@{/gruppen1/viewer/{id}(id=${membership.group.groupId})}">Gruppe 2</a>
                         </div>
                     </td>
                     <td th:text="${membership.group.module?.modulename.modulename}">Keine Veranstaltung</td>
                     <td th:text="${membership.group.groupType}"></td>
-                    <td th:text="${membership.type}"></td>
+                    <td th:text="${membership.membershipType}"></td>
                 </tr>
                 <tr>
                     <td><a href="/gruppen1/viewer">Gruppe 2</a></td>

@@ -1,12 +1,14 @@
 package mops.gruppen1.Controller;
 
 import lombok.AllArgsConstructor;
+import mops.gruppen1.applicationService.ApplicationService;
 import mops.gruppen1.applicationService.GroupService;
 import mops.gruppen1.domain.Module;
 import mops.gruppen1.security.Account;
 import mops.gruppen1.domain.*;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,8 @@ import java.util.Optional;
 @RequestMapping("/gruppen1")
 public class GroupController {
 
-    private GroupService groupService;
+    @Autowired
+    private ApplicationService applicationService;
     /**
      * Nimmt das Authentifizierungstoken von Keycloak und erzeugt ein AccountDTO für die Views.
      * (Entnommen aus der Vorlage 'KeycloakDemo'
@@ -54,7 +57,7 @@ public class GroupController {
             //TODO Brauchen hier Methoden zum fetchen aller User und Module
             //TODO Informieren, wie CSV Einbindung funktioniert
             //Get all users from user - Hashmap
-            model.addAttribute("allUsers",groupService.getUsers().values());
+            //model.addAttribute("allUsers",groupService.getUsers().values());
             //model.addAttribute("modules",groupService.getAllModules());
         }
         if (search.isPresent()) {
@@ -78,8 +81,8 @@ public class GroupController {
             model.addAttribute("account", account);
             System.out.println(groupName+" "+groupDescription+" "+groupType+" "+module);
             //account - Name gleich Username
-            groupService.createGroup(groupDescription,groupName,module,account.getName(),groupType);
-            System.out.println(groupService.getUserToMembers());
+            //groupService.createGroup(groupDescription,groupName,module,account.getName(),groupType);
+            //System.out.println(groupService.getUserToMembers());
          }
 
         if (search.isPresent()) {
@@ -96,9 +99,9 @@ public class GroupController {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
-            model.addAttribute("memberships",groupService.getUserToMembers().get(account.getName()));
-            model.addAttribute("placeholder_groupname",groupService.getGroups().get(groupId).getName());
-            model.addAttribute("placeholder_groupdescription",groupService.getGroups().get(groupId).getDescription());
+            //model.addAttribute("memberships",groupService.getUserToMembers().get(account.getName()));
+            //model.addAttribute("placeholder_groupname",groupService.getGroups().get(groupId).getName());
+            //model.addAttribute("placeholder_groupdescription",groupService.getGroups().get(groupId).getDescription());
         }
         if (search.isPresent()) {
             return searchGroups(search);
@@ -170,7 +173,10 @@ public class GroupController {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
-            model.addAttribute("memberships",groupService.getUserToMembers().get(account.getName()));
+            String userName = "userX";
+            applicationService.groupService.init();
+            List<Membership> memberships = applicationService.getMembershipsOfUser(userName);
+            model.addAttribute("memberships",memberships);
         }
         if (search.isPresent()) {
             return searchGroups(search);

@@ -5,15 +5,17 @@ import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.MembershipStatus;
 import mops.gruppen1.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ApplicationService {
     @Autowired
-    GroupService groupService;
+    public GroupService groupService;
 
     public List<Membership> getMembersOfGroup(String groupId) {
         HashMap<String, List<Membership>> groupToMembers = groupService.getGroupToMembers();
@@ -44,6 +46,12 @@ public class ApplicationService {
                 .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.PENDING))
                 .count();
         return pendingMemberships;
+    }
+
+    public List<Membership> getMembershipsOfUser(String userName)   {
+        HashMap<String, List<Membership>> userToMembers = groupService.getUserToMembers();
+        List<Membership> memberships = userToMembers.get(userName);
+        return memberships;
     }
 
     public List<Group> searchGroupByName(String groupName) {
