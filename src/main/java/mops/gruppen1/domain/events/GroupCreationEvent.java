@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 public class GroupCreationEvent implements IEvent {
 
-    private String groupID;
+    private String groupId;
     private String groupDescription;
     private String groupName;
     private String groupCourse;
@@ -40,9 +40,9 @@ public class GroupCreationEvent implements IEvent {
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Group newGroup = createGroup();
-        this.groupID = newGroup.getGroupId().toString();
-        groups.put(groupID, newGroup);
-        groupToMembers.put(this.groupID, new ArrayList<>());
+        this.groupId = newGroup.getGroupId().toString();
+        groups.put(groupId, newGroup);
+        groupToMembers.put(this.groupId, new ArrayList<>());
     }
 
     private Group createGroup() {

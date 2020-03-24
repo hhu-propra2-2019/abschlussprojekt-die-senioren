@@ -3,6 +3,7 @@ package mops.gruppen1.domain.events;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.MembershipType;
@@ -15,6 +16,7 @@ import java.util.List;
  * Edit MembershipType 'ADMIN' or 'VIEWER' of Membership
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @EqualsAndHashCode
 public class MembershipUpdateEvent implements IEvent {
