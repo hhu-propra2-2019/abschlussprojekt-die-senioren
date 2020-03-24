@@ -3,6 +3,7 @@ package mops.gruppen1.domain.events;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.MembershipStatus;
@@ -17,6 +18,7 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
 public class MembershipRejectionEvent implements IEvent {
 
 
