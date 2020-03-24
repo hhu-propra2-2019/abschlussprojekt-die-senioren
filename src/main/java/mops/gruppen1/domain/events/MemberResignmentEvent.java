@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.Status;
+import mops.gruppen1.domain.MembershipStatus;
 import mops.gruppen1.domain.User;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.List;
 public class MemberResignmentEvent implements IEvent {
 
     private String groupId;
-    private String leavingMemberId;
+    private String leavingUserName;
 
     /**
      * Deactivates the given membership in all datastructures
@@ -35,24 +35,11 @@ public class MemberResignmentEvent implements IEvent {
      */
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-        Membership leavingMember = findLeavingMember(groups);
-        deactiveMembership(leavingMember);
-    }
-
-    /**
-     * Finds the member that is leaving a group.
-     *
-     * @param groups HashMap of groups in which the member is searched for.
-     * @return The member that matches the leavingMemberId.
-     */
-    private Membership findLeavingMember(HashMap<String, Group> groups) {
+        List<Membership> memberships = userToMembers.get(leavingUserName);
         Group group = groups.get(groupId);
-        Membership membership = group.getMembers().stream()
-                .filter(member -> leavingMemberId.equals(member.getMemberid().toString()))
-                .findFirst()
-                .orElse(null);
 
-        return membership;
+        Membership leavingMember = getMembership(memberships, groupId);
+        deactivateMembership(leavingMember);
     }
 
     /**
@@ -60,8 +47,26 @@ public class MemberResignmentEvent implements IEvent {
      *
      * @param membership The membership that is to be deactivated.
      */
-    private void deactiveMembership(Membership membership) {
+    private void deactivateMembership(Membership membership) {
 
-        membership.setStatus(Status.DEACTIVATED);
+        membership.setMembershipStatus(MembershipStatus.DEACTIVATED);
+    }
+
+    /**
+     * finds the membership of the user in the group they are leaving
+     *
+     * @param memberships The user's memberships
+     * @param groupId     The Group the user is leaving
+     * @return the membership belonging to groupID and contained in memberships
+     */
+    private Membership getMembership(List<Membership> memberships, String groupId) {
+        Membership membership = null;
+        for (Membership m : memberships) {
+            if (m.getGroup().getGroupId().toString().equals(groupId)) {
+                membership = m;
+                break;
+            }
+        }
+        return membership;
     }
 }
