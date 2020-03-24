@@ -2,6 +2,10 @@ package mops.gruppen1.data.DAOs;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * object containing outbound attributes of class Group
+ * is given to other services via RestService and RestController
+ */
 @AllArgsConstructor
 public class GroupDAO {
     private String groupId;
