@@ -56,7 +56,7 @@ VALUES (
            'userRST',
            'group123',
            '2020-03-02 13:24:14',
-           'MembershipAssignmentEvent','{"groupId": "group123","userName": "userRST","mebershipType": "Viewer"}');
+           'MembershipAssignmentEvent','{"groupId": "group123","userName": "userRST","membershipType": "Viewer"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
@@ -96,7 +96,7 @@ VALUES (
            'group345',
            '2020-03-02 15:22:14',
            'GroupPropertyUpdateEvent',
-           '{"groupId": "group345","groupName": "Testgruppe2","updatedBy": "userVWX","groupDescription": "Lalelu Nur der Mann Im Mond Schaut Zu","groupType": "RESTRICTED"}');
+           '{"groupId": "group345","groupName": "Testgruppe2","updatedBy": "userVWX","description": "Lalelu Nur der Mann Im Mond Schaut Zu","groupType": "RESTRICTED"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
@@ -154,7 +154,7 @@ VALUES (
            'group345',
            '2020-03-02 14:22:14',
            'MembershipAssignmentEvent',
-           '{"groupId": "group345","userName": "userABC","mebershipType": "Viewer"}');
+           '{"groupId": "group345","userName": "userABC","membershipType": "Viewer"}');
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
@@ -163,7 +163,7 @@ VALUES (
            'group345',
            '2020-03-02 20:22:14',
            'MembershipUpdateEvent',
-           '{"groupId": "group345","memberId": "uuid123","updatedBy": "userVWX","updatedTo": "userABC"}');
+           '{"groupId": "group345","userName": "userABC","updatedBy": "userVWX","updatedTo": "ADMIN"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
@@ -191,8 +191,8 @@ VALUES (
            'userVWX',
            'group345',
            '2020-03-02 22:22:14',
-           'MembershipResignmentEvent',
-           '{"groupId": "group345","leavingMemberId": "uuid678"}');
+           'MemberResignmentEvent',
+           '{"groupId": "group345","leavingUserName": "userVWX"}');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
