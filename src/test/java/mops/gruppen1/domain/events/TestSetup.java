@@ -12,14 +12,14 @@ import java.util.List;
  * GroupOne is active, GroupTwo is deactivated, GroupThree is active but restricted
  */
 public class TestSetup {
-    HashMap<String, List<Membership>> groupToMembers = new HashMap<String, List<Membership>>();
-    HashMap<String, List<Membership>> userToMembers = new HashMap<String, List<Membership>>();
-    HashMap<String, Group> groups = new HashMap<String, Group>();
-    HashMap<String, User> users = new HashMap<String, User>();
+    HashMap<String, List<Membership>> groupToMembers = new HashMap<>();
+    HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+    HashMap<String, Group> groups = new HashMap<>();
+    HashMap<String, User> users = new HashMap<>();
     Group groupOne;
     Group groupTwo;
     Group groupThree;
-    List<Membership> memberships = new ArrayList<Membership>();
+    List<Membership> memberships = new ArrayList<>();
 
     public TestSetup() {
         createUserMap();
@@ -32,17 +32,17 @@ public class TestSetup {
     }
 
     private void createUserToMembershipHashMap() {
-        ArrayList<Membership> listMax = new ArrayList<Membership>();
+        ArrayList<Membership> listMax = new ArrayList<>();
         listMax.add(memberships.get(0));
-        ArrayList<Membership> listStela = new ArrayList<Membership>();
+        ArrayList<Membership> listStela = new ArrayList<>();
         listStela.add(memberships.get(1));
-        ArrayList<Membership> listNeo = new ArrayList<Membership>();
+        ArrayList<Membership> listNeo = new ArrayList<>();
         listNeo.add(memberships.get(2));
-        ArrayList<Membership> listSteve = new ArrayList<Membership>();
+        ArrayList<Membership> listSteve = new ArrayList<>();
         listSteve.add(memberships.get(3));
-        ArrayList<Membership> listDiego = new ArrayList<Membership>();
+        ArrayList<Membership> listDiego = new ArrayList<>();
         listDiego.add(memberships.get(4));
-        ArrayList<Membership> listMilten = new ArrayList<Membership>();
+        ArrayList<Membership> listMilten = new ArrayList<>();
         listMilten.add(memberships.get(5));
 
 
@@ -90,9 +90,9 @@ public class TestSetup {
         User groupCreatorTwo = users.get("Neo");
         User groupCreatorThree = users.get("Diego");
 
-        ArrayList<Membership> membershipsOne = new ArrayList<Membership>();
-        ArrayList<Membership> membershipsTwo = new ArrayList<Membership>();
-        ArrayList<Membership> membershipsThree = new ArrayList<Membership>();
+        ArrayList<Membership> membershipsOne = new ArrayList<>();
+        ArrayList<Membership> membershipsTwo = new ArrayList<>();
+        ArrayList<Membership> membershipsThree = new ArrayList<>();
 
         this.groupOne = new Group(membershipsOne, groupNameOne, groupDescriptionOne, groupCreatorOne, groupStatusOne, groupTypeOne);
         this.groupTwo = new Group(membershipsTwo, groupNameTwo, groupDescriptionTwo, groupCreatorTwo, groupStatusTwo, groupTypeTwo);
