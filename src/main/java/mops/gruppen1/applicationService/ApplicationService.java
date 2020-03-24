@@ -57,6 +57,12 @@ public class ApplicationService {
         return pendingMemberships;
     }
 
+    /**
+     * returns number of pending requests to a group
+     *
+     * @param groupId
+     * @return number of pending requests
+     */
     public long countPendingRequestOfGroup(String groupId) {
         HashMap<String, List<Membership>> groupToMembers = groupService.getGroupToMembers();
         List<Membership> memberships = groupToMembers.get(groupId);
@@ -66,6 +72,12 @@ public class ApplicationService {
         return pendingMemberships;
     }
 
+    /**
+     * returns List of Groups whose groupName fits the the given group name
+     *
+     * @param groupName
+     * @return list of groups
+     */
     public List<Group> searchGroupByName(String groupName) {
         HashMap<String, Group> groups = groupService.getGroups();
         List<Group> requestedGroups = new ArrayList<>();
@@ -77,6 +89,12 @@ public class ApplicationService {
         return requestedGroups;
     }
 
+    /**
+     * returns a list of userNames (as String) whose names fit the given userName
+     *
+     * @param userName
+     * @return list of strings (userNames)
+     */
     public List<String> searchUserByName(String userName) {
         HashMap<String, User> users = groupService.getUsers();
         List<String> requestedUsers = new ArrayList<>();
@@ -88,6 +106,18 @@ public class ApplicationService {
         return requestedUsers;
     }
 
+    /**
+     * start a GroupCreationEvent and one or several MembershipAssignmentEvents
+     * MemberShipAssignmentEvent for the GroupCreator always occurs, but is optional for additional members
+     *
+     * @param groupDescription
+     * @param groupName
+     * @param groupCourse
+     * @param groupCreator
+     * @param groupType
+     * @param users
+     * @return ValidatioResult that tells whether the GroupCreation and MembershipAssignmentEvent(s) were succesful
+     */
     public ValidationResult createGroup(String groupDescription, String groupName, String groupCourse,
                                         String groupCreator, String groupType, List<String> users) {
         List<ValidationResult> validationResults = new ArrayList<>();
@@ -103,11 +133,28 @@ public class ApplicationService {
         return validationResult;
     }
 
+    /**
+     * start a GroupDeletionEvent
+     *
+     * @param groupId
+     * @param userName
+     * @return ValidationResult that tells whether the GroupDeletionEvent was successful
+     */
     public ValidationResult deleteGroup(String groupId, String userName) {
         ValidationResult validationResult = groupService.deleteGroup(groupId, userName);
         return validationResult;
     }
 
+    /**
+     * start GroupPropertyUpdateEvent
+     *
+     * @param groupId
+     * @param updatedBy
+     * @param groupName
+     * @param description
+     * @param groupType
+     * @return ValidationResult that tells whether the PropertyUpdateEvent was successful
+     */
     public ValidationResult updateGroupProperties(String groupId, String updatedBy, String groupName,
                                                   String description, String groupType) {
         ValidationResult validationResult =
@@ -115,21 +162,52 @@ public class ApplicationService {
         return validationResult;
     }
 
+    /**
+     * Start a MembershipDeletionEvent
+     *
+     * @param userName
+     * @param groupId
+     * @param deletedBy
+     * @return ValidationResult that tells whether the user's membership in the given group was successfully deleted
+     */
     public ValidationResult deleteMember(String userName, String groupId, String deletedBy) {
         ValidationResult validationResult = groupService.deleteMembership(userName, groupId, deletedBy);
         return validationResult;
     }
 
+    /**
+     * Start a MembershipResignmentEvent
+     *
+     * @param userName
+     * @param groupId
+     * @return ValidationResult that tells whether the user successfully resigned their membership of the given group
+     */
     public ValidationResult resignMembership(String userName, String groupId) {
         ValidationResult validationResult = groupService.resignMembership(userName, groupId);
         return validationResult;
     }
 
+    /**
+     * start a MembershipAcceptanceEvent
+     *
+     * @param userName
+     * @param groupId
+     * @param acceptedBy
+     * @return ValidationResult that tells whether the user's application for the given group was successfully accepted
+     */
     public ValidationResult acceptMembership(String userName, String groupId, String acceptedBy) {
         ValidationResult validationResult = groupService.acceptMembership(userName, groupId, acceptedBy);
         return validationResult;
     }
 
+    /**
+     * this method starts a MembershipAssignmentEvent if the given group is public and a MembershipRequestEvent if the group is restricted
+     * assumes that a user who joins a group does so as a viewer and never directly as an admin
+     *
+     * @param userName
+     * @param groupId
+     * @return ValidationResult that tells whether the user successfully joined or applied for the given grouo
+     */
     public ValidationResult joinGroup(String userName, String groupId) {
         ValidationResult validationResult;
         HashMap<String, Group> groups = groupService.getGroups();
@@ -142,16 +220,38 @@ public class ApplicationService {
         return validationResult;
     }
 
+    /**
+     * start a MembershipRejectionEvent
+     *
+     * @param userName
+     * @param groupId
+     * @return ValidationResult that tells whether the user's application for the given group was successfully rejected
+     */
     public ValidationResult rejectMembership(String userName, String groupId) {
         ValidationResult validationResult = groupService.rejectMembership(userName, groupId);
         return validationResult;
     }
 
+    /**
+     * start an UpdateMembershipEvent
+     *
+     * @param userName
+     * @param groupId
+     * @param updatedBy
+     * @param updatedTo
+     * @return ValidationResult that tells whether the user's membership in the given group was updated successfully
+     */
     public ValidationResult updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
         ValidationResult validationResult = groupService.updateMembership(userName, groupId, updatedBy, updatedTo);
         return validationResult;
     }
 
+    /**
+     * start a UserCreationEvent
+     *
+     * @param userName
+     * @return ValidationResult that tells whether the user was created successfully
+     */
     public ValidationResult createUser(String userName) {
         ValidationResult validationResult = groupService.createUser(userName);
         return validationResult;
