@@ -23,23 +23,17 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="input">Gruppenname</label>
-                <input type="text" class="form-control" th:name="groupname" id="input" placeholder="Gruppenname" required>
+                <input type="text" class="form-control" th:name="groupname" id="input" placeholder="Gruppenname.." required>
             </div>
             <div class="form-group col-md-6">
                 <label for="inputVeranstaltung">Veranstaltung</label>
-                <select th:name="groupModule" class="form-control" id="inputVeranstaltung" required>
-                    <!--TODO Veranstaltungen reinrendern, values auf Veranstaltungsnamen setzen-->
-                    <option value="">Veranstaltung wählen</option>
-                    <option value="Keine Veranstaltung">Keine Veranstaltung</option>
-                    <option value="1">Info 1</option>
-                    <option value="2">Info 2</option>
-                </select>
+                <input type="text" th:name="groupModule" class="form-control" id="inputVeranstaltung"
+                       placeholder="Veranstaltung.." required>
             </div>
         </div>
         <div class="form-group">
             <label for="GruppenTypWählen">Gruppentyp</label>
             <select th:name="groupType" class="custom-select" id="GruppenTypWählen" required>
-                <option value="">Gruppentyp wählen</option>
                 <option value="PUBLIC">Public</option>
                 <option value="RESTRICTED">Restricted</option>
             </select>
@@ -57,7 +51,8 @@
         </div>
         <div class="form-group">
             <label for="GruppenbeschreibungInput">Gruppenbeschreibung</label>
-            <textarea th:name="groupDescription" class="form-control rounded-0" id="GruppenbeschreibungInput" rows="3" required></textarea>
+            <textarea th:name="groupDescription" class="form-control rounded-0" id="GruppenbeschreibungInput" rows="3"
+                      placeholder="Gruppenbeschreibung einfügen.." required></textarea>
         </div>
         <div class="form-group">
             <button type="submit"  class="btn btn-secondary">Gruppe erstellen</button>
