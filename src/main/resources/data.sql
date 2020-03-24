@@ -22,177 +22,177 @@
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userX",
-    "group123",
-    '2020-03-02 13:22:14',
-    "UserCreationEvent",
-    "{\“username\”: \“userX\”}");
+VALUES (
+           NULL,
+           'userX',
+           'group123',
+           '2020-03-02 13:22:14',
+           'UserCreationEvent',
+           '{"username": "userX"}');
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userX",
-    "group123",
-    '2020-03-02 13:22:14',
-    "GroupCreationEvent",
-    "{“groupId”: “group123”,“groupName”: “Testgruppe1”,“groupCreator”: “userX”,“groupDescription”: “Lalalala”,“groupType”: “PUBLIC”}");
-
-
-INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userRST",
-    "group123",
-    '2020-03-02 13:22:14',
-    "UserCreationEvent",
-    "{“username”: “userRST”}");
+VALUES (
+           NULL,
+           'userX',
+           'group123',
+           '2020-03-02 13:22:14',
+           'GroupCreationEvent',
+           '{"groupId": "group123","groupName": "Testgruppe1","groupCreator": "userX","groupDescription": "Lalalala","groupType": "PUBLIC"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userRST",
-    "group123",
-    '2020-03-02 13:24:14',
-    "MembershipAssignmentEvent","{“groupId”: “group123”,“userName”: “userRST”,“mebershipType”: “Viewer”}");
+VALUES (
+           NULL,
+           'userRST',
+           'group123',
+           '2020-03-02 13:22:14',
+           'UserCreationEvent',
+           '{"username": "userRST"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userVWX",
-    "group123",
-    '2020-03-02 13:22:14',
-    "UserCreationEvent",
-    "{“username”: “userVWX”}");
+VALUES (
+           NULL,
+           'userRST',
+           'group123',
+           '2020-03-02 13:24:14',
+           'MembershipAssignmentEvent','{"groupId": "group123","userName": "userRST","mebershipType": "Viewer"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userVWX",
-    "group345",
-    '2020-03-02 13:22:14',
-    "GroupCreationEvent",
-    "{“groupId”: “group345”,“groupName”: “Testgruppe2”,“groupCreator”: “userX”,“groupDescription”: “Lalelu Nur Der Mann Im Mond”,“groupType”: “RESTRICTED”}");
+VALUES (
+           NULL,
+           'userVWX',
+           'group123',
+           '2020-03-02 13:22:14',
+           'UserCreationEvent',
+           '{"username": "userVWX"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userX",
-    "group123",
-    '2020-03-02 19:22:14',
-    "GroupDeletionEvent",
-    "{“groupId”: “group123”,“deletedByUser”: “userX”}");
+VALUES (
+           NULL,
+           'userVWX',
+           'group345',
+           '2020-03-02 13:22:14',
+           'GroupCreationEvent',
+           '{"groupId": "group345","groupName": "Testgruppe2","groupCreator": "userX","groupDescription": "Lalelu Nur Der Mann Im Mond","groupType": "RESTRICTED"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userVWX",
-    "group345",
-    '2020-03-02 15:22:14',
-    "GroupPropertyUpdateEvent",
-    "{“groupId”: “group345”,“groupName”: “Testgruppe2”,“updatedBy”: “userVWX”,“groupDescription”: “Lalelu Nur der Mann Im Mond Schaut Zu”,“groupType”: “RESTRICTED”}");
+VALUES (
+           NULL,
+           'userX',
+           'group123',
+           '2020-03-02 19:22:14',
+           'GroupDeletionEvent',
+           '{"groupId": "group123","deletedByUser": "userX"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userABC",
-    "group123",
-    '2020-03-02 13:22:14',
-    "UserCreationEvent",
-    "{“username”: “userABC”}");
-
-INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userABC",
-    "group345",
-    '2020-03-02 15:22:14',
-    "MembershipRequestEvent",
-    "{“groupId”: “group345”,“userName”: “userABC”,“membershipType”: “Viewer”}");
+VALUES (
+           NULL,
+           'userVWX',
+           'group345',
+           '2020-03-02 15:22:14',
+           'GroupPropertyUpdateEvent',
+           '{"groupId": "group345","groupName": "Testgruppe2","updatedBy": "userVWX","groupDescription": "Lalelu Nur der Mann Im Mond Schaut Zu","groupType": "RESTRICTED"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userDEF",
-    "group123",
-    '2020-03-02 13:22:14',
-    "UserCreationEvent",
-    "{“username”: “userDEF”}");
+VALUES (
+           NULL,
+           'userABC',
+           'group123',
+           '2020-03-02 13:22:14',
+           'UserCreationEvent',
+           '{"username": "userABC"}');
+
+INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
+VALUES (
+           NULL,
+           'userABC',
+           'group345',
+           '2020-03-02 15:22:14',
+           'MembershipRequestEvent',
+           '{"groupId": "group345","userName": "userABC","membershipType": "Viewer"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userDEF",
-    "group345",
-    '2020-03-02 16:22:14',
-    "MembershipRequestEvent",
-    "{“groupId”: “group345”,“userName”: “userDEF”,“membershipType”: “Admin”}");
+VALUES (
+           NULL,
+           'userDEF',
+           'group123',
+           '2020-03-02 13:22:14',
+           'UserCreationEvent',
+           '{"username": "userDEF"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userABC",
-    "group345",
-    '2020-03-02 20:22:14',
-    "MembershipAcceptanceEvent",
-    "{“groupId”: “group345”,“userName”: “userABC”}");
-
-INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userABC",
-    "group345",
-    '2020-03-02 14:22:14',
-    "MembershipAssignmentEvent",
-    "{“groupId”: “group345”,“userName”: “userABC”,“mebershipType”: “Viewer”}");
-
-INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userVWX",
-    "group345",
-    '2020-03-02 20:22:14',
-    "MembershipUpdateEvent",
-    "{“groupId”: “group345”,“memberId”: “uuid123”,“updatedBy”: “userVWX”,“updatedTo”: “userABC”}");
+VALUES (
+           NULL,
+           'userDEF',
+           'group345',
+           '2020-03-02 16:22:14',
+           'MembershipRequestEvent',
+           '{"groupId": "group345","userName": "userDEF","membershipType": "Admin"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userDEF",
-    "group345",
-    '2020-03-02 21:22:14',
-    "MembershipRejectionEvent",
-    "{“groupId”: “group345”,“userName”: “userDEF”}");
+VALUES (
+           NULL,
+           'userABC',
+           'group345',
+           '2020-03-02 20:22:14',
+           'MembershipAcceptanceEvent',
+           '{"groupId": "group345","userName": "userABC"}');
+
+INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
+VALUES (
+           NULL,
+           'userABC',
+           'group345',
+           '2020-03-02 14:22:14',
+           'MembershipAssignmentEvent',
+           '{"groupId": "group345","userName": "userABC","mebershipType": "Viewer"}');
+
+INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
+VALUES (
+           NULL,
+           'userVWX',
+           'group345',
+           '2020-03-02 20:22:14',
+           'MembershipUpdateEvent',
+           '{"groupId": "group345","memberId": "uuid123","updatedBy": "userVWX","updatedTo": "userABC"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userVWX",
-    "group345",
-    '2020-03-02 21:22:14',
-    "MemberDeletionEvent",
-    "{“groupId”: “group345”,“removedMemberId”: “uuid123”,“removedByMemberId”: “uuid678”}");
+VALUES (
+           NULL,
+           'userDEF',
+           'group345',
+           '2020-03-02 21:22:14',
+           'MembershipRejectionEvent',
+           '{"groupId": "group345","userName": "userDEF"}');
+
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-	VALUES (
-	NULL,
-    "userVWX",
-    "group345",
-    '2020-03-02 22:22:14',
-    "MembershipResignmentEvent",
-    "{“groupId”: “group345”,“leavingMemberId”: “uuid678”}");
+VALUES (
+           NULL,
+           'userVWX',
+           'group345',
+           '2020-03-02 21:22:14',
+           'MemberDeletionEvent',
+           '{"groupId": "group345","removedMemberId": "uuid123","removedByMemberId": "uuid678"}');
+
+INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
+VALUES (
+           NULL,
+           'userVWX',
+           'group345',
+           '2020-03-02 22:22:14',
+           'MembershipResignmentEvent',
+           '{"groupId": "group345","leavingMemberId": "uuid678"}');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
