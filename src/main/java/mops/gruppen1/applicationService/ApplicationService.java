@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service that controles calls to GroupService
+ */
 @Service
 public class ApplicationService {
     @Autowired
@@ -137,9 +140,5 @@ public class ApplicationService {
     }
 
 
-    // alle Veranstaltungen als Liste (noch nicht möglich)
-
-    // alle Events
-
-    // neuer Check für isNotTheOnlyAdmin oder doesGroupStillHaveAnAdmin
+    //TODO alle Veranstaltungen als Liste (noch nicht möglich)
 }
