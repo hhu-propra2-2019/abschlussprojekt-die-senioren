@@ -61,7 +61,7 @@ public class RestService {
     }
 
     private boolean isEventIdUpToDate(Long oldEventId, Long latestEventId) {
-        return oldEventId == latestEventId;
+        return oldEventId.equals(latestEventId);
     }
 
     /**
