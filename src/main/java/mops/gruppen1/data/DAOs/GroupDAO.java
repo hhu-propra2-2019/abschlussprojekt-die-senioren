@@ -20,6 +20,4 @@ public class GroupDAO {
         this.groupDescription = groupDescription;
         this.status = status;
     }
-
-
 }

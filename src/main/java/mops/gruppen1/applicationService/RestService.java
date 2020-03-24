@@ -1,35 +1,76 @@
 package mops.gruppen1.applicationService;
 
 import mops.gruppen1.data.DAOs.CurrentStateDAO;
+import mops.gruppen1.data.DAOs.GroupDAO;
+import mops.gruppen1.data.EventIdOnly;
+import mops.gruppen1.data.EventRepo;
+import mops.gruppen1.data.GroupIdOnly;
+import mops.gruppen1.domain.Group;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
+/**
+ * this class manages the interaction with external systems
+ * - by providing information if relevant changes have happened since the last request
+ * - by sending DAOs of Groups if necessary
+ */
 public class RestService {
 
-    @Autowired
     GroupService groupService;
+    EventRepo eventRepo;
 
-    public CurrentStateDAO getUpdatedGroups(long oldEventId) {
-        long latestEventId = getLatestEventId();
-        if(isEventIdUpToDate(oldEventId,latestEventId)) {
-            return new CurrentStateDAO(oldEventId);
+    @Autowired
+    public RestService(GroupService groupService, EventRepo eventRepo) {
+        this.groupService = groupService;
+        this.eventRepo = eventRepo;
+    }
+
+    /**
+     * @param oldEventId is received from other services via RestController
+     * @return currentStateDAO that contains a list of GroupDAOs for the changed groups
+     * and the latest eventId
+     */
+    public CurrentStateDAO getUpdatedGroups(Long oldEventId) {
+        Long latestEventId = getLatestEventId();
+        CurrentStateDAO currentStateDAO = new CurrentStateDAO(latestEventId);
+        if (isEventIdUpToDate(oldEventId, latestEventId)) {
+            return currentStateDAO;
         }
-        return new CurrentStateDAO(latestEventId);
+        currentStateDAO = addGroupDAOs(latestEventId, currentStateDAO);
+        return currentStateDAO;
     }
 
-    private long getLatestEventId() {
-        //TODO:Implement real code
-    return 1L;
+    private CurrentStateDAO addGroupDAOs(Long latestEventId, CurrentStateDAO currentStateDAO) {
+        List<GroupIdOnly> changedGroupIds = eventRepo.findAllByIdAfter(latestEventId);
+        for (GroupIdOnly groupId : changedGroupIds) {
+            String id = groupId.getGroup();
+            GroupDAO groupDAO = createGroupDAO(id);
+            currentStateDAO.addGroupDAO(groupDAO);
+        }
+        return currentStateDAO;
     }
 
-    private boolean isEventIdUpToDate(long oldEventId, long latestEventId) {
-        if(oldEventId == latestEventId) return true;
-
-        return false;
+    /**
+     * @return the id of the event that was last recently stored in the Repo
+     */
+    private Long getLatestEventId() {
+        List<EventIdOnly> latestEventIdAsList = eventRepo.findTopByOrderByIdDesc();
+        Long latestEventId = latestEventIdAsList.get(0).getId();
+        return latestEventId;
     }
 
-    //TODO: Return new GroupDAO
-    private void createGroupDAO(String groupId) {
-        groupService.getGroups();
+    private boolean isEventIdUpToDate(Long oldEventId, Long latestEventId) {
+        return oldEventId == latestEventId;
     }
 
+    /**
+     * creates a DAO with necessary attributes retrieved from domain group
+     *
+     * @param groupId
+     */
+    private GroupDAO createGroupDAO(String groupId) {
+        Group group = groupService.getGroups().get(groupId);
+        return new GroupDAO(groupId, group.getName().toString(), group.getDescription().toString(), group.getGroupStatus().toString());
+    }
 }

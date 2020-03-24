@@ -1,7 +1,6 @@
 package mops.gruppen1.data.DAOs;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +12,11 @@ public class CurrentStateDAO {
     private List<GroupDAO> groupDAOs = new ArrayList<>();
     private long eventId;
 
-    public CurrentStateDAO(long eventId){
+    public CurrentStateDAO(long eventId) {
         this.eventId = eventId;
     }
 
-    public void addGroupDAO(GroupDAO groupDAO){
+    public void addGroupDAO(GroupDAO groupDAO) {
         groupDAOs.add(groupDAO);
     }
 }
