@@ -3,10 +3,9 @@ package mops.gruppen1.domain.events;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.Status;
+import mops.gruppen1.domain.MembershipStatus;
 import mops.gruppen1.domain.User;
 
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor
 public class MembershipRejectionEvent implements IEvent {
 
 
@@ -32,7 +30,7 @@ public class MembershipRejectionEvent implements IEvent {
         Group group = groups.get(groupId);
 
         Membership membership = getMembership(memberships, group);
-        membership.setStatus(Status.REJECTED);
+        membership.setMembershipStatus(MembershipStatus.REJECTED);
     }
 
     private Membership getMembership(List<Membership> memberships, Group group) {

@@ -1,6 +1,8 @@
 package mops.gruppen1.domain.events;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import mops.gruppen1.domain.*;
 
 import java.util.HashMap;
@@ -12,6 +14,8 @@ import java.util.List;
  * Add Membership to groupToMembers and userToMembers
  */
 @AllArgsConstructor
+@Getter
+@EqualsAndHashCode
 public class MembershipAssignmentEvent implements IEvent {
 
     private String groupId;
@@ -23,9 +27,9 @@ public class MembershipAssignmentEvent implements IEvent {
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         User user = users.get(userName);
-        Type membershipType = Type.valueOf(this.membershipType);
+        MembershipType membershipType = MembershipType.valueOf(this.membershipType);
 
-        Membership membership = new Membership(user, group, membershipType, Status.ACTIVE);
+        Membership membership = new Membership(user, group, membershipType, MembershipStatus.ACTIVE);
         group.addMember(membership);
         groupToMembers.get(groupId).add(membership);
         userToMembers.get(userName).add(membership);

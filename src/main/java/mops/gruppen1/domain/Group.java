@@ -1,10 +1,8 @@
 package mops.gruppen1.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +40,7 @@ public class Group {
     }
 
     public void removeMember(Membership membership){
-        membership.setStatus(Status.DEACTIVATED);
+        membership.setMembershipStatus(MembershipStatus.DEACTIVATED);
     }
 
     public void setAppointment(Appointment appointment){

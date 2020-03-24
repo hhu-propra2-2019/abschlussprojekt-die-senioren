@@ -10,5 +10,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class GroupName {
-   private String name;
+    private String name;
+
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

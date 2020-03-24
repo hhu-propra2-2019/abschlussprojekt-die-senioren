@@ -8,4 +8,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class GroupDescription {
     private String description;
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }

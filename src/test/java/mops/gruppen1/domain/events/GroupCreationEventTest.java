@@ -1,6 +1,8 @@
 package mops.gruppen1.domain.events;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +17,8 @@ class GroupCreationEventTest {
     }
 
     @Test
+    @Tag("EventTest")
+    @DisplayName("Test GroupCreationEvent")
     void execute() {
         //arrange
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent("Ärger machen = aufs maul", "das neue Lager", "Wildschweine jagen", "Gomez", "public");

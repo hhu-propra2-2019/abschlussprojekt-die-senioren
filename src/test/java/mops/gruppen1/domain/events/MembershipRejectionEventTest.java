@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MembershipAcceptanceEventTest {
+class MembershipRejectionEventTest {
 
     private TestSetup testSetup;
 
@@ -19,18 +19,18 @@ class MembershipAcceptanceEventTest {
 
     @Test
     @Tag("EventTest")
-    @DisplayName("Test MembershipAcceptanceEvent")
+    @DisplayName("Test MembershipRejectionEvent")
     void execute() {
         //Arrange
         String groupId = testSetup.groupThree.getGroupId().toString();
-        String user = testSetup.users.get("Milten").getUsername().getUsername();
-        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, user);
+        String user = "Milten";
+        MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, user);
 
         //Act
-        membershipAcceptanceEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
+        membershipRejectionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //Assert
         MembershipStatus userMembershipStatus = testSetup.memberships.get(5).getMembershipStatus();
-        assertThat(userMembershipStatus).isEqualTo(MembershipStatus.ACTIVE);
+        assertThat(userMembershipStatus).isEqualTo(MembershipStatus.REJECTED);
     }
 }

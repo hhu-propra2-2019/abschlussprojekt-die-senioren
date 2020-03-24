@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
+@Table(name="events")
 public class EventDTO {
 
     public EventDTO(String user, String group, LocalDateTime timestamp, String eventType, String payload) {
@@ -23,11 +24,11 @@ public class EventDTO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_ref")
+    @Column(name = "userName")
     private String user;
-    @Column(name = "group_ref")
+    @Column(name = "groupId")
     private String group;
-    @Column(columnDefinition = "TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP", name="eventTimeStamp")
     private LocalDateTime timestamp;
     private String eventType;
     @Column(length = 2000)

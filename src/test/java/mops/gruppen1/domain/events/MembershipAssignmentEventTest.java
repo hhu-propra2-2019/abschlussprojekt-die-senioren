@@ -1,6 +1,9 @@
 package mops.gruppen1.domain.events;
 
-import mops.gruppen1.domain.*;
+import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.MembershipType;
+import mops.gruppen1.domain.User;
+import mops.gruppen1.domain.Username;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -31,14 +34,19 @@ public class MembershipAssignmentEventTest {
         User newUser = new User(username);
         testSetup.users.put(username.toString(), newUser);
         testSetup.userToMembers.put(username.toString(), new ArrayList<>());
-        Type membershipType = Type.VIEWER;
+        MembershipType membershipType = MembershipType.VIEWER;
 
-        MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId,username.toString(),membershipType.toString());
+        MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, username.toString(), membershipType.toString());
 
         //act
         membershipAssignmentEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //assert
-        assertThat(groupOne.getMembers().stream().filter(membership -> membership.getUser().equals(newUser)));
+        assertThat(groupOne.getMembers().stream().filter(membership -> membership.getUser().equals(newUser))).isNotEmpty();
+        assertThat(groupOne.getMembers().get(2).getMembershipStatus().toString()).isEqualTo("ACTIVE");
+        assertThat(testSetup.userToMembers.get(username.toString()).get(0).getUser().getUsername()).isEqualTo(username);
+        assertThat(testSetup.userToMembers.get(username.toString()).get(0).getMembershipStatus().toString()).isEqualTo("ACTIVE");
+        assertThat(testSetup.groupToMembers.get(groupId).get(2).getUser().getUsername()).isEqualTo(username);
+        assertThat(testSetup.groupToMembers.get(groupId).get(2).getMembershipStatus().toString()).isEqualTo("ACTIVE");
     }
 }
