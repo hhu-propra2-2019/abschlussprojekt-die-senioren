@@ -23,7 +23,6 @@ public class Group {
     private Material material;
     private Forum forum;
     private Assignment assignment;
-    private Module module;
 
     public Group (List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus, GroupType groupType) {
        this.members = members;
@@ -73,9 +72,5 @@ public class Group {
 
     public void setAssignment(Assignment assignment) {
         this.assignment = assignment;
-    }
-
-    public void setModule(Module module)    {
-        this.module = module;
     }
 }
