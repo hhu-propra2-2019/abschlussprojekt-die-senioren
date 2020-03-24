@@ -11,12 +11,14 @@ public class GroupDAO {
     private String groupId;
     private String groupName;
     private String course;
-    private String groupDescritption;
+    private String groupDescription;
+    private String status;
 
-    public GroupDAO(String groupId, String groupName, String groupDescritption) {
+    public GroupDAO(String groupId, String groupName, String groupDescription, String status) {
         this.groupId = groupId;
         this.groupName = groupName;
-        this.groupDescritption = groupDescritption;
+        this.groupDescription = groupDescription;
+        this.status = status;
     }
 
 
