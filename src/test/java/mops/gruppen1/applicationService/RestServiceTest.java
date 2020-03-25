@@ -66,7 +66,7 @@ public class RestServiceTest {
         updatedGroupsDAO = restService.getUpdatedGroups(oldEventId);
 
         //Assert
-        assertThat(updatedGroupsDAO.getEventId()).isEqualTo(oldEventId); // Klasse UpdatedGroupsDAO braucht Getter!
+        assertThat(updatedGroupsDAO.getEventId()).isEqualTo(oldEventId); 
     }
 
     @Tag("RestServiceTest")
@@ -80,8 +80,7 @@ public class RestServiceTest {
 
         //Assert
         assertThat(updatedGroupsDAO.getEventId()).isNotEqualTo(outdatedOldEventId);
-        assertThat(updatedGroupsDAO.getEventId()).isEqualTo(oldEventId);
         assertThat(updatedGroupsDAO.getEventId()).isEqualTo(2L);
-        assertThat(updatedGroupsDAO.getGroupDAOs().get(0).getGroupId()).isEqualTo("groupOneId"); // Klasse GroupDAOs braucht Getter!
+        assertThat(updatedGroupsDAO.getGroupDAOs().get(0).getGroupId()).isEqualTo("groupOneId"); 
     }
 }
