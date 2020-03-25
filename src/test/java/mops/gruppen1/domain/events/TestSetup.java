@@ -1,5 +1,6 @@
 package mops.gruppen1.domain.events;
 
+import mops.gruppen1.domain.Module;
 import mops.gruppen1.domain.*;
 
 import java.util.ArrayList;
@@ -12,14 +13,14 @@ import java.util.List;
  * GroupOne is active, GroupTwo is deactivated, GroupThree is active but restricted
  */
 public class TestSetup {
-    HashMap<String, List<Membership>> groupToMembers = new HashMap<>();
-    HashMap<String, List<Membership>> userToMembers = new HashMap<>();
-    HashMap<String, Group> groups = new HashMap<>();
-    HashMap<String, User> users = new HashMap<>();
-    Group groupOne;
-    Group groupTwo;
-    Group groupThree;
-    List<Membership> memberships = new ArrayList<>();
+    public HashMap<String, List<Membership>> groupToMembers = new HashMap<>();
+    public HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+    public HashMap<String, Group> groups = new HashMap<>();
+    public HashMap<String, User> users = new HashMap<>();
+    public Group groupOne;
+    public Group groupTwo;
+    public Group groupThree;
+    public List<Membership> memberships = new ArrayList<>();
 
     public TestSetup() {
         createUserMap();
@@ -85,6 +86,11 @@ public class TestSetup {
         GroupType groupTypeOne = GroupType.PUBLIC;
         GroupType groupTypeTwo = GroupType.RESTRICTED;
         GroupType groupTypeThree = GroupType.RESTRICTED;
+        Module moduleOne = new Module();
+        moduleOne.setModulename(new Modulename("Info1"));
+        Module moduleTwo = new Module();
+        moduleTwo.setModulename(new Modulename("Keine Veranstaltung."));
+
 
         User groupCreatorOne = users.get("Max");
         User groupCreatorTwo = users.get("Neo");
@@ -94,9 +100,9 @@ public class TestSetup {
         ArrayList<Membership> membershipsTwo = new ArrayList<>();
         ArrayList<Membership> membershipsThree = new ArrayList<>();
 
-        this.groupOne = new Group(membershipsOne, groupNameOne, groupDescriptionOne, groupCreatorOne, groupStatusOne, groupTypeOne);
-        this.groupTwo = new Group(membershipsTwo, groupNameTwo, groupDescriptionTwo, groupCreatorTwo, groupStatusTwo, groupTypeTwo);
-        this.groupThree = new Group(membershipsThree, groupNameThree, groupDescriptionThree, groupCreatorThree, groupStatusThree, groupTypeThree);
+        this.groupOne = new Group(membershipsOne, groupNameOne, groupDescriptionOne, groupCreatorOne, groupStatusOne, groupTypeOne, moduleOne);
+        this.groupTwo = new Group(membershipsTwo, groupNameTwo, groupDescriptionTwo, groupCreatorTwo, groupStatusTwo, groupTypeTwo, moduleTwo);
+        this.groupThree = new Group(membershipsThree, groupNameThree, groupDescriptionThree, groupCreatorThree, groupStatusThree, groupTypeThree, moduleOne);
 
     }
 

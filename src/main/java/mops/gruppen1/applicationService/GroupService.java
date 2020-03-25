@@ -3,7 +3,6 @@ package mops.gruppen1.applicationService;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
@@ -25,6 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class GroupService {
+
     EventService events;
     CheckService checkService;
     private HashMap<String, List<Membership>> groupToMembers;
@@ -83,6 +83,7 @@ public class GroupService {
         persistEvent(groupCreator, null, "GroupCreationEvent", groupCreationEvent);
         this.lastCreatedGroup = groupCreationEvent.getGroupId();
     }
+
 
     public ValidationResult deleteGroup(String groupId, String userName) {
         List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
@@ -205,6 +206,7 @@ public class GroupService {
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMember(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.activeAdminRemainsAfterResignment(userName, groupId, groupToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
