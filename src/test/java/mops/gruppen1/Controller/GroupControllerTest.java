@@ -1,9 +1,6 @@
 package mops.gruppen1.Controller;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
@@ -67,8 +64,10 @@ class GroupControllerTest {
                 .andExpect(view().name("index"));
     }
 
+
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Admin - View einer Gruppe.")
+    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testAdminView() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -87,8 +86,10 @@ class GroupControllerTest {
                 .andExpect(view().name("gruppenAdmin"));
     }
 
+
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Viewer - View einer Gruppe.")
+    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testMemberView() throws Exception {
         Set<String> roles = new HashSet<String>();
