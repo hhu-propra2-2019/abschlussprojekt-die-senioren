@@ -28,7 +28,7 @@ public class RestService {
 
     /**
      * @param oldEventId is received from other services via RestController
-     * @return currentStateDAO that contains a list of GroupDAOs for the changed groups
+     * @return updatedGroupsDAO that contains a list of GroupDAOs for the changed groups
      * and the latest eventId
      */
     public UpdatedGroupsDAO getUpdatedGroups(Long oldEventId) {
