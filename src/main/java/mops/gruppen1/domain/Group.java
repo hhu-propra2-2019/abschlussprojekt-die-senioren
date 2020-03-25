@@ -25,7 +25,7 @@ public class Group {
     private Assignment assignment;
     private Module module;
 
-    public Group(List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus, GroupType groupType) {
+    public Group(List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus, GroupType groupType, Module module) {
         this.members = members;
         this.groupId = UUID.randomUUID();
         this.name = name;
@@ -33,36 +33,12 @@ public class Group {
         this.groupCreator = groupCreator;
         this.groupStatus = groupStatus;
         this.groupType = groupType;
-        this.module = new Module();
-        this.module.setModulename(new Modulename("Keine Veranstaltung."));
-    }
-
-    public Group(List<Membership> members, String groupId, GroupName name, GroupDescription description, User groupCreator, GroupStatus groupStatus, GroupType groupType) {
-        this.members = members;
-        this.groupId = UUID.fromString(groupId);
-        this.name = name;
-        this.description = description;
-        this.groupCreator = groupCreator;
-        this.groupStatus = groupStatus;
-        this.groupType = groupType;
-        this.module = new Module();
-        this.module.setModulename(new Modulename("Keine Veranstaltung."));
-    }
-
-    public Group(List<Membership> members, GroupName name, GroupDescription description, User groupCreator, GroupStatus groupStatus, GroupType groupType, Module module) {
-        this.members = members;
-        this.groupId = UUID.randomUUID();
-        this.name = name;
-        this.description = description;
-        this.groupCreator = groupCreator;
-        this.groupStatus = groupStatus;
-        this.groupType = groupType;
         this.module = module;
     }
 
-    public Group(List<Membership> members, String groupId, GroupName name, GroupDescription description, User groupCreator, GroupStatus groupStatus, GroupType groupType, Module module) {
+    public Group(List<Membership> members, UUID groupId, GroupName name, GroupDescription description, User groupCreator, GroupStatus groupStatus, GroupType groupType, Module module) {
         this.members = members;
-        this.groupId = UUID.fromString(groupId);
+        this.groupId = groupId;
         this.name = name;
         this.description = description;
         this.groupCreator = groupCreator;
