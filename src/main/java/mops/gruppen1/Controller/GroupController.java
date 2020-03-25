@@ -217,6 +217,20 @@ public class GroupController {
         return "searchResults";
     }
 
+    @PostMapping("/searchResults")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
+    public String joinPublicGroup(KeycloakAuthenticationToken token, Model model,
+                                  @RequestParam(value = "id") String groupId) {
+        if (token != null) {
+            Account account = createAccountFromPrincipal(token);
+            model.addAttribute("account", account);
+            applicationService.joinGroup(account.getName(), groupId);
+        }
+        return "redirect:/gruppen1/";
+    }
+
+
+
     @GetMapping("/requestMessage")
     @Secured("ROLE_studentin")
     public String groupDescription(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
