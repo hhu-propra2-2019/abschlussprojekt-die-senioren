@@ -134,12 +134,16 @@ public class GroupController {
         return "changeMemberships";
     }
 
-    @GetMapping("/viewer") // /{id}")
+    @GetMapping("/viewer/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String viewerView (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
-                            // , @PathVariable("id") String id) {
+    public String viewerView (KeycloakAuthenticationToken token, Model model,
+                              @RequestParam(name = "search") Optional search,
+                              @PathVariable("id") String id) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+            model.addAttribute("groupId",id);
+            String groupname = applicationService.getGroupService().getGroups().get(id).getName().toString();
+            model.addAttribute("groupName", groupname);
         }
         if (search.isPresent()) {
             return searchGroups(search);
@@ -147,13 +151,16 @@ public class GroupController {
         return "gruppenViewer";
     }
 
-    @GetMapping("/admin") ///{id}")
+    @GetMapping("/admin/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String adminView (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
-            // , @PathVariable("id") String id) {
+    public String adminView (KeycloakAuthenticationToken token, Model model,
+                             @RequestParam(name = "search") Optional search,
+                             @PathVariable("id") String id) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
-           // model.addAttribute("groupId",id);
+            model.addAttribute("groupId",id);
+            String groupname = applicationService.getGroupService().getGroups().get(id).getName().toString();
+            model.addAttribute("groupName", groupname);
         }
         if (search.isPresent()) {
             return searchGroups(search);

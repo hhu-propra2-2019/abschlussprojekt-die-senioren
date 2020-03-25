@@ -42,12 +42,10 @@
                     <td>
                         <div th:switch="${membership.membershipType}">
                             <span th:case="${T(mops.gruppen1.domain.MembershipType).ADMIN}">
-                               <a th:href="@{/gruppen1/admin}" th:text="${membership.group.name}"></a>
-                                <!---/{id}(id=${membership.group.groupId})}"--->
+                               <a th:href="@{/gruppen1/admin/{id}(id=${membership.group.groupId})}" th:text="${membership.group.name}"></a>
                             </span>
                             <span th:case="${T(mops.gruppen1.domain.MembershipType).VIEWER}">
-                                <a th:href="@{/gruppen1/viewer}" th:text="${membership.group.name}"></a>
-                                <!---/{id}(id=${membership.group.groupId})}"--->
+                                <a th:href="@{/gruppen1/viewer/{id}(id=${membership.group.groupId})}" th:text="${membership.group.name}"></a>
                             </span>
                         </div>
                     </td>
