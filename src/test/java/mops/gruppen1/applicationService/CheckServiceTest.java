@@ -2,6 +2,7 @@ package mops.gruppen1.applicationService;
 
 import mops.gruppen1.domain.Module;
 import mops.gruppen1.domain.*;
+import mops.gruppen1.domain.events.TestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -692,4 +693,37 @@ class CheckServiceTest {
         //assert
         assertThat(validationResult.isValid()).isFalse();
     }
+
+    @Tag("CheckServiceTest")
+    @Test
+    void testActiveAdminRemainsAfterResignmentFalse() {
+        //Arrange
+        TestSetup testSetup = new TestSetup();
+        String userName = "Max";
+        String groupId = testSetup.groupOne.getGroupId().toString();
+
+        //act
+        ValidationResult validationResult = checkService.activeAdminRemainsAfterResignment(userName, groupId, testSetup.groupToMembers);
+
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
+    @Tag("CheckServiceTest")
+    @Test
+    void testActiveAdminRemainsAfterResignmentPositive() {
+        //Arrange
+        TestSetup testSetup = new TestSetup();
+        String userName = "Max";
+        String groupId = testSetup.groupOne.getGroupId().toString();
+        Membership memberStela = testSetup.groupOne.getMembers().get(1);
+        memberStela.setMembershipType(MembershipType.ADMIN);
+
+        //act
+        ValidationResult validationResult = checkService.activeAdminRemainsAfterResignment(userName, groupId, testSetup.groupToMembers);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
 }

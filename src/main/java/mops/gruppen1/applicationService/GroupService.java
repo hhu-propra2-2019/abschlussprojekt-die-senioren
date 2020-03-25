@@ -206,6 +206,7 @@ public class GroupService {
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMember(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.activeAdminRemainsAfterResignment(userName, groupId, groupToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
