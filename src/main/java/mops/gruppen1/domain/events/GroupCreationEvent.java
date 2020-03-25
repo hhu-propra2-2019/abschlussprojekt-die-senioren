@@ -11,6 +11,7 @@ import mops.gruppen1.domain.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * create new Group with attributes groupId, name, description and, if added, GroupStatus (to 'active')
@@ -61,13 +62,9 @@ public class GroupCreationEvent implements IEvent {
     }
 
     private Group createDependingOnArgs(List<Membership> members, GroupName name, GroupDescription description, GroupStatus groupStatus, User groupCreator, GroupType groupType, Module module) {
-        if (groupId == null && !groupCourse.equals("Keine Veranstaltung.")) {
+        if (groupId == null) {
             return new Group(members, name, description, groupCreator, groupStatus, groupType, module);
-        } else if (groupId == null && groupCourse.equals("Keine Veranstaltung.")) {
-            return new Group(members, groupId, name, description, groupCreator, groupStatus, groupType);
-        } else if (groupId != null && groupCourse.equals("Keine Veranstaltung.")) {
-            return new Group(members, groupId, name, description, groupCreator, groupStatus, groupType);
         }
-        return new Group(members, groupId, name, description, groupCreator, groupStatus, groupType, module);
+        return new Group(members, UUID.fromString(groupId), name, description, groupCreator, groupStatus, groupType, module);
     }
 }
