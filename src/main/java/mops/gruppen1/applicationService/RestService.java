@@ -63,11 +63,11 @@ public class RestService {
         if (isEventIdUpToDate(oldEventId, latestEventId)) {
             return (new UpdatedGroupsDAO(latestEventId));
         }
-        return createUpdatedGroupsDAOs(oldEventId);
+        return createUpdatedGroupsDAOs(oldEventId, latestEventId);
     }
 
-    private UpdatedGroupsDAO createUpdatedGroupsDAOs(Long oldEventId) {
-        UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(oldEventId);
+    private UpdatedGroupsDAO createUpdatedGroupsDAOs(Long oldEventId, Long latestEventId) {
+        UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(latestEventId);
         List<GroupIdOnly> changedGroupIds = eventRepo.findAllByIdAfter(oldEventId);
         for (GroupIdOnly groupId : changedGroupIds) {
             String id = groupId.getGroup();
