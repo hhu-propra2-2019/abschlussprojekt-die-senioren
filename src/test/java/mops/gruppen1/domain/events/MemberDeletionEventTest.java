@@ -15,18 +15,18 @@ public class MemberDeletionEventTest {
 
     private TestSetup testSetup;
     private String testGroupId;
-    private String removedMemberId;
-    private String removedByMemberId;
+    private String removedUserName;
+    private String removedByUserName;
     private MemberDeletionEvent memberDeletionEvent;
 
     @BeforeEach
     void setup() {
-        //allgemeiner arrange - Schritt
+        //arrange
         this.testSetup = new TestSetup();
         this.testGroupId = testSetup.groupOne.getGroupId().toString();
-        this.removedMemberId = testSetup.memberships.get(1).getMemberid().toString();
-        this.removedByMemberId = testSetup.memberships.get(0).getMemberid().toString();
-        this.memberDeletionEvent = new MemberDeletionEvent(testGroupId, removedMemberId, removedByMemberId);
+        this.removedUserName = testSetup.memberships.get(1).getUser().getUsername().toString();
+        this.removedByUserName = testSetup.memberships.get(0).getUser().getUsername().toString();
+        this.memberDeletionEvent = new MemberDeletionEvent(testGroupId, removedUserName, removedByUserName);
     }
 
     @Tag("EventTest")
@@ -65,8 +65,7 @@ public class MemberDeletionEventTest {
     @Test
     void testExecuteDeactivateMembershipsInUserToMembers() {
         //arrange
-        String removedUser = testSetup.memberships.get(1).getUser().getUsername().getUsername();
-        List<Membership> testMemberlist = testSetup.userToMembers.get(removedUser);
+        List<Membership> testMemberlist = testSetup.userToMembers.get(this.removedUserName);
 
         //act
         memberDeletionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);

@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mops.gruppen1.domain.Module;
 import mops.gruppen1.domain.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * create new Group with attributes groupId, name, description and, if added, GroupStatus (to 'active')
@@ -52,8 +55,16 @@ public class GroupCreationEvent implements IEvent {
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         User groupCreator = new User(new Username(this.groupCreator));
         GroupType groupType = GroupType.valueOf(this.groupType.toUpperCase());
-        //add groupCourse?
+        Module module = new Module();
+        module.setModulename(new Modulename(groupCourse));
 
-        return new Group(members, name, description, groupCreator, groupStatus, groupType);
+        return createDependingOnArgs(members, name, description, groupStatus, groupCreator, groupType, module);
+    }
+
+    private Group createDependingOnArgs(List<Membership> members, GroupName name, GroupDescription description, GroupStatus groupStatus, User groupCreator, GroupType groupType, Module module) {
+        if (groupId == null) {
+            return new Group(members, name, description, groupCreator, groupStatus, groupType, module);
+        }
+        return new Group(members, UUID.fromString(groupId), name, description, groupCreator, groupStatus, groupType, module);
     }
 }

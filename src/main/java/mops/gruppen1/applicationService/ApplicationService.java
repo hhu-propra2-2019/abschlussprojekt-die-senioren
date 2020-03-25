@@ -1,5 +1,6 @@
 package mops.gruppen1.applicationService;
 
+import lombok.Getter;
 import mops.gruppen1.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  * Service that controls calls to GroupService
  */
 @Service
+@Getter
 public class ApplicationService {
     @Autowired
     GroupService groupService;

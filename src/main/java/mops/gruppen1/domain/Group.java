@@ -23,30 +23,43 @@ public class Group {
     private Material material;
     private Forum forum;
     private Assignment assignment;
+    private Module module;
 
-    public Group (List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus, GroupType groupType) {
-       this.members = members;
-       this.groupId  = UUID.randomUUID();
-       this.name = name;
-       this.description = groupDescription;
-       this.groupCreator = groupCreator;
-       this.groupStatus = groupStatus;
-       this.groupType = groupType;
+    public Group(List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus, GroupType groupType, Module module) {
+        this.members = members;
+        this.groupId = UUID.randomUUID();
+        this.name = name;
+        this.description = groupDescription;
+        this.groupCreator = groupCreator;
+        this.groupStatus = groupStatus;
+        this.groupType = groupType;
+        this.module = module;
+    }
+
+    public Group(List<Membership> members, UUID groupId, GroupName name, GroupDescription description, User groupCreator, GroupStatus groupStatus, GroupType groupType, Module module) {
+        this.members = members;
+        this.groupId = groupId;
+        this.name = name;
+        this.description = description;
+        this.groupCreator = groupCreator;
+        this.groupStatus = groupStatus;
+        this.groupType = groupType;
+        this.module = module;
     }
 
     public void addMember(Membership membership) {
         members.add(membership);
     }
 
-    public void removeMember(Membership membership){
+    public void removeMember(Membership membership) {
         membership.setMembershipStatus(MembershipStatus.DEACTIVATED);
     }
 
-    public void setAppointment(Appointment appointment){
+    public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
     }
 
-    public void setStatus(GroupStatus groupStatus){
+    public void setStatus(GroupStatus groupStatus) {
         this.groupStatus = groupStatus;
     }
 

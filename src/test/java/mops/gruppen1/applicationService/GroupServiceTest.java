@@ -378,12 +378,15 @@ class GroupServiceTest {
         ValidationResult validationResult1 = new ValidationResult();
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
+        ValidationResult validationResult4 = new ValidationResult();
 
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
         when(groupService.checkService.isMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        when(groupService.checkService.activeAdminRemainsAfterResignment(userName, groupId, groupService.getGroupToMembers()))
+                .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
         Mockito.doNothing().when(groupService1).performMembershipResignmentEvent(userName, groupId);
@@ -406,12 +409,15 @@ class GroupServiceTest {
         validationResult1.addError("Test");
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
+        ValidationResult validationResult4 = new ValidationResult();
 
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
         when(groupService.checkService.isMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        when(groupService.checkService.activeAdminRemainsAfterResignment(userName, groupId, groupService.getGroupToMembers()))
+                .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
         Mockito.doNothing().when(groupService1).performMembershipResignmentEvent(userName, groupId);

@@ -123,6 +123,21 @@ public class CheckService {
         return validationResult;
     }
 
+    public ValidationResult activeAdminRemainsAfterResignment(String userName, String groupId,
+                                                              HashMap<String, List<Membership>> groupToMembers) {
+        ValidationResult validationResult = new ValidationResult();
+        List<Membership> memberships = groupToMembers.get(groupId);
+        Membership membership = memberships.stream().filter(m -> m.getUser().getUsername().toString().equals(userName)).findFirst().orElse(null);
+        boolean isAdmin = membership.getMembershipType().equals(MembershipType.ADMIN);
+        if (isAdmin) {
+            long adminCount = memberships.stream().filter(m -> m.getMembershipType().equals(MembershipType.ADMIN)).count();
+            if (adminCount < 2) {
+                validationResult.addError("Es muss zuerst ein anderer Administrator bestimmt werden.");
+            }
+        }
+        return validationResult;
+    }
+
     private Membership getMembership(List<Membership> memberships, Group group) {
         Membership membership = null;
 
