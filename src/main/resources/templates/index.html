@@ -38,7 +38,7 @@
                 </thead>
                 <tbody>
 
-                <tr th:each="membership:${memberships}">
+               <!--- <tr th:each="membership:${memberships}">
                     <td th:text="${membership.group.name}">
                         <div th:switch="${membership.membershipType}">
                             <a th:case="ADMIN" th:href="@{/gruppen1/admin/{id}(id=${membership.group.groupId})}">Gruppe 1</a>
@@ -48,7 +48,7 @@
                     <td th:text="${membership.group.module?.modulename.modulename}">Keine Veranstaltung</td>
                     <td th:text="${membership.group.groupType}"></td>
                     <td th:text="${membership.membershipType}"></td>
-                </tr>
+                </tr>--->
                 <tr>
                     <td><a href="/gruppen1/viewer">Gruppe 2</a></td>
                     <td>Mathe</td>
