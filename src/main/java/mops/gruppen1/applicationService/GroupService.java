@@ -3,7 +3,6 @@ package mops.gruppen1.applicationService;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
@@ -24,11 +23,9 @@ import java.util.List;
 @EqualsAndHashCode
 @AllArgsConstructor
 @Service
-@NoArgsConstructor
 public class GroupService {
-    @Autowired
+
     EventService events;
-    @Autowired
     CheckService checkService;
     private HashMap<String, List<Membership>> groupToMembers;
     private HashMap<String, List<Membership>> userToMembers;
@@ -36,6 +33,7 @@ public class GroupService {
     private HashMap<String, User> users;
     private String lastCreatedGroup;
 
+    @Autowired
     public GroupService(EventService eventService, CheckService checkService) {
         this.events = eventService;
         this.checkService = checkService;
@@ -85,6 +83,7 @@ public class GroupService {
         persistEvent(groupCreator, null, "GroupCreationEvent", groupCreationEvent);
         this.lastCreatedGroup = groupCreationEvent.getGroupId();
     }
+
 
     public ValidationResult deleteGroup(String groupId, String userName) {
         List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
@@ -207,6 +206,7 @@ public class GroupService {
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMember(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.activeAdminRemainsAfterResignment(userName, groupId, groupToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {

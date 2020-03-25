@@ -4,6 +4,7 @@ import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
 import mops.gruppen1.data.EventIdOnly;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.data.GroupIdOnly;
+import mops.gruppen1.domain.Module;
 import mops.gruppen1.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -49,7 +50,9 @@ public class RestServiceTest {
         User groupCreator = new User(new Username("groupCreator"));
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         GroupType groupType = GroupType.PUBLIC;
-        Group groupOne = new Group(members, name, groupDescription, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("ino1"));
+        Group groupOne = new Group(members, name, groupDescription, groupCreator, groupStatus, groupType, module);
         HashMap<String, Group> groupsMocked = new HashMap<>();
         groupsMocked.put("groupOneId", groupOne);
 
@@ -66,7 +69,7 @@ public class RestServiceTest {
         updatedGroupsDAO = restService.getUpdatedGroups(oldEventId);
 
         //Assert
-        assertThat(updatedGroupsDAO.getEventId()).isEqualTo(oldEventId); 
+        assertThat(updatedGroupsDAO.getEventId()).isEqualTo(oldEventId);
     }
 
     @Tag("RestServiceTest")
@@ -81,6 +84,6 @@ public class RestServiceTest {
         //Assert
         assertThat(updatedGroupsDAO.getEventId()).isNotEqualTo(outdatedOldEventId);
         assertThat(updatedGroupsDAO.getEventId()).isEqualTo(2L);
-        assertThat(updatedGroupsDAO.getGroupDAOs().get(0).getGroupId()).isEqualTo("groupOneId"); 
+        assertThat(updatedGroupsDAO.getGroupDAOs().get(0).getGroupId()).isEqualTo("groupOneId");
     }
 }

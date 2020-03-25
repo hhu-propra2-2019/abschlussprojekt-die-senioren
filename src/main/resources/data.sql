@@ -25,7 +25,7 @@ INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, paylo
 VALUES (
            NULL,
            'userX',
-           'group123',
+           '6ec87136-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 13:22:14',
            'UserCreationEvent',
            '{"username": "userX"}');
@@ -34,17 +34,17 @@ INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, paylo
 VALUES (
            NULL,
            'userX',
-           'group123',
+           '6ec87136-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 13:22:14',
            'GroupCreationEvent',
-           '{"groupId": "group123","groupName": "Testgruppe1","groupCreator": "userX","groupDescription": "Lalalala","groupType": "PUBLIC"}');
+           '{"groupId": "6ec87136-6e76-11ea-bc55-0242ac130003","groupName": "Testgruppe1","groupCreator": "userX","groupDescription": "Lalalala","groupType": "PUBLIC"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userRST',
-           'group123',
+           '6ec87136-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 13:22:14',
            'UserCreationEvent',
            '{"username": "userRST"}');
@@ -54,16 +54,16 @@ INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, paylo
 VALUES (
            NULL,
            'userRST',
-           'group123',
+           '6ec87136-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 13:24:14',
-           'MembershipAssignmentEvent','{"groupId": "group123","userName": "userRST","membershipType": "VIEWER"}');
+           'MembershipAssignmentEvent','{"groupId": "6ec87136-6e76-11ea-bc55-0242ac130003","userName": "userRST","membershipType": "VIEWER"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userVWX',
-           'group123',
+           '6ec87136-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 13:22:14',
            'UserCreationEvent',
            '{"username": "userVWX"}');
@@ -73,37 +73,37 @@ INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, paylo
 VALUES (
            NULL,
            'userVWX',
-           'group345',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 13:22:14',
            'GroupCreationEvent',
-           '{"groupId": "group345","groupName": "Testgruppe2","groupCreator": "userX","groupDescription": "Lalelu Nur Der Mann Im Mond","groupType": "RESTRICTED"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","groupName": "Testgruppe2","groupCreator": "userX","groupDescription": "Lalelu Nur Der Mann Im Mond","groupType": "RESTRICTED"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userX',
-           'group123',
+           '6ec87136-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 19:22:14',
            'GroupDeletionEvent',
-           '{"groupId": "group123","deletedByUser": "userX"}');
+           '{"groupId": "6ec87136-6e76-11ea-bc55-0242ac130003","deletedByUser": "userX"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userVWX',
-           'group345',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 15:22:14',
            'GroupPropertyUpdateEvent',
-           '{"groupId": "group345","groupName": "Testgruppe2","updatedBy": "userVWX","description": "Lalelu Nur der Mann Im Mond Schaut Zu","groupType": "RESTRICTED"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","groupName": "Testgruppe2","updatedBy": "userVWX","description": "Lalelu Nur der Mann Im Mond Schaut Zu","groupType": "RESTRICTED"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userABC',
-           'group123',
+           '6ec87136-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 13:22:14',
            'UserCreationEvent',
            '{"username": "userABC"}');
@@ -112,17 +112,17 @@ INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, paylo
 VALUES (
            NULL,
            'userABC',
-           'group345',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 15:22:14',
            'MembershipRequestEvent',
-           '{"groupId": "group345","userName": "userABC","membershipType": "VIEWER"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userABC","membershipType": "VIEWER"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userDEF',
-           'group123',
+           '6ec87136-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 13:22:14',
            'UserCreationEvent',
            '{"username": "userDEF"}');
@@ -132,67 +132,68 @@ INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, paylo
 VALUES (
            NULL,
            'userDEF',
-           'group345',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 16:22:14',
            'MembershipRequestEvent',
-           '{"groupId": "group345","userName": "userDEF","membershipType": "ADMIN"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userDEF","membershipType": "ADMIN"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userABC',
-           'group345',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 20:22:14',
            'MembershipAcceptanceEvent',
-           '{"groupId": "group345","userName": "userABC"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userABC"}');
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userABC',
-           'group345',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 14:22:14',
            'MembershipAssignmentEvent',
-           '{"groupId": "group345","userName": "userABC","membershipType": "VIEWER"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userABC","membershipType": "VIEWER"}');
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userVWX',
-           'group345',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 20:22:14',
            'MembershipUpdateEvent',
-           '{"groupId": "group345","userName": "userABC","updatedBy": "userVWX","updatedTo": "ADMIN"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userABC","updatedBy": "userVWX","updatedTo": "ADMIN"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userDEF',
-           'group345',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 21:22:14',
            'MembershipRejectionEvent',
-           '{"groupId": "group345","userName": "userDEF"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userDEF"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userVWX',
-           'group345',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 21:22:14',
            'MemberDeletionEvent',
-           '{"groupId": "group345","removedUserName": "userABC","removedByUserName": "userVWX"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","removedUserName": "userABC","removedByUserName": "userVWX"}');
+
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
            'userVWX',
-           'group345',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 22:22:14',
            'MemberResignmentEvent',
-           '{"groupId": "group345","leavingUserName": "userVWX"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","leavingUserName": "userVWX"}');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
