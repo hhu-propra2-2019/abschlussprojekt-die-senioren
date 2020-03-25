@@ -13,14 +13,14 @@ import java.util.List;
  * GroupOne is active, GroupTwo is deactivated, GroupThree is active but restricted
  */
 public class TestSetup {
-    HashMap<String, List<Membership>> groupToMembers = new HashMap<>();
-    HashMap<String, List<Membership>> userToMembers = new HashMap<>();
-    HashMap<String, Group> groups = new HashMap<>();
-    HashMap<String, User> users = new HashMap<>();
-    Group groupOne;
-    Group groupTwo;
-    Group groupThree;
-    List<Membership> memberships = new ArrayList<>();
+    public HashMap<String, List<Membership>> groupToMembers = new HashMap<>();
+    public HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+    public HashMap<String, Group> groups = new HashMap<>();
+    public HashMap<String, User> users = new HashMap<>();
+    public Group groupOne;
+    public Group groupTwo;
+    public Group groupThree;
+    public List<Membership> memberships = new ArrayList<>();
 
     public TestSetup() {
         createUserMap();
