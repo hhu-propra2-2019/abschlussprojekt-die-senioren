@@ -124,8 +124,8 @@ public class CheckService {
         return validationResult;
     }
 
-    public ValidationResult activeAdminRemainsAfterResignment(String userName, HashMap<String, Group> groups,
-                                                              String groupId, HashMap<String, List<Membership>> groupToMembers) {
+    public ValidationResult activeAdminRemainsAfterResignment(String userName, String groupId,
+                                                              HashMap<String, List<Membership>> groupToMembers) {
         ValidationResult validationResult = new ValidationResult();
         List<Membership> memberships = groupToMembers.get(groupId);
         Membership membership = memberships.stream().filter(m -> m.getUser().getUsername().toString().equals(userName)).findFirst().orElse(null);
