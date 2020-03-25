@@ -38,6 +38,21 @@ public class RestService {
         return groupService.isUserMemberOfGroup(username, groupId);
     }
 
+
+    /**
+     * Check if user is admin in given group or not.
+     * @param username
+     * @param groupId
+     * @return
+     */
+    public boolean isUserAdminInGroup(String username, String groupId) {
+
+        // When user is not a member of the group, return false
+        if(!isUserInGroup(username, groupId)) return false;
+
+        return groupService.isUserAdminInGroup(username, groupId);
+    }
+
     /**
      * @param oldEventId is received from other services via RestController
      * @return currentStateDAO that contains a list of GroupDAOs for the changed groups

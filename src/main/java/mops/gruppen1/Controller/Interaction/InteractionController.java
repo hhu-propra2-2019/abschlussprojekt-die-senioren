@@ -49,12 +49,23 @@ public class InteractionController {
     }
 
     @GetMapping("/isUserAdminInGroup")
-    public Boolean isUserAdminInGroup(@RequestParam(value = "userName", defaultValue = "") String userName,
-                          @RequestParam(value = "groupId", defaultValue = "") String groupId) {
-        // if default-value => request is not valid, username must be given
-        // check if user ist admin in Group
-        //return yes/no?
-        return true;
+    public ResponseEntity<Map<String, Boolean>> isUserAdminInGroup(@RequestParam(value = "userName", defaultValue = "") String userName,
+                                                                    @RequestParam(value = "groupId", defaultValue = "") String groupId) {
+
+        //Check if given username and groupId are not empty
+        if(userName.equals("") || groupId.equals("")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        //Check if user is admin in group
+        boolean isUserAdminInGroup = restService.isUserAdminInGroup(userName,groupId);
+
+        //prepare content for response statement
+        Map<String,Boolean> resultMap = new HashMap<>();
+        resultMap.put("isUserAdminInGroup", isUserAdminInGroup);
+
+        //return result
+        return ResponseEntity.status(HttpStatus.OK).body(resultMap);
     }
 
     @GetMapping("/doesGroupExist")

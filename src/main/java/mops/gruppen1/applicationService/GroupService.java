@@ -349,6 +349,12 @@ public class GroupService {
 
         return validationResult.isValid();
     }
+
+    public boolean isUserAdminInGroup(String username, String groupId) {
+        ValidationResult validationResult = checkService.isAdmin(username, groupId, this.groups, this.users, this.userToMembers);
+
+        return validationResult.isValid();
+    }
 }
 
 
