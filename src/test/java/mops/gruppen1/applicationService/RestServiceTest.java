@@ -1,6 +1,6 @@
 package mops.gruppen1.applicationService;
 
-import mops.gruppen1.data.DAOs.CurrentStateDAO;
+import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
 import mops.gruppen1.data.EventIdOnly;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.data.GroupIdOnly;
@@ -18,6 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class RestServiceTest {
+
     final Long oldEventId = 2L;
     final Long outdatedOldEventId = 0L;
     RestService restService;
@@ -59,28 +60,28 @@ public class RestServiceTest {
     @Test
     void testGetUpdatedGroupsWithNoUpdatedGroups() {
         //Arrange
-        CurrentStateDAO currentStateDAO;
+        UpdatedGroupsDAO updatedGroupsDAO;
 
         //Act
-        currentStateDAO = restService.getUpdatedGroups(oldEventId);
+        updatedGroupsDAO = restService.getUpdatedGroups(oldEventId);
 
         //Assert
-        assertThat(currentStateDAO.getEventId()).isEqualTo(oldEventId); // Klasse CurrentStateDaos braucht Getter!
+        assertThat(updatedGroupsDAO.getEventId()).isEqualTo(oldEventId); // Klasse UpdatedGroupsDAO braucht Getter!
     }
 
     @Tag("RestServiceTest")
     @Test
     void testGetUpdatedGroupsWithUpdatedGroups() {
         //Arrange
-        CurrentStateDAO currentStateDAO;
+        UpdatedGroupsDAO updatedGroupsDAO;
 
         //Act
-        currentStateDAO = restService.getUpdatedGroups(outdatedOldEventId);
+        updatedGroupsDAO = restService.getUpdatedGroups(outdatedOldEventId);
 
         //Assert
-        assertThat(currentStateDAO.getEventId()).isNotEqualTo(outdatedOldEventId);
-        assertThat(currentStateDAO.getEventId()).isEqualTo(oldEventId);
-        assertThat(currentStateDAO.getEventId()).isEqualTo(2L);
-        assertThat(currentStateDAO.getGroupDAOs().get(0).getGroupId()).isEqualTo("groupOneId"); // Klasse GroupDAOs braucht Getter!
+        assertThat(updatedGroupsDAO.getEventId()).isNotEqualTo(outdatedOldEventId);
+        assertThat(updatedGroupsDAO.getEventId()).isEqualTo(oldEventId);
+        assertThat(updatedGroupsDAO.getEventId()).isEqualTo(2L);
+        assertThat(updatedGroupsDAO.getGroupDAOs().get(0).getGroupId()).isEqualTo("groupOneId"); // Klasse GroupDAOs braucht Getter!
     }
 }
