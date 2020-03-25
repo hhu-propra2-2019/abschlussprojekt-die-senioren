@@ -226,10 +226,11 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipResignmentEvent", memberResignmentEvent);
     }
 
-    public ValidationResult rejectMembership(String userName, String groupId) {
+    public ValidationResult rejectMembership(String userName, String groupId, String deletedBy) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isRestricted(groupId, groups));
         validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isAdmin(deletedBy, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipPending(userName, groupId, groups, users, userToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
