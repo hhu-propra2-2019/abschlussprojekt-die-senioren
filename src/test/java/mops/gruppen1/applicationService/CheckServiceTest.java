@@ -1,5 +1,6 @@
 package mops.gruppen1.applicationService;
 
+import mops.gruppen1.domain.Module;
 import mops.gruppen1.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -71,7 +72,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -97,7 +100,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Mathe"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -124,7 +129,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Keine Veranstaltung."));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -150,7 +157,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.RESTRICTED;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -176,7 +185,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.RESTRICTED;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -202,7 +213,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -241,7 +254,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -285,7 +300,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -329,7 +346,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -373,7 +392,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -417,7 +438,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -462,7 +485,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -506,7 +531,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -551,7 +578,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -596,7 +625,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
@@ -641,7 +672,9 @@ class CheckServiceTest {
         User groupCreator = new User(new Username(userName1));
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
-        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType);
+        Module module = new Module();
+        module.setModulename(new Modulename("Info1"));
+        Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
         String groupId = group.getGroupId().toString();
