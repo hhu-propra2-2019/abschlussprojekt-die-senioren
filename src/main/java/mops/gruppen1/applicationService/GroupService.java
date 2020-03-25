@@ -30,10 +30,10 @@ public class GroupService {
     EventService events;
     @Autowired
     CheckService checkService;
-    private HashMap<String, List<Membership>> groupToMembers;
-    private HashMap<String, List<Membership>> userToMembers;
-    private HashMap<String, Group> groups;
-    private HashMap<String, User> users;
+    private HashMap<String, List<Membership>> groupToMembers = new HashMap<>();
+    private HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+    private HashMap<String, Group> groups = new HashMap<>();
+    private HashMap<String, User> users = new HashMap<>();
     private String lastCreatedGroup;
 
     public GroupService(EventService eventService, CheckService checkService) {
@@ -85,6 +85,7 @@ public class GroupService {
         persistEvent(groupCreator, null, "GroupCreationEvent", groupCreationEvent);
         this.lastCreatedGroup = groupCreationEvent.getGroupId();
     }
+
 
     public ValidationResult deleteGroup(String groupId, String userName) {
         List<ValidationResult> validationResults = new ArrayList<ValidationResult>();

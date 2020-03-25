@@ -65,9 +65,9 @@ public class GroupCreationEvent implements IEvent {
             return new Group(members, name, description, groupCreator, groupStatus, groupType, module);
         } else if (groupId == null && groupCourse.equals("Keine Veranstaltung.")) {
             return new Group(members, groupId, name, description, groupCreator, groupStatus, groupType);
-        } else if (groupId != null && groupCourse.equals("Keine Veranstaltung.")) {
+        } /*else if (groupId != null && groupCourse.equals("Keine Veranstaltung.")) {
             return new Group(members, groupId, name, description, groupCreator, groupStatus, groupType);
-        }
+        } */
         return new Group(members, groupId, name, description, groupCreator, groupStatus, groupType, module);
     }
 }
