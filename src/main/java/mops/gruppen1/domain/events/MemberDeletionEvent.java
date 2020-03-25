@@ -22,14 +22,14 @@ import java.util.List;
 public class MemberDeletionEvent implements IEvent {
 
     private String groupId;
-    private String removedMemberId;
-    private String removedByMemberId;
+    private String removedUserName;
+    private String removedByUserName;
 
     /**
-     * Deactivates the given membership in all datastructures
+     * Deactivates the given membership in all datastructures.
      *
      * @param groupToMembers Hashmap that maps a String(groupId) to a list of memberships.
-     * @param userToMembers  Hashmap that maps a String(userId) to a list of memberships
+     * @param userToMembers  Hashmap that maps a String(userId) to a list of memberships.
      * @param users          Hashmap that maps a String(userId) to a user.
      * @param groups         Hashmap that maps a String(groupId) to memberships within the group.
      */
@@ -38,20 +38,20 @@ public class MemberDeletionEvent implements IEvent {
         //TODO Ziehe Suche nach Deletor & Prüfung ob Admin in den Groupservice
         //Membership deletor = findDeletor(groups);
         //if (deletor != null && deletor.getMembershipType().equals(MembershipType.ADMIN)) {
-        Membership toBeDeleted = findRemovedMember(groups);
-        deactiveMembership(toBeDeleted);
+        Membership toBeDeleted = findRemovedMember(groupId, userToMembers);
+        deactivateMembership(toBeDeleted);
     }
 
     /**
      * Finds the member that is to be removed in a group.
      *
-     * @param groups The group in which a member is searched for.
-     * @return The member that matches the removedMemberId.
+     * @param groupId The group in which a member will be deactivated.
+     * @return The membership of the member that matches the removedUserName.
      */
-    private Membership findRemovedMember(HashMap<String, Group> groups) {
-        Group group = groups.get(groupId);
-        Membership membership = group.getMembers().stream()
-                .filter(member -> removedMemberId.equals(member.getMemberid().toString()))
+    private Membership findRemovedMember(String groupId, HashMap<String, List<Membership>> userToMembers) {
+        List<Membership> memberships = userToMembers.get(removedUserName);
+        Membership membership = memberships.stream()
+                .filter(m -> m.getGroup().getGroupId().toString().equals(groupId))
                 .findFirst()
                 .orElse(null);
 
@@ -64,22 +64,22 @@ public class MemberDeletionEvent implements IEvent {
      * @param groups The group in which a member is searched for.
      * @return The member that matches the removedByMemberId.
      */
-    private Membership findDeletor(HashMap<String, Group> groups) {
-        Group group = groups.get(groupId);
-        Membership membership = group.getMembers().stream()
-                .filter(member -> removedByMemberId.equals(member.getMemberid().toString()))
-                .findFirst()
-                .orElse(null);
-
-        return membership;
-    }
+//    private Membership findDeletor(HashMap<String, Group> groups) {
+//        Group group = groups.get(groupId);
+//        Membership membership = group.getMembers().stream()
+//                .filter(member -> removedByMemberId.equals(member.getMemberid().toString()))
+//                .findFirst()
+//                .orElse(null);
+//
+//        return membership;
+//    }
 
     /**
      * Deactivates a given membership.
      *
      * @param membership The membership that is to be deactivated.
      */
-    private void deactiveMembership(Membership membership) {
+    private void deactivateMembership(Membership membership) {
         membership.setMembershipStatus(MembershipStatus.DEACTIVATED);
     }
 }
