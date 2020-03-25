@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +42,7 @@ public class RestServiceTest {
         List<GroupIdOnly> groupsChangedMock = new ArrayList<>();
         GroupIdOnly groupOneId = () -> "groupOneId";
         groupsChangedMock.add(groupOneId);
-        when(restService.eventRepo.findAllByIdAfter(oldEventId)).thenReturn(groupsChangedMock);
+        when(restService.eventRepo.findAllByIdAfter(any())).thenReturn(groupsChangedMock);
 
         // create group & mock getting group
         List<Membership> members = new ArrayList<>();
