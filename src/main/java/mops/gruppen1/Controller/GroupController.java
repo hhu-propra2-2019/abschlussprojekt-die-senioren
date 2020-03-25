@@ -58,7 +58,6 @@ public class GroupController {
             //TODO Informieren, wie CSV Einbindung funktioniert
             //Get all users from user - Hashmap
             //model.addAttribute("allUsers",groupService.getUsers().values());
-            //model.addAttribute("modules",groupService.getAllModules());
         }
         if (search.isPresent()) {
             return searchGroups(search);
@@ -72,17 +71,15 @@ public class GroupController {
                                  @RequestParam(value = "groupname") String groupName,
                                  @RequestParam(value = "groupModule") String module,
                                  @RequestParam(value = "groupType") String groupType,
-                                 @RequestParam(value = "groupDescription") String groupDescription,
+                                 @RequestParam(value = "groupDescription", required = false) String groupDescription,
                                  @RequestParam(value = "csv", required = false) String csvFileName,
                                  @RequestParam(value = "members", required = false) List<String> members)
     {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
-            System.out.println(groupName+" "+groupDescription+" "+groupType+" "+module);
             //account - Name gleich Username
-            //groupService.createGroup(groupDescription,groupName,module,account.getName(),groupType);
-            //System.out.println(groupService.getUserToMembers());
+            applicationService.createGroup(groupDescription,groupName,module,account.getName(),groupType,members);
          }
 
         if (search.isPresent()) {
@@ -173,11 +170,11 @@ public class GroupController {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
-            String userName = "userX";
-            applicationService.groupService.init();
-            List<Membership> memberships = applicationService.getMembershipsOfUser(userName);
-            System.out.println(memberships);
-            model.addAttribute("memberships",memberships);
+            //String userName = "userX";
+            //applicationService.groupService.init();
+            //List<Membership> memberships = applicationService.getMembershipsOfUser(userName);
+            //System.out.println(memberships);
+            //model.addAttribute("memberships",memberships);
         }
         if (search.isPresent()) {
             return searchGroups(search);
