@@ -183,7 +183,8 @@ VALUES (
            'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 21:22:14',
            'MemberDeletionEvent',
-           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","removedMemberId": "4ef639d6-6e78-11ea-bc55-0242ac130003","removedByMemberId": "7ae383be-6e78-11ea-bc55-0242ac130003"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","removedUserName": "userABC","removedByUserName": "userVWX"}');
+
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
