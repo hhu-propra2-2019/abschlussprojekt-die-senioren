@@ -6,6 +6,7 @@ import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.MembershipStatus;
 import mops.gruppen1.domain.User;
 import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -372,8 +373,11 @@ public class GroupService {
         //Get all memberships for given username
         List<Membership> members =  userToMembers.get(username);
 
+        //Filter all memberships with deactivated status
+        List<Membership> activeMembers =  members.stream().filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE).collect(Collectors.toList());
+
         //Call getGroup-method on each membership element of list 'members' and add it to new list of 'groups'
-        List<Group> groups = members.stream().map(Membership::getGroup).collect(Collectors.toList());
+        List<Group> groups = activeMembers.stream().map(Membership::getGroup).collect(Collectors.toList());
 
         return groups;
     }
@@ -383,8 +387,11 @@ public class GroupService {
         //Get all memberships for given username
         List<Membership> members =  groupToMembers.get(groupId);
 
-        //Call getGroup-method on each membership element of list 'members' and add it to new list of 'groups'
-        List<User> users = members.stream().map(Membership::getUser).collect(Collectors.toList());
+        //Filter all memberships with deactivated status
+        List<Membership> activeMembers =  members.stream().filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE).collect(Collectors.toList());
+
+        //Call getUser-method on each membership element of list 'members' and add it to new list of 'users'
+        List<User> users = activeMembers.stream().map(Membership::getUser).collect(Collectors.toList());
 
         return users;
     }
