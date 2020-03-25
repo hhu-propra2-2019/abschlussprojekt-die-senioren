@@ -2,7 +2,6 @@ package mops.gruppen1.applicationService;
 
 import mops.gruppen1.domain.*;
 import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -126,6 +125,8 @@ public class CheckService {
 
     private Membership getMembership(List<Membership> memberships, Group group) {
         Membership membership = null;
+
+        if(memberships == null) return null;
         for (Membership m : memberships) {
             if (m.getGroup().equals(group)) {
                 membership = m;

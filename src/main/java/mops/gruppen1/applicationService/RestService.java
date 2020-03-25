@@ -7,6 +7,7 @@ import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.data.GroupIdOnly;
 import mops.gruppen1.domain.Group;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * - by providing information if relevant changes have happened since the last request
  * - by sending DAOs of Groups if necessary
  */
+@Service
 public class RestService {
 
     GroupService groupService;
@@ -24,6 +26,16 @@ public class RestService {
     public RestService(GroupService groupService, EventRepo eventRepo) {
         this.groupService = groupService;
         this.eventRepo = eventRepo;
+    }
+
+    /**
+     * Check if user is member of group or not.
+     * @param username
+     * @param groupId
+     * @return
+     */
+    public boolean isUserInGroup(String username, String groupId) {
+        return groupService.isUserMemberOfGroup(username, groupId);
     }
 
     /**

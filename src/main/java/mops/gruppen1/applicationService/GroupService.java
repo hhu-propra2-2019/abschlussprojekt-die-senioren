@@ -24,11 +24,9 @@ import java.util.List;
 @EqualsAndHashCode
 @AllArgsConstructor
 @Service
-@NoArgsConstructor
 public class GroupService {
-    @Autowired
+
     EventService events;
-    @Autowired
     CheckService checkService;
     private HashMap<String, List<Membership>> groupToMembers;
     private HashMap<String, List<Membership>> userToMembers;
@@ -36,6 +34,7 @@ public class GroupService {
     private HashMap<String, User> users;
     private String lastCreatedGroup;
 
+    @Autowired
     public GroupService(EventService eventService, CheckService checkService) {
         this.events = eventService;
         this.checkService = checkService;
@@ -343,6 +342,12 @@ public class GroupService {
             }
         }
         return validationResult;
+    }
+
+    public boolean isUserMemberOfGroup(String username, String groupId) {
+        ValidationResult validationResult = checkService.isMember(username, groupId, this.groups, this.users, this.userToMembers);
+
+        return validationResult.isValid();
     }
 }
 
