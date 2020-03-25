@@ -9,12 +9,14 @@ import java.util.List;
 /**
  * aggregated object for RestController, wrapping all changed groupDAOs with respective latest eventId
  */
+
 @Getter
-public class CurrentStateDAO {
+public class UpdatedGroupsDAO {
+
     private List<GroupDAO> groupDAOs = new ArrayList<>();
     private long eventId;
 
-    public CurrentStateDAO(long eventId) {
+    public UpdatedGroupsDAO(long eventId) {
         this.eventId = eventId;
     }
 

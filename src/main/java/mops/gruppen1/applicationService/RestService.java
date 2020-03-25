@@ -1,7 +1,7 @@
 package mops.gruppen1.applicationService;
 
-import mops.gruppen1.data.DAOs.CurrentStateDAO;
 import mops.gruppen1.data.DAOs.GroupDAO;
+import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
 import mops.gruppen1.data.EventIdOnly;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.data.GroupIdOnly;
@@ -31,24 +31,23 @@ public class RestService {
      * @return currentStateDAO that contains a list of GroupDAOs for the changed groups
      * and the latest eventId
      */
-    public CurrentStateDAO getUpdatedGroups(Long oldEventId) {
+    public UpdatedGroupsDAO getUpdatedGroups(Long oldEventId) {
         Long latestEventId = getLatestEventId();
-        CurrentStateDAO currentStateDAO = new CurrentStateDAO(latestEventId);
         if (isEventIdUpToDate(oldEventId, latestEventId)) {
-            return currentStateDAO;
+            return (new UpdatedGroupsDAO(latestEventId));
         }
-        currentStateDAO = addGroupDAOs(latestEventId, currentStateDAO);
-        return currentStateDAO;
+        return createUpdatedGroupsDAOs(latestEventId);
     }
 
-    private CurrentStateDAO addGroupDAOs(Long latestEventId, CurrentStateDAO currentStateDAO) {
+    private UpdatedGroupsDAO createUpdatedGroupsDAOs(Long latestEventId) {
+        UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(latestEventId);
         List<GroupIdOnly> changedGroupIds = eventRepo.findAllByIdAfter(latestEventId);
         for (GroupIdOnly groupId : changedGroupIds) {
             String id = groupId.getGroup();
             GroupDAO groupDAO = createGroupDAO(id);
-            currentStateDAO.addGroupDAO(groupDAO);
+            updatedGroupsDAO.addGroupDAO(groupDAO);
         }
-        return currentStateDAO;
+        return updatedGroupsDAO;
     }
 
     /**
@@ -61,13 +60,13 @@ public class RestService {
     }
 
     private boolean isEventIdUpToDate(Long oldEventId, Long latestEventId) {
-        return oldEventId == latestEventId;
+        return oldEventId.equals(latestEventId);
     }
 
     /**
      * creates a DAO with necessary attributes retrieved from domain group
      *
-     * @param groupId
+     * @param groupId is groupId
      */
     private GroupDAO createGroupDAO(String groupId) {
         Group group = groupService.getGroups().get(groupId);
