@@ -36,19 +36,25 @@
                     <th scope="col">Rolle</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody th:remove="all-but-first">
 
-               <!--- <tr th:each="membership:${memberships}">
-                    <td th:text="${membership.group.name}">
+                <tr th:each="membership:${memberships}">
+                    <td>
                         <div th:switch="${membership.membershipType}">
-                            <a th:case="ADMIN" th:href="@{/gruppen1/admin/{id}(id=${membership.group.groupId})}">Gruppe 1</a>
-                            <a th:case="VIEWER" th:href="@{/gruppen1/viewer/{id}(id=${membership.group.groupId})}">Gruppe 2</a>
+                            <span th:case="${T(mops.gruppen1.domain.MembershipType).ADMIN}">
+                               <a th:href="@{/gruppen1/admin}" th:text="${membership.group.name}"></a>
+                                <!---/{id}(id=${membership.group.groupId})}"--->
+                            </span>
+                            <span th:case="${T(mops.gruppen1.domain.MembershipType).VIEWER}">
+                                <a th:href="@{/gruppen1/viewer}" th:text="${membership.group.name}"></a>
+                                <!---/{id}(id=${membership.group.groupId})}"--->
+                            </span>
                         </div>
                     </td>
                     <td th:text="${membership.group.module?.modulename.modulename}">Keine Veranstaltung</td>
                     <td th:text="${membership.group.groupType}"></td>
                     <td th:text="${membership.membershipType}"></td>
-                </tr>--->
+                </tr>
                 <tr>
                     <td><a href="/gruppen1/viewer">Gruppe 2</a></td>
                     <td>Mathe</td>

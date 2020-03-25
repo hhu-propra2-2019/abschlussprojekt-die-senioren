@@ -2,6 +2,7 @@ package mops.gruppen1.Controller;
 
 import lombok.AllArgsConstructor;
 import mops.gruppen1.applicationService.ApplicationService;
+import mops.gruppen1.domain.Membership;
 import mops.gruppen1.security.Account;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -82,7 +83,7 @@ public class GroupController {
         if (search.isPresent()) {
             return searchGroups(search);
         }
-        return "redirect:/";
+        return "redirect:/gruppen1/";
     }
 
     @GetMapping("/description")
@@ -167,11 +168,9 @@ public class GroupController {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
-            //String userName = "userX";
-            applicationService.groupService.init();
-            //List<Membership> memberships = applicationService.getMembershipsOfUser(userName);
-            //System.out.println(memberships);
-            //model.addAttribute("memberships",memberships);
+            String userName = account.getName();
+            List<Membership> memberships = applicationService.getMembershipsOfUser(userName);
+            model.addAttribute("memberships",memberships);
         }
         if (search.isPresent()) {
             return searchGroups(search);
