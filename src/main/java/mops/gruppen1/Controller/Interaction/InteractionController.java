@@ -30,7 +30,7 @@ public class InteractionController {
 
     @GetMapping("/isUserInGroup")
     public ResponseEntity<Map<String, Boolean>> isUserInGroup(@RequestParam(value = "userName", defaultValue = "") String userName,
-                                 @RequestParam(value = "groupId", defaultValue = "") String groupId) {
+                                                              @RequestParam(value = "groupId", defaultValue = "") String groupId) {
 
         //Check if given username and groupId are not empty
         if(userName.equals("") || groupId.equals("")) {
@@ -66,10 +66,10 @@ public class InteractionController {
     }
 
     @GetMapping("/returnAllGroups")
-    public List<GroupDAO> returnAllGroups() {
-        List<GroupDAO> groupList = new ArrayList<GroupDAO>();
-        // return List of GroupDAOs
-        return groupList;
+    public UpdatedGroupsDAO returnAllGroups(@RequestParam(value = "lastEventId", defaultValue = "0") Long lastEventId) {
+        UpdatedGroupsDAO updatedGroupsDAO = restService.getUpdatedGroups(lastEventId);
+
+        return updatedGroupsDAO;
     }
 
     @GetMapping("/returnUsersOfGroup")
