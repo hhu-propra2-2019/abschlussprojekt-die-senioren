@@ -55,7 +55,6 @@ public class CheckService {
     public ValidationResult isAdmin(String userName, String groupId, HashMap<String, Group> groups,
                                     HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
         ValidationResult validationResult = new ValidationResult();
-        User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
         Membership membership = getMembership(memberships, group);
@@ -71,7 +70,6 @@ public class CheckService {
     public ValidationResult isMembershipActive(String userName, String groupId, HashMap<String, Group> groups,
                                                HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
         ValidationResult validationResult = new ValidationResult();
-        User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
         Membership membership = getMembership(memberships, group);
@@ -87,7 +85,6 @@ public class CheckService {
     public ValidationResult isMembershipPending(String userName, String groupId, HashMap<String, Group> groups,
                                                 HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
         ValidationResult validationResult = new ValidationResult();
-        User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
         Membership membership = getMembership(memberships, group);
@@ -102,7 +99,6 @@ public class CheckService {
     public ValidationResult isMember(String userName, String groupId, HashMap<String, Group> groups,
                                      HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
         ValidationResult validationResult = new ValidationResult();
-        User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
 
@@ -117,7 +113,6 @@ public class CheckService {
     public ValidationResult isNotMember(String userName, String groupId, HashMap<String, Group> groups,
                                         HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
         ValidationResult validationResult = new ValidationResult();
-        User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
 

@@ -3,6 +3,7 @@ package mops.gruppen1.domain.events;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.*;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
  * Add Membership to groupToMembers, userToMembers and group's list of members
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @EqualsAndHashCode
 public class MembershipRequestEvent implements IEvent {

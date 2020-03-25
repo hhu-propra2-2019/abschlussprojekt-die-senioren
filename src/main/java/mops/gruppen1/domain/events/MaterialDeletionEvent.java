@@ -3,6 +3,7 @@ package mops.gruppen1.domain.events;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 public class MaterialDeletionEvent implements IEvent {
     private String groupId;
