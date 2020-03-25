@@ -27,7 +27,6 @@ public class MembershipRejectionEvent implements IEvent {
 
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-        User user = users.get(userName);
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
 
