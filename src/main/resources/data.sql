@@ -183,7 +183,7 @@ VALUES (
            'group345',
            '2020-03-02 21:22:14',
            'MemberDeletionEvent',
-           '{"groupId": "group345","removedMemberId": "uuid123","removedByMemberId": "uuid678"}');
+           '{"groupId": "group345","removedUserName": "userABC","removedByUserName": "userVWX"}');
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
