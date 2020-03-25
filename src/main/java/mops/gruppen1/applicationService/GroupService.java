@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service to manage the group entities
@@ -355,6 +356,37 @@ public class GroupService {
         ValidationResult validationResult = checkService.isAdmin(username, groupId, this.groups, this.users, this.userToMembers);
 
         return validationResult.isValid();
+    }
+
+    public boolean isGroupActive(String groupId) {
+        List<ValidationResult> validationResults = new ArrayList<>();
+        validationResults.add(checkService.doesGroupExist(groupId, this.groups));
+        validationResults.add(checkService.isGroupActive(groupId, this.groups));
+        ValidationResult validationResult = collectCheck(validationResults);
+
+        return validationResult.isValid();
+    }
+
+    public List<Group> getGroupsOfUser(String username) {
+
+        //Get all memberships for given username
+        List<Membership> members =  userToMembers.get(username);
+
+        //Call getGroup-method on each membership element of list 'members' and add it to new list of 'groups'
+        List<Group> groups = members.stream().map(Membership::getGroup).collect(Collectors.toList());
+
+        return groups;
+    }
+
+    public List<User> getUsersOfGroup(String groupId) {
+
+        //Get all memberships for given username
+        List<Membership> members =  groupToMembers.get(groupId);
+
+        //Call getGroup-method on each membership element of list 'members' and add it to new list of 'groups'
+        List<User> users = members.stream().map(Membership::getUser).collect(Collectors.toList());
+
+        return users;
     }
 }
 

@@ -2,13 +2,17 @@ package mops.gruppen1.applicationService;
 
 import mops.gruppen1.data.DAOs.GroupDAO;
 import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
+import mops.gruppen1.data.DAOs.UserDAO;
 import mops.gruppen1.data.EventIdOnly;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.data.GroupIdOnly;
 import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.UserDataHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,5 +102,53 @@ public class RestService {
     private GroupDAO createGroupDAO(String groupId) {
         Group group = groupService.getGroups().get(groupId);
         return new GroupDAO(groupId, group.getName().toString(), group.getDescription().toString(), group.getGroupStatus().toString());
+    }
+
+    public boolean doesActiveGroupExist(String groupId) {
+        return groupService.isGroupActive(groupId);
+    }
+
+
+    /**
+     * Retrieve all groups that a specifc user is a member of.
+     * @param userName
+     * @return List of GroupDAOs
+     */
+    public List<GroupDAO> getGroupsOfUser(String userName) {
+
+        //get groups of user from GroupService
+        List<Group> groups =  groupService.getGroupsOfUser(userName);
+
+        //instantiate new List of groupDAOs
+        List<GroupDAO> groupDAOs = new ArrayList<>();
+
+        //get groupId for each Group from List 'groups' and create new GroupDAOs
+        groups.stream()
+                .map(Group::getGroupId)
+                .forEach(groupId -> groupDAOs.add(createGroupDAO(groupId.toString())));
+
+        return groupDAOs;
+    }
+
+
+    /**
+     * Retrieve all users of a specific group.
+     * @param groupId
+     * @return List of UserDAOs
+     */
+    public List<UserDAO> getUsersOfGroup(String groupId) {
+
+        //get users of group from GroupService
+        List<User> users =  groupService.getUsersOfGroup(groupId);
+
+        //instantiate new List of userDAOs
+        List<UserDAO> userDAOs = new ArrayList<>();
+
+        //get username for each User from List 'users' and create a new UserDAO containing the obtained username
+        users.stream()
+                .map(User::getUsername)
+                .forEach(username -> userDAOs.add(new UserDAO(username.toString())));
+
+        return userDAOs;
     }
 }

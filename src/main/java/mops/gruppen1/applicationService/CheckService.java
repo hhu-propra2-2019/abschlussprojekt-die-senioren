@@ -29,6 +29,17 @@ public class CheckService {
         return validationResult;
     }
 
+    public ValidationResult doesGroupExist(String groupId, HashMap<String, Group> groups) {
+        ValidationResult validationResult = new ValidationResult();
+        Group group = groups.get(groupId);
+        boolean doesExist = group != null;
+        if (doesExist) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe existiert nicht.");
+        return validationResult;
+    }
+
     public ValidationResult isPublic(String groupId, HashMap<String, Group> groups) {
         ValidationResult validationResult = new ValidationResult();
         Group group = groups.get(groupId);

@@ -5,6 +5,8 @@ import mops.gruppen1.applicationService.RestService;
 import mops.gruppen1.data.DAOs.GroupDAO;
 import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
 import mops.gruppen1.data.DAOs.UserDAO;
+import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,7 @@ public class InteractionController {
 
         //Check if given username and groupId are not empty
         if(userName.equals("") || groupId.equals("")) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
         //Check if user is in group
@@ -69,34 +71,57 @@ public class InteractionController {
     }
 
     @GetMapping("/doesGroupExist")
-    public Boolean doesGroupExist(@RequestParam(value = "groupId", defaultValue = "") String groupId) {
-        // if default-value => request is not valid, username must be given
-        // check if group exists
-        //return yes/no?
-        return true;
+    public ResponseEntity<Map<String, Boolean>> doesGroupExist(@RequestParam(value = "groupId", defaultValue = "") String groupId) {
+
+        //Check if given groupId is not empty
+        if(groupId.equals("")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        //Check if group does exist
+        boolean doesGroupExist = restService.doesActiveGroupExist(groupId);
+
+        //prepare content for response statement
+        Map<String,Boolean> resultMap = new HashMap<>();
+        resultMap.put("doesGroupExist", doesGroupExist);
+
+        //return result
+        return ResponseEntity.status(HttpStatus.OK).body(resultMap);
     }
 
     @GetMapping("/returnAllGroups")
-    public UpdatedGroupsDAO returnAllGroups(@RequestParam(value = "lastEventId", defaultValue = "0") Long lastEventId) {
+    public ResponseEntity<UpdatedGroupsDAO> returnAllGroups(@RequestParam(value = "lastEventId", defaultValue = "0") Long lastEventId) {
         UpdatedGroupsDAO updatedGroupsDAO = restService.getUpdatedGroups(lastEventId);
 
-        return updatedGroupsDAO;
+        return ResponseEntity.status(HttpStatus.OK).body(updatedGroupsDAO);
     }
 
     @GetMapping("/returnUsersOfGroup")
-    public List<UserDAO> returnUsersOfGroup(@RequestParam(value = "groupId", defaultValue = "") String groupId) {
-        List<UserDAO> userList = new ArrayList<UserDAO>();
-        // if default-value => request is not valid, username must be given
-        // return all UserDAOs of Group
-        return userList;
+    public ResponseEntity<List<UserDAO>> returnUsersOfGroup(@RequestParam(value = "groupId", defaultValue = "") String groupId) {
+
+        //Check if given groupId is not empty
+        if(groupId.equals("")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        //get all users of group
+        List<UserDAO> usersOfGroup = restService.getUsersOfGroup(groupId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(usersOfGroup);
     }
 
     @GetMapping("/returnGroupsOfUsers")
-    public List<GroupDAO> returnGroupsOfUsers(@RequestParam(value = "userName", defaultValue = "") String userName) {
-        List<GroupDAO> groupList = new ArrayList<GroupDAO>();
-        // if default-value => request is not valid, username must be given
-        // return all groupDAOs a user belongs to
-        return groupList;
+    public ResponseEntity<List<GroupDAO>> returnGroupsOfUsers(@RequestParam(value = "userName", defaultValue = "") String userName) {
+
+        //Check if given userName is not empty
+        if(userName.equals("")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        //get all groups of user
+        List<GroupDAO> groupsOfUser = restService.getGroupsOfUser(userName);
+
+        return ResponseEntity.status(HttpStatus.OK).body(groupsOfUser);
     }
 
 
