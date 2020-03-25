@@ -83,7 +83,7 @@ public class GroupService {
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(groupCreator, null, "GroupCreationEvent", groupCreationEvent);
-        this.lastCreatedGroup = groupCreationEvent.getGroupID();
+        this.lastCreatedGroup = groupCreationEvent.getGroupId();
     }
 
     public ValidationResult deleteGroup(String groupId, String userName) {
