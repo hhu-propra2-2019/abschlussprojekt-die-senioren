@@ -2,6 +2,7 @@ package mops.gruppen1.Controller;
 
 import lombok.AllArgsConstructor;
 import mops.gruppen1.applicationService.ApplicationService;
+import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.security.Account;
 import org.keycloak.KeycloakPrincipal;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.transform.sax.SAXSource;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +44,10 @@ public class GroupController {
                 token.getAccount().getRoles());
     }
 
-    private String searchGroups(Optional search) {
+    private String searchGroups(Optional search, Model model) {
+        String result = search.get().toString();
+        List <Group> searchResult = applicationService.searchGroupByName(result);
+        model.addAttribute("matchedGroups",searchResult);
         return "searchResults";
     }
 
@@ -58,7 +63,7 @@ public class GroupController {
             //model.addAttribute("allUsers",groupService.getUsers().values());
         }
         if (search.isPresent()) {
-            return searchGroups(search);
+            return searchGroups(search, model);
         }
         return "erstellen";
     }
@@ -81,7 +86,7 @@ public class GroupController {
          }
 
         if (search.isPresent()) {
-            return searchGroups(search);
+            return searchGroups(search, model);
         }
         return "redirect:/gruppen1/";
     }
@@ -99,7 +104,7 @@ public class GroupController {
             //model.addAttribute("placeholder_groupdescription",groupService.getGroups().get(groupId).getDescription());
         }
         if (search.isPresent()) {
-            return searchGroups(search);
+            return searchGroups(search, model);
         }
         return "changeDescription";//+groupId;
     }
@@ -129,7 +134,7 @@ public class GroupController {
             model.addAttribute("account", createAccountFromPrincipal(token));
         }
         if (search.isPresent()) {
-            return searchGroups(search);
+            return searchGroups(search, model);
         }
         return "changeMemberships";
     }
@@ -146,7 +151,7 @@ public class GroupController {
             model.addAttribute("groupName", groupname);
         }
         if (search.isPresent()) {
-            return searchGroups(search);
+            return searchGroups(search, model);
         }
         return "gruppenViewer";
     }
@@ -163,7 +168,7 @@ public class GroupController {
             model.addAttribute("groupName", groupname);
         }
         if (search.isPresent()) {
-            return searchGroups(search);
+            return searchGroups(search, model);
         }
         return "gruppenAdmin";
     }
@@ -171,7 +176,8 @@ public class GroupController {
 
     @GetMapping("/")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String index(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
+    public String index(KeycloakAuthenticationToken token, Model model,
+                        @RequestParam(name = "search") Optional search) {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
@@ -180,7 +186,7 @@ public class GroupController {
             model.addAttribute("memberships",memberships);
         }
         if (search.isPresent()) {
-            return searchGroups(search);
+            return searchGroups(search, model);
         }
         return "index";
     }
@@ -193,7 +199,7 @@ public class GroupController {
             model.addAttribute("account", createAccountFromPrincipal(token));
         }
         if (search.isPresent()) {
-            return searchGroups(search);
+            return searchGroups(search, model);
         }
         return "groupRequests";
     }
@@ -206,7 +212,7 @@ public class GroupController {
             model.addAttribute("account", createAccountFromPrincipal(token));
         }
         if (search.isPresent()) {
-            return searchGroups(search);
+            return searchGroups(search, model);
         }
         return "searchResults";
     }
@@ -218,7 +224,7 @@ public class GroupController {
             model.addAttribute("account", createAccountFromPrincipal(token));
         }
         if (search.isPresent()) {
-            return searchGroups(search);
+            return searchGroups(search, model);
         }
         return "requestDescription";
     }

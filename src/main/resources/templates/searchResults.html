@@ -37,11 +37,12 @@
                         <th class="h5">Mitgliedsantrag</th>
                     </div>
                 </tr>
-                <tr>
-                    <td class="h6">Gruppe 1</td>
-                    <td class="h6">Keine</td>
-                    <td class="h6">Public</td>
-                    <td class="h6">Gruppenbeschreibung I</td>
+                <tbody th:remove="all-but-first">
+                <tr th:each="group:${matchedGroups}">
+                    <td class="h6" th:text="${group.name.name}">Gruppe 1</td>
+                    <td class="h6" th:text="${group.module.modulename}">Keine</td>
+                    <td class="h6" th:text="${group.groupType}">Public</td>
+                    <td class="h6" th:text="${group.description.description}">Gruppenbeschreibung I</td>
                     <td>
                         <!-- TODO: Anpassen des Redirects nach Beitritt -->
                         <a class="btn btn-success rounded-bottom offset-2"
@@ -72,6 +73,7 @@
                         </a>
                     </td>
                 </tr>
+                </tbody>
             </table>
         </div>
     </div>
