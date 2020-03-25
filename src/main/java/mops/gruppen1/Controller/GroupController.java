@@ -2,10 +2,7 @@ package mops.gruppen1.Controller;
 
 import lombok.AllArgsConstructor;
 import mops.gruppen1.applicationService.ApplicationService;
-import mops.gruppen1.applicationService.GroupService;
-import mops.gruppen1.domain.Module;
 import mops.gruppen1.security.Account;
-import mops.gruppen1.domain.*;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Array;
-import java.lang.reflect.Member;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +31,9 @@ public class GroupController {
      */
     private Account createAccountFromPrincipal(KeycloakAuthenticationToken token) {
         KeycloakPrincipal principal = (KeycloakPrincipal) token.getPrincipal();
+        if (!applicationService.getGroupService().getUsers().containsKey(token.getName())) {
+            applicationService.getGroupService().createUser(token.getName());
+        }
         return new Account(
                 principal.getName(),
                 principal.getKeycloakSecurityContext().getIdToken().getEmail(),
@@ -91,8 +88,8 @@ public class GroupController {
     @GetMapping("/description")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String descriptionChange (KeycloakAuthenticationToken token, Model model,
-                                     @RequestParam(name = "search") Optional search,
-                                     @RequestParam(name = "groupId") String groupId) {
+                                     @RequestParam(name = "search") Optional search){
+                                    //, @RequestParam(name = "groupId") String groupId) {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
@@ -103,9 +100,9 @@ public class GroupController {
         if (search.isPresent()) {
             return searchGroups(search);
         }
-        return "changeDescription"+groupId;
+        return "changeDescription";//+groupId;
     }
-
+/*
     @PostMapping("/description/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String descriptionChange (KeycloakAuthenticationToken token, Model model,
@@ -123,7 +120,7 @@ public class GroupController {
         }
         return "changeDescription";
     }
-
+*/
     @GetMapping("/memberships")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String membershipChange(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
@@ -171,7 +168,7 @@ public class GroupController {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
             //String userName = "userX";
-            //applicationService.groupService.init();
+            applicationService.groupService.init();
             //List<Membership> memberships = applicationService.getMembershipsOfUser(userName);
             //System.out.println(memberships);
             //model.addAttribute("memberships",memberships);

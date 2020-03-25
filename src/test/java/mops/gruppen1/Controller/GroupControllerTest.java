@@ -128,7 +128,7 @@ class GroupControllerTest {
     }
 
     @Tag("controller")
-    @DisplayName("Teste Verbindung zur Viewer - View einer Gruppe.")
+    @DisplayName("Teste Verbindung zur Description Change View einer Gruppe.")
     @Test
     void testChangeGroupDescription() throws Exception {
         Set<String> roles = new HashSet<String>();
