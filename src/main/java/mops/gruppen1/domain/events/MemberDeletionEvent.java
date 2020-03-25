@@ -35,9 +35,6 @@ public class MemberDeletionEvent implements IEvent {
      */
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-        //TODO Ziehe Suche nach Deletor & Prüfung ob Admin in den Groupservice
-        //Membership deletor = findDeletor(groups);
-        //if (deletor != null && deletor.getMembershipType().equals(MembershipType.ADMIN)) {
         Membership toBeDeleted = findRemovedMember(groupId, userToMembers);
         deactivateMembership(toBeDeleted);
     }
@@ -57,22 +54,6 @@ public class MemberDeletionEvent implements IEvent {
 
         return membership;
     }
-
-    /**
-     * Finds the member that is removing a member.
-     *
-     * @param groups The group in which a member is searched for.
-     * @return The member that matches the removedByMemberId.
-     */
-//    private Membership findDeletor(HashMap<String, Group> groups) {
-//        Group group = groups.get(groupId);
-//        Membership membership = group.getMembers().stream()
-//                .filter(member -> removedByMemberId.equals(member.getMemberid().toString()))
-//                .findFirst()
-//                .orElse(null);
-//
-//        return membership;
-//    }
 
     /**
      * Deactivates a given membership.
