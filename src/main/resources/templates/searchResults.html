@@ -37,16 +37,22 @@
                         <th class="h5">Mitgliedsantrag</th>
                     </div>
                 </tr>
-                <tr>
-                    <td class="h6">Gruppe 1</td>
-                    <td class="h6">Keine</td>
-                    <td class="h6">Public</td>
-                    <td class="h6">Gruppenbeschreibung I</td>
+                <tbody th:remove="all-but-first">
+                <tr th:each="group:${matchedGroups}">
+                    <td class="h6" th:text="${group.name.name}">Gruppe 1</td>
+                    <td class="h6" th:text="${group.module.modulename.modulename}">Keine</td>
+                    <td class="h6" th:text="${group.groupType}">Public</td>
+                    <td class="h6" th:text="${group.description.description}">Gruppenbeschreibung I</td>
                     <td>
                         <!-- TODO: Anpassen des Redirects nach Beitritt -->
-                        <a class="btn btn-success rounded-bottom offset-2"
-                           th:href="@{/gruppen1/index}" type="button">Beitreten
-                        </a>
+                        <!-- TODO: Falls kein Knopf da ist, keinen Knopf anzeigen -->
+                        <div class="form-group">
+                            <form class="form" method="post" th:action="@{/gruppen1/searchResults}">
+                                <button  class="btn btn-success rounded-bottom offset-2" type="submit"
+                                         th:value="${group.groupId}" th:name="id">Beitreten
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -60,18 +66,7 @@
                         </a>
                     </td>
                 </tr>
-                <tr>
-                    <td class="h6">Gruppe 3</td>
-                    <td class="h6">Keine</td>
-                    <td class="h6">Public</td>
-                    <td class="h6">Gruppenbeschreibung III</td>
-                    <td>
-                        <!-- TODO: Anpassen des Redirects nach Beitritt -->
-                        <a class="btn btn-success rounded-bottom offset-2"
-                           th:href="@{/gruppen1/index}" type="button">Beitreten
-                        </a>
-                    </td>
-                </tr>
+                </tbody>
             </table>
         </div>
     </div>

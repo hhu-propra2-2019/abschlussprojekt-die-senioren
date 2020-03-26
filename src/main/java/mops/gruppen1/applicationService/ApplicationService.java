@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 /**
  * Service that controls calls to GroupService
  */
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @Getter
 public class ApplicationService {
     @Autowired
-    GroupService groupService;
+    public GroupService groupService;
 
     /**
      * method returns all members belonging to the requested group
@@ -72,6 +73,12 @@ public class ApplicationService {
                 .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.PENDING))
                 .count();
         return pendingMemberships;
+    }
+
+    public List<Membership> getMembershipsOfUser(String userName)   {
+        HashMap<String, List<Membership>> userToMembers = groupService.getUserToMembers();
+        List<Membership> memberships = userToMembers.get(userName);
+        return memberships;
     }
 
     /**

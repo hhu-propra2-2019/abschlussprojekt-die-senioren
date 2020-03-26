@@ -80,7 +80,7 @@ public class GroupService {
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
-        persistEvent(groupCreator, null, "GroupCreationEvent", groupCreationEvent);
+        persistEvent(groupCreator, groupCreationEvent.getGroupId(), "GroupCreationEvent", groupCreationEvent);
         this.lastCreatedGroup = groupCreationEvent.getGroupId();
     }
 
@@ -144,7 +144,7 @@ public class GroupService {
         userCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
         //TODO is there a user that creates other users?
-        persistEvent(null, null, "UserCreationEvent", userCreationEvent);
+        persistEvent(userCreationEvent.getUsername(), null, "UserCreationEvent", userCreationEvent);
     }
 
     public ValidationResult assignMembershipToPublicGroup(String userName, String groupId, String membershipType) {
