@@ -91,4 +91,72 @@ public class InteractionControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.isUserInGroup").value(false));
     }
+
+
+    @Tag("InteractionController")
+    @DisplayName("isUserAdminInGroup_missingUserName")
+    @Test
+    void testisUserAdminInGroup_missingUsername() throws Exception {
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/isUserAdminInGroup")
+                .param("groupId", "testGruppe")).andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("isUserAdminInGroup_missingGroupId")
+    @Test
+    void testisUserAdminInGroup_missingGroupId() throws Exception {
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/isUserAdminInGroup")
+                .param("userName", "testUser")).andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("isUserAdminInGroup_AllParamsMissing")
+    @Test
+    void testisUserAdminInGroup_AllParamsMissing() throws Exception {
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/isUserAdminInGroup"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("isUserAdminInGroup_True")
+    @Test
+    void testisUserAdminInGroup_True() throws Exception {
+
+        //Arrange
+        when(restServiceMock.isUserAdminInGroup(any(),any())).thenReturn(true);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/isUserAdminInGroup")
+                .param("userName", "testUser")
+                .param("groupId", "testGroup"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.isUserAdminInGroup").value(true));
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("isUserAdminInGroup_False")
+    @Test
+    void testisUserAdminInGroup_False() throws Exception {
+
+        //Arrange
+        when(restServiceMock.isUserAdminInGroup(any(),any())).thenReturn(false);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/isUserAdminInGroup")
+                .param("userName", "testUser")
+                .param("groupId", "testGroup"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.isUserAdminInGroup").value(false));
+    }
 }
