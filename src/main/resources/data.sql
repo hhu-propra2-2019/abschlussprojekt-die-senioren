@@ -195,6 +195,7 @@ VALUES (
            '2020-03-02 22:22:14',
            'MemberResignmentEvent',
            '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","leavingUserName": "userABC"}');
+
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

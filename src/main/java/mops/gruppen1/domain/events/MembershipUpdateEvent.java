@@ -26,6 +26,12 @@ public class MembershipUpdateEvent implements IEvent {
     private String updatedBy;
     private String updatedTo;
 
+    public MembershipUpdateEvent(String groupId, String userName, String updatedBy) {
+        this.groupId = groupId;
+        this.userName = userName;
+        this.updatedBy = updatedBy;
+    }
+
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
             List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
@@ -41,10 +47,12 @@ public class MembershipUpdateEvent implements IEvent {
      * @param membership The membership whose type is to be changes.
      */
     private void changeMembershipType(Membership membership) {
-        if (updatedTo.equalsIgnoreCase("VIEWER")) {
-            membership.setMembershipType(MembershipType.VIEWER);
-        } else if (updatedTo.equalsIgnoreCase("ADMIN")) {
+        if (membership.getMembershipType().equals(MembershipType.VIEWER)) {
             membership.setMembershipType(MembershipType.ADMIN);
+            this.updatedTo = "ADMIN";
+        } else {
+            membership.setMembershipType(MembershipType.VIEWER);
+            this.updatedTo = "VIEWER";
         }
     }
 

@@ -120,7 +120,7 @@ public class RestService {
     public List<GroupDAO> getGroupsOfUser(String userName) {
 
         //get groups of user from GroupService
-        List<Group> groups =  groupService.getGroupsOfUser(userName);
+        List<Group> groups =  groupService.getGroupsWhereUserIsActive(userName);
 
         //instantiate new List of groupDAOs
         List<GroupDAO> groupDAOs = new ArrayList<>();
@@ -142,7 +142,7 @@ public class RestService {
     public List<UserDAO> getUsersOfGroup(String groupId) {
 
         //get users of group from GroupService
-        List<User> users =  groupService.getUsersOfGroup(groupId);
+        List<User> users =  groupService.getActiveUsersOfGroup(groupId);
 
         //instantiate new List of userDAOs
         List<UserDAO> userDAOs = new ArrayList<>();
