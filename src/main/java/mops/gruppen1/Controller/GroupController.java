@@ -134,8 +134,7 @@ public class GroupController {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
             model.addAttribute("groupId",groupId);
-            Group group = applicationService.getGroupService().getGroups().get(groupId);
-            model.addAttribute("members",group.getMembers());
+            model.addAttribute("members",applicationService.getMembersOfGroup(groupId));
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
@@ -174,7 +173,7 @@ public class GroupController {
             Group group = applicationService.getGroupService().getGroups().get(id);
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
-            model.addAttribute("members",group.getMembers());
+            model.addAttribute("members",applicationService.getActiveMembersOfGroup(id));
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
@@ -205,7 +204,7 @@ public class GroupController {
             Group group = applicationService.getGroupService().getGroups().get(id);
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
-            model.addAttribute("members",group.getMembers());
+            model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
             model.addAttribute("numberOfOpenRequests",applicationService.getPendingRequestOfGroup(id).size());
         }
         if (search.isPresent()) {
