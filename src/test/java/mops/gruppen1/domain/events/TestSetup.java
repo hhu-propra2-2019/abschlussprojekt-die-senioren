@@ -1,5 +1,6 @@
 package mops.gruppen1.domain.events;
 
+import mops.gruppen1.domain.Module;
 import mops.gruppen1.domain.*;
 
 import java.util.ArrayList;
@@ -12,14 +13,14 @@ import java.util.List;
  * GroupOne is active, GroupTwo is deactivated, GroupThree is active but restricted
  */
 public class TestSetup {
-    HashMap<String, List<Membership>> groupToMembers = new HashMap<String, List<Membership>>();
-    HashMap<String, List<Membership>> userToMembers = new HashMap<String, List<Membership>>();
-    HashMap<String, Group> groups = new HashMap<String, Group>();
-    HashMap<String, User> users = new HashMap<String, User>();
-    Group groupOne;
-    Group groupTwo;
-    Group groupThree;
-    List<Membership> memberships = new ArrayList<Membership>();
+    public HashMap<String, List<Membership>> groupToMembers = new HashMap<>();
+    public HashMap<String, List<Membership>> userToMembers = new HashMap<>();
+    public HashMap<String, Group> groups = new HashMap<>();
+    public HashMap<String, User> users = new HashMap<>();
+    public Group groupOne;
+    public Group groupTwo;
+    public Group groupThree;
+    public List<Membership> memberships = new ArrayList<>();
 
     public TestSetup() {
         createUserMap();
@@ -32,17 +33,17 @@ public class TestSetup {
     }
 
     private void createUserToMembershipHashMap() {
-        ArrayList<Membership> listMax = new ArrayList<Membership>();
+        ArrayList<Membership> listMax = new ArrayList<>();
         listMax.add(memberships.get(0));
-        ArrayList<Membership> listStela = new ArrayList<Membership>();
+        ArrayList<Membership> listStela = new ArrayList<>();
         listStela.add(memberships.get(1));
-        ArrayList<Membership> listNeo = new ArrayList<Membership>();
+        ArrayList<Membership> listNeo = new ArrayList<>();
         listNeo.add(memberships.get(2));
-        ArrayList<Membership> listSteve = new ArrayList<Membership>();
+        ArrayList<Membership> listSteve = new ArrayList<>();
         listSteve.add(memberships.get(3));
-        ArrayList<Membership> listDiego = new ArrayList<Membership>();
+        ArrayList<Membership> listDiego = new ArrayList<>();
         listDiego.add(memberships.get(4));
-        ArrayList<Membership> listMilten = new ArrayList<Membership>();
+        ArrayList<Membership> listMilten = new ArrayList<>();
         listMilten.add(memberships.get(5));
 
 
@@ -85,28 +86,33 @@ public class TestSetup {
         GroupType groupTypeOne = GroupType.PUBLIC;
         GroupType groupTypeTwo = GroupType.RESTRICTED;
         GroupType groupTypeThree = GroupType.RESTRICTED;
+        Module moduleOne = new Module();
+        moduleOne.setModulename(new Modulename("Info1"));
+        Module moduleTwo = new Module();
+        moduleTwo.setModulename(new Modulename("Keine Veranstaltung."));
+
 
         User groupCreatorOne = users.get("Max");
         User groupCreatorTwo = users.get("Neo");
         User groupCreatorThree = users.get("Diego");
 
-        ArrayList<Membership> membershipsOne = new ArrayList<Membership>();
-        ArrayList<Membership> membershipsTwo = new ArrayList<Membership>();
-        ArrayList<Membership> membershipsThree = new ArrayList<Membership>();
+        ArrayList<Membership> membershipsOne = new ArrayList<>();
+        ArrayList<Membership> membershipsTwo = new ArrayList<>();
+        ArrayList<Membership> membershipsThree = new ArrayList<>();
 
-        this.groupOne = new Group(membershipsOne, groupNameOne, groupDescriptionOne, groupCreatorOne, groupStatusOne, groupTypeOne);
-        this.groupTwo = new Group(membershipsTwo, groupNameTwo, groupDescriptionTwo, groupCreatorTwo, groupStatusTwo, groupTypeTwo);
-        this.groupThree = new Group(membershipsThree, groupNameThree, groupDescriptionThree, groupCreatorThree, groupStatusThree, groupTypeThree);
+        this.groupOne = new Group(membershipsOne, groupNameOne, groupDescriptionOne, groupCreatorOne, groupStatusOne, groupTypeOne, moduleOne);
+        this.groupTwo = new Group(membershipsTwo, groupNameTwo, groupDescriptionTwo, groupCreatorTwo, groupStatusTwo, groupTypeTwo, moduleTwo);
+        this.groupThree = new Group(membershipsThree, groupNameThree, groupDescriptionThree, groupCreatorThree, groupStatusThree, groupTypeThree, moduleOne);
 
     }
 
     private void createMemberships() {
-        Membership memberOne = new Membership(users.get("Max"), groupOne, Type.ADMIN, Status.ACTIVE);
-        Membership memberTwo = new Membership(users.get("Stela"), groupOne, Type.VIEWER, Status.ACTIVE);
-        Membership memberThree = new Membership(users.get("Neo"), groupTwo, Type.ADMIN, Status.ACTIVE);
-        Membership memberFour = new Membership(users.get("Steve"), groupTwo, Type.VIEWER, Status.ACTIVE);
-        Membership memberFive = new Membership(users.get("Diego"), groupThree, Type.ADMIN, Status.ACTIVE);
-        Membership memberSix = new Membership(users.get("Milten"), groupThree, Type.VIEWER, Status.PENDING);
+        Membership memberOne = new Membership(users.get("Max"), groupOne, MembershipType.ADMIN, MembershipStatus.ACTIVE);
+        Membership memberTwo = new Membership(users.get("Stela"), groupOne, MembershipType.VIEWER, MembershipStatus.ACTIVE);
+        Membership memberThree = new Membership(users.get("Neo"), groupTwo, MembershipType.ADMIN, MembershipStatus.ACTIVE);
+        Membership memberFour = new Membership(users.get("Steve"), groupTwo, MembershipType.VIEWER, MembershipStatus.ACTIVE);
+        Membership memberFive = new Membership(users.get("Diego"), groupThree, MembershipType.ADMIN, MembershipStatus.ACTIVE);
+        Membership memberSix = new Membership(users.get("Milten"), groupThree, MembershipType.VIEWER, MembershipStatus.PENDING);
 
         memberships.add(memberOne);
         memberships.add(memberTwo);

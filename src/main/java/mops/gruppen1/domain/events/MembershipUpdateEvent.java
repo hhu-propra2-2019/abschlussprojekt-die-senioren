@@ -3,77 +3,66 @@ package mops.gruppen1.domain.events;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import mops.gruppen1.domain.*;
+import lombok.NoArgsConstructor;
+import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.MembershipType;
+import mops.gruppen1.domain.User;
 
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * Edit Type 'ADMIN' or 'VIEWER' of Membership
+ * Edit MembershipType 'ADMIN' or 'VIEWER' of Membership
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @EqualsAndHashCode
 public class MembershipUpdateEvent implements IEvent {
 
     private String groupId;
-    private String memberId;
+    private String userName;
     private String updatedBy;
     private String updatedTo;
 
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
             List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-        //TODO Ziehe Suche nach Updater & Prüfung ob Admin in den Groupservice
         //TODO Prüfe, dass ein Member sich selbst nicht ändern kann(updatedBy ungleich memberId)
-        //Membership updater = findUpdater(groups);
-        //if (updater != null && updater.getType().equals(Type.ADMIN)) {
-        Membership toBeUpdated = findUpdatedMember(groups);
-        changeMembershipType(toBeUpdated);
+        List<Membership> memberships = userToMembers.get(userName);
+        Membership membership = getMembership(memberships, groupId);
+        changeMembershipType(membership);
     }
 
     /**
-     * Finds the member that is to be updated in a group.
-     *
-     * @param groups The group in which a member is searched for.
-     * @return The member that matches the memberId.
-     */
-    private Membership findUpdatedMember(HashMap<String, Group> groups) {
-        Group group = groups.get(groupId);
-        Membership membership = group.getMembers().stream()
-                .filter(member -> memberId.equals(member.getMemberid().toString()))
-                .findFirst()
-                .orElse(null);
-
-        return membership;
-    }
-
-    /**
-     * Finds the member that is updating a member.
-     *
-     * @param groups The group in which a member is searched for.
-     * @return The member that matches updatedBy.
-     */
-    private Membership findUpdater(HashMap<String, Group> groups) {
-        Group group = groups.get(groupId);
-        Membership membership = group.getMembers().stream()
-                .filter(member -> updatedBy.equals(member.getMemberid().toString()))
-                .findFirst()
-                .orElse(null);
-
-        return membership;
-    }
-
-    /**
-     * Changes the Type of a given membership.
+     * Changes the MembershipType of a given membership.
      *
      * @param membership The membership whose type is to be changes.
      */
     private void changeMembershipType(Membership membership) {
-        if (membership.getType().equals(Type.ADMIN) && updatedTo.equalsIgnoreCase("VIEWER")) {
-            membership.setType(Type.VIEWER);
-        } else if (membership.getType().equals(Type.VIEWER) && updatedTo.equalsIgnoreCase("ADMIN")) {
-            membership.setType(Type.ADMIN);
+        if (updatedTo.equalsIgnoreCase("VIEWER")) {
+            membership.setMembershipType(MembershipType.VIEWER);
+        } else if (updatedTo.equalsIgnoreCase("ADMIN")) {
+            membership.setMembershipType(MembershipType.ADMIN);
         }
+    }
+
+    /**
+     * finds the membership of the user in the group
+     *
+     * @param memberships The user's memberships
+     * @param groupId     The group in which the user becomes ADMIN or VIEWER
+     * @return the membership belonging to groupID and contained in memberships
+     */
+    private Membership getMembership(List<Membership> memberships, String groupId) {
+        Membership membership = null;
+        for (Membership m : memberships) {
+            if (m.getGroup().getGroupId().toString().equals(groupId)) {
+                membership = m;
+                break;
+            }
+        }
+        return membership;
     }
 }

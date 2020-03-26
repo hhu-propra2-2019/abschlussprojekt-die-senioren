@@ -14,13 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Getter
-@EqualsAndHashCode
-@AllArgsConstructor
-@NoArgsConstructor
+
 /**
  * Change attribute GroupStatus of Group to 'deactivated'. NO deletion from datastructures
  */
+@Getter
+@NoArgsConstructor
+@EqualsAndHashCode
+@AllArgsConstructor
 public class GroupDeletionEvent implements IEvent {
 
     String groupId;

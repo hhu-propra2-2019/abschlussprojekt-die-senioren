@@ -1,6 +1,9 @@
 package mops.gruppen1.domain.events;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.User;
@@ -12,7 +15,11 @@ import java.util.List;
  * Delete link of the external AppointmentService in the Group
  * or change representation
  */
+
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@EqualsAndHashCode
 public class AppointmentDeletionEvent implements IEvent {
     private String groupId;
 

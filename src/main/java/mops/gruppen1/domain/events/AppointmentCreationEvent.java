@@ -1,6 +1,9 @@
 package mops.gruppen1.domain.events;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mops.gruppen1.domain.Appointment;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
@@ -11,10 +14,13 @@ import java.util.List;
 
 /**
  * Add a link of the external AppointmentService to the Group
- *
+ * <p>
  * TODO: 18.03.20 Add check for already existing appointment to Group Service
  */
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@EqualsAndHashCode
 public class AppointmentCreationEvent implements IEvent {
     private String groupId;
     private String appointmentLink;

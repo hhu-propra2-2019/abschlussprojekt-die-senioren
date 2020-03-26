@@ -1,6 +1,6 @@
 package mops.gruppen1.domain.events;
 
-import mops.gruppen1.domain.Status;
+import mops.gruppen1.domain.MembershipStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -24,13 +24,14 @@ class MembershipRejectionEventTest {
         //Arrange
         String groupId = testSetup.groupThree.getGroupId().toString();
         String user = "Milten";
-        MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, user);
+        String rejectedBy = "Diego";
+        MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, user, rejectedBy);
 
         //Act
         membershipRejectionEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //Assert
-        Status userStatus = testSetup.memberships.get(5).getStatus();
-        assertThat(userStatus).isEqualTo(Status.REJECTED);
+        MembershipStatus userMembershipStatus = testSetup.memberships.get(5).getMembershipStatus();
+        assertThat(userMembershipStatus).isEqualTo(MembershipStatus.REJECTED);
     }
 }

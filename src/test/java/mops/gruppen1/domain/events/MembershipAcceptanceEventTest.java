@@ -1,6 +1,6 @@
 package mops.gruppen1.domain.events;
 
-import mops.gruppen1.domain.Status;
+import mops.gruppen1.domain.MembershipStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -23,14 +23,15 @@ class MembershipAcceptanceEventTest {
     void execute() {
         //Arrange
         String groupId = testSetup.groupThree.getGroupId().toString();
-        String user = testSetup.users.get("Milten").getUsername().getUsername();
-        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, user);
+        String user = "Milten";
+        String acceptedBy = "Diego";
+        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, user, acceptedBy);
 
         //Act
         membershipAcceptanceEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
 
         //Assert
-        Status userStatus = testSetup.memberships.get(5).getStatus();
-        assertThat(userStatus).isEqualTo(Status.ACTIVE);
+        MembershipStatus userMembershipStatus = testSetup.memberships.get(5).getMembershipStatus();
+        assertThat(userMembershipStatus).isEqualTo(MembershipStatus.ACTIVE);
     }
 }

@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mops.gruppen1.domain.Module;
 import mops.gruppen1.domain.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * create new Group with attributes groupId, name, description and, if added, GroupStatus (to 'active')
@@ -20,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 public class GroupCreationEvent implements IEvent {
 
-    private String groupID;
+    private String groupId;
     private String groupDescription;
     private String groupName;
     private String groupCourse;
@@ -40,9 +43,9 @@ public class GroupCreationEvent implements IEvent {
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Group newGroup = createGroup();
-        this.groupID = newGroup.getGroupId().toString();
-        groups.put(groupID, newGroup);
-        groupToMembers.put(this.groupID, new ArrayList<>());
+        this.groupId = newGroup.getGroupId().toString();
+        groups.put(groupId, newGroup);
+        groupToMembers.put(this.groupId, new ArrayList<>());
     }
 
     private Group createGroup() {
@@ -52,8 +55,16 @@ public class GroupCreationEvent implements IEvent {
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         User groupCreator = new User(new Username(this.groupCreator));
         GroupType groupType = GroupType.valueOf(this.groupType.toUpperCase());
-        //add groupCourse?
+        Module module = new Module();
+        module.setModulename(new Modulename(groupCourse));
 
-        return new Group(members, name, description, groupCreator, groupStatus, groupType);
+        return createDependingOnArgs(members, name, description, groupStatus, groupCreator, groupType, module);
+    }
+
+    private Group createDependingOnArgs(List<Membership> members, GroupName name, GroupDescription description, GroupStatus groupStatus, User groupCreator, GroupType groupType, Module module) {
+        if (groupId == null) {
+            return new Group(members, name, description, groupCreator, groupStatus, groupType, module);
+        }
+        return new Group(members, UUID.fromString(groupId), name, description, groupCreator, groupStatus, groupType, module);
     }
 }
