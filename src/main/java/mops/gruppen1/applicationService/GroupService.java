@@ -82,7 +82,7 @@ public class GroupService {
         GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
-        persistEvent(groupCreator, null, "GroupCreationEvent", groupCreationEvent);
+        persistEvent(groupCreator, groupCreationEvent.getGroupId(), "GroupCreationEvent", groupCreationEvent);
         this.lastCreatedGroup = groupCreationEvent.getGroupId();
     }
 
@@ -146,10 +146,10 @@ public class GroupService {
         userCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
         //TODO is there a user that creates other users?
-        persistEvent(null, null, "UserCreationEvent", userCreationEvent);
+        persistEvent(userCreationEvent.getUsername(), null, "UserCreationEvent", userCreationEvent);
     }
 
-    public ValidationResult assignMembership(String userName, String groupId, String membershipType) {
+    public ValidationResult assignMembershipToPublicGroup(String userName, String groupId, String membershipType) {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
@@ -168,6 +168,27 @@ public class GroupService {
         }
         return validationResult;
     }
+
+    public ValidationResult assignMembershipToRestrictedGroup(String userName, String groupId, String membershipType) {
+        /*
+            TODO check if group is assigned to a module/course, user has to be assigned to it as well
+         */
+        List<ValidationResult> validationResults = new ArrayList<>();
+        validationResults.add(checkService.isRestricted(groupId, groups));
+        validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isNotMember(userName, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
+
+        if (validationResult.isValid()) {
+            try {
+                performMembershipAssignmentEvent(userName, groupId, membershipType);
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
+            }
+        }
+        return validationResult;
+    }
+
 
     void performMembershipAssignmentEvent(String userName, String groupId, String membershipType) {
         MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, userName, membershipType);
@@ -228,16 +249,17 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipResignmentEvent", memberResignmentEvent);
     }
 
-    public ValidationResult rejectMembership(String userName, String groupId) {
+    public ValidationResult rejectMembership(String userName, String groupId, String rejectedBy) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isRestricted(groupId, groups));
         validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isAdmin(rejectedBy, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipPending(userName, groupId, groups, users, userToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
             try {
-                performMembershipRejectEvent(userName, groupId);
+                performMembershipRejectEvent(userName, groupId, rejectedBy);
             } catch (Exception e) {
                 validationResult.addError("Unexpected failure.");
             }
@@ -245,8 +267,8 @@ public class GroupService {
         return validationResult;
     }
 
-    void performMembershipRejectEvent(String userName, String groupId) {
-        MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, userName);
+    void performMembershipRejectEvent(String userName, String groupId, String rejectedBy) {
+        MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, userName, rejectedBy);
         membershipRejectionEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipRejectionEvent", membershipRejectionEvent);
@@ -313,7 +335,7 @@ public class GroupService {
 
         if (validationResult.isValid()) {
             try {
-                performMembershipAcceptanceEvent(userName, groupId);
+                performMembershipAcceptanceEvent(userName, groupId, acceptedBy);
             } catch (Exception e) {
                 validationResult.addError("Unexpected failure.");
             }
@@ -322,8 +344,8 @@ public class GroupService {
     }
 
 
-    void performMembershipAcceptanceEvent(String userName, String groupId) {
-        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName);
+    void performMembershipAcceptanceEvent(String userName, String groupId, String acceptedBy) {
+        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName, acceptedBy);
         membershipAcceptanceEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipAcceptanceEvent", membershipAcceptanceEvent);
