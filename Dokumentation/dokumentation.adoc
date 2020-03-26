@@ -202,8 +202,8 @@ Dieses Subsystem stellt seine Funktionalität nicht (wie die anderen Subsysteme)
 Domain-Ebene bereit, sondern über die Gestaltung der Benutzeroberfläche.
 Folgende Dateien sind hierfür relevant:
 
-* gruppenAdmin.html
-* gruppenViewer.html.
+* _gruppenAdmin.html_
+* _gruppenViewer.html_
 
 Beide Templates repräsentieren die Ansicht
 in einer bestimmten Gruppe. Abhängig davon, welche Rolle ein User hat, wird entweder das Template
@@ -278,18 +278,18 @@ Das Subsystem Gruppenbeitritt stellt eine Funktionalität über  Klassen innerha
 Für weitere Informationen zur Erstellung der unten aufgeführten Event-Objekte sei auf das Wiki des
 GitHub-Repositories dieser Anwendung verwiesen.
 
-* mops.gruppen1.domain.events/MembershipRequestEvent
-** Die execute-Methode im MembershipRequestEvent sorgt dafür, dass eine entsprechende Membership
+* _mops.gruppen1.domain.events/MembershipRequestEvent_
+** Die *execute*-Methode im MembershipRequestEvent sorgt dafür, dass eine entsprechende Membership
 für den User und die entsprechende Gruppe instanziiert wird. Hierbei wird allerdings der Membership.Status
 auf PENDING gesetzt (Membership.Type ist per Default VIEWER). Zusätzlich wird die Membership zu der Gruppe
 und den HashMaps ‚groupTo Members‘ und ‚userToMembers‘ (aus dem GroupService) hinzugefügt, sodass ab jetzt auf
 sie zugegriffen werden kann.
-* mops.gruppen1.domain.events/MembershipAcceptanceEvent
-** Die execute-Methode im MembershipAcceptanceEvent sorgt dafür, dass der Membership.Status auf ACTIVE gesetzt wird.
-* mops.gruppen1.domain.events/MembershipRejectionEvent
-** Die execute-methode im MembershipRejectionEvent sorgt dafür, dass der Membership.Status auf REJECTED gesetzt wird.
-* mops.gruppen1.domain.events/MembershipAssignmentEvent
-** Die execute-Methode im MembershipAssigmentEvent sorgt dafür, dass eine neue Membership für den User und die entsprechende
+* _mops.gruppen1.domain.events/MembershipAcceptanceEvent_
+** Die *execute*-Methode im MembershipAcceptanceEvent sorgt dafür, dass der Membership.Status auf ACTIVE gesetzt wird.
+* _mops.gruppen1.domain.events/MembershipRejectionEvent_
+** Die *execute*-methode im MembershipRejectionEvent sorgt dafür, dass der Membership.Status auf REJECTED gesetzt wird.
+* _mops.gruppen1.domain.events/MembershipAssignmentEvent_
+** Die *execute*-Methode im MembershipAssigmentEvent sorgt dafür, dass eine neue Membership für den User und die entsprechende
 Gruppe erstellt wird (Memebrship.Type ist auch hier per Default ‚VIEWER’). Diese Membership wird dann dem Gruppenobjekt  und
 den beiden HashMaps ‚groupTo Members‘ und ‚userToMembers‘ (aus dem GroupService) zugefügt. (Hinweis: Ein MebershipAssigmentEvent
 wird nur dann angestoßen, wenn es sich um eine ‚PUBLIC‘-Gruppe handelt und ein direktes Beitreten zur Gruppe möglich ist).
@@ -314,8 +314,8 @@ Das Subsystem hat keine direkten Abhängigkeiten.
 Das Subsystem der Rollenverteilung stellt seine Funktionalität über Java-Klassen der Domain-Ebene bereit. Relevante Checks
 bezüglich der Rollenzuordnung eines Users sind auf der Service-Ebene zu finden.
 
-* mops.gruppen1.domain/MembershipType.java (Enum)
-* mops.gruppen1.domain/Membership.java
+* _mops.gruppen1.domain/MembershipType.java_ (Enum)
+* _mops.gruppen1.domain/Membership.java_
 ** Die Klasse Membership.java besitzt einen User, eine Gruppe und einen MembershipType. Somit wird hier gespeichert, in welcher
 Gruppe ein User welche Rolle (MembershipType.ADMIN oder MembershipType.VIEWER) hat.
 Die Methode setMembershipType setzt den MembershipType von ‚VIEWER‘ auf ‚ADMIN‘ (oder umgekehrt).
