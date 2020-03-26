@@ -174,6 +174,7 @@ public class GroupController {
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
             model.addAttribute("members",group.getMembers());
+            model.addAttribute("numberOfOpenRequests",applicationService.getPendingRequestOfGroup(id).size());
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
