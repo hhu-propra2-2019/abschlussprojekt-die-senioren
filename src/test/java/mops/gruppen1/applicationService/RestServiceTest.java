@@ -42,7 +42,7 @@ public class RestServiceTest {
         List<GroupIdOnly> groupsChangedMock = new ArrayList<>();
         GroupIdOnly groupOneId = () -> "groupOneId";
         groupsChangedMock.add(groupOneId);
-        when(restService.eventRepo.findAllByIdAfter(any())).thenReturn(groupsChangedMock);
+        when(restService.eventRepo.findDistinctByIdAfter(any())).thenReturn(groupsChangedMock);
 
         // create group & mock getting group
         List<Membership> members = new ArrayList<>();

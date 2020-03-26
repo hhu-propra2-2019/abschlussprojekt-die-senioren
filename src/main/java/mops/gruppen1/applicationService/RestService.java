@@ -72,7 +72,7 @@ public class RestService {
 
     private UpdatedGroupsDAO createUpdatedGroupsDAOs(Long oldEventId, Long latestEventId) {
         UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(latestEventId);
-        List<GroupIdOnly> changedGroupIds = eventRepo.findAllByIdAfter(oldEventId);
+        List<GroupIdOnly> changedGroupIds = eventRepo.findDistinctByIdAfter(oldEventId);
         for (GroupIdOnly groupId : changedGroupIds) {
             String id = groupId.getGroup();
             GroupDAO groupDAO = createGroupDAO(id);
