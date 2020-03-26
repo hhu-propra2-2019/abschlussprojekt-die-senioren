@@ -2,11 +2,22 @@ package mops.gruppen1.Controller;
 
 import mops.gruppen1.applicationService.RestService;
 import org.junit.jupiter.api.*;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
+import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -24,6 +35,19 @@ public class InteractionControllerTests {
     @MockBean
     RestService restServiceMock;
 
+    @BeforeEach
+    private void setSecurityContext() {
+        Set<String> roles = new HashSet<String>();
+        roles.add("ROLE_api_user");
+        KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
+                new SimpleKeycloakAccount(
+                        Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
+                        roles,
+                        Mockito.mock(RefreshableKeycloakSecurityContext.class)),
+                true);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+    }
 
     @Tag("InteractionController")
     @DisplayName("IsUserInGroup_missingUserName")
