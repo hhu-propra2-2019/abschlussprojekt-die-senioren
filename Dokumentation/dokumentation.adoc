@@ -269,9 +269,7 @@ eine Beitrittfsanfrage an eine restringierte Gruppe zu stellen. +
 
 Es besteht eine Abhängigkeit zur Gruppensuche, da man nur Gruppen beitreten kann, die
 zuvor über die Suche gefunden wurden. +
-Es besteht eine Abhängigkeit zur Gruppenverwaltung, da restringierten Gruppen nicht
-ohne Zustimmung eines Admins beigetreten werden kann. Somit besteht auch eine Abhängigkeit
-zum Subsystem der Rollenverteilung.
+Darüber hinaus besteht eine Abhängigkeit zur Rollenverteilung, da restringierten Gruppen nicht ohne die Zustimmung eines Admins beigetreten werden kann.
 
 ===== Schnittstellen
 Das Subsystem Gruppenbeitritt stellt eine Funktionalität über  Klassen innerhalb des Domänen-Modells bereit.
