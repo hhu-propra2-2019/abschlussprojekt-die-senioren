@@ -373,7 +373,7 @@ public class GroupService {
         //Get all memberships for given username
         List<Membership> members =  userToMembers.get(username);
 
-        //Filter all memberships with deactivated status
+        //Filter all memberships with deactivated/rejected/pending status
         List<Membership> activeMembers =  members.stream().filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE).collect(Collectors.toList());
 
         //Call getGroup-method on each membership element of list 'members' and add it to new list of 'groups'
@@ -387,7 +387,7 @@ public class GroupService {
         //Get all memberships for given username
         List<Membership> members =  groupToMembers.get(groupId);
 
-        //Filter all memberships with deactivated status
+        //Filter all memberships with deactivated/rejected/pending status
         List<Membership> activeMembers =  members.stream().filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE).collect(Collectors.toList());
 
         //Call getUser-method on each membership element of list 'members' and add it to new list of 'users'
