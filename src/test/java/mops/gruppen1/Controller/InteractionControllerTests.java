@@ -1,6 +1,9 @@
 package mops.gruppen1.Controller;
 
 import mops.gruppen1.applicationService.RestService;
+import mops.gruppen1.data.DAOs.GroupDAO;
+import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
+import mops.gruppen1.domain.GroupStatus;
 import org.junit.jupiter.api.*;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
@@ -225,5 +228,91 @@ public class InteractionControllerTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.doesGroupExist").value(true));
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("returnAllGroups_incompatibleParameter")
+    @Test
+    void testreturnAllGroups_incompatibleParameter() throws Exception {
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/returnAllGroups")
+                .param("lastEventId","x"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("returnAllGroups_noUpdatedGroups")
+    @Test
+    void testreturnAllGroups_noUpdatedGroups() throws Exception {
+
+        //Arrange
+        UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(2);
+        when(restServiceMock.getUpdatedGroups(any())).thenReturn(updatedGroupsDAO);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/returnAllGroups")
+                .param("lastEventId","2"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.eventId").value(2))
+                .andExpect(jsonPath("$.groupDAOs").isArray())
+                .andExpect(jsonPath("$.groupDAOs").isEmpty());
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("returnAllGroups_withOneUpdatedGroup")
+    @Test
+    void testreturnAllGroups_withOneUpdatedGroup() throws Exception {
+
+        //Arrange
+        UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(3);
+        GroupDAO groupDAO = new GroupDAO("testGroup","groupName","This is a description.", "ACTIVE");
+        updatedGroupsDAO.addGroupDAO(groupDAO);
+
+        when(restServiceMock.getUpdatedGroups(any())).thenReturn(updatedGroupsDAO);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/returnAllGroups")
+                .param("lastEventId","2"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.eventId").value(3))
+                .andExpect(jsonPath("$.groupDAOs[0].groupId").value("testGroup"))
+                .andExpect(jsonPath("$.groupDAOs[0].groupName").value("groupName"))
+                .andExpect(jsonPath("$.groupDAOs[0].groupDescription").value("This is a description."))
+                .andExpect(jsonPath("$.groupDAOs[0].status").value("ACTIVE"));
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("returnAllGroups_withTwoUpdatedGroups")
+    @Test
+    void testreturnAllGroups_withTwoUpdatedGroups() throws Exception {
+
+        //Arrange
+        UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(3);
+        GroupDAO groupDAO1 = new GroupDAO("testGroup","groupName","This is a description.", "ACTIVE");
+        GroupDAO groupDAO2 = new GroupDAO("testGroup","groupName", "Info1","This is a description.", "ACTIVE");
+        updatedGroupsDAO.addGroupDAO(groupDAO1);
+        updatedGroupsDAO.addGroupDAO(groupDAO2);
+
+        when(restServiceMock.getUpdatedGroups(any())).thenReturn(updatedGroupsDAO);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/returnAllGroups")
+                .param("lastEventId","2"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.eventId").value(3))
+                .andExpect(jsonPath("$.groupDAOs[0].groupId").value("testGroup"))
+                .andExpect(jsonPath("$.groupDAOs[0].groupName").value("groupName"))
+                .andExpect(jsonPath("$.groupDAOs[0].groupDescription").value("This is a description."))
+                .andExpect(jsonPath("$.groupDAOs[0].status").value("ACTIVE"))
+                .andExpect(jsonPath("$.groupDAOs[1].groupId").value("testGroup"))
+                .andExpect(jsonPath("$.groupDAOs[1].groupName").value("groupName"))
+                .andExpect(jsonPath("$.groupDAOs[1].course").value("Info1"))
+                .andExpect(jsonPath("$.groupDAOs[1].groupDescription").value("This is a description."))
+                .andExpect(jsonPath("$.groupDAOs[1].status").value("ACTIVE"));
     }
 }
