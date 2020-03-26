@@ -7,9 +7,13 @@ import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
 import mops.gruppen1.data.DAOs.UserDAO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.User;
+import mops.gruppen1.security.Account;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +25,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/gruppen1")
+@Secured("ROLE_api_user")
 public class InteractionController {
 
     RestService restService;
