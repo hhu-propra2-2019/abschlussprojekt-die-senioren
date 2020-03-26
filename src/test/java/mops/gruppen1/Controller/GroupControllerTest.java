@@ -131,6 +131,7 @@ class GroupControllerTest {
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Description Change View einer Gruppe.")
     @Test
+    @Disabled("Needs a specific Group ID - not ready yet")
     void testChangeGroupDescription() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");

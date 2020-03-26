@@ -99,9 +99,9 @@ public class GroupController {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
             model.addAttribute("groupId",id);
-            //model.addAttribute("memberships",groupService.getUserToMembers().get(account.getName()));
-            //model.addAttribute("placeholder_groupname",groupService.getGroups().get(groupId).getName());
-            //model.addAttribute("placeholder_groupdescription",groupService.getGroups().get(groupId).getDescription());
+            model.addAttribute("placeholder_groupname",applicationService.getGroupService().getGroups().get(id).getName().toString());
+            model.addAttribute("placeholder_groupdescription",applicationService.getGroupService().getGroups().get(id).getDescription().toString());
+            model.addAttribute("placeholder_grouptype",applicationService.getGroupService().getGroups().get(id).getGroupType().toString());
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
