@@ -23,6 +23,7 @@ public class MembershipAcceptanceEvent implements IEvent {
 
     private String groupId;
     private String userName;
+    private String acceptedBy;
 
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {

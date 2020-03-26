@@ -226,16 +226,17 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipResignmentEvent", memberResignmentEvent);
     }
 
-    public ValidationResult rejectMembership(String userName, String groupId) {
+    public ValidationResult rejectMembership(String userName, String groupId, String rejectedBy) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isRestricted(groupId, groups));
         validationResults.add(checkService.isGroupActive(groupId, groups));
+        validationResults.add(checkService.isAdmin(rejectedBy, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipPending(userName, groupId, groups, users, userToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
             try {
-                performMembershipRejectEvent(userName, groupId);
+                performMembershipRejectEvent(userName, groupId, rejectedBy);
             } catch (Exception e) {
                 validationResult.addError("Unexpected failure.");
             }
@@ -243,8 +244,8 @@ public class GroupService {
         return validationResult;
     }
 
-    void performMembershipRejectEvent(String userName, String groupId) {
-        MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, userName);
+    void performMembershipRejectEvent(String userName, String groupId, String rejectedBy) {
+        MembershipRejectionEvent membershipRejectionEvent = new MembershipRejectionEvent(groupId, userName, rejectedBy);
         membershipRejectionEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipRejectionEvent", membershipRejectionEvent);
@@ -311,7 +312,7 @@ public class GroupService {
 
         if (validationResult.isValid()) {
             try {
-                performMembershipAcceptanceEvent(userName, groupId);
+                performMembershipAcceptanceEvent(userName, groupId, acceptedBy);
             } catch (Exception e) {
                 validationResult.addError("Unexpected failure.");
             }
@@ -320,8 +321,8 @@ public class GroupService {
     }
 
 
-    void performMembershipAcceptanceEvent(String userName, String groupId) {
-        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName);
+    void performMembershipAcceptanceEvent(String userName, String groupId, String acceptedBy) {
+        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName, acceptedBy);
         membershipAcceptanceEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipAcceptanceEvent", membershipAcceptanceEvent);
