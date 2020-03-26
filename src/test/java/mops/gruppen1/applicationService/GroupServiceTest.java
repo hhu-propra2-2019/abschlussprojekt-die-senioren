@@ -43,7 +43,7 @@ class GroupServiceTest {
         Mockito.doNothing().when(groupService1).performMembershipAssignmentEvent(userName, groupId, membershipType);
 
         //act
-        ValidationResult validationResult = groupService1.assignMembership(userName, groupId, membershipType);
+        ValidationResult validationResult = groupService1.assignMembershipToPublicGroup(userName, groupId, membershipType);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -71,7 +71,7 @@ class GroupServiceTest {
         Mockito.doNothing().when(groupService1).performMembershipAssignmentEvent(userName, groupId, membershipType);
 
         //act
-        ValidationResult validationResult = groupService1.assignMembership(userName, groupId, membershipType);
+        ValidationResult validationResult = groupService1.assignMembershipToPublicGroup(userName, groupId, membershipType);
         //assert
         assertThat(validationResult.isValid()).isFalse();
     }
