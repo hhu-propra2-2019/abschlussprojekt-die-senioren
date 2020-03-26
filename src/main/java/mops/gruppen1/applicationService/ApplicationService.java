@@ -248,10 +248,11 @@ public class ApplicationService {
      *
      * @param userName
      * @param groupId
+     * @param deletedBy
      * @return ValidationResult that tells whether the user's application for the given group was successfully rejected
      */
-    public ValidationResult rejectMembership(String userName, String groupId) {
-        ValidationResult validationResult = groupService.rejectMembership(userName, groupId);
+    public ValidationResult rejectMembership(String userName, String groupId, String deletedBy) {
+        ValidationResult validationResult = groupService.rejectMembership(userName, groupId, deletedBy);
         return validationResult;
     }
 
