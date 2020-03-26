@@ -91,11 +91,11 @@ public class GroupController {
         return "redirect:/gruppen1/";
     }
 
-    @GetMapping("/description")
+    @GetMapping("/description/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String descriptionChange (KeycloakAuthenticationToken token, Model model,
-                                     @RequestParam(name = "search") Optional search){
-                                    //, @RequestParam(name = "groupId") String groupId) {
+                                     @RequestParam(name = "search") Optional search,
+                                     @PathVariable("id") String id){
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
@@ -106,8 +106,26 @@ public class GroupController {
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
-        return "changeDescription";//+groupId;
+        return "changeDescription";
     }
+
+    /*@GetMapping("/description")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
+    public String descriptionChange (KeycloakAuthenticationToken token, Model model,
+                                     @RequestParam(name = "search") Optional search,
+                                     @RequestParam(name = "groupId") String groupId) {
+        if (token != null) {
+            Account account = createAccountFromPrincipal(token);
+            model.addAttribute("account", account);
+            //model.addAttribute("memberships",groupService.getUserToMembers().get(account.getName()));
+            //model.addAttribute("placeholder_groupname",groupService.getGroups().get(groupId).getName());
+            //model.addAttribute("placeholder_groupdescription",groupService.getGroups().get(groupId).getDescription());
+        }
+        if (search.isPresent()) {
+            return searchGroups(search, model);
+        }
+        return "changeDescription"+groupId;
+    }*/
 /*
     @PostMapping("/description/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
@@ -147,8 +165,9 @@ public class GroupController {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
             model.addAttribute("groupId",id);
-            String groupname = applicationService.getGroupService().getGroups().get(id).getName().toString();
-            model.addAttribute("groupName", groupname);
+            Group group = applicationService.getGroupService().getGroups().get(id);
+            model.addAttribute("groupDescription", group.getDescription().toString());
+            model.addAttribute("groupName", group.getName().toString());
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
@@ -164,14 +183,16 @@ public class GroupController {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
             model.addAttribute("groupId",id);
-            String groupname = applicationService.getGroupService().getGroups().get(id).getName().toString();
-            model.addAttribute("groupName", groupname);
+            Group group = applicationService.getGroupService().getGroups().get(id);
+            model.addAttribute("groupDescription", group.getDescription().toString());
+            model.addAttribute("groupName", group.getName().toString());
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
         return "gruppenAdmin";
     }
+
 
 
     @GetMapping("/")
