@@ -1,14 +1,15 @@
 package mops.gruppen1.applicationService;
 
 import lombok.Getter;
-import mops.gruppen1.domain.*;
+import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.GroupType;
+import mops.gruppen1.domain.Membership;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -33,6 +34,7 @@ public class ApplicationService {
 
     /**
      * method returns all active members belonging to the requested group
+     *
      * @param groupId
      * @return List of Active Memberships
      */
@@ -54,6 +56,7 @@ public class ApplicationService {
 
     /**
      * method returns all groups belonging to a single user who is active in those groups
+     *
      * @param userName
      * @return List of groups where user is active
      */
@@ -86,38 +89,34 @@ public class ApplicationService {
 
     /**
      * returns all memberships of the user
+     *
      * @param userName
      * @return all memberships of the user
      */
-    public List<Membership> getMembershipsOfUser(String userName)   {
+    public List<Membership> getMembershipsOfUser(String userName) {
         List<Membership> memberships = groupService.getMembershipsOfUser(userName);
         return memberships;
     }
 
     /**
      * returns all active memberships of the user
+     *
      * @param userName
      * @return all active memberships of the user
      */
-    public List<Membership> getActiveMembershipsOfUser(String userName)   {
+    public List<Membership> getActiveMembershipsOfUser(String userName) {
         List<Membership> activeMemberships = groupService.getActiveMembershipsOfUser(userName);
         return activeMemberships;
     }
 
     /**
-     * returns List of Groups whose groupName fits the given group name
+     * returns List of all Groups whose groupName fits the given group name
      *
      * @param groupName
      * @return list of groups
      */
     public List<Group> searchGroupByName(String groupName) {
-        HashMap<String, Group> groups = groupService.getGroups();
-        List<Group> requestedGroups = new ArrayList<>();
-        for (Group group : groups.values()) {
-            if (group.getName().toString().contains(groupName)) {
-                requestedGroups.add(group);
-            }
-        }
+        List<Group> requestedGroups = groupService.searchGroupsByName(groupName);
         return requestedGroups;
     }
 
@@ -128,13 +127,7 @@ public class ApplicationService {
      * @return list of strings (userNames)
      */
     public List<String> searchUserByName(String userName) {
-        HashMap<String, User> users = groupService.getUsers();
-        List<String> requestedUsers = new ArrayList<>();
-        for (User user : users.values()) {
-            if (user.getUsername().toString().contains(userName)) {
-                requestedUsers.add(user.getUsername().toString());
-            }
-        }
+        List<String> requestedUsers = groupService.searchUserByName(userName);
         return requestedUsers;
     }
 

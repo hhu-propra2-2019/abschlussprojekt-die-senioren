@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
-import mops.gruppen1.domain.Group;
-import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.MembershipStatus;
-import mops.gruppen1.domain.User;
+import mops.gruppen1.domain.*;
 import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -424,6 +421,22 @@ public class GroupService {
                 .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.ACTIVE))
                 .collect(Collectors.toList());
         return activeMemberships;
+    }
+
+    public List<Group> searchGroupsByName(String groupName) {
+        List<Group> requestedGroups = groups.values().stream()
+                .filter(group -> group.getGroupStatus().equals(GroupStatus.ACTIVE))
+                .filter(group -> group.getName().toString().toLowerCase().contains(groupName.toLowerCase()))
+                .collect(Collectors.toList());
+        return requestedGroups;
+    }
+
+    public List<String> searchUserByName(String userName) {
+        List<String> requestedUsers = users.values().stream()
+                .filter(user -> user.getUsername().toString().toLowerCase().contains(userName.toLowerCase()))
+                .map(user -> user.getUsername().toString())
+                .collect(Collectors.toList());
+        return requestedUsers;
     }
 }
 
