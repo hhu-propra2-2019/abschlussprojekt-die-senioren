@@ -302,7 +302,7 @@ public class GroupController {
 
 
     @GetMapping("/requestMessage/{id}")
-    @Secured("ROLE_studentin")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
     public String groupDescription(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(name = "search") Optional search,
                                    @PathVariable("id") String groupId){
@@ -314,6 +314,19 @@ public class GroupController {
             return searchGroups(search, model);
         }
         return "requestDescription";
+    }
+
+    @PostMapping("/requestMessage/{id}")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
+    public String groupRequest(KeycloakAuthenticationToken token, Model model,
+                                   @RequestParam(value = "message") String message,
+                                   @PathVariable("id") String groupId){
+        if (token != null) {
+            Account account = createAccountFromPrincipal(token);
+            model.addAttribute("account", account);
+            applicationService.joinGroup(account.getName(),groupId,message);
+        }
+        return "redirect:/gruppen1/";
     }
 
     /**

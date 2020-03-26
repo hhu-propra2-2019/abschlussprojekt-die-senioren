@@ -55,9 +55,9 @@
                                     </form>
                             </span>
                             <span th:case="${T(mops.gruppen1.domain.GroupType).RESTRICTED}">
-                                <a class="btn btn-outline-secondary"
+                                <a class="btn btn-outline-secondary  offset-2"
                                    th:href="@{/gruppen1/requestMessage/{id}(id=${group.groupId})}">
-                                    Beitritt beantragen
+                                    Beantragen
                                 </a>
                             </span>
                         </div>
