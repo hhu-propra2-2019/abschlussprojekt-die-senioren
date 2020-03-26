@@ -66,8 +66,7 @@
                                                 <h4 class="card-title">Rolle ändern</h4>
                                                 <p class="card-text">Hiermit änderst du die Rolle des
                                                 Mitglieds.</p>
-                                                <form method="post"
-                                                      th:action="@{/gruppen1/memberships/{id}(id=${groupId})}">
+                                                <form method="post" th:action="@{/gruppen1/memberships/{id}(id=${groupId})}">
                                                     <input type="hidden" th:value="change" th:name="action"/>
                                                     <button class="btn btn-success" type="submit"
                                                             th:value="${member.user.username.username}"
@@ -89,8 +88,7 @@
                                                 <h4 class="card-title">Mitglied löschen</h4>
                                                 <p class="card-text">Hiermit entfernst du das Mitglied aus
                                                 der Gruppe.</p>
-                                                <form method="post" th:value="${member.user.username.username}" th:name="username"
-                                                      th:action="@{/gruppen1/memberships/{id}(id=${groupId})}">
+                                                <form method="post" th:action="@{/gruppen1/memberships/{id}(id=${groupId})}">
                                                     <input type="hidden" th:value="delete" th:name="action"/>
                                                     <button class="btn btn-danger" type="submit"
                                                             th:value="${member.user.username.username}"
