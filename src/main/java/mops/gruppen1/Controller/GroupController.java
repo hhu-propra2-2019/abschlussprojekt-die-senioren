@@ -261,13 +261,33 @@ public class GroupController {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
             model.addAttribute("groupId",groupId);
-            Group group = applicationService.getGroupService().getGroups().get(groupId);
             model.addAttribute("members",applicationService.getPendingRequestOfGroup(groupId));
+
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
         return "groupRequests";
+    }
+
+    @PostMapping("/groupRequests/{id}")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
+    public String manageGroupRequest(KeycloakAuthenticationToken token, Model model,
+                                   @RequestParam(value="username") String username,
+                                   @RequestParam(value="action") String action,
+                                   @PathVariable("id") String groupId)
+    {
+        if (token != null) {
+            Account account = createAccountFromPrincipal(token);
+            model.addAttribute("account", account);
+            if(action.equals("accept")) {
+                applicationService.acceptMembership(username,groupId,account.getName());
+            }
+            else if(action.equals("reject")) {
+                applicationService.rejectMembership(username,groupId,account.getName());
+            }
+        }
+        return "redirect:/gruppen1/admin/{id}";
     }
 
 

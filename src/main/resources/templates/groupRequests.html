@@ -37,16 +37,26 @@
                 </tr>
                 <tbody th:remove="all-but-first">
                 <tr th:each="member:${members}">
-                    <td class="h6" th:text="${member.user.username.username}">Student 1</td>
-                    <td class="text">Hallo, ich bin der Willy.<3</td>
-                    <td class="btn-group-lg offset-1" role="group">
+                    <td class="h6 w-25" th:text="${member.user.username.username}">Student 1</td>
+                    <td th:text="${member.membershipRequestMessage.message}"
+                        class="text w-50">Hallo, ich bin der Willy.<3</td>
+                    <td class="btn-group-lg offset-1 w-25" role="group">
                         <span>
-                            <button type="button" class="btn btn-success rounded-bottom" title="Anfrage annehmen">
-                                <span class="fa fa-check fa-xs"></span>
-                            </button>
-                            <button type="button" class="btn btn-danger offset-1 rounded-bottom" title="Anfrage ablehnen">
-                                <span class="fa fa-remove fa-xs"></span>
-                            </button>
+                            <form method="post" th:action="@{/gruppen1/groupRequests/{id}(id=${groupId})}">
+                                <input type="hidden" th:value="${member.user.username.username}" th:name="username"/>
+                                <button type="submit" class="btn btn-success rounded-bottom"
+                                        title="Anfrage annehmen"
+                                        th:value="accept" th:name="action">
+                                    <span class="fa fa-check fa-xs"></span>
+                                </button>
+                           <!--- </form>
+                            <form method="post" th:action="@{/gruppen1/groupRequests/{id}(id=${groupId})}">--->
+                                <button type="submit" class="btn btn-danger offset-1 rounded-bottom"
+                                        title="Anfrage ablehnen"
+                                        th:value="reject" th:name="action">
+                                    <span class="fa fa-remove fa-xs"></span>
+                                </button>
+                            </form>
                         </span>
                     </td>
                 </tr>

@@ -53,8 +53,11 @@
                 <button class="btn btn-outline-secondary col-3" type="button" data-toggle="collapse" data-target="#collapseMitglieder" aria-expanded="false" aria-controls="collapseMitglieder">
                     Mitglieder anzeigen
                 </button>
-            <a class="btn btn-outline-secondary col-3 offset-1" href="/gruppen1/groupRequests" role="button">offene Gruppenanfragen <span class="badge text-danger" th:text="${numberOfOpenRequests}">10</span></a>
-            <button class="btn btn-outline-secondary col-3 offset-1" type="button" data-toggle="collapse" data-target="#collapseOptionen" aria-expanded="false" aria-controls="collapseOptionen">
+            <a class="btn btn-outline-secondary col-3 offset-1" th:href="@{/gruppen1/groupRequests/{id}(id=${groupId})}"
+               role="button">offene Gruppenanfragen
+                <span class="badge text-danger" th:text="${numberOfOpenRequests}">10</span></a>
+            <button class="btn btn-outline-secondary col-3 offset-1" type="button" data-toggle="collapse"
+                    data-target="#collapseOptionen" aria-expanded="false" aria-controls="collapseOptionen">
                 Gruppenoptionen
             </button>
             <div class="collapse" id="collapseMitglieder">
@@ -63,7 +66,8 @@
                         <li th:text="${member.user.username.username}">Student 1</li>
                     </ul>
                     <br>
-                    <a class="btn btn-outline-secondary" th:href="@{/gruppen1/memberships/{id}(id=${groupId})}" role="button">Mitglieder verwalten</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/gruppen1/memberships/{id}(id=${groupId})}"
+                       role="button">Mitglieder verwalten</a>
                 </div>
             </div>
             <div class="collapse" id="collapseOptionen" th:method="get">
