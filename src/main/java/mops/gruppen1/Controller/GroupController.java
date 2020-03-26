@@ -109,42 +109,22 @@ public class GroupController {
         return "changeDescription";
     }
 
-    /*@GetMapping("/description")
-    @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String descriptionChange (KeycloakAuthenticationToken token, Model model,
-                                     @RequestParam(name = "search") Optional search,
-                                     @RequestParam(name = "groupId") String groupId) {
-        if (token != null) {
-            Account account = createAccountFromPrincipal(token);
-            model.addAttribute("account", account);
-            //model.addAttribute("memberships",groupService.getUserToMembers().get(account.getName()));
-            //model.addAttribute("placeholder_groupname",groupService.getGroups().get(groupId).getName());
-            //model.addAttribute("placeholder_groupdescription",groupService.getGroups().get(groupId).getDescription());
-        }
-        if (search.isPresent()) {
-            return searchGroups(search, model);
-        }
-        return "changeDescription"+groupId;
-    }*/
-/*
     @PostMapping("/description/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String descriptionChange (KeycloakAuthenticationToken token, Model model,
-                                     @RequestParam(name = "search") Optional search,
-                                     @RequestParam(name = "groupName") String groupname,
-                                     @RequestParam(name = "groupDescription") String groupDescription) {
-
+                                     @RequestParam(value = "groupName") String groupname,
+                                     @RequestParam(value = "groupDescription") String groupDescription,
+                                     @RequestParam(value = "groupType") String groupType,
+                                     @PathVariable("id") String groupId)
+    {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
-
+            applicationService.updateGroupProperties(groupId,account.getName(),groupname,groupDescription,groupType);
         }
-        if (search.isPresent()) {
-            return searchGroups(search);
-        }
-        return "changeDescription";
+        return "redirect:/gruppen1/admin/{id}";
     }
-*/
+
     @GetMapping("/memberships")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String membershipChange(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
