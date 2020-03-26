@@ -1,5 +1,6 @@
 package mops;
 
+import mops.gruppen1.applicationService.GroupService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

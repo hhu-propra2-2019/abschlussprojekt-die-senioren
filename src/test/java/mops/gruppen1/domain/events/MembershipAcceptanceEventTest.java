@@ -23,8 +23,9 @@ class MembershipAcceptanceEventTest {
     void execute() {
         //Arrange
         String groupId = testSetup.groupThree.getGroupId().toString();
-        String user = testSetup.users.get("Milten").getUsername().getUsername();
-        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, user);
+        String user = "Milten";
+        String acceptedBy = "Diego";
+        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, user, acceptedBy);
 
         //Act
         membershipAcceptanceEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);

@@ -151,8 +151,9 @@ public class CheckService {
 
     private Membership getMembership(List<Membership> memberships, Group group) {
         Membership membership = null;
-
+      
         if(memberships == null) return null;
+      
         for (Membership m : memberships) {
             if (m.getGroup().equals(group)) {
                 membership = m;
