@@ -156,6 +156,7 @@ public class GroupController {
                 applicationService.deleteMember(username, groupId, account.getName());
             }
             else if(action.equals("change")) {
+                //TODO Methode anpassen, updatedTo Parameter rauslöschen
                 applicationService.updateMembership(username, groupId, account.getName(), "ADMIN");
             }
         }
@@ -173,9 +174,6 @@ public class GroupController {
             Group group = applicationService.getGroupService().getGroups().get(id);
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
-            model.addAttribute("members",applicationService.getActiveMembersOfGroup(id));
-        }
-        if (search.isPresent()) {
             return searchGroups(search, model);
         }
         return "gruppenViewer";
@@ -241,7 +239,7 @@ public class GroupController {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
             String userName = account.getName();
-            List<Membership> memberships = applicationService.getMembershipsOfUser(userName);
+            List<Membership> memberships = applicationService.getActiveMembershipsOfUser(account.getName());
             model.addAttribute("memberships",memberships);
         }
         if (search.isPresent()) {
