@@ -132,14 +132,35 @@ public class ApplicationService {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults
                 .add(groupService.createGroup(groupDescription, groupName, groupCourse, groupCreator, groupType));
-        validationResults
-                .add(groupService.assignMembership(groupCreator, groupService.getLastCreatedGroup(), "ADMIN"));
-        for (String user : users) {
-            validationResults
-                    .add(groupService.assignMembership(user, groupService.getLastCreatedGroup(), "VIEWER"));
-        }
+        addMembersToGroup(groupCreator, groupType, users, validationResults);
         ValidationResult validationResult = groupService.collectCheck(validationResults);
         return validationResult;
+    }
+
+    private void addMembersToGroup(String groupCreator, String groupType, List<String> users, List<ValidationResult> validationResults) {
+        if (groupType.equals("PUBLIC")) {
+            addMembersToPublicGroup(groupCreator, groupType, users, validationResults);
+        } else {
+            addMembersToRestrictedGroup(groupCreator, groupType, users, validationResults);
+        }
+    }
+
+    private void addMembersToRestrictedGroup(String groupCreator, String groupType, List<String> users, List<ValidationResult> validationResults) {
+        validationResults
+                .add(groupService.assignMembershipToRestrictedGroup(groupCreator, groupService.getLastCreatedGroup(), "ADMIN"));
+        for (String user : users) {
+            validationResults
+                    .add(groupService.assignMembershipToRestrictedGroup(user, groupService.getLastCreatedGroup(), "VIEWER"));
+        }
+    }
+
+    private void addMembersToPublicGroup(String groupCreator, String groupType, List<String> users, List<ValidationResult> validationResults) {
+        validationResults
+                .add(groupService.assignMembershipToPublicGroup(groupCreator, groupService.getLastCreatedGroup(), "ADMIN"));
+        for (String user : users) {
+            validationResults
+                    .add(groupService.assignMembershipToPublicGroup(user, groupService.getLastCreatedGroup(), "VIEWER"));
+        }
     }
 
     /**
@@ -222,7 +243,7 @@ public class ApplicationService {
         HashMap<String, Group> groups = groupService.getGroups();
         Group group = groups.get(groupId);
         if (group.getGroupType().equals(GroupType.PUBLIC)) {
-            validationResult = groupService.assignMembership(userName, groupId, "VIEWER");
+            validationResult = groupService.assignMembershipToPublicGroup(userName, groupId, "VIEWER");
         } else {
             validationResult = groupService.requestMembership(userName, groupId, "VIEWER");
         }
@@ -234,10 +255,11 @@ public class ApplicationService {
      *
      * @param userName
      * @param groupId
+     * @param deletedBy
      * @return ValidationResult that tells whether the user's application for the given group was successfully rejected
      */
-    public ValidationResult rejectMembership(String userName, String groupId) {
-        ValidationResult validationResult = groupService.rejectMembership(userName, groupId);
+    public ValidationResult rejectMembership(String userName, String groupId, String deletedBy) {
+        ValidationResult validationResult = groupService.rejectMembership(userName, groupId, deletedBy);
         return validationResult;
     }
 

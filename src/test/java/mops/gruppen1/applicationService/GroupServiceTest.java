@@ -25,7 +25,7 @@ class GroupServiceTest {
 
     @Tag("GroupTest")
     @Test
-    void testAssignMembershipPositiveChecks() {
+    void testAssignMembershipToPublicGroupPositiveChecks() {
         //Arrange
         String userName = "Test";
         String groupId = "1";
@@ -43,7 +43,7 @@ class GroupServiceTest {
         Mockito.doNothing().when(groupService1).performMembershipAssignmentEvent(userName, groupId, membershipType);
 
         //act
-        ValidationResult validationResult = groupService1.assignMembership(userName, groupId, membershipType);
+        ValidationResult validationResult = groupService1.assignMembershipToPublicGroup(userName, groupId, membershipType);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -51,7 +51,7 @@ class GroupServiceTest {
 
     @Tag("GroupTest")
     @Test
-    void testAssignMembershipFalseChecks() {
+    void testAssignMembershipToPublicGroupFalseChecks() {
         //Arrange
         String userName = "Test";
         String groupId = "1";
@@ -71,7 +71,60 @@ class GroupServiceTest {
         Mockito.doNothing().when(groupService1).performMembershipAssignmentEvent(userName, groupId, membershipType);
 
         //act
-        ValidationResult validationResult = groupService1.assignMembership(userName, groupId, membershipType);
+        ValidationResult validationResult = groupService1.assignMembershipToPublicGroup(userName, groupId, membershipType);
+        //assert
+        assertThat(validationResult.isValid()).isFalse();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testAssignMembershipToRestrictedGroupPositiveChecks() {
+        //Arrange
+        String userName = "Test";
+        String groupId = "1";
+        String membershipType = "VIEWER";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(groupService.checkService.isRestricted(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
+        when(groupService.checkService.isNotMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
+        GroupService groupService1 = Mockito.spy(groupService);
+        Mockito.doNothing().when(groupService1).performMembershipAssignmentEvent(userName, groupId, membershipType);
+
+        //act
+        ValidationResult validationResult = groupService1.assignMembershipToRestrictedGroup(userName, groupId, membershipType);
+
+        //assert
+        assertThat(validationResult.isValid()).isTrue();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testAssignMembershipToRestrictedGroupFalseChecks() {
+        //Arrange
+        String userName = "Test";
+        String groupId = "1";
+        String membershipType = "VIEWER";
+
+        ValidationResult validationResult1 = new ValidationResult();
+        validationResult1.addError("Test");
+        ValidationResult validationResult2 = new ValidationResult();
+        ValidationResult validationResult3 = new ValidationResult();
+
+        when(groupService.checkService.isRestricted(groupId, groupService.getGroups())).thenReturn(validationResult1);
+        when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
+        when(groupService.checkService.isNotMember(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult3);
+
+        GroupService groupService1 = Mockito.spy(groupService);
+        Mockito.doNothing().when(groupService1).performMembershipAssignmentEvent(userName, groupId, membershipType);
+
+        //act
+        ValidationResult validationResult = groupService1.assignMembershipToRestrictedGroup(userName, groupId, membershipType);
         //assert
         assertThat(validationResult.isValid()).isFalse();
     }
@@ -97,7 +150,7 @@ class GroupServiceTest {
 
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipAcceptanceEvent(userName, groupId);
+        Mockito.doNothing().when(groupService1).performMembershipAcceptanceEvent(userName, groupId, acceptedBy);
 
         //act
         ValidationResult validationResult = groupService1.acceptMembership(userName, groupId, acceptedBy);
@@ -127,7 +180,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipAcceptanceEvent(userName, groupId);
+        Mockito.doNothing().when(groupService1).performMembershipAcceptanceEvent(userName, groupId, acceptedBy);
 
         //act
         ValidationResult validationResult = groupService1.acceptMembership(userName, groupId, acceptedBy);
@@ -142,21 +195,25 @@ class GroupServiceTest {
         //Arrange
         String userName = "Test";
         String groupId = "1";
+        String rejectedBy = "Test2";
 
         ValidationResult validationResult1 = new ValidationResult();
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
+        ValidationResult validationResult4 = new ValidationResult();
 
         when(groupService.checkService.isRestricted(groupId, groupService.getGroups())).thenReturn(validationResult1);
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
-        when(groupService.checkService.isMembershipPending(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+        when(groupService.checkService.isAdmin(rejectedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        when(groupService.checkService.isMembershipPending(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipRejectEvent(userName, groupId);
+        Mockito.doNothing().when(groupService1).performMembershipRejectEvent(userName, groupId, rejectedBy);
 
         //act
-        ValidationResult validationResult = groupService1.rejectMembership(userName, groupId);
+        ValidationResult validationResult = groupService1.rejectMembership(userName, groupId, rejectedBy);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -168,22 +225,26 @@ class GroupServiceTest {
         //Arrange
         String userName = "Test";
         String groupId = "1";
+        String rejectedBy = "Test2";
 
         ValidationResult validationResult1 = new ValidationResult();
         validationResult1.addError("Test");
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
+        ValidationResult validationResult4 = new ValidationResult();
 
         when(groupService.checkService.isRestricted(groupId, groupService.getGroups())).thenReturn(validationResult1);
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult2);
-        when(groupService.checkService.isMembershipPending(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+        when(groupService.checkService.isAdmin(rejectedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        when(groupService.checkService.isMembershipPending(userName, groupId, groupService.getGroups(), groupService.getUsers(),
+                groupService.getUserToMembers())).thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipRejectEvent(userName, groupId);
+        Mockito.doNothing().when(groupService1).performMembershipRejectEvent(userName, groupId, rejectedBy);
 
         //act
-        ValidationResult validationResult = groupService1.rejectMembership(userName, groupId);
+        ValidationResult validationResult = groupService1.rejectMembership(userName, groupId, rejectedBy);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();

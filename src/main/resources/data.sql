@@ -76,7 +76,17 @@ VALUES (
            'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 13:22:14',
            'GroupCreationEvent',
-           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","groupName": "Testgruppe2","groupCreator": "userX","groupDescription": "Lalelu Nur Der Mann Im Mond","groupType": "RESTRICTED"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","groupName": "Testgruppe2","groupCreator": "userVWX","groupDescription": "Lalelu Nur Der Mann Im Mond","groupType": "RESTRICTED"}');
+
+
+INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
+VALUES (
+           NULL,
+           'userVWX',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
+           '2020-03-02 14:22:14',
+           'MembershipAssignmentEvent',
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userVWX","membershipType": "ADMIN"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
@@ -145,7 +155,7 @@ VALUES (
            'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 20:22:14',
            'MembershipAcceptanceEvent',
-           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userABC"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userABC","acceptedBy": "userVWX"}');
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
@@ -173,7 +183,7 @@ VALUES (
            'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 21:22:14',
            'MembershipRejectionEvent',
-           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userDEF"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userDEF","rejectedBy": "userVWX"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
