@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.transform.sax.SAXSource;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,6 +98,7 @@ public class GroupController {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
+            model.addAttribute("groupId",id);
             //model.addAttribute("memberships",groupService.getUserToMembers().get(account.getName()));
             //model.addAttribute("placeholder_groupname",groupService.getGroups().get(groupId).getName());
             //model.addAttribute("placeholder_groupdescription",groupService.getGroups().get(groupId).getDescription());
