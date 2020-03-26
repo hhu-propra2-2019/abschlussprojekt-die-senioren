@@ -17,7 +17,7 @@
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
         <ul>
-            <li class="active"><a th:href="@{/gruppen1/admin}">Aktuelle Gruppe</a></li>
+            <li class="active"><a th:href="@{/gruppen1/admin/{id}(id=${groupId})}">Aktuelle Gruppe</a></li>
             <li><a th:href="@{/gruppen1/}">Meine Gruppen</a></li>
         </ul>
     </nav>
@@ -107,11 +107,18 @@
             <h3 class="h3 header">Gruppenbeschreibung</h3>
         </div>
         <div class="card-body">
-            <class="container">
-                  Dies ist eine Gruppenbeschreibung
+            <div class="container">
+                    <span th:text="${groupDescription}"></span>
                     <br>
                     <br>
-               <!--- <a class="btn btn-outline-secondary" th:href="@{/gruppen1/description/${groupId} th:type="submit">Beschreibung anpassen</a>--->
+                    <!---<div class="form-group">
+                        <form class="form" method="post" th:action="@{/gruppen1/admin/${groupId}}">
+                            <button  class="btn btn-outline-secondary" type="submit"
+                                 th:value="${groupId}" th:name="id">Eigenschaften anpassen
+                            </button>
+                        </form>
+                    </div>--->
+                    <a class="btn btn-outline-secondary" th:href="@{/gruppen1/description/{id}(id=${groupId})}" th:type="submit">Beschreibung anpassen</a>
             </div>
         </div>
     </div>
