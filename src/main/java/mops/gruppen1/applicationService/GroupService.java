@@ -6,6 +6,7 @@ import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.MembershipStatus;
 import mops.gruppen1.domain.User;
 import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service to manage the group entities
@@ -365,6 +367,55 @@ public class GroupService {
             }
         }
         return validationResult;
+    }
+
+    public boolean isUserMemberOfGroup(String username, String groupId) {
+        ValidationResult validationResult = checkService.isMember(username, groupId, this.groups, this.users, this.userToMembers);
+
+        return validationResult.isValid();
+    }
+
+    public boolean isUserAdminInGroup(String username, String groupId) {
+        ValidationResult validationResult = checkService.isAdmin(username, groupId, this.groups, this.users, this.userToMembers);
+
+        return validationResult.isValid();
+    }
+
+    public boolean isGroupActive(String groupId) {
+        List<ValidationResult> validationResults = new ArrayList<>();
+        validationResults.add(checkService.doesGroupExist(groupId, this.groups));
+        validationResults.add(checkService.isGroupActive(groupId, this.groups));
+        ValidationResult validationResult = collectCheck(validationResults);
+
+        return validationResult.isValid();
+    }
+
+    public List<Group> getGroupsOfUser(String username) {
+
+        //Get all memberships for given username
+        List<Membership> members =  userToMembers.get(username);
+
+        //Filter all memberships with deactivated/rejected/pending status
+        List<Membership> activeMembers =  members.stream().filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE).collect(Collectors.toList());
+
+        //Call getGroup-method on each membership element of list 'members' and add it to new list of 'groups'
+        List<Group> groups = activeMembers.stream().map(Membership::getGroup).collect(Collectors.toList());
+
+        return groups;
+    }
+
+    public List<User> getUsersOfGroup(String groupId) {
+
+        //Get all memberships for given username
+        List<Membership> members =  groupToMembers.get(groupId);
+
+        //Filter all memberships with deactivated/rejected/pending status
+        List<Membership> activeMembers =  members.stream().filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE).collect(Collectors.toList());
+
+        //Call getUser-method on each membership element of list 'members' and add it to new list of 'users'
+        List<User> users = activeMembers.stream().map(Membership::getUser).collect(Collectors.toList());
+
+        return users;
     }
 }
 
