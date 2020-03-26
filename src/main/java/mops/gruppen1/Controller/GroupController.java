@@ -2,6 +2,7 @@ package mops.gruppen1.Controller;
 
 import lombok.AllArgsConstructor;
 import mops.gruppen1.applicationService.ApplicationService;
+import mops.gruppen1.applicationService.ValidationResult;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.security.Account;
@@ -223,7 +224,10 @@ public class GroupController {
                 applicationService.deleteGroup(groupId,account.getName());
             }
             else if(action.equals("resign")) {
-                applicationService.resignMembership(account.getName(),groupId);
+                ValidationResult vali = applicationService.resignMembership(account.getName(),groupId);
+                if(!vali.isValid()) {
+                    return "redirect:/gruppen1/admin/{id}";
+                }
             }
 
         }

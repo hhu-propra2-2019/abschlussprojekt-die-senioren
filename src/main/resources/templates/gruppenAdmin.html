@@ -79,6 +79,11 @@
                                     <h4 class="card-title">Gruppe verlassen</h4>
                                     <p class="card-text">Hiermit wirst du die Gruppe verlassen und den Zugriff auf die
                                         Gruppeninhalte verlieren.</p>
+                                    <p>Achtung:
+                                        <br>
+                                        Falls Sie der einzige Administrator der Gruppe sind, muss zunächst
+                                        über die Mitgliedsverwaltung ein neuer Administrator bestimmt werden.
+                                        Ansonsten können Sie die Gruppe nicht verlassen.</p>
                                     <form method="post" th:action="@{/gruppen1/admin/{id}(id=${groupId})}">
                                          <button class="btn btn-danger" type="submit"
                                                  th:value="resign" th:name="action">Verlassen
