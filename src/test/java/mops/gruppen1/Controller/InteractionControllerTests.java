@@ -370,5 +370,62 @@ public class InteractionControllerTests {
                 .andExpect(jsonPath("$[1].userName").value("user2"));
     }
 
+    @Tag("InteractionController")
+    @DisplayName("returnGroupsOfUsers_missingUserName")
+    @Test
+    void testreturnGroupsOfUsers_missingGroupId() throws Exception {
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/returnGroupsOfUsers"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("returnGroupsOfUsers_noGroups")
+    @Test
+    void testreturnGroupsOfUsers_noGroups() throws Exception {
+
+        //Arrange
+        List<GroupDAO> groupDAOs = new ArrayList<>();
+        when(restServiceMock.getGroupsOfUser(any())).thenReturn(groupDAOs);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/returnGroupsOfUsers")
+                .param("userName", "user1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$").isEmpty());
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("returnGroupsOfUsers_twoUsers")
+    @Test
+    void testreturnGroupsOfUsers_twoUsers() throws Exception {
+
+        //Arrange
+        List<GroupDAO> groupDAOs = new ArrayList<>();
+        GroupDAO groupDAO1 = new GroupDAO("testGroup","groupName","This is a description.", "ACTIVE");
+        GroupDAO groupDAO2 = new GroupDAO("testGroup","groupName", "Info1","This is a description.", "ACTIVE");
+        groupDAOs.add(groupDAO1);
+        groupDAOs.add(groupDAO2);
+        when(restServiceMock.getGroupsOfUser(any())).thenReturn(groupDAOs);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/returnGroupsOfUsers")
+                .param("userName", "user1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].groupId").value("testGroup"))
+                .andExpect(jsonPath("$[0].groupName").value("groupName"))
+                .andExpect(jsonPath("$[0].groupDescription").value("This is a description."))
+                .andExpect(jsonPath("$[0].status").value("ACTIVE"))
+                .andExpect(jsonPath("$[1].groupId").value("testGroup"))
+                .andExpect(jsonPath("$[1].groupName").value("groupName"))
+                .andExpect(jsonPath("$[1].course").value("Info1"))
+                .andExpect(jsonPath("$[1].groupDescription").value("This is a description."))
+                .andExpect(jsonPath("$[1].status").value("ACTIVE"));
+    }
 
 }
