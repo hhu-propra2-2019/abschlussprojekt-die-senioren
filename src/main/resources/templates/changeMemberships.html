@@ -43,14 +43,17 @@
                     <td th:text="${member.membershipStatus}" class="h6">Aktiv</td>
                     <td class="btn-group-lg offset-1" role="group">
                         <span th:if="${T(mops.gruppen1.domain.MembershipStatus).ACTIVE}">
+
                             <button type="button" class="btn btn-success rounded-bottom" title="Rolle ändern"
                                     data-toggle="collapse" data-target="#collapseRolechange" aria-expanded="false"
-                                    aria-controls="collapseRolechange">
+                                    aria-controls="collapseRolechange"
+                                    name="action" value="change">
                                 <span class="fa fa-pencil small fa-xs"></span>
                             </button>
                             <button type="button" class="btn btn-danger offset-1 rounded-bottom" title="Mitglied löschen"
                                     data-toggle="collapse" data-target="#collapseDeleteUser" aria-expanded="false"
-                                    aria-controls="collapseDeleteUser">
+                                    aria-controls="collapseDeleteUser" value="delete"
+                                    name="action">
                                 <span class="fa fa-trash fa-xs"></span>
                             </button>
                         </span>
@@ -63,7 +66,14 @@
                                                 <h4 class="card-title">Rolle ändern</h4>
                                                 <p class="card-text">Hiermit änderst du die Rolle des
                                                 Mitglieds.</p>
-                                                <button class="btn btn-success" type="button">Ändern</button>
+                                                <form method="post"
+                                                      th:action="@{/gruppen1/memberships/{id}(id=${groupId})}">
+                                                    <input type="hidden" th:value="change" th:name="action"/>
+                                                    <button class="btn btn-success" type="submit"
+                                                            th:value="${member.user.username.username}"
+                                                            th:name="username">Ändern
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -79,7 +89,14 @@
                                                 <h4 class="card-title">Mitglied löschen</h4>
                                                 <p class="card-text">Hiermit entfernst du das Mitglied aus
                                                 der Gruppe.</p>
-                                                <button class="btn btn-danger" type="button">Löschen</button>
+                                                <form method="post" th:value="${member.user.username.username}" th:name="username"
+                                                      th:action="@{/gruppen1/memberships/{id}(id=${groupId})}">
+                                                    <input type="hidden" th:value="delete" th:name="action"/>
+                                                    <button class="btn btn-danger" type="submit"
+                                                            th:value="${member.user.username.username}"
+                                                            th:name="username">Löschen
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
