@@ -254,14 +254,14 @@ public class ApplicationService {
      * @param groupId
      * @return ValidationResult that tells whether the user successfully joined or applied for the given group
      */
-    public ValidationResult joinGroup(String userName, String groupId) {
+    public ValidationResult joinGroup(String userName, String groupId, String requestMessage) {
         ValidationResult validationResult;
         HashMap<String, Group> groups = groupService.getGroups();
         Group group = groups.get(groupId);
         if (group.getGroupType().equals(GroupType.PUBLIC)) {
             validationResult = groupService.assignMembershipToPublicGroup(userName, groupId, "VIEWER");
         } else {
-            validationResult = groupService.requestMembership(userName, groupId, "VIEWER");
+            validationResult = groupService.requestMembership(userName, groupId, "VIEWER", requestMessage);
         }
         return validationResult;
     }
