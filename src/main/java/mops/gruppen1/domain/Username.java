@@ -1,5 +1,6 @@
 package mops.gruppen1.domain;
 
+import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,7 +11,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class Username {
-
+    @CsvBindByName
     private String username;
 
     @Override
