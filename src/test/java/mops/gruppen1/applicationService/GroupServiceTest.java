@@ -257,6 +257,7 @@ class GroupServiceTest {
         String userName = "Test";
         String groupId = "1";
         String membershipType = "VIEWER";
+        String message = "ich will hier rein.. Ich bin ein Star";
 
         ValidationResult validationResult1 = new ValidationResult();
         ValidationResult validationResult2 = new ValidationResult();
@@ -268,10 +269,10 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipRequestEvent(userName, groupId, membershipType);
+        Mockito.doNothing().when(groupService1).performMembershipRequestEvent(userName, groupId, membershipType, message);
 
         //act
-        ValidationResult validationResult = groupService1.requestMembership(userName, groupId, membershipType);
+        ValidationResult validationResult = groupService1.requestMembership(userName, groupId, membershipType, message);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -284,6 +285,7 @@ class GroupServiceTest {
         String userName = "Test";
         String groupId = "1";
         String membershipType = "VIEWER";
+        String message = "ich will hier rein.. Ich bin ein Star";
 
         ValidationResult validationResult1 = new ValidationResult();
         validationResult1.addError("Test");
@@ -296,10 +298,10 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipRequestEvent(userName, groupId, membershipType);
+        Mockito.doNothing().when(groupService1).performMembershipRequestEvent(userName, groupId, membershipType, message);
 
         //act
-        ValidationResult validationResult = groupService1.requestMembership(userName, groupId, membershipType);
+        ValidationResult validationResult = groupService1.requestMembership(userName, groupId, membershipType, message);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();

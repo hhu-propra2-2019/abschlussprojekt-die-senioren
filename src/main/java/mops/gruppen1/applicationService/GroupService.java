@@ -197,7 +197,7 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipAssignmentEvent", membershipAssignmentEvent);
     }
 
-    public ValidationResult requestMembership(String userName, String groupId, String membershipType) {
+    public ValidationResult requestMembership(String userName, String groupId, String membershipType, String membershipRequestMessage) {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
@@ -209,7 +209,7 @@ public class GroupService {
 
         if (validationResult.isValid()) {
             try {
-                performMembershipRequestEvent(userName, groupId, membershipType);
+                performMembershipRequestEvent(userName, groupId, membershipType, membershipRequestMessage);
             } catch (Exception e) {
                 validationResult.addError("Unexpected failure.");
             }
@@ -217,8 +217,8 @@ public class GroupService {
         return validationResult;
     }
 
-    void performMembershipRequestEvent(String userName, String groupId, String membershipType) {
-        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType);
+    void performMembershipRequestEvent(String userName, String groupId, String membershipType, String membershipRequestMessage) {
+        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType, membershipRequestMessage);
         membershipRequestEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipRequestEvent", membershipRequestEvent);
