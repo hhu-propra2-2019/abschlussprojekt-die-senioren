@@ -39,7 +39,8 @@ public class RestService {
      * @return
      */
     public boolean isUserInGroup(String username, String groupId) {
-        return groupService.isUserMemberOfGroup(username, groupId);
+        ValidationResult validationResult = groupService.isUserMemberOfGroup(username, groupId);
+        return validationResult.isValid();
     }
 
 
@@ -54,7 +55,8 @@ public class RestService {
         // When user is not a member of the group, return false
         if(!isUserInGroup(username, groupId)) return false;
 
-        return groupService.isUserAdminInGroup(username, groupId);
+        ValidationResult validationResult = groupService.isUserAdminInGroup(username, groupId);
+        return validationResult.isValid();
     }
 
     /**
@@ -105,7 +107,8 @@ public class RestService {
     }
 
     public boolean doesActiveGroupExist(String groupId) {
-        return groupService.isGroupActive(groupId);
+        ValidationResult validationResult = groupService.isGroupActive(groupId);
+        return validationResult.isValid();
     }
 
 
@@ -117,7 +120,7 @@ public class RestService {
     public List<GroupDAO> getGroupsOfUser(String userName) {
 
         //get groups of user from GroupService
-        List<Group> groups =  groupService.getGroupsOfUser(userName);
+        List<Group> groups =  groupService.getGroupsWhereUserIsActive(userName);
 
         //instantiate new List of groupDAOs
         List<GroupDAO> groupDAOs = new ArrayList<>();
@@ -139,7 +142,7 @@ public class RestService {
     public List<UserDAO> getUsersOfGroup(String groupId) {
 
         //get users of group from GroupService
-        List<User> users =  groupService.getUsersOfGroup(groupId);
+        List<User> users =  groupService.getActiveUsersOfGroup(groupId);
 
         //instantiate new List of userDAOs
         List<UserDAO> userDAOs = new ArrayList<>();
