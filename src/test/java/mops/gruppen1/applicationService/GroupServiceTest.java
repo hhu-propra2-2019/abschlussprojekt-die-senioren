@@ -257,6 +257,7 @@ class GroupServiceTest {
         String userName = "Test";
         String groupId = "1";
         String membershipType = "VIEWER";
+        String message = "ich will hier rein.. Ich bin ein Star";
 
         ValidationResult validationResult1 = new ValidationResult();
         ValidationResult validationResult2 = new ValidationResult();
@@ -268,10 +269,10 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipRequestEvent(userName, groupId, membershipType);
+        Mockito.doNothing().when(groupService1).performMembershipRequestEvent(userName, groupId, membershipType, message);
 
         //act
-        ValidationResult validationResult = groupService1.requestMembership(userName, groupId, membershipType);
+        ValidationResult validationResult = groupService1.requestMembership(userName, groupId, membershipType, message);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -284,6 +285,7 @@ class GroupServiceTest {
         String userName = "Test";
         String groupId = "1";
         String membershipType = "VIEWER";
+        String message = "ich will hier rein.. Ich bin ein Star";
 
         ValidationResult validationResult1 = new ValidationResult();
         validationResult1.addError("Test");
@@ -296,10 +298,10 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult3);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipRequestEvent(userName, groupId, membershipType);
+        Mockito.doNothing().when(groupService1).performMembershipRequestEvent(userName, groupId, membershipType, message);
 
         //act
-        ValidationResult validationResult = groupService1.requestMembership(userName, groupId, membershipType);
+        ValidationResult validationResult = groupService1.requestMembership(userName, groupId, membershipType, message);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
@@ -317,6 +319,7 @@ class GroupServiceTest {
         ValidationResult validationResult1 = new ValidationResult();
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
+        ValidationResult validationResult4 = new ValidationResult();
 
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
         when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
@@ -325,12 +328,14 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isAdmin(updatedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        when(groupService.checkService.activeAdminRemains(updatedBy, groupId, groupService.getGroupToMembers()))
+                .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
+        Mockito.doNothing().when(groupService1).performMembershipUpdateEvent(userName, groupId, updatedBy);
 
         //act
-        ValidationResult validationResult = groupService1.updateMembership(userName, groupId, updatedBy, updatedTo);
+        ValidationResult validationResult = groupService1.updateMembership(userName, groupId, updatedBy);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -349,6 +354,7 @@ class GroupServiceTest {
         validationResult1.addError("Test");
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
+        ValidationResult validationResult4 = new ValidationResult();
 
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
         when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
@@ -357,12 +363,14 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isAdmin(updatedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        when(groupService.checkService.activeAdminRemains(updatedBy, groupId, groupService.getGroupToMembers()))
+                .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
+        Mockito.doNothing().when(groupService1).performMembershipUpdateEvent(userName, groupId, updatedBy);
 
         //act
-        ValidationResult validationResult = groupService1.updateMembership(userName, groupId, updatedBy, updatedTo);
+        ValidationResult validationResult = groupService1.updateMembership(userName, groupId, updatedBy);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
@@ -379,6 +387,7 @@ class GroupServiceTest {
         ValidationResult validationResult1 = new ValidationResult();
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
+        ValidationResult validationResult4 = new ValidationResult();
 
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
         when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
@@ -387,6 +396,8 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isAdmin(deletedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        when(groupService.checkService.activeAdminRemains(deletedBy, groupId, groupService.getGroupToMembers()))
+                .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
         Mockito.doNothing().when(groupService1).performMembershipDeletionEvent(userName, groupId, deletedBy);
@@ -410,6 +421,7 @@ class GroupServiceTest {
         validationResult1.addError("Test");
         ValidationResult validationResult2 = new ValidationResult();
         ValidationResult validationResult3 = new ValidationResult();
+        ValidationResult validationResult4 = new ValidationResult();
 
         when(groupService.checkService.isGroupActive(groupId, groupService.getGroups())).thenReturn(validationResult1);
         when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
@@ -418,6 +430,8 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isAdmin(deletedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
+        when(groupService.checkService.activeAdminRemains(deletedBy, groupId, groupService.getGroupToMembers()))
+                .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
         Mockito.doNothing().when(groupService1).performMembershipDeletionEvent(userName, groupId, deletedBy);
@@ -446,7 +460,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
-        when(groupService.checkService.activeAdminRemainsAfterResignment(userName, groupId, groupService.getGroupToMembers()))
+        when(groupService.checkService.activeAdminRemains(userName, groupId, groupService.getGroupToMembers()))
                 .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
@@ -477,7 +491,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
-        when(groupService.checkService.activeAdminRemainsAfterResignment(userName, groupId, groupService.getGroupToMembers()))
+        when(groupService.checkService.activeAdminRemains(userName, groupId, groupService.getGroupToMembers()))
                 .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);

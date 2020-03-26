@@ -2,7 +2,6 @@ package mops.gruppen1.applicationService;
 
 import mops.gruppen1.domain.*;
 import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +26,17 @@ public class CheckService {
             return validationResult;
         }
         validationResult.addError("Die Gruppe ist nicht aktiv.");
+        return validationResult;
+    }
+
+    public ValidationResult doesGroupExist(String groupId, HashMap<String, Group> groups) {
+        ValidationResult validationResult = new ValidationResult();
+        Group group = groups.get(groupId);
+        boolean doesExist = group != null;
+        if (doesExist) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe existiert nicht.");
         return validationResult;
     }
 
@@ -124,12 +134,17 @@ public class CheckService {
         return validationResult;
     }
 
-    public ValidationResult activeAdminRemainsAfterResignment(String userName, String groupId,
-                                                              HashMap<String, List<Membership>> groupToMembers) {
+    public ValidationResult activeAdminRemains(String userName, String groupId,
+                                               HashMap<String, List<Membership>> groupToMembers) {
         ValidationResult validationResult = new ValidationResult();
         List<Membership> memberships = groupToMembers.get(groupId);
-        Membership membership = memberships.stream().filter(m -> m.getUser().getUsername().toString().equals(userName)).findFirst().orElse(null);
-        boolean isAdmin = membership.getMembershipType().equals(MembershipType.ADMIN);
+        Membership membership = memberships.stream().filter(m -> m.getUser().getUsername().toString()
+                .equals(userName)).findFirst().orElse(null);
+
+        boolean isAdmin = false;
+        if (membership != null) {
+            isAdmin = membership.getMembershipType().equals(MembershipType.ADMIN);
+        }
         if (isAdmin) {
             long adminCount = memberships.stream().filter(m -> m.getMembershipType().equals(MembershipType.ADMIN)).count();
             if (adminCount < 2) {
@@ -141,6 +156,7 @@ public class CheckService {
 
     private Membership getMembership(List<Membership> memberships, Group group) {
         Membership membership = null;
+
         if(memberships == null) return null;
 
         for (Membership m : memberships) {

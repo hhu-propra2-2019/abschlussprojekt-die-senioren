@@ -293,7 +293,7 @@ public class GroupController {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
             if(action.equals("assign")) {
-                applicationService.joinGroup(account.getName(), groupId);
+                applicationService.joinGroup(account.getName(), groupId, "");
             }
         }
         return "redirect:/gruppen1/";
