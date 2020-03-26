@@ -3,6 +3,7 @@ package mops.gruppen1.Controller;
 import mops.gruppen1.applicationService.RestService;
 import mops.gruppen1.data.DAOs.GroupDAO;
 import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
+import mops.gruppen1.data.DAOs.UserDAO;
 import mops.gruppen1.domain.GroupStatus;
 import org.junit.jupiter.api.*;
 import org.keycloak.KeycloakPrincipal;
@@ -18,7 +19,9 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -315,4 +318,57 @@ public class InteractionControllerTests {
                 .andExpect(jsonPath("$.groupDAOs[1].groupDescription").value("This is a description."))
                 .andExpect(jsonPath("$.groupDAOs[1].status").value("ACTIVE"));
     }
+
+    @Tag("InteractionController")
+    @DisplayName("returnUsersOfGroup_missingGroupid")
+    @Test
+    void testreturnUsersOfGroup_missingGroupId() throws Exception {
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/returnUsersOfGroup"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("returnUsersOfGroup_noUsers")
+    @Test
+    void testreturnUsersOfGroup_noUsers() throws Exception {
+
+        //Arrange
+        List<UserDAO> userDAOs = new ArrayList<>();
+        when(restServiceMock.getUsersOfGroup(any())).thenReturn(userDAOs);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/returnUsersOfGroup")
+                .param("groupId", "testGroup"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$").isEmpty());
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("returnUsersOfGroup_twoUsers")
+    @Test
+    void testreturnUsersOfGroup_twoUsers() throws Exception {
+
+        //Arrange
+        List<UserDAO> userDAOs = new ArrayList<>();
+        UserDAO userDAO1 = new UserDAO("user1");
+        UserDAO userDAO2 = new UserDAO("user2");
+        userDAOs.add(userDAO1);
+        userDAOs.add(userDAO2);
+        when(restServiceMock.getUsersOfGroup(any())).thenReturn(userDAOs);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/returnUsersOfGroup")
+                .param("groupId", "testGroup"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].userName").value("user1"))
+                .andExpect(jsonPath("$[1].userName").value("user2"));
+    }
+
+
 }
