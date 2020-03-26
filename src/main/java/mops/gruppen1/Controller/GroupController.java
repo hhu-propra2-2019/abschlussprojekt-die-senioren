@@ -1,9 +1,12 @@
 package mops.gruppen1.Controller;
 
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.AllArgsConstructor;
 import mops.gruppen1.applicationService.ApplicationService;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.Username;
 import mops.gruppen1.security.Account;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -12,10 +15,18 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -74,13 +85,29 @@ public class GroupController {
                                  @RequestParam(value = "groupModule") String module,
                                  @RequestParam(value = "groupType") String groupType,
                                  @RequestParam(value = "groupDescription", required = false) String groupDescription,
-                                 @RequestParam(value = "csv", required = false) String csvFileName,
+                                 @RequestParam(value = "file", required = false) MultipartFile file,
                                  @RequestParam(value = "members", required = false) List<String> members)
     {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
             //account - Name gleich Username
+
+            try {
+                InputStream inputStream = file.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                List<Username> csvMembers = new CsvToBeanBuilder(reader)
+                        .withType(Username.class)
+                        .withIgnoreLeadingWhiteSpace(true)
+                        .build()
+                        .parse();
+
+                members = csvMembers.stream().map(user -> user.toString()).collect(Collectors.toList());
+
+            } catch (Exception e) {
+                model.addAttribute("message", "Fehler beim Upload");
+            }
             applicationService.createGroup(groupDescription,groupName,module,account.getName(),groupType,members);
          }
 
@@ -89,6 +116,9 @@ public class GroupController {
         }
         return "redirect:/gruppen1/";
     }
+
+
+
 
     @GetMapping("/description/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
