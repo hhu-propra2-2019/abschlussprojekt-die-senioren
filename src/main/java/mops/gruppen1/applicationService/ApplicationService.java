@@ -27,8 +27,17 @@ public class ApplicationService {
      * @return List of Memberships
      */
     public List<Membership> getMembersOfGroup(String groupId) {
-        HashMap<String, List<Membership>> groupToMembers = groupService.getGroupToMembers();
-        List<Membership> memberships = groupToMembers.get(groupId);
+        List<Membership> memberships = groupService.getMembersOfGroup(groupId);
+        return memberships;
+    }
+
+    /**
+     * method returns all active members belonging to the requested group
+     * @param groupId
+     * @return List of Active Memberships
+     */
+    public List<Membership> getActiveMembersOfGroup(String groupId) {
+        List<Membership> memberships = groupService.getActiveMembersOfGroup(groupId);
         return memberships;
     }
 
@@ -39,9 +48,17 @@ public class ApplicationService {
      * @return List of Groups
      */
     public List<Group> getGroupsOfUser(String userName) {
-        HashMap<String, List<Membership>> userToMembers = groupService.getUserToMembers();
-        List<Membership> memberships = userToMembers.get(userName);
-        List<Group> groups = memberships.stream().map(member -> member.getGroup()).collect(Collectors.toList());
+        List<Group> groups = groupService.getGroupsOfUser(userName);
+        return groups;
+    }
+
+    /**
+     * method returns all groups belonging to a single user who is active in those groups
+     * @param userName
+     * @return List of groups where user is active
+     */
+    public List<Group> getGroupsWhereUserIsActive(String userName) {
+        List<Group> groups = groupService.getGroupsWhereUserIsActive(userName);
         return groups;
     }
 
@@ -52,11 +69,7 @@ public class ApplicationService {
      * @return List of Memberships
      */
     public List<Membership> getPendingRequestOfGroup(String groupId) {
-        HashMap<String, List<Membership>> groupToMembers = groupService.getGroupToMembers();
-        List<Membership> memberships = groupToMembers.get(groupId);
-        List<Membership> pendingMemberships = memberships.stream()
-                .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.PENDING))
-                .collect(Collectors.toList());
+        List<Membership> pendingMemberships = groupService.getPendingMemberships(groupId);
         return pendingMemberships;
     }
 
@@ -67,18 +80,28 @@ public class ApplicationService {
      * @return number of pending requests
      */
     public long countPendingRequestOfGroup(String groupId) {
-        HashMap<String, List<Membership>> groupToMembers = groupService.getGroupToMembers();
-        List<Membership> memberships = groupToMembers.get(groupId);
-        long pendingMemberships = memberships.stream()
-                .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.PENDING))
-                .count();
+        long pendingMemberships = groupService.countPendingRequestOfGroup(groupId);
         return pendingMemberships;
     }
 
+    /**
+     * returns all memberships of the user
+     * @param userName
+     * @return all memberships of the user
+     */
     public List<Membership> getMembershipsOfUser(String userName)   {
-        HashMap<String, List<Membership>> userToMembers = groupService.getUserToMembers();
-        List<Membership> memberships = userToMembers.get(userName);
+        List<Membership> memberships = groupService.getMembershipsOfUser(userName);
         return memberships;
+    }
+
+    /**
+     * returns all active memberships of the user
+     * @param userName
+     * @return all active memberships of the user
+     */
+    public List<Membership> getActiveMembershipsOfUser(String userName)   {
+        List<Membership> activeMemberships = groupService.getActiveMembershipsOfUser(userName);
+        return activeMemberships;
     }
 
     /**

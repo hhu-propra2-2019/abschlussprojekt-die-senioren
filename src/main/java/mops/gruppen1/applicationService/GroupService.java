@@ -6,6 +6,7 @@ import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.MembershipStatus;
 import mops.gruppen1.domain.User;
 import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service to manage the group entities
@@ -367,6 +369,61 @@ public class GroupService {
             }
         }
         return validationResult;
+    }
+
+    public List<Membership> getMembersOfGroup(String groupId) {
+        List<Membership> memberships = groupToMembers.get(groupId);
+        return memberships;
+    }
+
+    public List<Membership> getActiveMembersOfGroup(String groupId) {
+        List<Membership> memberships = groupToMembers.get(groupId);
+        List<Membership> activeMemberships = memberships.stream()
+                .filter(m -> m.getMembershipStatus().equals(MembershipStatus.ACTIVE)).collect(Collectors.toList());
+        return activeMemberships;
+    }
+
+    public List<Group> getGroupsOfUser(String userName) {
+        List<Membership> memberships = userToMembers.get(userName);
+        List<Group> groups = memberships.stream().map(member -> member.getGroup()).collect(Collectors.toList());
+        return groups;
+    }
+
+    public List<Group> getGroupsWhereUserIsActive(String userName) {
+        List<Membership> memberships = userToMembers.get(userName);
+        List<Group> groupsWhereUserIsActive = memberships.stream()
+                .filter(member -> member.getMembershipStatus().equals(MembershipStatus.ACTIVE))
+                .map(member -> member.getGroup()).collect(Collectors.toList());
+        return groupsWhereUserIsActive;
+    }
+
+    public List<Membership> getPendingMemberships(String groupId) {
+        List<Membership> memberships = groupToMembers.get(groupId);
+        List<Membership> pendingMemberships = memberships.stream()
+                .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.PENDING))
+                .collect(Collectors.toList());
+        return pendingMemberships;
+    }
+
+    public long countPendingRequestOfGroup(String groupId) {
+        List<Membership> memberships = groupToMembers.get(groupId);
+        long pendingMemberships = memberships.stream()
+                .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.PENDING))
+                .count();
+        return pendingMemberships;
+    }
+
+    public List<Membership> getMembershipsOfUser(String userName) {
+        List<Membership> memberships = userToMembers.get(userName);
+        return memberships;
+    }
+
+    public List<Membership> getActiveMembershipsOfUser(String userName) {
+        List<Membership> memberships = userToMembers.get(userName);
+        List<Membership> activeMemberships = memberships.stream()
+                .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.ACTIVE))
+                .collect(Collectors.toList());
+        return activeMemberships;
     }
 }
 
