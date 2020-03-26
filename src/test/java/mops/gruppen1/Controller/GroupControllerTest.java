@@ -44,6 +44,8 @@ class GroupControllerTest {
                 .build();
     }
 
+    // TODO @Diabled Tests entweder fixen oder am Ende löschen
+    
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Index - Seite.")
     @Test
