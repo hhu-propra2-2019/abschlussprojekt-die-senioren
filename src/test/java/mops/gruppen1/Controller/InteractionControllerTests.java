@@ -183,4 +183,47 @@ public class InteractionControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.isUserAdminInGroup").value(false));
     }
+
+    @Tag("InteractionController")
+    @DisplayName("doesGroupExist_missingGroupId")
+    @Test
+    void testdoesGroupExist_missingGroupId() throws Exception {
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/doesGroupExist"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("doesGroupExist_False")
+    @Test
+    void testdoesGroupExist_False() throws Exception {
+
+        //Arrange
+        when(restServiceMock.doesActiveGroupExist(any())).thenReturn(false);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/doesGroupExist")
+                .param("groupId","testGroup"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.doesGroupExist").value(false));
+    }
+
+    @Tag("InteractionController")
+    @DisplayName("doesGroupExist_True")
+    @Test
+    void testdoesGroupExist_True() throws Exception {
+
+        //Arrange
+        when(restServiceMock.doesActiveGroupExist(any())).thenReturn(true);
+
+        //Act & Assert
+        this.mvc.perform(get("/gruppen1/doesGroupExist")
+                .param("groupId","testGroup"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.doesGroupExist").value(true));
+    }
 }
