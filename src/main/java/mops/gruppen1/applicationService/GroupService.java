@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
+
 import mops.gruppen1.domain.*;
+
 import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -438,6 +440,39 @@ public class GroupService {
                 .collect(Collectors.toList());
         return requestedUsers;
     }
+
+    public ValidationResult isUserMemberOfGroup(String username, String groupId) {
+        ValidationResult validationResult = checkService.isMember(username, groupId, this.groups, this.users, this.userToMembers);
+
+        return validationResult;
+    }
+
+    public ValidationResult isUserAdminInGroup(String username, String groupId) {
+        ValidationResult validationResult = checkService.isAdmin(username, groupId, this.groups, this.users, this.userToMembers);
+
+        return validationResult;
+    }
+
+    public ValidationResult isGroupActive(String groupId) {
+        List<ValidationResult> validationResults = new ArrayList<>();
+        validationResults.add(checkService.doesGroupExist(groupId, this.groups));
+        validationResults.add(checkService.isGroupActive(groupId, this.groups));
+        ValidationResult validationResult = collectCheck(validationResults);
+
+        return validationResult;
+    }
+
+    public List<User> getActiveUsersOfGroup(String groupId) {
+
+        //Get all memberships for given username
+        List<Membership> members =  groupToMembers.get(groupId);
+
+        //Filter all memberships with deactivated/rejected/pending status
+        List<Membership> activeMembers =  members.stream().filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE).collect(Collectors.toList());
+
+        //Call getUser-method on each membership element of list 'members' and add it to new list of 'users'
+        List<User> users = activeMembers.stream().map(Membership::getUser).collect(Collectors.toList());
+
+        return users;
+    }
 }
-
-
