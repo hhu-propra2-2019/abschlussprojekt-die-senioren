@@ -298,7 +298,7 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipDeletionEvent", memberDeletionEvent);
     }
 
-    public ValidationResult updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
+    public ValidationResult updateMembership(String userName, String groupId, String updatedBy) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
@@ -309,7 +309,7 @@ public class GroupService {
 
         if (validationResult.isValid()) {
             try {
-                performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
+                performMembershipUpdateEvent(userName, groupId, updatedBy);
             } catch (Exception e) {
                 validationResult.addError("Unexpected failure.");
             }
@@ -317,8 +317,8 @@ public class GroupService {
         return validationResult;
     }
 
-    void performMembershipUpdateEvent(String userName, String groupId, String deletedBy, String updatedTo) {
-        MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName, deletedBy, updatedTo);
+    void performMembershipUpdateEvent(String userName, String groupId, String deletedBy) {
+        MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName, deletedBy);
         membershipUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipUpdateEvent", membershipUpdateEvent);

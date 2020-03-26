@@ -330,10 +330,10 @@ class GroupServiceTest {
                 .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
+        Mockito.doNothing().when(groupService1).performMembershipUpdateEvent(userName, groupId, updatedBy);
 
         //act
-        ValidationResult validationResult = groupService1.updateMembership(userName, groupId, updatedBy, updatedTo);
+        ValidationResult validationResult = groupService1.updateMembership(userName, groupId, updatedBy);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
@@ -365,10 +365,10 @@ class GroupServiceTest {
                 .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
-        Mockito.doNothing().when(groupService1).performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
+        Mockito.doNothing().when(groupService1).performMembershipUpdateEvent(userName, groupId, updatedBy);
 
         //act
-        ValidationResult validationResult = groupService1.updateMembership(userName, groupId, updatedBy, updatedTo);
+        ValidationResult validationResult = groupService1.updateMembership(userName, groupId, updatedBy);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
