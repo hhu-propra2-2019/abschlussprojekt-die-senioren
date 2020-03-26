@@ -77,7 +77,9 @@
                                     <h4 class="card-title">Gruppe verlassen</h4>
                                     <p class="card-text">Hiermit wirst du die Gruppe verlassen und den Zugriff auf die
                                         Gruppeninhalte verlieren.</p>
-                                    <button class="btn btn-danger" type="button">Verlassen</button>
+                                    <form method="post" th:action="@{/gruppen1/viewer/{id}(id=${groupId})}">
+                                        <button class="btn btn-danger" type="submit">Verlassen</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

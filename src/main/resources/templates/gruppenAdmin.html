@@ -75,7 +75,11 @@
                                     <h4 class="card-title">Gruppe verlassen</h4>
                                     <p class="card-text">Hiermit wirst du die Gruppe verlassen und den Zugriff auf die
                                         Gruppeninhalte verlieren.</p>
-                                    <button class="btn btn-danger" type="button">Verlassen</button>
+                                    <form method="post" th:action="@{/gruppen1/admin/{id}(id=${groupId})}">
+                                         <button class="btn btn-danger" type="submit"
+                                                 th:value="resign" th:name="action">Verlassen
+                                         </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +89,11 @@
                                     <h4 class="card-title">Gruppe löschen</h4>
                                     <p class="card-text">Hiermit wirst du diese Gruppe und sämtliche Inhalte der Gruppe
                                         unwiderruflich löschen.</p>
-                                    <button class="btn btn-danger" type="button">Löschen</button>
+                                    <form method="post" th:action="@{/gruppen1/admin/{id}(id=${groupId})}">
+                                        <button class="btn btn-danger" type="submit"
+                                             th:value="delete" th:name="action">Löschen
+                                         </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

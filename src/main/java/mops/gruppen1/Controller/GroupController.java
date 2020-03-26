@@ -183,6 +183,18 @@ public class GroupController {
         return "gruppenViewer";
     }
 
+    @PostMapping("/viewer/{id}")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
+    public String leaveGroupAsUser(KeycloakAuthenticationToken token, Model model,
+                               @PathVariable("id") String groupId) {
+        if (token != null) {
+            Account account = createAccountFromPrincipal(token);
+            model.addAttribute("account", account);
+            applicationService.resignMembership(account.getName(),groupId);
+        }
+        return "redirect:/gruppen1/";
+    }
+
     @GetMapping("/admin/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String adminView (KeycloakAuthenticationToken token, Model model,
@@ -203,6 +215,24 @@ public class GroupController {
         return "gruppenAdmin";
     }
 
+    @PostMapping("/admin/{id}")
+    @Secured({"ROLE_studentin", "ROLE_orga"})
+    public String adminActions(KeycloakAuthenticationToken token, Model model,
+                               @RequestParam(value="action") String action,
+                               @PathVariable("id") String groupId) {
+        if (token != null) {
+            Account account = createAccountFromPrincipal(token);
+            model.addAttribute("account", account);
+            if(action.equals("delete")) {
+                applicationService.deleteGroup(groupId,account.getName());
+            }
+            else if(action.equals("resign")) {
+                applicationService.resignMembership(account.getName(),groupId);
+            }
+
+        }
+        return "redirect:/gruppen1/";
+    }
 
 
     @GetMapping("/")
