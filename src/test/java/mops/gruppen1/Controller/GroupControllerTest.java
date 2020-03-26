@@ -151,6 +151,7 @@ class GroupControllerTest {
 
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Member-Edit Seite einer Gruppe.")
+    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testMembershipChange() throws Exception {
         Set<String> roles = new HashSet<String>();

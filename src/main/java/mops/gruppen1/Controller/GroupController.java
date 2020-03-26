@@ -125,11 +125,17 @@ public class GroupController {
         return "redirect:/gruppen1/admin/{id}";
     }
 
-    @GetMapping("/memberships")
+    @GetMapping("/memberships/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String membershipChange(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
+    public String membershipChange(KeycloakAuthenticationToken token, Model model,
+                                   @RequestParam(name = "search") Optional search,
+                                   @PathVariable("id") String groupId)
+    {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+            model.addAttribute("groupId",groupId);
+            Group group = applicationService.getGroupService().getGroups().get(groupId);
+            model.addAttribute("members",group.getMembers());
         }
         if (search.isPresent()) {
             return searchGroups(search, model);

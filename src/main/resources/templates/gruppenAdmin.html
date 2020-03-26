@@ -63,7 +63,7 @@
                         <li th:text="${member.user.username.username}">Student 1</li>
                     </ul>
                     <br>
-                    <a class="btn btn-outline-secondary" href="/gruppen1/memberships" role="button">Mitglieder verwalten</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/gruppen1/memberships/{id}(id=${groupId})}" role="button">Mitglieder verwalten</a>
                 </div>
             </div>
             <div class="collapse" id="collapseOptionen" th:method="get">
