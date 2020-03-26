@@ -2,7 +2,6 @@ package mops.gruppen1.applicationService;
 
 import mops.gruppen1.domain.*;
 import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +26,17 @@ public class CheckService {
             return validationResult;
         }
         validationResult.addError("Die Gruppe ist nicht aktiv.");
+        return validationResult;
+    }
+
+    public ValidationResult doesGroupExist(String groupId, HashMap<String, Group> groups) {
+        ValidationResult validationResult = new ValidationResult();
+        Group group = groups.get(groupId);
+        boolean doesExist = group != null;
+        if (doesExist) {
+            return validationResult;
+        }
+        validationResult.addError("Die Gruppe existiert nicht.");
         return validationResult;
     }
 
@@ -141,6 +151,9 @@ public class CheckService {
 
     private Membership getMembership(List<Membership> memberships, Group group) {
         Membership membership = null;
+      
+        if(memberships == null) return null;
+      
         for (Membership m : memberships) {
             if (m.getGroup().equals(group)) {
                 membership = m;

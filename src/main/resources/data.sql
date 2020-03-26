@@ -76,7 +76,17 @@ VALUES (
            'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 13:22:14',
            'GroupCreationEvent',
-           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","groupName": "Testgruppe2","groupCreator": "userX","groupDescription": "Lalelu Nur Der Mann Im Mond","groupType": "RESTRICTED"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","groupName": "Testgruppe2","groupCreator": "userVWX","groupDescription": "Lalelu Nur Der Mann Im Mond","groupType": "RESTRICTED"}');
+
+
+INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
+VALUES (
+           NULL,
+           'userVWX',
+           'cc5b6402-6e76-11ea-bc55-0242ac130003',
+           '2020-03-02 14:22:14',
+           'MembershipAssignmentEvent',
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userVWX","membershipType": "ADMIN"}');
 
 
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
@@ -150,15 +160,6 @@ VALUES (
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
-           'userABC',
-           'cc5b6402-6e76-11ea-bc55-0242ac130003',
-           '2020-03-02 14:22:14',
-           'MembershipAssignmentEvent',
-           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","userName": "userABC","membershipType": "VIEWER"}');
-
-INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
-VALUES (
-           NULL,
            'userVWX',
            'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 20:22:14',
@@ -189,11 +190,11 @@ VALUES (
 INSERT INTO events (id, user_name, group_id, event_time_stamp, event_type, payload)
 VALUES (
            NULL,
-           'userVWX',
+           'userABC',
            'cc5b6402-6e76-11ea-bc55-0242ac130003',
            '2020-03-02 22:22:14',
            'MemberResignmentEvent',
-           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","leavingUserName": "userVWX"}');
+           '{"groupId": "cc5b6402-6e76-11ea-bc55-0242ac130003","leavingUserName": "userABC"}');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

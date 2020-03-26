@@ -18,8 +18,8 @@
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
         <ul>
-            <li class="active"><a th:href="@{/gruppen1/memberships}">Gruppenmitgliedschaften bearbeiten</a></li>
-            <li><a th:href="@{/gruppen1/admin}">Meine aktuelle Gruppenübersicht</a></li>
+            <li class="active"><a th:href="@{/gruppen1/memberships/{id}(id=${groupId})}">Gruppenmitgliedschaften bearbeiten</a></li>
+            <li><a th:href="@{/gruppen1/admin/{id}(id=${groupId})}">Meine aktuelle Gruppenübersicht</a></li>
             <li><a th:href="@{/gruppen1/}">Meinen Gruppen</a></li>
         </ul>
     </nav>
@@ -33,21 +33,24 @@
                         <th class="h5">User</th>
                         <th class="h5">Rolle</th>
                         <th class="h5">Status</th>
-                        <th class="h5">Aktionen</th>
+                        <th class="h5">Aktive Mitglieder verwalten</th>
                     </thead>
                 </tr>
-                <tr>
-                    <td class=" h6">Student 1</td>
-                    <td class=" h6">Viewer</td>
-                    <td class=" h6">Aktiv</td>
+                <tbody th:remove="all-but-first">
+                <tr th:each="member:${members}">
+                    <td th:text="${member.user.username.username}"class="h6">Student1</td>
+                    <td th:text="${member.membershipType}" class=" h6">Viewer</td>
+                    <td th:text="${member.membershipStatus}" class="h6">Aktiv</td>
                     <td class="btn-group-lg offset-1" role="group">
-                        <button type="button" class="btn btn-success rounded-bottom">
-                            <span class="fa fa-pencil small fa-xs"></span>
-                        </button>
-                        <button type="button" class="btn btn-danger offset-1 rounded-bottom ">
-                            <span class="fa fa-trash fa-xs"></span>
-                        </button>
-                     </td>
+                        <span th:if="${T(mops.gruppen1.domain.MembershipStatus).ACTIVE}">
+                            <button type="button" class="btn btn-success rounded-bottom" title="Rolle ändern">
+                                <span class="fa fa-pencil small fa-xs"></span>
+                            </button>
+                            <button type="button" class="btn btn-danger offset-1 rounded-bottom" title="Mitglied löschen">
+                                <span class="fa fa-trash fa-xs"></span>
+                            </button>
+                        </span>
+                    </td>
                 </tr>
                 <tr>
                     <td class=" h6">Student 2</td>
@@ -75,6 +78,7 @@
                         </button>
                     </td>
                 </tr>
+                </tbody>
             </table>
         </div>
     </div>

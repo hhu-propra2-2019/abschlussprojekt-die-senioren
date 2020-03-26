@@ -36,13 +36,22 @@
                     <th scope="col">Rolle</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody th:remove="all-but-first">
 
-                <tr>
-                    <td><a href="/gruppen1/admin">Gruppe 1</a></td>
-                    <td>Info</td>
-                    <td>Restricted</td>
-                    <td>Admin</td>
+                <tr th:each="membership:${memberships}">
+                    <td>
+                        <div th:switch="${membership.membershipType}">
+                            <span th:case="${T(mops.gruppen1.domain.MembershipType).ADMIN}">
+                               <a th:href="@{/gruppen1/admin/{id}(id=${membership.group.groupId})}" th:text="${membership.group.name}"></a>
+                            </span>
+                            <span th:case="${T(mops.gruppen1.domain.MembershipType).VIEWER}">
+                                <a th:href="@{/gruppen1/viewer/{id}(id=${membership.group.groupId})}" th:text="${membership.group.name}"></a>
+                            </span>
+                        </div>
+                    </td>
+                    <td th:text="${membership.group.module?.modulename.modulename}">Keine Veranstaltung</td>
+                    <td th:text="${membership.group.groupType}"></td>
+                    <td th:text="${membership.membershipType}"></td>
                 </tr>
                 <tr>
                     <td><a href="/gruppen1/viewer">Gruppe 2</a></td>
