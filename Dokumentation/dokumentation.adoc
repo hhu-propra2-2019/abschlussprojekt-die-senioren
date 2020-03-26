@@ -249,11 +249,16 @@ Genauere Informationen zur Erstellung der Event-Objekte sind dem Wiki des GitHub
 
 ==== Gruppensuche
 
-==== Verantwortlichkeit
+===== Verantwortlichkeit
 
 Dieses Subsystem ermöglicht es, nach bestehenden Gruppen zu suchen. +
 
 //TODO Matching erklären
+
+===== Abhängigkeiten
+
+Für die Gruppensuche besteht eine Abhängigkeit zur Gruppenverwaltung, da Suchergebnisse nur aktive Gruppen auflisten soll.
+Die Gruppenverwaltung realisiert die Löschung einer Gruppe und kann somit bewirken, dass eine Gruppe nicht länger erfolgreich gesucht werden kann.
 
 ===== Schnittstellen
 //TODO Schnittstellen auf Klassenebene hinzufügen
@@ -268,7 +273,7 @@ eine Beitrittfsanfrage an eine restringierte Gruppe zu stellen. +
 ===== Abhängigkeiten
 
 Es besteht eine Abhängigkeit zur Gruppensuche, da man nur Gruppen beitreten kann, die
-zuvor über die Suche gefunden wurden. +
+zuvor über die Suche gefunden wurden.
 Darüber hinaus besteht eine Abhängigkeit zur Rollenverteilung, da restringierten Gruppen nicht ohne die Zustimmung eines Admins beigetreten werden kann.
 
 ===== Schnittstellen
