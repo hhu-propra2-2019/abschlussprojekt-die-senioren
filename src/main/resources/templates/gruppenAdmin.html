@@ -59,9 +59,8 @@
             </button>
             <div class="collapse" id="collapseMitglieder">
                 <div class="card card-body border-0">
-                    <ul>
-                        <li>Student 1</li>
-                        <li>Studentin 2</li>
+                    <ul th:each="member:${members}">
+                        <li th:text="${member.user.username.username}">Student 1</li>
                     </ul>
                     <br>
                     <a class="btn btn-outline-secondary" href="/gruppen1/memberships" role="button">Mitglieder verwalten</a>

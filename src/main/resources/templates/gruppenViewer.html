@@ -26,7 +26,6 @@
 
     <p class="h2" th:text="${groupName}"></p>
 
-
     <div class="row">
         <div class="column">
             <div class="placing">
@@ -49,7 +48,6 @@
     </div>
     <hr>
 
-
     <div class="container">
         <div class="row">
             <button class="btn btn-outline-secondary col-3" type="button" data-toggle="collapse" data-target="#collapseMitglieder" aria-expanded="false" aria-controls="collapseMitglieder">
@@ -62,9 +60,8 @@
                 <div class="row">
                     <div class="collapse" id="collapseMitglieder">
                         <div class="card card-body border-0">
-                            <ul>
-                                <li>Student 1</li>
-                                <li>Studentin 2</li>
+                            <ul th:each="member:${members}">
+                                <li th:text="${member.user.username.username}">Student 1</li>
                             </ul>
                         </div>
                     </div>

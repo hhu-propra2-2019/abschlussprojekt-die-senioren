@@ -148,6 +148,7 @@ public class GroupController {
             Group group = applicationService.getGroupService().getGroups().get(id);
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
+            model.addAttribute("members",group.getMembers());
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
@@ -166,6 +167,7 @@ public class GroupController {
             Group group = applicationService.getGroupService().getGroups().get(id);
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
+            model.addAttribute("members",group.getMembers());
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
