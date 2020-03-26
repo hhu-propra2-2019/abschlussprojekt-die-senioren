@@ -53,7 +53,7 @@
                 <button class="btn btn-outline-secondary col-3" type="button" data-toggle="collapse" data-target="#collapseMitglieder" aria-expanded="false" aria-controls="collapseMitglieder">
                     Mitglieder anzeigen
                 </button>
-            <a class="btn btn-outline-secondary col-3 offset-1" href="/gruppen1/groupRequests" role="button">offene Gruppenanfragen <span class="badge text-danger" th:text="${numberOfOpenRequests}">10</span></a>
+            <a class="btn btn-outline-secondary col-3 offset-1" th:href="@{/gruppen1/groupRequests/{id}(id=${groupId})}" role="button">offene Gruppenanfragen <span class="badge text-danger" th:text="${numberOfOpenRequests}">10</span></a>
             <button class="btn btn-outline-secondary col-3 offset-1" type="button" data-toggle="collapse" data-target="#collapseOptionen" aria-expanded="false" aria-controls="collapseOptionen">
                 Gruppenoptionen
             </button>
@@ -75,7 +75,7 @@
                                     <h4 class="card-title">Gruppe verlassen</h4>
                                     <p class="card-text">Hiermit wirst du die Gruppe verlassen und den Zugriff auf die
                                         Gruppeninhalte verlieren.</p>
-                                    <button class="btn btn-danger" type="button">Verlassen</button>
+                                    <button class="btn btn-danger"  type="button">Verlassen</button>
                                 </div>
                             </div>
                         </div>

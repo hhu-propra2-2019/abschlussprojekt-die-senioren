@@ -17,8 +17,8 @@
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <ul>
-            <li class="active"><a th:href="@{/gruppen1/groupRequests}">Gruppenanfragen</a></li>
-            <li><a th:href="@{/gruppen1/admin}">Meine aktuelle Gruppenübersicht</a></li>
+            <li class="active"><a th:href="@{/gruppen1/groupRequests/{id}(id=${groupId})}">Gruppenanfragen bearbeiten</a></li>
+            <li><a th:href="@{/gruppen1/admin/{id}(id=${groupId})}">Meine aktuelle Gruppenübersicht</a></li>
             <li><a th:href="@{/gruppen1/}">Meine Gruppen</a></li>
         </ul>
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
@@ -35,18 +35,19 @@
                     <th class="h5">Aktionen</th>
                     </thead>
                 </tr>
-                <tr>
-                    <td class=" h6">Student 1</td>
-                    <td class="text col-6">Hallo, ich bin der Willy und ich bin ein sehr lieber Kerl.
-                        Eure Gruppe hat mich von Anfang an sehr sehr begeistert und ich würde es wirklich lieben,
-                    wenn ich dieser beitreten darf. Fancy Grüße, der Willy <3.</td>
+                <tbody th:remove="all-but-first">
+                <tr th:each="member:${members}">
+                    <td class="h6" th:text="${member.user.username.username}">Student 1</td>
+                    <td class="text">Hallo, ich bin der Willy.<3</td>
                     <td class="btn-group-lg offset-1" role="group">
-                        <button type="button" class="btn btn-success rounded-bottom">
-                            <span class="fa fa-check fa-xs"></span>
-                        </button>
-                        <button type="button" class="btn btn-danger offset-1 rounded-bottom ">
-                            <span class="fa fa-remove fa-xs"></span>
-                        </button>
+                        <span>
+                            <button type="button" class="btn btn-success rounded-bottom" title="Anfrage annehmen">
+                                <span class="fa fa-check fa-xs"></span>
+                            </button>
+                            <button type="button" class="btn btn-danger offset-1 rounded-bottom" title="Anfrage ablehnen">
+                                <span class="fa fa-remove fa-xs"></span>
+                            </button>
+                        </span>
                     </td>
                 </tr>
                 <tr>
@@ -73,6 +74,7 @@
                         </button>
                     </td>
                 </tr>
+                </tbody>
             </table>
         </div>
     </div>

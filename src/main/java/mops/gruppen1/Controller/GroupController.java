@@ -202,11 +202,17 @@ public class GroupController {
     }
 
 
-    @GetMapping("/groupRequests")
+    @GetMapping("/groupRequests/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupRequests(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
+    public String groupRequests(KeycloakAuthenticationToken token, Model model,
+                                @RequestParam(name = "search") Optional search,
+                                @PathVariable("id") String groupId)
+    {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
+            model.addAttribute("groupId",groupId);
+            Group group = applicationService.getGroupService().getGroups().get(groupId);
+            model.addAttribute("members",applicationService.getPendingRequestOfGroup(groupId));
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
