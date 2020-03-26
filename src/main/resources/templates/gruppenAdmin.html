@@ -27,22 +27,22 @@
     <p class="h2" th:text="${groupName}"></p>
 
     <div class="row">
-        <div class="column">
+    <div class="column">
             <div class="placing">
                 <img th:src="@{/img/dylan-gillis-KdeqA3aTnBY-unsplash.jpg}">
-                <a class="btn btn-light" href="/foren/mygroup" role="button">zum Gruppenforum</a>
+                <a class="btn btn-light" th:href="@{/foren}" role="button">Foren</a>
             </div>
         </div>
         <div class="column">
             <div class="placing">
                 <img th:src="@{/img/jamie-taylor--9C3TMXwQjQ-unsplash.jpg}">
-                <a class="btn btn-light" href="/materialsammlung/mygroup" role="button">zum Gruppenmaterial</a>
+                <a class="btn btn-light" th:href="@{/material1/group/{id}(id=${groupId})}" role="button">Gruppenmaterial</a>
             </div>
         </div>
         <div class="column">
             <div class="placing">
                 <img th:src="@{/img/aaron-burden-LNwn_A9RGHo-unsplash.jpg}">
-                <a class="btn btn-light" href="/terminfindung/mygroup" role="button">zu den Gruppenabgaben</a>
+                <a class="btn btn-light" th:href="@{/abgaben/group/{id}(id=${groupId})}" role="button">Gruppenabgaben</a>
             </div>
         </div>
     </div>
@@ -111,13 +111,6 @@
                     <span th:text="${groupDescription}"></span>
                     <br>
                     <br>
-                    <!---<div class="form-group">
-                        <form class="form" method="post" th:action="@{/gruppen1/admin/${groupId}}">
-                            <button  class="btn btn-outline-secondary" type="submit"
-                                 th:value="${groupId}" th:name="id">Eigenschaften anpassen
-                            </button>
-                        </form>
-                    </div>--->
                     <a class="btn btn-outline-secondary" th:href="@{/gruppen1/description/{id}(id=${groupId})}" th:type="submit">Gruppenmerkmale anpassen</a>
             </div>
         </div>

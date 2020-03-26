@@ -17,7 +17,7 @@
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
         <ul>
-            <li class="active"><a th:href="@{/gruppen1/viewer/{id}(id=${groupId}}">Aktuelle Gruppe</a></li>
+            <li class="active"><a th:href="@{/gruppen1/viewer/{id}(id=${groupId})}">Aktuelle Gruppe</a></li>
             <li><a th:href="@{/gruppen1/}">Meine Gruppen</a></li>
         </ul>
     </nav>
@@ -26,27 +26,29 @@
 
     <p class="h2" th:text="${groupName}"></p>
 
+
     <div class="row">
         <div class="column">
             <div class="placing">
                 <img th:src="@{/img/dylan-gillis-KdeqA3aTnBY-unsplash.jpg}">
-                <a class="btn btn-light" href="/foren/mygroup" role="button">zum Gruppenforum</a>
+                <a class="btn btn-light" th:href="@{/foren}" role="button">Foren</a>
             </div>
         </div>
         <div class="column">
             <div class="placing">
                 <img th:src="@{/img/jamie-taylor--9C3TMXwQjQ-unsplash.jpg}">
-                <a class="btn btn-light" href="/materialsammlung/mygroup" role="button">zum Gruppenmaterial</a>
+                <a class="btn btn-light" th:href="@{/material1/group/{id}(id=${groupId})}" role="button">Gruppenmaterial</a>
             </div>
         </div>
         <div class="column">
             <div class="placing">
                 <img th:src="@{/img/aaron-burden-LNwn_A9RGHo-unsplash.jpg}">
-                <a class="btn btn-light" href="/terminfindung/mygroup" role="button">zu den Gruppenabgaben</a>
+                <a class="btn btn-light" th:href="@{/abgaben/group/{id}(id=${groupId})}" role="button">Gruppenabgaben</a>
             </div>
         </div>
     </div>
     <hr>
+
 
     <div class="container">
         <div class="row">
