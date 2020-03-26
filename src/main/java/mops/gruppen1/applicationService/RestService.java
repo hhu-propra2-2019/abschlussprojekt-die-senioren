@@ -39,7 +39,8 @@ public class RestService {
      * @return
      */
     public boolean isUserInGroup(String username, String groupId) {
-        return groupService.isUserMemberOfGroup(username, groupId);
+        ValidationResult validationResult = groupService.isUserMemberOfGroup(username, groupId);
+        return validationResult.isValid();
     }
 
 
@@ -54,7 +55,8 @@ public class RestService {
         // When user is not a member of the group, return false
         if(!isUserInGroup(username, groupId)) return false;
 
-        return groupService.isUserAdminInGroup(username, groupId);
+        ValidationResult validationResult = groupService.isUserAdminInGroup(username, groupId);
+        return validationResult.isValid();
     }
 
     /**
@@ -105,7 +107,8 @@ public class RestService {
     }
 
     public boolean doesActiveGroupExist(String groupId) {
-        return groupService.isGroupActive(groupId);
+        ValidationResult validationResult = groupService.isGroupActive(groupId);
+        return validationResult.isValid();
     }
 
 
