@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.AllArgsConstructor;
 import mops.gruppen1.applicationService.ApplicationService;
+import mops.gruppen1.applicationService.ValidationResult;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
 import mops.gruppen1.domain.Username;
@@ -94,19 +95,12 @@ public class GroupController {
             //account - Name gleich Username
 
             try {
-                InputStream inputStream = file.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                List<Username> csvMembers = new CsvToBeanBuilder(reader)
-                        .withType(Username.class)
-                        .withIgnoreLeadingWhiteSpace(true)
-                        .build()
-                        .parse();
-
-                members = csvMembers.stream().map(user -> user.toString()).collect(Collectors.toList());
-
+                if (!file.isEmpty()){
+                    members = applicationService.uploadCsv(file, members);
+                }
             } catch (Exception e) {
-                model.addAttribute("message", "Fehler beim Upload");
+                model.addAttribute("message", e.getMessage());
+                return "redirect:/gruppen1/erstellen";
             }
             applicationService.createGroup(groupDescription,groupName,module,account.getName(),groupType,members);
          }
