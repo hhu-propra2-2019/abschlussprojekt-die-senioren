@@ -35,8 +35,8 @@ public class GroupController {
      */
     private Account createAccountFromPrincipal(KeycloakAuthenticationToken token) {
         KeycloakPrincipal principal = (KeycloakPrincipal) token.getPrincipal();
-        if (!applicationService.getGroupService().getUsers().containsKey(token.getName())) {
-            applicationService.getGroupService().createUser(token.getName());
+        if (!applicationService.getAllUsers().containsKey(token.getName())) {
+            applicationService.createUser(token.getName());
         }
         return new Account(
                 principal.getName(),
@@ -58,10 +58,6 @@ public class GroupController {
     public String groupCreation(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
-            //TODO Brauchen hier Methoden zum fetchen aller User und Module
-            //TODO Informieren, wie CSV Einbindung funktioniert
-            //Get all users from user - Hashmap
-            //model.addAttribute("allUsers",groupService.getUsers().values());
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
@@ -100,9 +96,10 @@ public class GroupController {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
             model.addAttribute("groupId",id);
-            model.addAttribute("placeholder_groupname",applicationService.getGroupService().getGroups().get(id).getName().toString());
-            model.addAttribute("placeholder_groupdescription",applicationService.getGroupService().getGroups().get(id).getDescription().toString());
-            model.addAttribute("placeholder_grouptype",applicationService.getGroupService().getGroups().get(id).getGroupType().toString());
+            Group group = applicationService.getGroup(id);
+            model.addAttribute("placeholder_groupname",group.getName().toString());
+            model.addAttribute("placeholder_groupdescription",group.getDescription().toString());
+            model.addAttribute("placeholder_grouptype",group.getGroupType().toString());
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
@@ -171,7 +168,7 @@ public class GroupController {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
             model.addAttribute("groupId",id);
-            Group group = applicationService.getGroupService().getGroups().get(id);
+            Group group = applicationService.getGroup(id);
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
         }
@@ -201,7 +198,7 @@ public class GroupController {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
             model.addAttribute("groupId",id);
-            Group group = applicationService.getGroupService().getGroups().get(id);
+            Group group = applicationService.getGroup(id);
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
             model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
