@@ -404,5 +404,33 @@ letzten EventId eine Änderung stattgefunden hat. Dies liefert eine sehr viel ef
 
 == Risiken
 
-//TODO Risiken absprechen
+Die folgenden Risiken wurden zu Beginn des Vorhabens identifiziert. 
+Sie beeinflussten die Planung über die gesamte Projektdauer hinweg. Seit Abschluss der vierten Woche werden sie beherrscht. 
+
+==== *Inkompatibilitäten und Projektverzögerung durch Aufgabenabgrenzung und Schnittstellendefinitionen zwischen Teilsystemen*
+
+*Risikobeschreibung:*
+
+Zu Beginn des Vorhabens gibt es lediglich grobe Konzepte der einzelnen Teilsysteme. Die genaue Abgrenzung der Aufgabenbereiche untereinander ist Teil der ersten Projektphase.
+Somit bedarf es eines hohen Maßes an Kommunikations- und Abstimmungsaufwand, um Inkompatibilitäten zwischen den einzelnen Teilsystemen zu verhindern.
+Da die Definition der Rest-API maßgeblich von der Konzeption und Architektur der Teilsysteme abhängt, 
+diese aber auch beeinflusst, ist eine kontinuierliche Verfeinerung über den Verlauf des Projektes unabdingbar.  
+
+*Risikominderung:*
+
+Durch kontinuierlichen und offenen Austausch mit anderen Projektgruppen, sowie einer agilen Arbeitsweise, können die Schnittstellen an sich ändernde Anforderungen angepasst werden.
+Die Transparenz der Projektrepositories und die Verfügbarkeit von unterschiedlichen Kommunikationskanälen (Skype, Rocketchat,..) erleichtert dies.
+
+
+==== *Einschränkung der Systemfunktionalitäten durch Ausfall des Gruppensystems*    
+
+*Risikobeschreibung:*
+
+Aufgrund der Vielzahl von Abhängigkeiten zum Gruppenfindungssystem, hat dieses eine zentrale Funktion innerhalb von Mops.
+Ein Ausfall des Teilsystems, könnte somit trotz der angestrebten Architektur (Self-Contained-Systems) die Gesamtfunktionalität von Mops gefährden.
+
+*Risikominderung:*
+
+Gruppenzuordnungen können in den abhängigen Teilsystemen zwischengespeichert werden und durch Abfragen von Änderungen synchronisiert werden.
+Ein Ausfall birgt somit nur die Gefahr einer zwischenzeitlichen Abweichung des Datenbestands.
 
