@@ -124,13 +124,13 @@ public class CheckService {
         return validationResult;
     }
 
-    public ValidationResult activeAdminRemains(String userName, String groupId,
+    public ValidationResult activeAdminRemains(String modifiedBy, String modifiedUser, String groupId,
                                                HashMap<String, List<Membership>> groupToMembers) {
         ValidationResult validationResult = new ValidationResult();
         List<Membership> memberships = groupToMembers.get(groupId);
-        Membership membership = memberships.stream().filter(m -> m.getUser().getUsername().toString().equals(userName)).findFirst().orElse(null);
+        Membership membership = memberships.stream().filter(m -> m.getUser().getUsername().toString().equals(modifiedBy)).findFirst().orElse(null);
         boolean isAdmin = membership.getMembershipType().equals(MembershipType.ADMIN);
-        if (isAdmin) {
+        if (isAdmin && modifiedBy.equals(modifiedUser)) {
             long adminCount = memberships.stream().filter(m -> m.getMembershipType().equals(MembershipType.ADMIN)).count();
             if (adminCount < 2) {
                 validationResult.addError("Es muss zuerst ein anderer Administrator bestimmt werden.");

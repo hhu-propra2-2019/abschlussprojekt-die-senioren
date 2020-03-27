@@ -226,7 +226,7 @@ public class GroupService {
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMember(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
-        validationResults.add(checkService.activeAdminRemains(userName, groupId, groupToMembers));
+        validationResults.add(checkService.activeAdminRemains(userName, userName, groupId, groupToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
@@ -277,7 +277,7 @@ public class GroupService {
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(deletedBy, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isAdmin(deletedBy, groupId, groups, users, userToMembers));
-        validationResults.add(checkService.activeAdminRemains(deletedBy, groupId, groupToMembers));
+        validationResults.add(checkService.activeAdminRemains(deletedBy, userName, groupId, groupToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
@@ -304,7 +304,7 @@ public class GroupService {
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(updatedBy, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers));
-        validationResults.add(checkService.activeAdminRemains(updatedBy, groupId, groupToMembers));
+        validationResults.add(checkService.activeAdminRemains(updatedBy, userName, groupId, groupToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {

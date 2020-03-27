@@ -1,5 +1,8 @@
 package mops.gruppen1.applicationService;
 
+import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.events.TestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -15,12 +18,20 @@ import static org.mockito.Mockito.when;
 class GroupServiceTest {
 
     GroupService groupService;
+    TestSetup testSetup;
 
     @BeforeEach
     public void setUp() {
+        testSetup = new TestSetup();
         EventService eventServiceMock = mock(EventService.class);
         CheckService checkServiceMock = mock(CheckService.class);
-        this.groupService = new GroupService(eventServiceMock, checkServiceMock);
+        this.groupService = new GroupService(
+                eventServiceMock,
+                checkServiceMock,
+                testSetup.groupToMembers, testSetup.userToMembers,
+                testSetup.groups, testSetup.users,
+                testSetup.groupThree.getGroupId().toString()
+        );
     }
 
     @Tag("GroupTest")
@@ -326,7 +337,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isAdmin(updatedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
-        when(groupService.checkService.activeAdminRemains(updatedBy, groupId, groupService.getGroupToMembers()))
+        when(groupService.checkService.activeAdminRemains(updatedBy, userName, groupId, groupService.getGroupToMembers()))
                 .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
@@ -361,7 +372,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isAdmin(updatedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
-        when(groupService.checkService.activeAdminRemains(updatedBy, groupId, groupService.getGroupToMembers()))
+        when(groupService.checkService.activeAdminRemains(updatedBy, userName, groupId, groupService.getGroupToMembers()))
                 .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
@@ -394,7 +405,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isAdmin(deletedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
-        when(groupService.checkService.activeAdminRemains(deletedBy, groupId, groupService.getGroupToMembers()))
+        when(groupService.checkService.activeAdminRemains(deletedBy, userName, groupId, groupService.getGroupToMembers()))
                 .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
@@ -428,7 +439,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isAdmin(deletedBy, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
-        when(groupService.checkService.activeAdminRemains(deletedBy, groupId, groupService.getGroupToMembers()))
+        when(groupService.checkService.activeAdminRemains(deletedBy, userName, groupId, groupService.getGroupToMembers()))
                 .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
@@ -458,7 +469,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
-        when(groupService.checkService.activeAdminRemains(userName, groupId, groupService.getGroupToMembers()))
+        when(groupService.checkService.activeAdminRemains(userName, userName, groupId, groupService.getGroupToMembers()))
                 .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
@@ -489,7 +500,7 @@ class GroupServiceTest {
                 groupService.getUserToMembers())).thenReturn(validationResult2);
         when(groupService.checkService.isMembershipActive(userName, groupId, groupService.getGroups(), groupService.getUsers(),
                 groupService.getUserToMembers())).thenReturn(validationResult3);
-        when(groupService.checkService.activeAdminRemains(userName, groupId, groupService.getGroupToMembers()))
+        when(groupService.checkService.activeAdminRemains(userName, userName, groupId, groupService.getGroupToMembers()))
                 .thenReturn(validationResult4);
 
         GroupService groupService1 = Mockito.spy(groupService);
@@ -686,5 +697,128 @@ class GroupServiceTest {
         assertThat(validationResult.isValid()).isFalse();
         assertThat(validationResult.getErrorMessages().get(0)).isEqualTo("Das ist. ein.");
         assertThat(validationResult.getErrorMessages().get(1)).isEqualTo("Test");
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testGetActiveMembersOfGroupWithOneActiveMember() {
+        // Arrange
+        String groupId = testSetup.groupThree.getGroupId().toString();
+
+        // Act
+        List<Membership> activeMembersOfGroup = groupService.getActiveMembersOfGroup(groupId);
+
+        //Assert
+        assertThat(activeMembersOfGroup).hasSize(1);
+        assertThat(activeMembersOfGroup.get(0).getUser()).isEqualTo(testSetup.users.get("Diego"));
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testGetActiveMembersOfGroupWithTwoActiveMembers() {
+        // Arrange
+        String groupId = testSetup.groupOne.getGroupId().toString();
+
+        // Act
+        List<Membership> activeMembersOfGroup = groupService.getActiveMembersOfGroup(groupId);
+
+        //Assert
+        assertThat(activeMembersOfGroup).hasSize(2);
+        assertThat(activeMembersOfGroup.get(0).getUser()).isEqualTo(testSetup.users.get("Max"));
+        assertThat(activeMembersOfGroup.get(1).getUser()).isEqualTo(testSetup.users.get("Stela"));
+
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testgetGroupsWhereUserIsActiveWithOneMembership() {
+        // Arrange
+        String userName = "Diego";
+
+        // Act
+        List<Group> groupsWhereUserIsActive = groupService.getGroupsWhereUserIsActive(userName);
+
+        // Assert
+        assertThat(groupsWhereUserIsActive).hasSize(1);
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testgetGroupsWhereUserIsActiveWithZeroMemberships() {
+        // Arrange
+        String userName = "Milten";
+
+        // Act
+        List<Group> groupsWhereUserIsActive = groupService.getGroupsWhereUserIsActive(userName);
+
+        // Assert
+        assertThat(groupsWhereUserIsActive).hasSize(0);
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testgetPendingMembershipsWithOnePendingMembership() {
+        // Arrange
+        String groupId = testSetup.groupThree.getGroupId().toString();
+        Membership milten = testSetup.memberships.get(5);
+
+        // Act
+        List<Membership> pendingMemberships = groupService.getPendingMemberships(groupId);
+
+        // Assert
+        assertThat(pendingMemberships.get(0)).isEqualTo(milten);
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testgetPendingMembershipsWithZeroPendingMemberships() {
+        // Arrange
+        String groupId = testSetup.groupOne.getGroupId().toString();
+
+        // Act
+        List<Membership> pendingMemberships = groupService.getPendingMemberships(groupId);
+
+        // Assert
+        assertThat(pendingMemberships).isEmpty();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testCountPendingRequestOfGroupWithOnePendingMembership() {
+        // Arrange
+        String groupId = testSetup.groupThree.getGroupId().toString();
+
+        // Act
+        Long countPendingRequestOfGroup = groupService.countPendingRequestOfGroup(groupId);
+
+        // Assert
+        assertThat(countPendingRequestOfGroup).isEqualTo(1);
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testCountPendingRequestOfGroupWithZeroPendingMembership() {
+        // Arrange
+        String groupId = testSetup.groupOne.getGroupId().toString();
+
+        // Act
+        Long countPendingRequestOfGroup = groupService.countPendingRequestOfGroup(groupId);
+
+        // Assert
+        assertThat(countPendingRequestOfGroup).isEqualTo(0);
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testGetActiveMembershipsOfUserWithOneMembership() {
+        // Arrange
+        String userName = "Stela";
+
+        // Act
+        List<Membership> activeMembershipsOfUser = groupService.getActiveMembershipsOfUser(userName);
+
+        // Assert
+        assertThat(activeMembershipsOfUser).hasSize(1);
+        assertThat(activeMembershipsOfUser.get(0)).isEqualTo(testSetup.memberships.get(1));
     }
 }
