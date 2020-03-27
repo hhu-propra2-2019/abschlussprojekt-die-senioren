@@ -19,8 +19,12 @@ import java.util.List;
 @Service
 @Getter
 public class ApplicationService {
-    @Autowired
     public GroupService groupService;
+
+    @Autowired
+    public ApplicationService(GroupService groupService) {
+        this.groupService = groupService;
+    }
 
     /**
      * method returns all members belonging to the requested group
