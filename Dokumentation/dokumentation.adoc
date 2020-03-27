@@ -118,7 +118,7 @@ Die Pfeile stellen fachliche Abhängigkeiten der Subsysteme untereinander
 dar (“x -> y” für “x ist abhängig von y”). Die Quadrate auf der Membran des Systems sind
 Interaktionspunkte mit externen Systemen.
 
-image::bausteinsicht.png[]
+image::bausteinsicht_diagramm.png[]
 
 |===
 |*Subsystem*|*Kurzbeschreibung*
