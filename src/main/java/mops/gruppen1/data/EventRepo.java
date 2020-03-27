@@ -12,6 +12,6 @@ import java.util.List;
 public interface EventRepo extends PagingAndSortingRepository<EventDTO, Long> {
     List<EventIdOnly> findTopByOrderByIdDesc();
 
-    List<GroupIdOnly> findAllByIdAfter(Long id);
+    List<GroupIdOnly> findDistinctByIdAfter(Long id);
 
 }
