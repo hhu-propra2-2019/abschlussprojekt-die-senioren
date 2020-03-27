@@ -44,7 +44,6 @@
                     <td class="h6" th:text="${group.groupType}">Public</td>
                     <td class="h6" th:text="${group.description.description}">Gruppenbeschreibung I</td>
                     <td>
-
                         <div th:switch="${group.groupType}">
                             <span th:case="${T(mops.gruppen1.domain.GroupType).PUBLIC}">
                                     <form class="form" method="post" th:action="@{/gruppen1/searchResults}">

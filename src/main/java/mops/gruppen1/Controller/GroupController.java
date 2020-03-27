@@ -35,18 +35,12 @@ public class GroupController {
      */
     private Account createAccountFromPrincipal(KeycloakAuthenticationToken token) {
         KeycloakPrincipal principal = (KeycloakPrincipal) token.getPrincipal();
-        addNotExistingUserToSystem(token);
+        applicationService.createUser(token.getName());
         return new Account(
                 principal.getName(),
                 principal.getKeycloakSecurityContext().getIdToken().getEmail(),
                 null,
                 token.getAccount().getRoles());
-    }
-
-    private void addNotExistingUserToSystem(KeycloakAuthenticationToken token) {
-        if (!applicationService.getAllUsers().containsKey(token.getName())) {
-            applicationService.createUser(token.getName());
-        }
     }
 
     private String searchGroups(Optional search, Model model) {
@@ -343,25 +337,17 @@ public class GroupController {
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
-        ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
-
-        if (validationResult.isValid()) {
-            model.addAttribute("groupId", groupId);
-            return "requestDescription";
-        }
-        return "redirect:/gruppen1/";
+        model.addAttribute("groupId", groupId);
+        return "requestDescription";
     }
 
     @PostMapping("/requestMessage/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String sendRequestMessage(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(value = "message") String message,
-                                   @PathVariable("id") String groupId){
-        ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
+                                   @PathVariable("id") String groupId) {
 
-        if (validationResult.isValid()) {
-            applicationService.joinGroup(token.getName(), groupId, message);
-        }
+        applicationService.joinGroup(token.getName(), groupId, message);
         return "redirect:/gruppen1/";
     }
 
