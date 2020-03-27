@@ -160,7 +160,7 @@ public class GroupController {
                 applicationService.updateMembership(username, groupId, account.getName());
             }
         }
-        return "redirect:/gruppen1/admin/{id}";
+        return "redirect:/gruppen1/memberships/{id}";
     }
 
     @GetMapping("/viewer/{id}")
@@ -174,6 +174,8 @@ public class GroupController {
             Group group = applicationService.getGroupService().getGroups().get(id);
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
+        }
+        if (search.isPresent()) {
             return searchGroups(search, model);
         }
         return "gruppenViewer";

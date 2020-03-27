@@ -18,7 +18,7 @@
     <div class="container-sm">
         <div class="flex-row">
             <p class="h3 offset-sm-0">Meine Gruppen <span>
-                <a class="btn btn-secondary btn-sm offset-sm-1"  aria-pressed="true" role="button"
+                <a class="btn btn-secondary btn-sm"  aria-pressed="true" role="button"
                    th:href="@{/gruppen1/erstellen}">Gruppe erstellen</a>
                 </span>
             </p>
@@ -30,10 +30,10 @@
             <table class="table w-auto table-bordered">
                 <thead class="thead-light">
                 <tr>
-                    <th scope="col">Gruppenname</th>
-                    <th scope="col">Veranstaltung</th>
-                    <th scope="col">Zugriff</th>
-                    <th scope="col">Rolle</th>
+                    <th style="width: 30%"  scope="col">Gruppenname</th>
+                    <th style="width: 30%"  scope="col">Veranstaltung</th>
+                    <th style="width: 20%"  scope="col">Zugriff</th>
+                    <th style="width: 20%"  scope="col">Rolle</th>
                 </tr>
                 </thead>
                 <tbody th:remove="all-but-first">
@@ -51,7 +51,7 @@
                     </td>
                     <td class="w-30" th:text="${membership.group.module?.modulename.modulename}">Keine Veranstaltung</td>
                     <td class="w-20" th:text="${membership.group.groupType}"></td>
-                    <td class="w-20"th:text="${membership.membershipType}"></td>
+                    <td class="w-20" th:text="${membership.membershipType}"></td>
                 </tr>
                 <tr>
                     <td><a href="/gruppen1/viewer">Gruppe 2</a></td>
