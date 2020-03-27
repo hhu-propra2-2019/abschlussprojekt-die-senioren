@@ -113,8 +113,6 @@ Der folgende Abschnitt zeigt die Zerlegung des Gruppenbildungssystems in einzeln
 Module. Dabei wird die Sicht beschränkt auf die erste Zerlegungsebene, welche die
 Subsysteme inklusive ihrer Schnittstellen darstellt.
 
-=== Ebene 1
-
 Folgende Abbildung zeigt die Zerlegung des Gruppenbildungssystems in Subsysteme.
 Die Pfeile stellen fachliche Abhängigkeiten der Subsysteme untereinander
 dar (“x -> y” für “x ist abhängig von y”). Die Quadrate auf der Membran des Systems sind
