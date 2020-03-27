@@ -22,8 +22,12 @@ import java.util.stream.Stream;
 @Service
 @Getter
 public class ApplicationService {
-    @Autowired
     public GroupService groupService;
+
+    @Autowired
+    public ApplicationService(GroupService groupService) {
+        this.groupService = groupService;
+    }
 
     /**
      * method returns all members belonging to the requested group
@@ -324,7 +328,11 @@ public class ApplicationService {
      * @return ValidationResult that tells whether the user was created successfully
      */
     public ValidationResult createUser(String userName) {
-        ValidationResult validationResult = groupService.createUser(userName);
+        ValidationResult validationResult = new ValidationResult();
+        boolean isValid = groupService.doesUserExist(userName).isValid();
+        if (isValid) {
+            validationResult = groupService.createUser(userName);
+        }
         return validationResult;
     }
 
