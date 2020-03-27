@@ -317,29 +317,24 @@ Dieses Subsystem stellt eine Aufteilung aller Gruppenmitglieder in ADMIN oder VI
 Mitglieder vertreten, die entweder die Rolle eines Admin einnehmen, oder die Rolle eines Viewers. Das Subsystem regelt nur die Zuordnung
 zu den beiden Rollen. Andere Subsysteme, die eine Abhängigkeit zur Rollenverteilung haben, entscheiden selbst, welche Berechtigungen mit der
 entsprechenden Rolle eines Users verbunden sind. In die Verantwortlichkeit dieses Subsystems fällt außerdem die Änderung der Rolle eines Users.
+Das Subsystem berücksichtigt, dass die Rollenverteilung innerhalb einer Gruppe dynamisch ist.
+So ist es möglich, dass ein Admin im Lebenszyklus einer Gruppe Viewer zu Admins und Admins zu Viewern einstufen kann.
 
 ===== Abhängigkeiten
 Das Subsystem hat keine direkten Abhängigkeiten.
 
 ===== Schnittstellen
-Das Subsystem der Rollenverteilung stellt seine Funktionalität über Java-Klassen der Domain-Ebene bereit. Relevante Checks
-bezüglich der Rollenzuordnung eines Users sind auf der Service-Ebene zu finden.
+Das Subsystem der Rollenverteilung stellt seine Funktionalität über folgende Klassen im Domänen-Modell bereit:
 
 * _mops.gruppen1.domain/MembershipType_ (Enum)
 ** Definiert die Werte ADMIN und VIEWER als mögliche Rollen innerhalb einer Gruppe
 * _mops.gruppen1.domain/Membership_
-** Die Klasse Membership.java besitzt einen User, eine Gruppe und einen MembershipType. Somit wird hier gespeichert, in welcher
+** Die Klasse Membership besitzt einen User, eine Gruppe und einen MembershipType. Somit wird hier gespeichert, in welcher
 Gruppe ein User welche Rolle (MembershipType.ADMIN oder MembershipType.VIEWER) hat.
 Die Methode setMembershipType setzt den MembershipType von VIEWER auf ADMIN (oder umgekehrt).
 * _mops.gruppen1.domain.events/MembershipUpdateEvent_
-** Falls ein Viewer zu einem Admin gemacht werden soll (oder umgekehrt), so muss dies durch einen anderen Admin erfolgen (dies wird
-anhand von isAdmin geprüft). Hierbei wird ein MembershipUpdateEvent angestoßen.
-Die execute-Method im MembershipUpdateEvent sorgt dafür, dass der MembershipType von VIEWER auf ADMIN gesetzt wird. Ist ein User
+** Die *execute*-Methode der Klasse MembershipUpdateEvent sorgt dafür, dass der MembershipType von VIEWER auf ADMIN gesetzt wird. Ist ein User
 vor der Änderung Admin, so wird der MembershipType von ADMIN auf VIEWER gesetzt.
-* _mops.gruppen1.applicationService/CheckService_
-** Die Klasse CheckService beinhaltet zwei Check-Methoden, die zum einen Überprüfen, ob ein User Admin ist oder nicht (isAdmin) und
-zum anderen Rückmeldung darüber geben, ob ein Admin der einzige Admin der entsprechenden Gruppe ist (activeAdminRemains). Auf diese
-Weise kann später sichergestellt werden, dass immer mindestens ein aktiver Admin in einer Gruppe existiert.
 
 
 == Konzepte
