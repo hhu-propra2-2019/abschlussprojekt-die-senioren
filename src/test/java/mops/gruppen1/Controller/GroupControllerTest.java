@@ -146,7 +146,6 @@ class GroupControllerTest {
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Description Change View einer Gruppe.")
     @Test
-    @Disabled("Needs a specific Group ID - not ready yet")
     void testChangeGroupDescription() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
@@ -159,7 +158,7 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/description"))
+        mvc.perform(get("/gruppen1/description/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeDescription"));
     }
