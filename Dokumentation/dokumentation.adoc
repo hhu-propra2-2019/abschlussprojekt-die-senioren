@@ -123,11 +123,13 @@ image::bausteinsicht.png[]
 |===
 |*Subsystem*|*Kurzbeschreibung*
 |Gruppenerstellung|Realisiert die Erstellung einer Gruppe.
-|Gruppenbeitritt|Realisiert den Gruppenbeitritt eines Users.
 |Gruppenansicht|Realisiert die Ansicht einer Gruppe. Dabei wird zwischen der Viewer-Sicht (einfacher User)
 und der Admin-Sicht (User mit erweiterten Rechten) differenziert.
+|Gruppenverwaltung|Realisiert die Anpassung von Gruppen und Gruppeninhalten.
 |Gruppensuche|Realisiert die Suche einer Gruppe. Dabei können sowohl öffentliche, als auch
 restringierte (zugangsbeschränkte) Gruppen gesucht werden.
+|Gruppenbeitritt|Realisiert den Gruppenbeitritt eines Users.
+|Rollenverteilung|Realisiert die Zuweisung von Gruppenmitgliedern zu den für sie vorgesehen Rollen
 |===
 
 === Blackbox-Sichten der Subsysteme
