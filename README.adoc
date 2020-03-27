@@ -39,8 +39,8 @@ Wesentliche Features sind:
 
 == Hinweise zu Dokumentationen
 
-* Als *primäre* Referenz sollte die
-https://github.com/hhu-propra2/abschlussprojekt-die-senioren/blob/168_Dokumentation/Dokumentation/dokumentation.adoc[Dokumentation]
+* Als *primäre* Referenz für die Funktionalität der Anwendung dient die
+https://github.com/hhu-propra2/abschlussprojekt-die-senioren/blob/master/Dokumentation/dokumentation.adoc[Dokumentation].
 * Als *sekundäre* Referenz kann das
 https://github.com/hhu-propra2/abschlussprojekt-die-senioren/wiki/[Wiki] herangezogen werden.
 Im Wiki befinden sich verschiedenste Dokumentationen zu einzelnen Aspekten des Projekts.
