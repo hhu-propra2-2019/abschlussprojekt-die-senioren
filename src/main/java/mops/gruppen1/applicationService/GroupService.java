@@ -502,4 +502,9 @@ public class GroupService {
         ValidationResult validationResult = collectCheck(validationResults);
         return validationResult;
     }
+
+    public ValidationResult doesUserExist(String userName) {
+        ValidationResult validationResult = checkService.doesUserExist(userName, users);
+        return  validationResult;
+    }
 }
