@@ -189,6 +189,7 @@ public class GroupController {
                 model.addAttribute("account", createAccountFromPrincipal(token));
                 model.addAttribute("groupId", id);
                 Group group = applicationService.getGroup(id);
+                model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
                 model.addAttribute("groupDescription", group.getDescription().toString());
                 model.addAttribute("groupName", group.getName().toString());
             }
