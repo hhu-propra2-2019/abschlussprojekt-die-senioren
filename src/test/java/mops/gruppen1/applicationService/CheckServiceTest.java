@@ -702,7 +702,7 @@ class CheckServiceTest {
         String groupId = testSetup.groupOne.getGroupId().toString();
 
         //act
-        ValidationResult validationResult = checkService.activeAdminRemains(userName, groupId, testSetup.groupToMembers);
+        ValidationResult validationResult = checkService.activeAdminRemains(userName, userName, groupId, testSetup.groupToMembers);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
@@ -719,7 +719,7 @@ class CheckServiceTest {
         memberStela.setMembershipType(MembershipType.ADMIN);
 
         //act
-        ValidationResult validationResult = checkService.activeAdminRemains(userName, groupId, testSetup.groupToMembers);
+        ValidationResult validationResult = checkService.activeAdminRemains(userName, userName, groupId, testSetup.groupToMembers);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();
