@@ -58,10 +58,6 @@ public class GroupController {
     public String groupCreation(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
-            //TODO Brauchen hier Methoden zum fetchen aller User und Module
-            //TODO Informieren, wie CSV Einbindung funktioniert
-            //Get all users from user - Hashmap
-            //model.addAttribute("allUsers",groupService.getUsers().values());
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
@@ -171,7 +167,7 @@ public class GroupController {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
             model.addAttribute("groupId",id);
-            Group group = applicationService.getGroupService().getGroups().get(id);
+            Group group = applicationService.getGroup(id);
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
         }

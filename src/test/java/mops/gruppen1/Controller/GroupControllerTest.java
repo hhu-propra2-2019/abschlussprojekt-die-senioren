@@ -38,6 +38,7 @@ class GroupControllerTest {
     @Autowired
     MockMvc mvc;
     private TestSetup testSetup;
+    private String groupID;
 
     @MockBean
     ApplicationService applicationService;
@@ -51,12 +52,12 @@ class GroupControllerTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-        testSetup = new TestSetup();
+        this.testSetup = new TestSetup();
         Group testgroup = testSetup.groupOne;
-        when(applicationService.getGroup(testgroup.getGroupId().toString())).thenReturn(testgroup);
+        this.groupID = testSetup.groupOne.getGroupId().toString();
+        when(applicationService.getGroup(groupID)).thenReturn(testgroup);
     }
 
-    // TODO @Diabled Tests entweder fixen oder am Ende löschen
     
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Index - Seite.")
@@ -94,7 +95,7 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        String groupID = testSetup.groupOne.getGroupId().toString();
+
         mvc.perform(get("/gruppen1/admin/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("gruppenAdmin"));
@@ -104,7 +105,6 @@ class GroupControllerTest {
 
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Viewer - View einer Gruppe.")
-    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testMemberView() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -118,7 +118,7 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/viewer"))
+        mvc.perform(get("/gruppen1/viewer/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("gruppenViewer"));
     }
