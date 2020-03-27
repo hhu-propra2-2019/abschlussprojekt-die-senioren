@@ -303,6 +303,21 @@ public class ApplicationService {
         return validationResult;
     }
 
+    public ValidationResult isAdmin(String userName, String groupId){
+        ValidationResult validationResult = groupService.isAdmin(userName, groupId);
+        return validationResult;
+    }
+
+    public ValidationResult isActive(String userName, String groupId){
+        ValidationResult validationResult = groupService.isActive(userName, groupId);
+        return validationResult;
+    }
+
+    public ValidationResult isActiveAdmin(String userName, String groupId){
+        ValidationResult validationResult = groupService.isActiveAdmin(userName, groupId);
+        return validationResult;
+    }
+
 
     //TODO alle Veranstaltungen als Liste (noch nicht möglich)
 }
