@@ -53,8 +53,11 @@
                 <button class="btn btn-outline-secondary col-3" type="button" data-toggle="collapse" data-target="#collapseMitglieder" aria-expanded="false" aria-controls="collapseMitglieder">
                     Mitglieder anzeigen
                 </button>
-            <a class="btn btn-outline-secondary col-3 offset-1" href="/gruppen1/groupRequests" role="button">offene Gruppenanfragen <span class="badge text-danger">10</span></a>
-            <button class="btn btn-outline-secondary col-3 offset-1" type="button" data-toggle="collapse" data-target="#collapseOptionen" aria-expanded="false" aria-controls="collapseOptionen">
+            <a class="btn btn-outline-secondary col-3 offset-1" th:href="@{/gruppen1/groupRequests/{id}(id=${groupId})}"
+               role="button">offene Gruppenanfragen
+                <span class="badge text-danger" th:text="${numberOfOpenRequests}">10</span></a>
+            <button class="btn btn-outline-secondary col-3 offset-1" type="button" data-toggle="collapse"
+                    data-target="#collapseOptionen" aria-expanded="false" aria-controls="collapseOptionen">
                 Gruppenoptionen
             </button>
             <div class="collapse" id="collapseMitglieder">
@@ -63,12 +66,12 @@
                         <li th:text="${member.user.username.username}">Student 1</li>
                     </ul>
                     <br>
-                    <a class="btn btn-outline-secondary" th:href="@{/gruppen1/memberships/{id}(id=${groupId})}" role="button">Mitglieder verwalten</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/gruppen1/memberships/{id}(id=${groupId})}"
+                       role="button">Mitglieder verwalten</a>
                 </div>
             </div>
             <div class="collapse" id="collapseOptionen" th:method="get">
                 <div class="card card-body border-0">
-
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="card">
@@ -76,7 +79,16 @@
                                     <h4 class="card-title">Gruppe verlassen</h4>
                                     <p class="card-text">Hiermit wirst du die Gruppe verlassen und den Zugriff auf die
                                         Gruppeninhalte verlieren.</p>
-                                    <button class="btn btn-danger" type="button">Verlassen</button>
+                                    <p>Achtung:
+                                        <br>
+                                        Falls Sie der einzige Administrator der Gruppe sind, muss zunächst
+                                        über die Mitgliedsverwaltung ein neuer Administrator bestimmt werden.
+                                        Ansonsten können Sie die Gruppe nicht verlassen.</p>
+                                    <form method="post" th:action="@{/gruppen1/admin/{id}(id=${groupId})}">
+                                         <button class="btn btn-danger" type="submit"
+                                                 th:value="resign" th:name="action">Verlassen
+                                         </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +98,11 @@
                                     <h4 class="card-title">Gruppe löschen</h4>
                                     <p class="card-text">Hiermit wirst du diese Gruppe und sämtliche Inhalte der Gruppe
                                         unwiderruflich löschen.</p>
-                                    <button class="btn btn-danger" type="button">Löschen</button>
+                                    <form method="post" th:action="@{/gruppen1/admin/{id}(id=${groupId})}">
+                                        <button class="btn btn-danger" type="submit"
+                                             th:value="delete" th:name="action">Löschen
+                                         </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +126,8 @@
                     <span th:text="${groupDescription}"></span>
                     <br>
                     <br>
-                    <a class="btn btn-outline-secondary" th:href="@{/gruppen1/description/{id}(id=${groupId})}" th:type="submit">Gruppenmerkmale anpassen</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/gruppen1/description/{id}(id=${groupId})}"
+                       th:type="submit">Gruppenmerkmale anpassen</a>
             </div>
         </div>
     </div>

@@ -174,6 +174,7 @@ class GroupControllerTest {
 
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Anfragenseite neuer Gruppenmitglieder")
+    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testGroupRequests() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -214,10 +215,12 @@ class GroupControllerTest {
 
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Gruppenanfragen Seite")
+    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testMembershipsRequestMessage() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
+        roles.add("orga");
         KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
                 new SimpleKeycloakAccount(
                         Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
