@@ -165,7 +165,6 @@ class GroupControllerTest {
 
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Member-Edit Seite einer Gruppe.")
-    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testMembershipChange() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -179,14 +178,13 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/memberships"))
+        mvc.perform(get("/gruppen1/memberships/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeMemberships"));
     }
 
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Anfragenseite neuer Gruppenmitglieder")
-    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testGroupRequests() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -200,7 +198,7 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/groupRequests"))
+        mvc.perform(get("/gruppen1/groupRequests/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("groupRequests"));
     }
@@ -227,7 +225,6 @@ class GroupControllerTest {
 
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Gruppenanfragen Seite")
-    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testMembershipsRequestMessage() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -241,7 +238,7 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/requestMessage"))
+        mvc.perform(get("/gruppen1/requestMessage/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("requestDescription"));
     }
