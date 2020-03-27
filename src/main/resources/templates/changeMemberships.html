@@ -30,25 +30,31 @@
             <table class="table table-bordered">
                 <tr>
                     <thead class="thead-light">
-                        <th class="h5">User</th>
-                        <th class="h5">Rolle</th>
-                        <th class="h5">Status</th>
-                        <th class="h5">Aktive Mitglieder verwalten</th>
+                        <th class="h5 w-20">User</th>
+                        <th class="h5 w-20">Rolle</th>
+                        <th class="h5 w-20">Status</th>
+                        <th class="h5 w-40">Aktive Mitglieder verwalten</th>
                     </thead>
                 </tr>
                 <tbody th:remove="all-but-first">
                 <tr th:each="member:${members}">
-                    <td th:text="${member.user.username.username}"class="h6">Student1</td>
-                    <td th:text="${member.membershipType}" class=" h6">Viewer</td>
-                    <td th:text="${member.membershipStatus}" class="h6">Aktiv</td>
-                    <td class="btn-group-lg offset-1" role="group">
-                        <span th:if="${T(mops.gruppen1.domain.MembershipStatus).ACTIVE}">
-                            <button type="button" class="btn btn-success rounded-bottom" title="Rolle ändern">
-                                <span class="fa fa-pencil small fa-xs"></span>
-                            </button>
-                            <button type="button" class="btn btn-danger offset-1 rounded-bottom" title="Mitglied löschen">
-                                <span class="fa fa-trash fa-xs"></span>
-                            </button>
+                    <td th:text="${member.user.username.username}"class="h6 w-20">Student1</td>
+                    <td th:text="${member.membershipType}" class=" h6 w-20">Viewer</td>
+                    <td th:text="${member.membershipStatus}" class="h6 w-20">Aktiv</td>
+                    <td class="btn-group-lg offset-1 w-40" role="group">
+                        <span th:if="${member.membershipStatus == T(mops.gruppen1.domain.MembershipStatus).ACTIVE}">
+                            <form method="post" th:action="@{/gruppen1/memberships/{id}(id=${groupId})}">
+                                <input type="hidden"    th:value="${member.user.username.username}"
+                                                        th:name="username"/>
+                                <button type="submit" class="btn btn-success rounded-bottom" title="Rolle ändern"
+                                        th:value="change" th:name="action">
+                                        <span class="fa fa-pencil small fa-xs"></span>
+                                </button>
+                                <button type="submit" class="btn btn-danger offset-1 rounded-bottom"
+                                        title="Mitglied löschen" th:value="delete" th:name="action">
+                                    <span class="fa fa-trash fa-xs"></span>
+                                </button>
+                            </form>
                         </span>
                     </td>
                 </tr>

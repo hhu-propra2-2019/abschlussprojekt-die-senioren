@@ -24,6 +24,7 @@ public class MembershipRequestEvent implements IEvent {
     private String groupId;
     private String userName;
     private String membershipType;
+    private String membershipRequestMessage;
 
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
@@ -41,7 +42,8 @@ public class MembershipRequestEvent implements IEvent {
         Group group = groups.get(groupId);
         User user = users.get(userName);
         MembershipType membershipType = MembershipType.valueOf(this.membershipType);
-        Membership membership = new Membership(user, group, membershipType, MembershipStatus.PENDING);
+        MembershipRequestMessage membershipRequestMessage = new MembershipRequestMessage(this.membershipRequestMessage);
+        Membership membership = new Membership(user, group, membershipType, MembershipStatus.PENDING, membershipRequestMessage);
 
         group.addMember(membership);
         groupToMembers.get(groupId).add(membership);

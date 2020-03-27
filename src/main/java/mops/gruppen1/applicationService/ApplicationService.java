@@ -1,14 +1,19 @@
 package mops.gruppen1.applicationService;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.Getter;
 import mops.gruppen1.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -17,8 +22,12 @@ import java.util.stream.Collectors;
 @Service
 @Getter
 public class ApplicationService {
-    @Autowired
     public GroupService groupService;
+
+    @Autowired
+    public ApplicationService(GroupService groupService) {
+        this.groupService = groupService;
+    }
 
     /**
      * method returns all members belonging to the requested group
@@ -27,8 +36,18 @@ public class ApplicationService {
      * @return List of Memberships
      */
     public List<Membership> getMembersOfGroup(String groupId) {
-        HashMap<String, List<Membership>> groupToMembers = groupService.getGroupToMembers();
-        List<Membership> memberships = groupToMembers.get(groupId);
+        List<Membership> memberships = groupService.getMembersOfGroup(groupId);
+        return memberships;
+    }
+
+    /**
+     * method returns all active members belonging to the requested group
+     *
+     * @param groupId
+     * @return List of Active Memberships
+     */
+    public List<Membership> getActiveMembersOfGroup(String groupId) {
+        List<Membership> memberships = groupService.getActiveMembersOfGroup(groupId);
         return memberships;
     }
 
@@ -39,9 +58,18 @@ public class ApplicationService {
      * @return List of Groups
      */
     public List<Group> getGroupsOfUser(String userName) {
-        HashMap<String, List<Membership>> userToMembers = groupService.getUserToMembers();
-        List<Membership> memberships = userToMembers.get(userName);
-        List<Group> groups = memberships.stream().map(member -> member.getGroup()).collect(Collectors.toList());
+        List<Group> groups = groupService.getGroupsOfUser(userName);
+        return groups;
+    }
+
+    /**
+     * method returns all groups belonging to a single user who is active in those groups
+     *
+     * @param userName
+     * @return List of groups where user is active
+     */
+    public List<Group> getGroupsWhereUserIsActive(String userName) {
+        List<Group> groups = groupService.getGroupsWhereUserIsActive(userName);
         return groups;
     }
 
@@ -52,11 +80,7 @@ public class ApplicationService {
      * @return List of Memberships
      */
     public List<Membership> getPendingRequestOfGroup(String groupId) {
-        HashMap<String, List<Membership>> groupToMembers = groupService.getGroupToMembers();
-        List<Membership> memberships = groupToMembers.get(groupId);
-        List<Membership> pendingMemberships = memberships.stream()
-                .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.PENDING))
-                .collect(Collectors.toList());
+        List<Membership> pendingMemberships = groupService.getPendingMemberships(groupId);
         return pendingMemberships;
     }
 
@@ -67,34 +91,40 @@ public class ApplicationService {
      * @return number of pending requests
      */
     public long countPendingRequestOfGroup(String groupId) {
-        HashMap<String, List<Membership>> groupToMembers = groupService.getGroupToMembers();
-        List<Membership> memberships = groupToMembers.get(groupId);
-        long pendingMemberships = memberships.stream()
-                .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.PENDING))
-                .count();
+        long pendingMemberships = groupService.countPendingRequestOfGroup(groupId);
         return pendingMemberships;
     }
 
-    public List<Membership> getMembershipsOfUser(String userName)   {
-        HashMap<String, List<Membership>> userToMembers = groupService.getUserToMembers();
-        List<Membership> memberships = userToMembers.get(userName);
+    /**
+     * returns all memberships of the user
+     *
+     * @param userName
+     * @return all memberships of the user
+     */
+    public List<Membership> getMembershipsOfUser(String userName) {
+        List<Membership> memberships = groupService.getMembershipsOfUser(userName);
         return memberships;
     }
 
     /**
-     * returns List of Groups whose groupName fits the given group name
+     * returns all active memberships of the user
+     *
+     * @param userName
+     * @return all active memberships of the user
+     */
+    public List<Membership> getActiveMembershipsOfUser(String userName) {
+        List<Membership> activeMemberships = groupService.getActiveMembershipsOfUser(userName);
+        return activeMemberships;
+    }
+
+    /**
+     * returns List of all Groups whose groupName fits the given group name
      *
      * @param groupName
      * @return list of groups
      */
     public List<Group> searchGroupByName(String groupName) {
-        HashMap<String, Group> groups = groupService.getGroups();
-        List<Group> requestedGroups = new ArrayList<>();
-        for (Group group : groups.values()) {
-            if (group.getName().toString().contains(groupName)) {
-                requestedGroups.add(group);
-            }
-        }
+        List<Group> requestedGroups = groupService.searchGroupsByName(groupName);
         return requestedGroups;
     }
 
@@ -105,13 +135,7 @@ public class ApplicationService {
      * @return list of strings (userNames)
      */
     public List<String> searchUserByName(String userName) {
-        HashMap<String, User> users = groupService.getUsers();
-        List<String> requestedUsers = new ArrayList<>();
-        for (User user : users.values()) {
-            if (user.getUsername().toString().contains(userName)) {
-                requestedUsers.add(user.getUsername().toString());
-            }
-        }
+        List<String> requestedUsers = groupService.searchUserByName(userName);
         return requestedUsers;
     }
 
@@ -132,9 +156,18 @@ public class ApplicationService {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults
                 .add(groupService.createGroup(groupDescription, groupName, groupCourse, groupCreator, groupType));
+        validationResults.add(createUsers(users));
         addMembersToGroup(groupCreator, groupType, users, validationResults);
         ValidationResult validationResult = groupService.collectCheck(validationResults);
         return validationResult;
+    }
+
+    private ValidationResult createUsers(List<String> users) {
+        List<ValidationResult> validationResults = new ArrayList<>();
+
+        users.forEach(user -> validationResults.add(createUser(user)));
+
+        return collectCheck(validationResults);
     }
 
     private void addMembersToGroup(String groupCreator, String groupType, List<String> users, List<ValidationResult> validationResults) {
@@ -238,14 +271,14 @@ public class ApplicationService {
      * @param groupId
      * @return ValidationResult that tells whether the user successfully joined or applied for the given group
      */
-    public ValidationResult joinGroup(String userName, String groupId) {
+    public ValidationResult joinGroup(String userName, String groupId, String requestMessage) {
         ValidationResult validationResult;
         HashMap<String, Group> groups = groupService.getGroups();
         Group group = groups.get(groupId);
         if (group.getGroupType().equals(GroupType.PUBLIC)) {
             validationResult = groupService.assignMembershipToPublicGroup(userName, groupId, "VIEWER");
         } else {
-            validationResult = groupService.requestMembership(userName, groupId, "VIEWER");
+            validationResult = groupService.requestMembership(userName, groupId, "VIEWER", requestMessage);
         }
         return validationResult;
     }
@@ -264,16 +297,27 @@ public class ApplicationService {
     }
 
     /**
+     * @param groupId groupId of the requested group
+     * @return requested Group
+     */
+    public Group getGroup(String groupId) {
+        return groupService.getGroup(groupId);
+    }
+
+    public HashMap<String, User> getAllUsers() {
+        return groupService.getUsers();
+    }
+
+    /**
      * start an UpdateMembershipEvent
      *
      * @param userName
      * @param groupId
      * @param updatedBy
-     * @param updatedTo
      * @return ValidationResult that tells whether the user's membership in the given group was updated successfully
      */
-    public ValidationResult updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
-        ValidationResult validationResult = groupService.updateMembership(userName, groupId, updatedBy, updatedTo);
+    public ValidationResult updateMembership(String userName, String groupId, String updatedBy) {
+        ValidationResult validationResult = groupService.updateMembership(userName, groupId, updatedBy);
         return validationResult;
     }
 
@@ -284,10 +328,89 @@ public class ApplicationService {
      * @return ValidationResult that tells whether the user was created successfully
      */
     public ValidationResult createUser(String userName) {
-        ValidationResult validationResult = groupService.createUser(userName);
+        ValidationResult validationResult = new ValidationResult();
+        boolean isValid = groupService.doesUserExist(userName).isValid();
+        if (isValid) {
+            validationResult = groupService.createUser(userName);
+        }
         return validationResult;
     }
 
+     public ValidationResult isAdmin(String userName, String groupId){
+        ValidationResult validationResult = groupService.isAdmin(userName, groupId);
+        return validationResult;
+    }
 
+    public ValidationResult isActive(String userName, String groupId){
+        ValidationResult validationResult = groupService.isActive(userName, groupId);
+        return validationResult;
+    }
+
+    public ValidationResult isActiveAdmin(String userName, String groupId){
+        ValidationResult validationResult = groupService.isActiveAdmin(userName, groupId);
+        return validationResult;
+    }
+
+    private ValidationResult collectCheck(List<ValidationResult> checks) {
+        ValidationResult validationResult = new ValidationResult();
+        for (ValidationResult check : checks) {
+            if (!check.isValid()) {
+                validationResult.addError(String.join(" ", check.getErrorMessages()));
+            }
+        }
+        return validationResult;
+    }
+
+    List<String> extractUsernamesFromCsv(MultipartFile file) throws Exception{
+        List<String> usernames = new ArrayList<>();
+        try {
+            InputStream inputStream = file.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            List<Username> csvMembers = new CsvToBeanBuilder(reader)
+                    .withType(Username.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build()
+                    .parse();
+
+            usernames = csvMembers.stream().map(user -> user.toString()).collect(Collectors.toList());
+
+        } catch (Exception e) {
+            throw new Exception("Fehler beim Auslesen der Csv-Datei");
+        }
+        return usernames;
+    }
+
+    private ValidationResult checkFileFormat(MultipartFile file){
+        ValidationResult result = new ValidationResult();
+        String filename = file.getOriginalFilename();
+        if (filename.length() < 5) {
+            result.addError("Kein gültiger Dateiname");
+            return result;
+        }
+        String format = filename.substring(filename.length() - 4);
+        if (format.equals(".csv")){
+            return result;
+        }
+        result.addError("Diese Datei ist keine Csv-Datei");
+        return result;
+    }
+
+    public List<String> uploadCsv(MultipartFile file, List<String> usernames) throws Exception {
+        List<String> csvUsernames = new ArrayList<>();
+        try {
+            ValidationResult isCsv = checkFileFormat(file);
+            if (!isCsv.isValid()) {
+                throw new Exception(isCsv.getErrorMessages().get(0));
+            }
+            csvUsernames = extractUsernamesFromCsv(file);
+        } catch (Exception e) {
+            throw e;
+        }
+        List<String> combinedUsernames = Stream.concat(usernames.stream(), csvUsernames.stream())
+                .collect(Collectors.toList());
+        return combinedUsernames;
+    }
     //TODO alle Veranstaltungen als Liste (noch nicht möglich)
 }
+
