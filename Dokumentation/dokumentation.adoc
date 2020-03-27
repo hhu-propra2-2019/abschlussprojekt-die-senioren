@@ -342,6 +342,20 @@ zum anderen Rückmeldung darüber geben, ob ein Admin der einzige Admin der ents
 Weise kann später sichergestellt werden, dass immer mindestens ein aktiver Admin in einer Gruppe existiert.
 
 
+== Konzepte
+
+=== Überprüfung notwendiger Bedingungen vor Events
+In den vorherigen Abschnitten wird häufig darauf hingewiesen, dass die Ausführung von Events an Bedingungen wie der Rolle des ausführenden Nutzers gekoppelt ist.
+Die Überprüfung, ob Bedingungen erfüllt werden, basiert in unserer Anwendung auf der Klasse *ValidationResult*.
+
+Alle Daten, die an der Ausführung eines Events beteiligt sind und für die Bedingungen gelten, werden auf ihre Gültigkeit im Sinne des Events überprüft.
+Die Durchführung solcher Überprüfungen erzeugt je ein ValidationResult-Objekt, das auf die Validität (negativer Test auf Bedingungsverletzung) bzw. Invalidität (positiver Test auf Bedingungsverletzung) hinweist.
+Nach der Durchführung aller Überprüfungen werden die ereugten ValidationResult-Objekte gesammelt ausgewertet, um ein neues ValidationResult-Objekt anzulegen, dass die Ergebnisse aller vorangegangen Überprüfungen in einem Objekt zusammenfasst.
+Sollte bei den Überprüfungen mindestens eine Bedingungsverletzung festgestellt worden sein, weist auch das neue ValidationResult-Objekt auf die Invalidität der Daten hin.
+Wenn das passiert, wird Workflow zur Ausführung des Events noch vor Erstellung des Event-Objektes abgebrochen.
+
+
+
 == Entscheidungen
 
 ==== Identifizierung persistierter Events
@@ -410,6 +424,14 @@ gespeicherte EventId beinhaltet. Diese EventId repräsentiert den aktuellen Stan
 Andere Teilsysteme können diesen aktuellen Stand bei sich speichern und bei erneuten Anfragen mitliefern, sodass wir
 nicht bei jeder Anfrage Informationen über alle vorhandenen Gruppen rausgeben müssen, sondern nur solche, in denen seit der
 letzten EventId eine Änderung stattgefunden hat. Dies liefert eine sehr viel effizientere Schnittstelle.
+
+==== ValidationResult
+
+Die Definition eines eigenen Objekttypen zur Dokumentation von Bedingungsverletzungen wurde beschlossen,
+um auf diese Weise ein binäres Testergebnis (positiv, negativ) und eine kontextrelevante Fehlermeldung in einem Objekt zu kapseln.
+Das Testergebnis erfüllt dabei vornehmlich den Zweck, die Ausführung eines Events ggf. zu unterbinden,
+während die Fehlermeldung dazu genutzt werden kann, Nutzern im Frontend rückzumelden, dass eine Aktion fehlschlägt und auch weshalb.
+
 
 == Risiken
 
