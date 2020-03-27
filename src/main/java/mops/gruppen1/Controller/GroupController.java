@@ -35,14 +35,18 @@ public class GroupController {
      */
     private Account createAccountFromPrincipal(KeycloakAuthenticationToken token) {
         KeycloakPrincipal principal = (KeycloakPrincipal) token.getPrincipal();
-        if (!applicationService.getAllUsers().containsKey(token.getName())) {
-            applicationService.createUser(token.getName());
-        }
+        addNotExistingUserToSystem(token);
         return new Account(
                 principal.getName(),
                 principal.getKeycloakSecurityContext().getIdToken().getEmail(),
                 null,
                 token.getAccount().getRoles());
+    }
+
+    private void addNotExistingUserToSystem(KeycloakAuthenticationToken token) {
+        if (!applicationService.getAllUsers().containsKey(token.getName())) {
+            applicationService.createUser(token.getName());
+        }
     }
 
     private String searchGroups(Optional search, Model model) {
@@ -55,7 +59,8 @@ public class GroupController {
 
     @GetMapping("/erstellen")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupCreation(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
+    public String groupCreation(KeycloakAuthenticationToken token, Model model,
+                                @RequestParam(name = "search") Optional search) {
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -64,7 +69,8 @@ public class GroupController {
 
     @PostMapping("/erstellen")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupCreation (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search,
+    public String groupCreation (KeycloakAuthenticationToken token, Model model,
+                                 @RequestParam(name = "search") Optional search,
                                  @RequestParam(value = "groupname") String groupName,
                                  @RequestParam(value = "groupModule") String module,
                                  @RequestParam(value = "groupType") String groupType,
@@ -135,16 +141,21 @@ public class GroupController {
                                    @PathVariable("id") String groupId) {
         ValidationResult validation = applicationService.isActiveAdmin(token.getName(), groupId);
         if(validation.isValid()) {
-            if (token != null) {
-                if (action.equals("delete")) {
-                    applicationService.deleteMember(username, groupId, token.getName());
-                } else if (action.equals("change")) {
-                    applicationService.updateMembership(username, groupId, token.getName());
-                }
-            }
+            deleteOrUpdateMembership(token, username, action, groupId);
             return "redirect:/gruppen1/memberships/{id}";
         }
         return "redirect:/gruppen1/";
+    }
+
+    private void deleteOrUpdateMembership(KeycloakAuthenticationToken token, 
+                                          @RequestParam("username") String username, 
+                                          @RequestParam("action") String action, 
+                                          @PathVariable("id") String groupId) {
+        if (action.equals("delete")) {
+            applicationService.deleteMember(username, groupId, token.getName());
+        } else if (action.equals("change")) {
+            applicationService.updateMembership(username, groupId, token.getName());
+        }
     }
 
     @GetMapping("/viewer/{id}")
@@ -157,14 +168,18 @@ public class GroupController {
         }
         ValidationResult validation = applicationService.isActive(token.getName(), id);
         if(validation.isValid()) {
-            model.addAttribute("groupId", id);
-            Group group = applicationService.getGroup(id);
-            model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
-            model.addAttribute("groupDescription", group.getDescription().toString());
-            model.addAttribute("groupName", group.getName().toString());
+            fillModelforDetailPages(model, id);
             return "gruppenViewer";
         }
         return "redirect:/gruppen1/";
+    }
+
+    private void fillModelforDetailPages(Model model, @PathVariable("id") String id) {
+        model.addAttribute("groupId", id);
+        Group group = applicationService.getGroup(id);
+        model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
+        model.addAttribute("groupDescription", group.getDescription().toString());
+        model.addAttribute("groupName", group.getName().toString());
     }
 
     @PostMapping("/viewer/{id}")
@@ -189,12 +204,8 @@ public class GroupController {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), id);
 
         if (validationResult.isValid()){
-            model.addAttribute("groupId",id);
-            Group group = applicationService.getGroup(id);
-            model.addAttribute("groupDescription", group.getDescription().toString());
-            model.addAttribute("groupName", group.getName().toString());
-            model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
-            model.addAttribute("numberOfOpenRequests",applicationService.getPendingRequestOfGroup(id).size());
+            fillModelforDetailPages(model, id);
+            model.addAttribute("numberOfOpenRequests",applicationService.countPendingRequestOfGroup(id));
             return "gruppenAdmin";
         }
         return "redirect:/gruppen1/";
@@ -208,16 +219,32 @@ public class GroupController {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
 
         if (validationResult.isValid()){
-            if (action.equals("delete")) {
-                applicationService.deleteGroup(groupId, token.getName());
-            } else if (action.equals("resign")) {
-                ValidationResult vali = applicationService.resignMembership(token.getName(), groupId);
-                if (!vali.isValid()) {
-                    return "redirect:/gruppen1/admin/{id}";
-                }
+            return deleteOrResignGroup(token, action, groupId);
+        }
+        return "redirect:/gruppen1/";
+    }
+
+    private String deleteOrResignGroup(KeycloakAuthenticationToken token,
+                                       @RequestParam("action") String action,
+                                       @PathVariable("id") String groupId) {
+        if (action.equals("delete")) {
+            applicationService.deleteGroup(groupId, token.getName());
+        } else if (action.equals("resign")) {
+            ValidationResult validationResult = applicationService.resignMembership(token.getName(), groupId);
+            if (isMemberResignmentNotPossible(token,validationResult, groupId)) {
+                return "redirect:/gruppen1/admin/{id}";
             }
         }
         return "redirect:/gruppen1/";
+    }
+
+    private boolean isMemberResignmentNotPossible(KeycloakAuthenticationToken token,
+                                                  ValidationResult validationResult,
+                                                  @PathVariable("id") String groupId) {
+        if (validationResult.isValid()) {
+            return false;
+        }
+        return true;
     }
 
 
@@ -267,14 +294,21 @@ public class GroupController {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
 
         if (validationResult.isValid()) {
-                if (action.equals("accept")) {
-                    applicationService.acceptMembership(username, groupId, token.getName());
-                } else if (action.equals("reject")) {
-                    applicationService.rejectMembership(username, groupId, token.getName());
-                }
+            acceptOrRejectMember(token, username, action, groupId);
             return "redirect:/gruppen1/admin/{id}";
-            }
+        }
         return "redirect:/gruppen1/";
+    }
+
+    private void acceptOrRejectMember(KeycloakAuthenticationToken token,
+                                      @RequestParam("username") String username,
+                                      @RequestParam("action") String action,
+                                      @PathVariable("id") String groupId) {
+        if (action.equals("accept")) {
+            applicationService.acceptMembership(username, groupId, token.getName());
+        } else if (action.equals("reject")) {
+            applicationService.rejectMembership(username, groupId, token.getName());
+        }
     }
 
 
@@ -293,9 +327,9 @@ public class GroupController {
     public String joinPublicGroup(KeycloakAuthenticationToken token, Model model,
                                   @RequestParam(value = "id") String groupId,
                                   @RequestParam(value="action") String action){
-            if(action.equals("assign")) {
-                applicationService.joinGroup(token.getName(), groupId, "");
-            }
+        if(action.equals("assign")) {
+            applicationService.joinGroup(token.getName(), groupId, "");
+        }
         return "redirect:/gruppen1/";
     }
 
