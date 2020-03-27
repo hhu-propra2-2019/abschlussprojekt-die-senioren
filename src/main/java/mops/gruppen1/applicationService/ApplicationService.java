@@ -287,7 +287,7 @@ public class ApplicationService {
      * @param updatedBy
      * @return ValidationResult that tells whether the user's membership in the given group was updated successfully
      */
-    public ValidationResult updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
+    public ValidationResult updateMembership(String userName, String groupId, String updatedBy) {
         ValidationResult validationResult = groupService.updateMembership(userName, groupId, updatedBy);
         return validationResult;
     }
