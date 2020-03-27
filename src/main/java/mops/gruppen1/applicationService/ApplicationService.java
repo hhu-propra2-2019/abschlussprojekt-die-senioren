@@ -4,6 +4,7 @@ import lombok.Getter;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.GroupType;
 import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -148,9 +149,18 @@ public class ApplicationService {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults
                 .add(groupService.createGroup(groupDescription, groupName, groupCourse, groupCreator, groupType));
+        validationResults.add(createUsers(users));
         addMembersToGroup(groupCreator, groupType, users, validationResults);
         ValidationResult validationResult = groupService.collectCheck(validationResults);
         return validationResult;
+    }
+
+    private ValidationResult createUsers(List<String> users) {
+        List<ValidationResult> validationResults = new ArrayList<>();
+
+        users.forEach(user -> validationResults.add(createUser(user)));
+
+        return collectCheck(validationResults);
     }
 
     private void addMembersToGroup(String groupCreator, String groupType, List<String> users, List<ValidationResult> validationResults) {
@@ -287,6 +297,10 @@ public class ApplicationService {
         return groupService.getGroup(groupId);
     }
 
+    public HashMap<String, User> getAllUsers() {
+        return groupService.getUsers();
+    }
+
     /**
      * start an UpdateMembershipEvent
      *
@@ -323,6 +337,16 @@ public class ApplicationService {
 
     public ValidationResult isActiveAdmin(String userName, String groupId){
         ValidationResult validationResult = groupService.isActiveAdmin(userName, groupId);
+        return validationResult;
+    }
+
+    private ValidationResult collectCheck(List<ValidationResult> checks) {
+        ValidationResult validationResult = new ValidationResult();
+        for (ValidationResult check : checks) {
+            if (!check.isValid()) {
+                validationResult.addError(String.join(" ", check.getErrorMessages()));
+            }
+        }
         return validationResult;
     }
 
