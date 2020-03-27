@@ -1,5 +1,8 @@
 package mops.gruppen1.Controller;
 
+import mops.gruppen1.applicationService.ApplicationService;
+import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.events.TestSetup;
 import org.junit.jupiter.api.*;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
@@ -9,6 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,6 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,6 +37,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class GroupControllerTest {
     @Autowired
     MockMvc mvc;
+    private TestSetup testSetup;
+
+    @MockBean
+    ApplicationService applicationService;
 
     @Autowired
     WebApplicationContext context;
@@ -42,6 +51,9 @@ class GroupControllerTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+        testSetup = new TestSetup();
+        Group testgroup = testSetup.groupOne;
+        when(applicationService.getGroup(testgroup.getGroupId().toString())).thenReturn(testgroup);
     }
 
     // TODO @Diabled Tests entweder fixen oder am Ende löschen
@@ -69,7 +81,6 @@ class GroupControllerTest {
 
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Admin - View einer Gruppe.")
-    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testAdminView() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -83,10 +94,12 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/admin"))
+        String groupID = testSetup.groupOne.getGroupId().toString();
+        mvc.perform(get("/gruppen1/admin/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("gruppenAdmin"));
     }
+
 
 
     @Tag("controller")

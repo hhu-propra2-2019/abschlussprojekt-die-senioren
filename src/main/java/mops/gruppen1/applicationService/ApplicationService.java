@@ -4,6 +4,7 @@ import lombok.Getter;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.GroupType;
 import mops.gruppen1.domain.Membership;
+import mops.gruppen1.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -285,6 +286,10 @@ public class ApplicationService {
      */
     public Group getGroup(String groupId) {
         return groupService.getGroup(groupId);
+    }
+
+    public HashMap<String, User> getAllUsers() {
+        return groupService.getUsers();
     }
 
     /**

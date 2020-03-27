@@ -35,8 +35,8 @@ public class GroupController {
      */
     private Account createAccountFromPrincipal(KeycloakAuthenticationToken token) {
         KeycloakPrincipal principal = (KeycloakPrincipal) token.getPrincipal();
-        if (!applicationService.getGroupService().getUsers().containsKey(token.getName())) {
-            applicationService.getGroupService().createUser(token.getName());
+        if (!applicationService.getAllUsers().containsKey(token.getName())) {
+            applicationService.createUser(token.getName());
         }
         return new Account(
                 principal.getName(),
@@ -201,7 +201,7 @@ public class GroupController {
         if (token != null) {
             model.addAttribute("account", createAccountFromPrincipal(token));
             model.addAttribute("groupId",id);
-            Group group = applicationService.getGroupService().getGroups().get(id);
+            Group group = applicationService.getGroup(id);
             model.addAttribute("groupDescription", group.getDescription().toString());
             model.addAttribute("groupName", group.getName().toString());
             model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
