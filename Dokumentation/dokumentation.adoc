@@ -198,8 +198,8 @@ Ansicht besitzen. Zudem gibt es eine Abhängigkeit zur Rollenverteilung, da die
 Gruppenansicht sich für Admins und Viewer unterscheidet.
 
 ===== Schnittstellen
-Dieses Subsystem stellt seine Funktionalität nicht (wie die anderen Subsysteme) auf der
-Domain-Ebene bereit, sondern über die Gestaltung der Benutzeroberfläche.
+Dieses Subsystem stellt seine Funktionalität nicht (wie die anderen Subsysteme) auf Ebene des Domain-Modells bereit,
+sondern über die Gestaltung der Benutzeroberfläche.
 Folgende Dateien sind hierfür relevant:
 
 * _gruppenAdmin.html_
@@ -377,7 +377,7 @@ Das Setup beinhaltet Daten, die eine sinnvolle Ausführung aller Events zu Testz
 ==== Trennung zwischen Gruppenerstellung und Gruppenbeitritt
 
 Wir haben uns für eine generelle Unterscheidung zwischen der Erstellung einer Gruppe und dem Beitritt eines
-Users zu einer Gruppe entschieden. Auf der Domain-Ebene wird dadurch Komplexität hinsichtlich der Implementierung einer
+Users zu einer Gruppe entschieden. Im Domänen-Modell wird dadurch Komplexität hinsichtlich der Implementierung einer
 Gruppenerstellung reduziert, und es wird eine klare Trennung der Verantwortlichkeiten entsprechender Event-Klassen
 garantiert. In der Service-Schicht wird dann sichergestellt, dass für eine Gruppenerstellung die richtigen Events angestoßen
 werden. Wenn ein User eine Gruppe erstellt, so wird durch den ApplicationService sichergestellt, dass neben dem GroupCreationEvent
