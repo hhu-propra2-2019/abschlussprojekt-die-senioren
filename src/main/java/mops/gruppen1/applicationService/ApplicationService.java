@@ -1,16 +1,19 @@
 package mops.gruppen1.applicationService;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.Getter;
-import mops.gruppen1.domain.Group;
-import mops.gruppen1.domain.GroupType;
-import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.User;
+import mops.gruppen1.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -333,7 +336,7 @@ public class ApplicationService {
         return validationResult;
     }
 
-    public ValidationResult isAdmin(String userName, String groupId){
+     public ValidationResult isAdmin(String userName, String groupId){
         ValidationResult validationResult = groupService.isAdmin(userName, groupId);
         return validationResult;
     }
@@ -358,6 +361,56 @@ public class ApplicationService {
         return validationResult;
     }
 
+    List<String> extractUsernamesFromCsv(MultipartFile file) throws Exception{
+        List<String> usernames = new ArrayList<>();
+        try {
+            InputStream inputStream = file.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
+            List<Username> csvMembers = new CsvToBeanBuilder(reader)
+                    .withType(Username.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build()
+                    .parse();
+
+            usernames = csvMembers.stream().map(user -> user.toString()).collect(Collectors.toList());
+
+        } catch (Exception e) {
+            throw new Exception("Fehler beim Auslesen der Csv-Datei");
+        }
+        return usernames;
+    }
+
+    private ValidationResult checkFileFormat(MultipartFile file){
+        ValidationResult result = new ValidationResult();
+        String filename = file.getOriginalFilename();
+        if (filename.length() < 5) {
+            result.addError("Kein gültiger Dateiname");
+            return result;
+        }
+        String format = filename.substring(filename.length() - 4);
+        if (format.equals(".csv")){
+            return result;
+        }
+        result.addError("Diese Datei ist keine Csv-Datei");
+        return result;
+    }
+
+    public List<String> uploadCsv(MultipartFile file, List<String> usernames) throws Exception {
+        List<String> csvUsernames = new ArrayList<>();
+        try {
+            ValidationResult isCsv = checkFileFormat(file);
+            if (!isCsv.isValid()) {
+                throw new Exception(isCsv.getErrorMessages().get(0));
+            }
+            csvUsernames = extractUsernamesFromCsv(file);
+        } catch (Exception e) {
+            throw e;
+        }
+        List<String> combinedUsernames = Stream.concat(usernames.stream(), csvUsernames.stream())
+                .collect(Collectors.toList());
+        return combinedUsernames;
+    }
     //TODO alle Veranstaltungen als Liste (noch nicht möglich)
 }
+
