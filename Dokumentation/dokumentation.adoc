@@ -105,7 +105,58 @@ Austausch zwischen den Mitgliedern zu ermöglichen.
 Gruppen können Materialien ablegen und verwalten.
 
 === Technischer Kontext
-//TODO RESTFUL API, JSON
+
+Externe Systeme können mithilfe folgender Rest-Schnittstellen Gruppeninformationen anfragen. +
+Die technische Spezifikation im YAML-Format kann https://github.com/hhu-propra2/abschlussprojekt-die-senioren/wiki/RestAPI---YAML[hier] eingesehen werden.
+
+{empty} +
+
+==== Restful-API
+
+*Mögliche Requests:*
+
+[source, java]
+GET: /gruppen1/doesGroupExist
+
+-> Gibt Auskunft über die Existenz einer Gruppe.
+
+---
+[source, java]
+GET: /gruppen1/isUserAdminGroup
+
+-> Gibt Auskunft darüber, ob ein User Admin einer bestimmten Gruppe ist.
+
+---
+
+[source, java]
+GET: /gruppen1/isUserInGroup
+
+-> Gibt Auskunft darüber, ob ein User Mitglied einer bestimmten Gruppe ist.
+
+---
+
+[source, java]
+GET: /gruppen1/returnAllGroups
+
+-> Gibt alle angepassten und neu erstellten Gruppen ab einer bestimmten Ereignisnummer zurück. Die Anwort enthält darüber hinaus die aktuelle Ereignisnummer, die das anfragende Teilsystem zwischenspeichert und bei einer späteren Anfrage mitliefert.
+
+---
+
+[source, java]
+GET: /gruppen1/returnGroupsOfUsers
+
+-> Gibt alle Gruppen zurück, in denen ein bestimmter User Mitglied ist.
+
+---
+
+[source, java]
+GET: /gruppen1/returnUsersOfGroup
+
+-> Gibt alle User einer bestimmten Gruppe zurück.
+
+---
+
+
 
 == Bausteinsicht
 
@@ -490,4 +541,3 @@ Die Implementierung neuer Events erfordert daher Arbeiten an einer Reihe von Kla
 Der Implementierungsaufwand für neue Events ist dadurch begrenzt, dass existierende Events bisher unabhängig voneinander implementiert werden.
 Auf diese Weise müssen die oben genannten Klassen zwar bearbeitet werden, falls ein neues Event hinzugefügt werden soll, aber es müssen keine alten Events bearbeitet werden.
 Die nötigen Implementierungen stellen daher lediglich Erweiterungen der Klassen dar, die unabhänging vom bereits vorhanden Code geschrieben werden können.
-
