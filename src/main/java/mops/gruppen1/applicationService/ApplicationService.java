@@ -2,14 +2,10 @@ package mops.gruppen1.applicationService;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.Getter;
-import mops.gruppen1.domain.Group;
-import mops.gruppen1.domain.GroupType;
-import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.User;
+import mops.gruppen1.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -357,7 +353,7 @@ public class ApplicationService {
         return validationResult;
     }
 
-    private List<String> extractUsernamesFromCsv(MultipartFile file) throws Exception{
+    List<String> extractUsernamesFromCsv(MultipartFile file) throws Exception{
         List<String> usernames = new ArrayList<>();
         try {
             InputStream inputStream = file.getInputStream();
@@ -380,12 +376,12 @@ public class ApplicationService {
     private ValidationResult checkFileFormat(MultipartFile file){
         ValidationResult result = new ValidationResult();
         String filename = file.getOriginalFilename();
-        if (filename.length() < 3) {
-            result.addError("Diese Datei ist keine Csv-Datei");
+        if (filename.length() < 5) {
+            result.addError("Kein gültiger Dateiname");
             return result;
         }
-        String format = filename.substring(filename.length()-3);
-        if (format.equals("csv")){
+        String format = filename.substring(filename.length() - 4);
+        if (format.equals(".csv")){
             return result;
         }
         result.addError("Diese Datei ist keine Csv-Datei");
