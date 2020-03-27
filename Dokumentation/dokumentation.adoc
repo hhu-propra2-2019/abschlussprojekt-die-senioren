@@ -113,23 +113,23 @@ Der folgende Abschnitt zeigt die Zerlegung des Gruppenbildungssystems in einzeln
 Module. Dabei wird die Sicht beschränkt auf die erste Zerlegungsebene, welche die
 Subsysteme inklusive ihrer Schnittstellen darstellt.
 
-=== Ebene 1
-
 Folgende Abbildung zeigt die Zerlegung des Gruppenbildungssystems in Subsysteme.
 Die Pfeile stellen fachliche Abhängigkeiten der Subsysteme untereinander
 dar (“x -> y” für “x ist abhängig von y”). Die Quadrate auf der Membran des Systems sind
 Interaktionspunkte mit externen Systemen.
 
-image::bausteinsicht_ebene1.png[]
+image::bausteinsicht_diagramm.png[]
 
 |===
 |*Subsystem*|*Kurzbeschreibung*
 |Gruppenerstellung|Realisiert die Erstellung einer Gruppe.
-|Gruppenbeitritt|Realisiert den Gruppenbeitritt eines Users.
 |Gruppenansicht|Realisiert die Ansicht einer Gruppe. Dabei wird zwischen der Viewer-Sicht (einfacher User)
 und der Admin-Sicht (User mit erweiterten Rechten) differenziert.
+|Gruppenverwaltung|Realisiert die Anpassung von Gruppen und Gruppeninhalten.
 |Gruppensuche|Realisiert die Suche einer Gruppe. Dabei können sowohl öffentliche, als auch
 restringierte (zugangsbeschränkte) Gruppen gesucht werden.
+|Gruppenbeitritt|Realisiert den Gruppenbeitritt eines Users.
+|Rollenverteilung|Realisiert die Zuweisung von Gruppenmitgliedern zu den für sie vorgesehen Rollen
 |===
 
 === Blackbox-Sichten der Subsysteme
@@ -228,7 +228,7 @@ Außerdem besteht eine Abhängigkeit zur Rollenverteilung, da die Ausführungen 
 Das Subsystem Gruppenverwaltung stellt eine Funktionalität über  Klassen innerhalb des Domänen-Modells bereit.
 Alle Objekte der Event-Klassen werden mit Informationen über die betreffenden Gruppen, den ausführenden User und die gewünschten Änderungen instanziiert,
 um so die Verwaltung der korrekten Gruppe, die Authorisierung des Users und die Umsetzung der Änderungen mit bestimmten Parametern zu garantieren.
-Genauere Informationen zur Erstellung der Event-Objekte sind dem Wiki des GitHub-Repositories dieser Anwendung zu entnehmen.
+Genauere Informationen zur Erstellung der Event-Objekte sind dem https://github.com/hhu-propra2/abschlussprojekt-die-senioren/wiki[Wiki] des GitHub-Repositories dieser Anwendung zu entnehmen.
 
 * _mops.gruppen1.domain.Group_
 ** Group-Objekte enthalten Methoden, die die Merkmale einer Gruppe bearbeiten, für die die Gruppenverwaltung mögliche Änderungen vorsieht.
@@ -251,9 +251,8 @@ Genauere Informationen zur Erstellung der Event-Objekte sind dem Wiki des GitHub
 
 ===== Verantwortlichkeit
 
-Dieses Subsystem ermöglicht es, nach bestehenden Gruppen zu suchen. +
-
-//TODO Matching erklären
+Dieses Subsystem ermöglicht es, nach bestehenden Gruppen zu suchen.
+Das Suchergebnis soll sowohl öffentliche als auch restringierte Gruppen beinhalten.
 
 ===== Abhängigkeiten
 
@@ -261,7 +260,16 @@ Für die Gruppensuche besteht eine Abhängigkeit zur Gruppenverwaltung, da Suche
 Die Gruppenverwaltung realisiert die Löschung einer Gruppe und kann somit bewirken, dass eine Gruppe nicht länger erfolgreich gesucht werden kann.
 
 ===== Schnittstellen
-//TODO Schnittstellen auf Klassenebene hinzufügen
+Die Gruppensuche stellt ihre Funktionalität ebenfalls nicht mittels Klassen auf der Domänen-Ebene bereit,
+da die Suche nach Gruppen keine Bearbeitung bestehender Datenstrukturen der Anwendung impliziert und damit keine
+Schnittstelle zu den bisher definierten Events voraussetzt.
+Stattdessen benötigt die Gruppensuche lediglich Zugriff auf die Datenstrukturen der Anwendung, die alle Gruppen enthalten,
+die von Nutzern gesucht und gefunden werden können.
+Daher stellt die Gruppensuche ihre Funktionalität über folgende Klasse bereit:
+
+* _mops.gruppen1.applicationService.GroupService_
+** Der GroupService enthält die Methode *searchGroupsByName*, die eine Texteingabe entgegennimmt, alle aktiven Gruppen durchsucht und die zurückgibt, deren Name die Eingabe zumindest enthält.
+
 
 ==== Gruppenbeitritt
 
@@ -277,7 +285,7 @@ zuvor über die Suche gefunden wurden.
 Darüber hinaus besteht eine Abhängigkeit zur Rollenverteilung, da restringierten Gruppen nicht ohne die Zustimmung eines Admins beigetreten werden kann.
 
 ===== Schnittstellen
-Das Subsystem Gruppenbeitritt stellt eine Funktionalität über  Klassen innerhalb des Domänen-Modells bereit.
+Das Subsystem Gruppenbeitritt stellt eine Funktionalität über Klassen innerhalb des Domänen-Modells bereit.
 Für weitere Informationen zur Erstellung der unten aufgeführten Event-Objekte sei auf das Wiki des
 GitHub-Repositories dieser Anwendung verwiesen.
 
@@ -309,28 +317,38 @@ Dieses Subsystem stellt eine Aufteilung aller Gruppenmitglieder in ADMIN oder VI
 Mitglieder vertreten, die entweder die Rolle eines Admin einnehmen, oder die Rolle eines Viewers. Das Subsystem regelt nur die Zuordnung
 zu den beiden Rollen. Andere Subsysteme, die eine Abhängigkeit zur Rollenverteilung haben, entscheiden selbst, welche Berechtigungen mit der
 entsprechenden Rolle eines Users verbunden sind. In die Verantwortlichkeit dieses Subsystems fällt außerdem die Änderung der Rolle eines Users.
+Das Subsystem berücksichtigt, dass die Rollenverteilung innerhalb einer Gruppe dynamisch ist.
+So ist es möglich, dass ein Admin im Lebenszyklus einer Gruppe Viewer zu Admins und Admins zu Viewern einstufen kann.
 
 ===== Abhängigkeiten
 Das Subsystem hat keine direkten Abhängigkeiten.
 
 ===== Schnittstellen
-Das Subsystem der Rollenverteilung stellt seine Funktionalität über Java-Klassen der Domain-Ebene bereit. Relevante Checks
-bezüglich der Rollenzuordnung eines Users sind auf der Service-Ebene zu finden.
+Das Subsystem der Rollenverteilung stellt seine Funktionalität über folgende Klassen im Domänen-Modell bereit:
 
-* _mops.gruppen1.domain/MembershipType.java_ (Enum)
-* _mops.gruppen1.domain/Membership.java_
-** Die Klasse Membership.java besitzt einen User, eine Gruppe und einen MembershipType. Somit wird hier gespeichert, in welcher
+* _mops.gruppen1.domain/MembershipType_ (Enum)
+** Definiert die Werte ADMIN und VIEWER als mögliche Rollen innerhalb einer Gruppe
+* _mops.gruppen1.domain/Membership_
+** Die Klasse Membership besitzt einen User, eine Gruppe und einen MembershipType. Somit wird hier gespeichert, in welcher
 Gruppe ein User welche Rolle (MembershipType.ADMIN oder MembershipType.VIEWER) hat.
-Die Methode setMembershipType setzt den MembershipType von ‚VIEWER‘ auf ‚ADMIN‘ (oder umgekehrt).
-* mops.gruppen1.domain.events/MembershipUpdateEvent.java
-Falls ein Viewer zu einem Admin gemacht werden soll (oder umgekehrt), so muss dies durch einen anderen Admin erfolgen (dies wird
-anhand von isAdmin geprüft). Hierbei wird ein MembershipUpdateEvent angestoßen.
-Die execute-Method im MembershipUpdateEvent sorgt dafür, dass der MembershipType von ‚VIEWER‘ auf ‚ADMIN‘ gesetzt wird. Ist ein User
-vor der Änderung Admin, so wird der MembershipType von ‚ADMIN‘ auf ‚VIEWER‘ gesetzt.
-* mops.gruppen1.applicationService/CheckService.java
-** Die Klasse CheckService beinhaltet zwei Check-Methoden, die zum einen Überprüfen, ob ein User Admin ist oder nicht (isAdmin) und
-zum anderen Rückmeldung darüber geben, ob ein Admin der einzige Admin der entsprechenden Gruppe ist (activeAdminRemains). Auf diese
-Weise kann später sichergestellt werden, dass immer mindestens ein aktiver Admin in einer Gruppe existiert.
+Die Methode setMembershipType setzt den MembershipType von VIEWER auf ADMIN (oder umgekehrt).
+* _mops.gruppen1.domain.events/MembershipUpdateEvent_
+** Die *execute*-Methode der Klasse MembershipUpdateEvent sorgt dafür, dass der MembershipType von VIEWER auf ADMIN gesetzt wird. Ist ein User
+vor der Änderung Admin, so wird der MembershipType von ADMIN auf VIEWER gesetzt.
+
+
+== Konzepte
+
+=== Überprüfung notwendiger Bedingungen vor Events
+In den vorherigen Abschnitten wird häufig darauf hingewiesen, dass die Ausführung von Events an Bedingungen wie der Rolle des ausführenden Nutzers gekoppelt ist.
+Die Überprüfung, ob Bedingungen erfüllt werden, basiert in unserer Anwendung auf der Klasse *ValidationResult*.
+
+Alle Daten, die an der Ausführung eines Events beteiligt sind und für die Bedingungen gelten, werden auf ihre Gültigkeit im Sinne des Events überprüft.
+Die Durchführung solcher Überprüfungen erzeugt je ein ValidationResult-Objekt, das auf die Validität (negativer Test auf Bedingungsverletzung) bzw. Invalidität (positiver Test auf Bedingungsverletzung) hinweist.
+Nach der Durchführung aller Überprüfungen werden die ereugten ValidationResult-Objekte gesammelt ausgewertet, um ein neues ValidationResult-Objekt anzulegen, dass die Ergebnisse aller vorangegangen Überprüfungen in einem Objekt zusammenfasst.
+Sollte bei den Überprüfungen mindestens eine Bedingungsverletzung festgestellt worden sein, weist auch das neue ValidationResult-Objekt auf die Invalidität der Daten hin.
+Wenn das passiert, wird Workflow zur Ausführung des Events noch vor Erstellung des Event-Objektes abgebrochen.
+
 
 
 == Entscheidungen
@@ -352,9 +370,9 @@ Diese Entscheidung verfolgt das Ziel, Objekte mithilfe einfacher Strings aus den
 ==== Testing
 
 Das Testen der Event-Klassen soll in einzelnen entsprechenden Testklassen erfolgen (und nicht in einer einzigen
-Testklasse). Es gibt eine Hilfsklasse (TestSetup), in der ein SetUp an Datenstrukturen erstellt wird, auf die sich
+Testklasse). Es gibt eine Hilfsklasse (TestSetup), in der ein Setup an Datenstrukturen erstellt wird, auf die sich
 die einzelnen Event-Tests dann beziehen können.
-Das SetUp beinhaltet Daten, die eine sinnvolle Ausführung aller Events zu Testzwecken erlauben.
+Das Setup beinhaltet Daten, die eine sinnvolle Ausführung aller Events zu Testzwecken erlauben.
 
 ==== Trennung zwischen Gruppenerstellung und Gruppenbeitritt
 
@@ -383,7 +401,7 @@ ermöglichen, da uns nicht empfohlen wurde das Suchicon per css-File zu übersch
 bleibt, auch eine Implementierung für sinnvoll erachten. Sollte es im Nachhinein eine Änderungen diesbezüglich geben,
 so kann die Implementierung der Suche leicht gelöscht werden, da diese im Controller in eine Methode ausgelagert wurde.
 
-=== Input-Transfer
+==== Input-Transfer
 
 Die Weitergabe der vom Controller bereitgestellten Parameter soll über ApplicationService und GroupService bis hin zu
 den einzelnen Events als Strings/Primitives erfolgen. Dies hat den Hintergrund, dass alle Eventklassen nur Strings als
@@ -402,10 +420,20 @@ Andere Teilsysteme können diesen aktuellen Stand bei sich speichern und bei ern
 nicht bei jeder Anfrage Informationen über alle vorhandenen Gruppen rausgeben müssen, sondern nur solche, in denen seit der
 letzten EventId eine Änderung stattgefunden hat. Dies liefert eine sehr viel effizientere Schnittstelle.
 
+==== ValidationResult
+
+Die Definition eines eigenen Objekttypen zur Dokumentation von Bedingungsverletzungen wurde beschlossen,
+um auf diese Weise ein binäres Testergebnis (positiv, negativ) und eine kontextrelevante Fehlermeldung in einem Objekt zu kapseln.
+Das Testergebnis erfüllt dabei vornehmlich den Zweck, die Ausführung eines Events ggf. zu unterbinden,
+während die Fehlermeldung dazu genutzt werden kann, Nutzern im Frontend rückzumelden, dass eine Aktion fehlschlägt und auch weshalb.
+
+
 == Risiken
 
 Die folgenden Risiken wurden zu Beginn des Vorhabens identifiziert. 
 Sie beeinflussten die Planung über die gesamte Projektdauer hinweg. Seit Abschluss der vierten Woche werden sie beherrscht. 
+
+---
 
 ==== *Inkompatibilitäten und Projektverzögerung durch Aufgabenabgrenzung und Schnittstellendefinitionen zwischen Teilsystemen*
 
@@ -421,6 +449,7 @@ diese aber auch beeinflusst, ist eine kontinuierliche Verfeinerung über den Ver
 Durch kontinuierlichen und offenen Austausch mit anderen Projektgruppen, sowie einer agilen Arbeitsweise, können die Schnittstellen an sich ändernde Anforderungen angepasst werden.
 Die Transparenz der Projektrepositories und die Verfügbarkeit von unterschiedlichen Kommunikationskanälen (Skype, Rocketchat,..) erleichtert dies.
 
+---
 
 ==== *Einschränkung der Systemfunktionalitäten durch Ausfall des Gruppensystems*    
 
@@ -433,4 +462,27 @@ Ein Ausfall des Teilsystems, könnte somit trotz der angestrebten Architektur (S
 
 Gruppenzuordnungen können in den abhängigen Teilsystemen zwischengespeichert werden und durch Abfragen von Änderungen synchronisiert werden.
 Ein Ausfall birgt somit nur die Gefahr einer zwischenzeitlichen Abweichung des Datenbestands.
+
+---
+
+==== *Implementierung neuer Events*
+
+*Risikobeschreibung:*
+
+Die Festlegung der Event, die mögliche Operationen an den Datenstrukturen der Anwendung definieren, erfolgte mit dem Ziel, eine erschöpfende Liste aller sinnvollen Operationen abzubilden.
+Sollte die Anwendung in Zukunft um Funktionalitäten erweitert werden, kann das eine Erweiterung der Event-Liste verlangen.
+In unserer Anwendung sind Events ein Kernbestandteil des Domänen-Modells und werden von äußerden Schichten der Architektur über Services angesteuert.
+Die Implementierung neuer Events erfordert daher Arbeit an einer Reihe von Klassen im Backend der Anwendung:
+
+* Eine neue Event-Klasse, die das IEvent-Interface implementiert, muss erstellt werden
+* Der GroupService muss eine Funktion erhalten, das neue Event als Objekt zu erstellen und auszuführen
+* Der ApplicationServic muss die neue Funktion im GroupService ansteuern können
+* Ggf. müssen im CheckService neue Bedingungen für die Ausführung des Events implementiert werden
+* Ggf. muss das Test-Setup ergänzt werden, falls die Datenstrukturen des Setups einen für neue Events kritischen Fall nicht abdecken
+
+*Risikominderung:*
+
+Der Implementierungsaufwand für neue Events ist dadurch begrenzt, dass existierende Events bisher unabhängig voneinander implementiert werden.
+Auf diese Weise müssen die oben genannten Klassen zwar bearbeitet werden, falls ein neues Event hinzugefügt werden soll, aber es müssen keine alten Events bearbeitet werden.
+Die nötigen Implementierungen stellen daher lediglich Erweiterungen der Klassen dar, die unabhänging vom bereits vorhanden Code geschrieben werden können.
 
