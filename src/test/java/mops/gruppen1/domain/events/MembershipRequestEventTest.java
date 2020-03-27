@@ -1,9 +1,6 @@
 package mops.gruppen1.domain.events;
 
-import mops.gruppen1.domain.Group;
-import mops.gruppen1.domain.MembershipStatus;
-import mops.gruppen1.domain.MembershipType;
-import mops.gruppen1.domain.Username;
+import mops.gruppen1.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -32,8 +29,9 @@ public class MembershipRequestEventTest {
 
         MembershipType Type = MembershipType.VIEWER;
         String membershipType = Type.toString();
+        String message = "ich will hier rein.. Ich bin ein Star";
 
-        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupThreeID, username.getUsername(), membershipType);
+        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupThreeID, username.getUsername(), membershipType,message);
 
         //Act
         membershipRequestEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
@@ -56,8 +54,9 @@ public class MembershipRequestEventTest {
 
         MembershipType Type = MembershipType.VIEWER;
         String membershipType = Type.toString();
+        String message = "ich will hier rein.. Ich bin ein Star";
 
-        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupThreeID, username.getUsername(), membershipType);
+        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupThreeID, username.getUsername(), membershipType, message);
 
         //Act
         membershipRequestEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
@@ -80,8 +79,9 @@ public class MembershipRequestEventTest {
 
         MembershipType Type = MembershipType.VIEWER;
         String membershipType = Type.toString();
+        String message = "ich will hier rein.. Ich bin ein Star";
 
-        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupThreeID, username.getUsername(), membershipType);
+        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupThreeID, username.getUsername(), membershipType, message);
 
         //Act
         membershipRequestEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);

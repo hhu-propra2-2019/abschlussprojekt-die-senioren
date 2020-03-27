@@ -1,5 +1,9 @@
 package mops.gruppen1.Controller;
 
+import mops.gruppen1.applicationService.ApplicationService;
+import mops.gruppen1.applicationService.ValidationResult;
+import mops.gruppen1.domain.Group;
+import mops.gruppen1.domain.events.TestSetup;
 import org.junit.jupiter.api.*;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
@@ -9,6 +13,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,6 +23,9 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,6 +40,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class GroupControllerTest {
     @Autowired
     MockMvc mvc;
+    private TestSetup testSetup;
+    private String groupID;
+
+
+    @MockBean
+    ApplicationService applicationService;
 
     @Autowired
     WebApplicationContext context;
@@ -42,9 +56,12 @@ class GroupControllerTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+        this.testSetup = new TestSetup();
+        Group testgroup = testSetup.groupOne;
+        this.groupID = testSetup.groupOne.getGroupId().toString();
+        when(applicationService.getGroup(groupID)).thenReturn(testgroup);
     }
 
-    // TODO @Diabled Tests entweder fixen oder am Ende löschen
     
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Index - Seite.")
@@ -69,7 +86,6 @@ class GroupControllerTest {
 
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Admin - View einer Gruppe.")
-    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testAdminView() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -83,15 +99,18 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/admin"))
+
+        when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
+
+        mvc.perform(get("/gruppen1/admin/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("gruppenAdmin"));
     }
 
 
+
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Viewer - View einer Gruppe.")
-    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testMemberView() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -105,7 +124,10 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/viewer"))
+
+        when(applicationService.isActive(any(), any())).thenReturn(new ValidationResult());
+
+        mvc.perform(get("/gruppen1/viewer/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("gruppenViewer"));
     }
@@ -133,7 +155,6 @@ class GroupControllerTest {
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Description Change View einer Gruppe.")
     @Test
-    @Disabled("Needs a specific Group ID - not ready yet")
     void testChangeGroupDescription() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
@@ -146,14 +167,16 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/description"))
+
+        when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
+
+        mvc.perform(get("/gruppen1/description/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeDescription"));
     }
 
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Member-Edit Seite einer Gruppe.")
-    @Disabled("Needs a specific Group ID - not ready yet")
     @Test
     void testMembershipChange() throws Exception {
         Set<String> roles = new HashSet<String>();
@@ -167,7 +190,10 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/memberships"))
+
+        when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
+
+        mvc.perform(get("/gruppen1/memberships/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeMemberships"));
     }
@@ -187,7 +213,10 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/groupRequests"))
+
+        when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
+
+        mvc.perform(get("/gruppen1/groupRequests/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("groupRequests"));
     }
@@ -218,6 +247,7 @@ class GroupControllerTest {
     void testMembershipsRequestMessage() throws Exception {
         Set<String> roles = new HashSet<String>();
         roles.add("studentin");
+        roles.add("orga");
         KeycloakAuthenticationToken token = new KeycloakAuthenticationToken(
                 new SimpleKeycloakAccount(
                         Mockito.mock(KeycloakPrincipal.class, Mockito.RETURNS_DEEP_STUBS),
@@ -226,7 +256,10 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
-        mvc.perform(get("/gruppen1/requestMessage"))
+
+        when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
+
+        mvc.perform(get("/gruppen1/requestMessage/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("requestDescription"));
     }

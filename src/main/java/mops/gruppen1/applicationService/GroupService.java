@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
-import mops.gruppen1.domain.Group;
-import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.MembershipStatus;
-import mops.gruppen1.domain.User;
+
+import mops.gruppen1.domain.*;
+
 import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -197,7 +196,7 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipAssignmentEvent", membershipAssignmentEvent);
     }
 
-    public ValidationResult requestMembership(String userName, String groupId, String membershipType) {
+    public ValidationResult requestMembership(String userName, String groupId, String membershipType, String membershipRequestMessage) {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
@@ -209,7 +208,7 @@ public class GroupService {
 
         if (validationResult.isValid()) {
             try {
-                performMembershipRequestEvent(userName, groupId, membershipType);
+                performMembershipRequestEvent(userName, groupId, membershipType, membershipRequestMessage);
             } catch (Exception e) {
                 validationResult.addError("Unexpected failure.");
             }
@@ -217,8 +216,8 @@ public class GroupService {
         return validationResult;
     }
 
-    void performMembershipRequestEvent(String userName, String groupId, String membershipType) {
-        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType);
+    void performMembershipRequestEvent(String userName, String groupId, String membershipType, String membershipRequestMessage) {
+        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType, membershipRequestMessage);
         membershipRequestEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipRequestEvent", membershipRequestEvent);
@@ -229,7 +228,7 @@ public class GroupService {
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMember(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
-        validationResults.add(checkService.activeAdminRemainsAfterResignment(userName, groupId, groupToMembers));
+        validationResults.add(checkService.activeAdminRemains(userName, userName, groupId, groupToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
@@ -280,6 +279,7 @@ public class GroupService {
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(deletedBy, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isAdmin(deletedBy, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.activeAdminRemains(deletedBy, userName, groupId, groupToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
@@ -300,17 +300,18 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipDeletionEvent", memberDeletionEvent);
     }
 
-    public ValidationResult updateMembership(String userName, String groupId, String updatedBy, String updatedTo) {
+    public ValidationResult updateMembership(String userName, String groupId, String updatedBy) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isGroupActive(groupId, groups));
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isMembershipActive(updatedBy, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.activeAdminRemains(updatedBy, userName, groupId, groupToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
 
         if (validationResult.isValid()) {
             try {
-                performMembershipUpdateEvent(userName, groupId, updatedBy, updatedTo);
+                performMembershipUpdateEvent(userName, groupId, updatedBy);
             } catch (Exception e) {
                 validationResult.addError("Unexpected failure.");
             }
@@ -318,8 +319,8 @@ public class GroupService {
         return validationResult;
     }
 
-    void performMembershipUpdateEvent(String userName, String groupId, String deletedBy, String updatedTo) {
-        MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName, deletedBy, updatedTo);
+    void performMembershipUpdateEvent(String userName, String groupId, String deletedBy) {
+        MembershipUpdateEvent membershipUpdateEvent = new MembershipUpdateEvent(groupId, userName, deletedBy);
         membershipUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipUpdateEvent", membershipUpdateEvent);
@@ -341,6 +342,15 @@ public class GroupService {
             }
         }
         return validationResult;
+    }
+
+    public Group getGroup(String groupId) {
+        ValidationResult validationResult = checkService.isGroupActive(groupId, groups);
+        if(validationResult.isValid()) {
+            Group group = groups.get(groupId);
+            return group;
+        }
+        return null;
     }
 
 
@@ -369,42 +379,99 @@ public class GroupService {
         return validationResult;
     }
 
-    public boolean isUserMemberOfGroup(String username, String groupId) {
+    public List<Membership> getMembersOfGroup(String groupId) {
+        List<Membership> memberships = groupToMembers.get(groupId);
+        return memberships;
+    }
+
+    public List<Membership> getActiveMembersOfGroup(String groupId) {
+        List<Membership> memberships = groupToMembers.get(groupId);
+        List<Membership> activeMemberships = memberships.stream()
+                .filter(m -> m.getMembershipStatus().equals(MembershipStatus.ACTIVE)).collect(Collectors.toList());
+        return activeMemberships;
+    }
+
+    public List<Group> getGroupsOfUser(String userName) {
+        List<Membership> memberships = userToMembers.get(userName);
+        List<Group> groups = memberships.stream().map(member -> member.getGroup()).collect(Collectors.toList());
+        return groups;
+    }
+
+    public List<Group> getGroupsWhereUserIsActive(String userName) {
+        List<Membership> memberships = userToMembers.get(userName);
+        List<Group> groupsWhereUserIsActive = memberships.stream()
+                .filter(member -> member.getMembershipStatus().equals(MembershipStatus.ACTIVE))
+                .map(member -> member.getGroup()).collect(Collectors.toList());
+        return groupsWhereUserIsActive;
+    }
+
+    public List<Membership> getPendingMemberships(String groupId) {
+        List<Membership> memberships = groupToMembers.get(groupId);
+        List<Membership> pendingMemberships = memberships.stream()
+                .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.PENDING))
+                .collect(Collectors.toList());
+        return pendingMemberships;
+    }
+
+    public long countPendingRequestOfGroup(String groupId) {
+        List<Membership> memberships = groupToMembers.get(groupId);
+        long pendingMemberships = memberships.stream()
+                .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.PENDING))
+                .count();
+        return pendingMemberships;
+    }
+
+    public List<Membership> getMembershipsOfUser(String userName) {
+        List<Membership> memberships = userToMembers.get(userName);
+        return memberships;
+    }
+
+    public List<Membership> getActiveMembershipsOfUser(String userName) {
+        List<Membership> memberships = userToMembers.get(userName);
+        List<Membership> activeMemberships = memberships.stream()
+                .filter(membership -> membership.getMembershipStatus().equals(MembershipStatus.ACTIVE))
+                .collect(Collectors.toList());
+        return activeMemberships;
+    }
+
+    public List<Group> searchGroupsByName(String groupName) {
+        List<Group> requestedGroups = groups.values().stream()
+                .filter(group -> group.getGroupStatus().equals(GroupStatus.ACTIVE))
+                .filter(group -> group.getName().toString().toLowerCase().contains(groupName.toLowerCase()))
+                .collect(Collectors.toList());
+        return requestedGroups;
+    }
+
+    public List<String> searchUserByName(String userName) {
+        List<String> requestedUsers = users.values().stream()
+                .filter(user -> user.getUsername().toString().toLowerCase().contains(userName.toLowerCase()))
+                .map(user -> user.getUsername().toString())
+                .collect(Collectors.toList());
+        return requestedUsers;
+    }
+
+    public ValidationResult isUserMemberOfGroup(String username, String groupId) {
         ValidationResult validationResult = checkService.isMember(username, groupId, this.groups, this.users, this.userToMembers);
 
-        return validationResult.isValid();
+        return validationResult;
     }
 
-    public boolean isUserAdminInGroup(String username, String groupId) {
+    public ValidationResult isUserAdminInGroup(String username, String groupId) {
         ValidationResult validationResult = checkService.isAdmin(username, groupId, this.groups, this.users, this.userToMembers);
 
-        return validationResult.isValid();
+        return validationResult;
     }
 
-    public boolean isGroupActive(String groupId) {
+    public ValidationResult isGroupActive(String groupId) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.doesGroupExist(groupId, this.groups));
         validationResults.add(checkService.isGroupActive(groupId, this.groups));
         ValidationResult validationResult = collectCheck(validationResults);
 
-        return validationResult.isValid();
+        return validationResult;
     }
 
-    public List<Group> getGroupsOfUser(String username) {
-
-        //Get all memberships for given username
-        List<Membership> members =  userToMembers.get(username);
-
-        //Filter all memberships with deactivated/rejected/pending status
-        List<Membership> activeMembers =  members.stream().filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE).collect(Collectors.toList());
-
-        //Call getGroup-method on each membership element of list 'members' and add it to new list of 'groups'
-        List<Group> groups = activeMembers.stream().map(Membership::getGroup).collect(Collectors.toList());
-
-        return groups;
-    }
-
-    public List<User> getUsersOfGroup(String groupId) {
+    public List<User> getActiveUsersOfGroup(String groupId) {
 
         //Get all memberships for given username
         List<Membership> members =  groupToMembers.get(groupId);
@@ -417,6 +484,22 @@ public class GroupService {
 
         return users;
     }
+
+    public ValidationResult isAdmin(String userName, String groupId) {
+        ValidationResult validationResult = checkService.isAdmin(userName, groupId, groups, users, userToMembers);
+        return validationResult;
+    }
+
+    public ValidationResult isActive(String userName, String groupId) {
+        ValidationResult validationResult = checkService.isMembershipActive(userName, groupId, groups, users, userToMembers);
+        return validationResult;
+    }
+
+    public ValidationResult isActiveAdmin(String userName, String groupId) {
+        List<ValidationResult> validationResults = new ArrayList<>();
+        validationResults.add(checkService.isAdmin(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
+        return validationResult;
+    }
 }
-
-

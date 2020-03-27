@@ -60,6 +60,7 @@ dependencies {
     compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'org.keycloak:keycloak-spring-boot-starter:9.0.0'
     implementation 'org.keycloak.bom:keycloak-adapter-bom:9.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
