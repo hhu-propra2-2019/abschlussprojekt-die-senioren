@@ -35,9 +35,7 @@ public class GroupController {
      */
     private Account createAccountFromPrincipal(KeycloakAuthenticationToken token) {
         KeycloakPrincipal principal = (KeycloakPrincipal) token.getPrincipal();
-        if (!applicationService.getAllUsers().containsKey(token.getName())) {
-            applicationService.createUser(token.getName());
-        }
+        applicationService.createUser(token.getName());
         return new Account(
                 principal.getName(),
                 principal.getKeycloakSecurityContext().getIdToken().getEmail(),
@@ -55,10 +53,8 @@ public class GroupController {
 
     @GetMapping("/erstellen")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupCreation(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
-        if (token != null) {
-            model.addAttribute("account", createAccountFromPrincipal(token));
-        }
+    public String createGroupOverview(KeycloakAuthenticationToken token, Model model,
+                                @RequestParam(name = "search") Optional search) {
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -67,67 +63,48 @@ public class GroupController {
 
     @PostMapping("/erstellen")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupCreation (KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search,
+    public String createGroup(KeycloakAuthenticationToken token, Model model,
+                                 @RequestParam(name = "search") Optional search,
                                  @RequestParam(value = "groupname") String groupName,
                                  @RequestParam(value = "groupModule") String module,
                                  @RequestParam(value = "groupType") String groupType,
                                  @RequestParam(value = "groupDescription", required = false) String groupDescription,
-                                 @RequestParam(value = "csv", required = false) String csvFileName)
-    {
-        if (token != null) {
-            Account account = createAccountFromPrincipal(token);
-            model.addAttribute("account", account);
-            //account - Name gleich Username
-            applicationService.createGroup(groupDescription,groupName,module,account.getName(),groupType,new ArrayList<String>());
-         }
+                                 @RequestParam(value = "csv", required = false) String csvFileName) {
 
-        if (search.isPresent()) {
-            return searchGroups(search, model);
-        }
+        applicationService.createGroup(groupDescription,groupName,module,token.getName(),groupType,new ArrayList<String>());
         return "redirect:/gruppen1/";
     }
 
     @GetMapping("/description/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String descriptionChange (KeycloakAuthenticationToken token, Model model,
-                                     @RequestParam(name = "search") Optional search,
-                                     @PathVariable("id") String id){
+    public String changeGroupPropertiesOverview(KeycloakAuthenticationToken token, Model model,
+                                      @RequestParam(name = "search") Optional search,
+                                      @PathVariable("id") String id){
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
         ValidationResult validation = applicationService.isActiveAdmin(token.getName(), id);
         if(validation.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                model.addAttribute("groupId", id);
-                Group group = applicationService.getGroup(id);
-                model.addAttribute("placeholder_groupname", group.getName().toString());
-                model.addAttribute("placeholder_groupdescription", group.getDescription().toString());
-                model.addAttribute("placeholder_grouptype", group.getGroupType().toString());
-            }
-            if (search.isPresent()) {
-                return searchGroups(search, model);
-            }
-            return "changeDescription";
+            model.addAttribute("groupId", id);
+            Group group = applicationService.getGroup(id);
+            model.addAttribute("placeholder_groupname", group.getName().toString());
+            model.addAttribute("placeholder_groupdescription", group.getDescription().toString());
+            model.addAttribute("placeholder_grouptype", group.getGroupType().toString());
+            return "changeProperties";
         }
         return "redirect:/gruppen1/";
     }
 
     @PostMapping("/description/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String descriptionChange (KeycloakAuthenticationToken token, Model model,
+    public String changeGroupProperties(KeycloakAuthenticationToken token, Model model,
                                      @RequestParam(value = "groupName") String groupname,
                                      @RequestParam(value = "groupDescription") String groupDescription,
                                      @RequestParam(value = "groupType") String groupType,
                                      @PathVariable("id") String groupId) {
         ValidationResult validation = applicationService.isActiveAdmin(token.getName(), groupId);
         if(validation.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                applicationService.updateGroupProperties(groupId, account.getName(), groupname, groupDescription, groupType);
-            }
+            applicationService.updateGroupProperties(groupId, token.getName(), groupname, groupDescription, groupType);
             return "redirect:/gruppen1/admin/{id}";
         }
         return "redirect:/gruppen1/";
@@ -135,7 +112,7 @@ public class GroupController {
 
     @GetMapping("/memberships/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String membershipChange(KeycloakAuthenticationToken token, Model model,
+    public String changeMembershipOverview(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(name = "search") Optional search,
                                    @PathVariable("id") String groupId) {
         if (search.isPresent()) {
@@ -143,11 +120,8 @@ public class GroupController {
         }
         ValidationResult validation = applicationService.isActiveAdmin(token.getName(), groupId);
         if(validation.isValid()) {
-            if (token != null) {
-                model.addAttribute("account", createAccountFromPrincipal(token));
-                model.addAttribute("groupId", groupId);
-                model.addAttribute("members", applicationService.getMembersOfGroup(groupId));
-            }
+            model.addAttribute("groupId", groupId);
+            model.addAttribute("members", applicationService.getMembersOfGroup(groupId));
             return "changeMemberships";
         }
         return "redirect:/gruppen1/";
@@ -155,29 +129,32 @@ public class GroupController {
 
     @PostMapping("/memberships/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String membershipChange(KeycloakAuthenticationToken token, Model model,
+    public String changeMembership(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(value="username") String username,
                                    @RequestParam(value="action") String action,
                                    @PathVariable("id") String groupId) {
         ValidationResult validation = applicationService.isActiveAdmin(token.getName(), groupId);
         if(validation.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                if (action.equals("delete")) {
-                    applicationService.deleteMember(username, groupId, account.getName());
-                } else if (action.equals("change")) {
-                    applicationService.updateMembership(username, groupId, account.getName());
-                }
-            }
+            deleteOrUpdateMembership(token, username, action, groupId);
             return "redirect:/gruppen1/memberships/{id}";
         }
         return "redirect:/gruppen1/";
     }
 
+    private void deleteOrUpdateMembership(KeycloakAuthenticationToken token, 
+                                          @RequestParam("username") String username, 
+                                          @RequestParam("action") String action, 
+                                          @PathVariable("id") String groupId) {
+        if (action.equals("delete")) {
+            applicationService.deleteMember(username, groupId, token.getName());
+        } else if (action.equals("change")) {
+            applicationService.updateMembership(username, groupId, token.getName());
+        }
+    }
+
     @GetMapping("/viewer/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String viewerView (KeycloakAuthenticationToken token, Model model,
+    public String showViewForViewer(KeycloakAuthenticationToken token, Model model,
                               @RequestParam(name = "search") Optional search,
                               @PathVariable("id") String id) {
         if (search.isPresent()) {
@@ -185,37 +162,34 @@ public class GroupController {
         }
         ValidationResult validation = applicationService.isActive(token.getName(), id);
         if(validation.isValid()) {
-            if (token != null) {
-                model.addAttribute("account", createAccountFromPrincipal(token));
-                model.addAttribute("groupId", id);
-                Group group = applicationService.getGroup(id);
-                model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
-                model.addAttribute("groupDescription", group.getDescription().toString());
-                model.addAttribute("groupName", group.getName().toString());
-            }
+            fillModelforDetailPages(model, id);
             return "gruppenViewer";
         }
         return "redirect:/gruppen1/";
     }
 
+    private void fillModelforDetailPages(Model model, @PathVariable("id") String id) {
+        model.addAttribute("groupId", id);
+        Group group = applicationService.getGroup(id);
+        model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
+        model.addAttribute("groupDescription", group.getDescription().toString());
+        model.addAttribute("groupName", group.getName().toString());
+    }
+
     @PostMapping("/viewer/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String leaveGroupAsUser(KeycloakAuthenticationToken token, Model model,
+    public String leaveGroupAsViewer(KeycloakAuthenticationToken token, Model model,
                                @PathVariable("id") String groupId) {
         ValidationResult validation = applicationService.isActive(token.getName(), groupId);
         if(validation.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                applicationService.resignMembership(account.getName(), groupId);
-            }
+            applicationService.resignMembership(token.getName(), groupId);
         }
         return "redirect:/gruppen1/";
     }
 
     @GetMapping("/admin/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String adminView (KeycloakAuthenticationToken token, Model model,
+    public String showGroupForAdmin(KeycloakAuthenticationToken token, Model model,
                              @RequestParam(name = "search") Optional search,
                              @PathVariable("id") String id) {
         if (search.isPresent()) {
@@ -224,15 +198,8 @@ public class GroupController {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), id);
 
         if (validationResult.isValid()){
-            if (token != null) {
-                model.addAttribute("account", createAccountFromPrincipal(token));
-                model.addAttribute("groupId",id);
-                Group group = applicationService.getGroup(id);
-                model.addAttribute("groupDescription", group.getDescription().toString());
-                model.addAttribute("groupName", group.getName().toString());
-                model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
-                model.addAttribute("numberOfOpenRequests",applicationService.getPendingRequestOfGroup(id).size());
-            }
+            fillModelforDetailPages(model, id);
+            model.addAttribute("numberOfOpenRequests",applicationService.countPendingRequestOfGroup(id));
             return "gruppenAdmin";
         }
         return "redirect:/gruppen1/";
@@ -240,26 +207,38 @@ public class GroupController {
 
     @PostMapping("/admin/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String adminActions(KeycloakAuthenticationToken token, Model model,
+    public String performAdminActions(KeycloakAuthenticationToken token, Model model,
                                @RequestParam(value="action") String action,
                                @PathVariable("id") String groupId) {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
 
         if (validationResult.isValid()){
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                if (action.equals("delete")) {
-                    applicationService.deleteGroup(groupId, account.getName());
-                } else if (action.equals("resign")) {
-                    ValidationResult vali = applicationService.resignMembership(account.getName(), groupId);
-                    if (!vali.isValid()) {
-                        return "redirect:/gruppen1/admin/{id}";
-                    }
-                }
+            return deleteOrResignGroup(token, action, groupId);
+        }
+        return "redirect:/gruppen1/";
+    }
+
+    private String deleteOrResignGroup(KeycloakAuthenticationToken token,
+                                       @RequestParam("action") String action,
+                                       @PathVariable("id") String groupId) {
+        if (action.equals("delete")) {
+            applicationService.deleteGroup(groupId, token.getName());
+        } else if (action.equals("resign")) {
+            ValidationResult validationResult = applicationService.resignMembership(token.getName(), groupId);
+            if (isMemberResignmentNotPossible(token,validationResult, groupId)) {
+                return "redirect:/gruppen1/admin/{id}";
             }
         }
         return "redirect:/gruppen1/";
+    }
+
+    private boolean isMemberResignmentNotPossible(KeycloakAuthenticationToken token,
+                                                  ValidationResult validationResult,
+                                                  @PathVariable("id") String groupId) {
+        if (validationResult.isValid()) {
+            return false;
+        }
+        return true;
     }
 
 
@@ -283,21 +262,18 @@ public class GroupController {
 
     @GetMapping("/groupRequests/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupRequests(KeycloakAuthenticationToken token, Model model,
+    public String showGroupRequests(KeycloakAuthenticationToken token, Model model,
                                 @RequestParam(name = "search") Optional search,
                                 @PathVariable("id") String groupId) {
+
+        if (search.isPresent()) {
+            return searchGroups(search, model);
+        }
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
 
         if (validationResult.isValid()) {
-            if (token != null) {
-                model.addAttribute("account", createAccountFromPrincipal(token));
-                model.addAttribute("groupId", groupId);
-                model.addAttribute("members", applicationService.getPendingRequestOfGroup(groupId));
-
-            }
-            if (search.isPresent()) {
-                return searchGroups(search, model);
-            }
+            model.addAttribute("groupId", groupId);
+            model.addAttribute("members", applicationService.getPendingRequestOfGroup(groupId));
             return "groupRequests";
         }
         return "redirect:/gruppen1/";
@@ -305,35 +281,35 @@ public class GroupController {
 
     @PostMapping("/groupRequests/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String manageGroupRequest(KeycloakAuthenticationToken token, Model model,
+    public String manageGroupRequests(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(value="username") String username,
                                    @RequestParam(value="action") String action,
                                    @PathVariable("id") String groupId) {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
 
         if (validationResult.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                if (action.equals("accept")) {
-                    applicationService.acceptMembership(username, groupId, account.getName());
-                } else if (action.equals("reject")) {
-                    applicationService.rejectMembership(username, groupId, account.getName());
-                }
-            }
+            acceptOrRejectMember(token, username, action, groupId);
             return "redirect:/gruppen1/admin/{id}";
         }
         return "redirect:/gruppen1/";
     }
 
+    private void acceptOrRejectMember(KeycloakAuthenticationToken token,
+                                      @RequestParam("username") String username,
+                                      @RequestParam("action") String action,
+                                      @PathVariable("id") String groupId) {
+        if (action.equals("accept")) {
+            applicationService.acceptMembership(username, groupId, token.getName());
+        } else if (action.equals("reject")) {
+            applicationService.rejectMembership(username, groupId, token.getName());
+        }
+    }
+
 
     @GetMapping("/searchResults")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupSearch(KeycloakAuthenticationToken token, Model model,
+    public String showSearchGroupResults(KeycloakAuthenticationToken token, Model model,
                               @RequestParam(name = "search") Optional search) {
-        if (token != null) {
-            model.addAttribute("account", createAccountFromPrincipal(token));
-        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -345,12 +321,8 @@ public class GroupController {
     public String joinPublicGroup(KeycloakAuthenticationToken token, Model model,
                                   @RequestParam(value = "id") String groupId,
                                   @RequestParam(value="action") String action){
-        if (token != null) {
-            Account account = createAccountFromPrincipal(token);
-            model.addAttribute("account", account);
-            if(action.equals("assign")) {
-                applicationService.joinGroup(account.getName(), groupId, "");
-            }
+        if(action.equals("assign")) {
+            applicationService.joinGroup(token.getName(), groupId, "");
         }
         return "redirect:/gruppen1/";
     }
@@ -359,39 +331,23 @@ public class GroupController {
 
     @GetMapping("/requestMessage/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupDescription(KeycloakAuthenticationToken token, Model model,
+    public String showRequestMessageForm(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(name = "search") Optional search,
                                    @PathVariable("id") String groupId){
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
-        ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
-
-        if (validationResult.isValid()) {
-            if (token != null) {
-                model.addAttribute("account", createAccountFromPrincipal(token));
-                model.addAttribute("groupId", groupId);
-            }
-
-            return "requestDescription";
-        }
-        return "redirect:/gruppen1/";
+        model.addAttribute("groupId", groupId);
+        return "requestDescription";
     }
 
     @PostMapping("/requestMessage/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupRequest(KeycloakAuthenticationToken token, Model model,
+    public String sendRequestMessage(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(value = "message") String message,
-                                   @PathVariable("id") String groupId){
-        ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
+                                   @PathVariable("id") String groupId) {
 
-        if (validationResult.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                applicationService.joinGroup(account.getName(), groupId, message);
-            }
-        }
+        applicationService.joinGroup(token.getName(), groupId, message);
         return "redirect:/gruppen1/";
     }
 
