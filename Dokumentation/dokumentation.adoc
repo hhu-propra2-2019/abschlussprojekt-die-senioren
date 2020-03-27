@@ -228,7 +228,7 @@ Außerdem besteht eine Abhängigkeit zur Rollenverteilung, da die Ausführungen 
 Das Subsystem Gruppenverwaltung stellt eine Funktionalität über  Klassen innerhalb des Domänen-Modells bereit.
 Alle Objekte der Event-Klassen werden mit Informationen über die betreffenden Gruppen, den ausführenden User und die gewünschten Änderungen instanziiert,
 um so die Verwaltung der korrekten Gruppe, die Authorisierung des Users und die Umsetzung der Änderungen mit bestimmten Parametern zu garantieren.
-Genauere Informationen zur Erstellung der Event-Objekte sind dem Wiki des GitHub-Repositories dieser Anwendung zu entnehmen.
+Genauere Informationen zur Erstellung der Event-Objekte sind dem https://github.com/hhu-propra2/abschlussprojekt-die-senioren/wiki[Wiki] des GitHub-Repositories dieser Anwendung zu entnehmen.
 
 * _mops.gruppen1.domain.Group_
 ** Group-Objekte enthalten Methoden, die die Merkmale einer Gruppe bearbeiten, für die die Gruppenverwaltung mögliche Änderungen vorsieht.
