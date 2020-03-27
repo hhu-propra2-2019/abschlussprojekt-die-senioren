@@ -361,9 +361,9 @@ Diese Entscheidung verfolgt das Ziel, Objekte mithilfe einfacher Strings aus den
 ==== Testing
 
 Das Testen der Event-Klassen soll in einzelnen entsprechenden Testklassen erfolgen (und nicht in einer einzigen
-Testklasse). Es gibt eine Hilfsklasse (TestSetup), in der ein SetUp an Datenstrukturen erstellt wird, auf die sich
+Testklasse). Es gibt eine Hilfsklasse (TestSetup), in der ein Setup an Datenstrukturen erstellt wird, auf die sich
 die einzelnen Event-Tests dann beziehen können.
-Das SetUp beinhaltet Daten, die eine sinnvolle Ausführung aller Events zu Testzwecken erlauben.
+Das Setup beinhaltet Daten, die eine sinnvolle Ausführung aller Events zu Testzwecken erlauben.
 
 ==== Trennung zwischen Gruppenerstellung und Gruppenbeitritt
 
