@@ -13,7 +13,7 @@
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
         <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
         <ul>
-            <li class="active"><a th:href="@{/gruppen1/requestMessage}">Gruppenbeitritt anfragen</a></li>
+            <li class="active"><a th:href="@{/gruppen1/requestMessage/{id}(id=${groupId})}">Gruppenbeitritt anfragen</a></li>
             <li><a th:href="@{/gruppen1/}">Meine Gruppen</a></li>
         </ul>
     </nav>
@@ -24,14 +24,15 @@
             <h3 class="h3 header">Hinzufügen einer Antragsnachricht</h3>
         </div>
         <div class="card-body">
-            <form method="post" action="/gruppen1/admin">
+            <form method="post" th:action="@{/gruppen1/requestMessage/{id}(id=${groupId})}">
                 <div class="form-group">
                     <label for="NewRequestMessage">Antragsnachricht</label>
-                    <textarea class="form-control rounded-0" rows="3" type="text" placeholder="Bitte aufnehmen.." id="NewRequestMessage" required>
+                    <textarea th:name="message "class="form-control rounded-0" rows="3" type="text"
+                               id="NewRequestMessage" required>
                     </textarea>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-outline-secondary" value="submit">
+                    <input type="submit" class="btn btn-outline-secondary" value="Anfrage senden">
                 </div>
             </form>
         </div>

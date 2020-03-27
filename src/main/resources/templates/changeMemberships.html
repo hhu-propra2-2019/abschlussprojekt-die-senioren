@@ -30,26 +30,77 @@
             <table class="table table-bordered">
                 <tr>
                     <thead class="thead-light">
-                        <th class="h5">User</th>
-                        <th class="h5">Rolle</th>
-                        <th class="h5">Status</th>
-                        <th class="h5">Aktive Mitglieder verwalten</th>
+                        <th class="h5 w-20">User</th>
+                        <th class="h5 w-20">Rolle</th>
+                        <th class="h5 w-20">Status</th>
+                        <th class="h5 w-40">Aktive Mitglieder verwalten</th>
                     </thead>
                 </tr>
                 <tbody th:remove="all-but-first">
                 <tr th:each="member:${members}">
-                    <td th:text="${member.user.username.username}"class="h6">Student1</td>
-                    <td th:text="${member.membershipType}" class=" h6">Viewer</td>
-                    <td th:text="${member.membershipStatus}" class="h6">Aktiv</td>
-                    <td class="btn-group-lg offset-1" role="group">
-                        <span th:if="${T(mops.gruppen1.domain.MembershipStatus).ACTIVE}">
-                            <button type="button" class="btn btn-success rounded-bottom" title="Rolle ändern">
+                    <td th:text="${member.user.username.username}"class="h6 w-20">Student1</td>
+                    <td th:text="${member.membershipType}" class=" h6 w-20">Viewer</td>
+                    <td th:text="${member.membershipStatus}" class="h6 w-20">Aktiv</td>
+                    <td class="btn-group-lg offset-1 w-40" role="group">
+                        <span th:if="${member.membershipStatus == T(mops.gruppen1.domain.MembershipStatus).ACTIVE}">
+
+                            <button type="button" class="btn btn-success rounded-bottom" title="Rolle ändern"
+                                    data-toggle="collapse" data-target="#collapseRolechange" aria-expanded="false"
+                                    aria-controls="collapseRolechange"
+                                    name="action" value="change">
                                 <span class="fa fa-pencil small fa-xs"></span>
                             </button>
-                            <button type="button" class="btn btn-danger offset-1 rounded-bottom" title="Mitglied löschen">
+                            <button type="button" class="btn btn-danger offset-1 rounded-bottom" title="Mitglied löschen"
+                                    data-toggle="collapse" data-target="#collapseDeleteUser" aria-expanded="false"
+                                    aria-controls="collapseDeleteUser" value="delete"
+                                    name="action">
                                 <span class="fa fa-trash fa-xs"></span>
                             </button>
                         </span>
+                        <div class="collapse" id="collapseRolechange" th:method="get">
+                            <div class="card card-body border-0">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Rolle ändern</h4>
+                                                <p class="card-text">Hiermit änderst du die Rolle des
+                                                Mitglieds.</p>
+                                                <form method="post" th:action="@{/gruppen1/memberships/{id}(id=${groupId})}">
+                                                    <input type="hidden" th:value="change" th:name="action"/>
+                                                    <button class="btn btn-success" type="submit"
+                                                            th:value="${member.user.username.username}"
+                                                            th:name="username">Ändern
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse" id="collapseDeleteUser" th:method="get">
+                            <div class="card card-body border-0">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Mitglied löschen</h4>
+                                                <p class="card-text">Hiermit entfernst du das Mitglied aus
+                                                der Gruppe.</p>
+                                                <form method="post" th:action="@{/gruppen1/memberships/{id}(id=${groupId})}">
+                                                    <input type="hidden" th:value="delete" th:name="action"/>
+                                                    <button class="btn btn-danger" type="submit"
+                                                            th:value="${member.user.username.username}"
+                                                            th:name="username">Löschen
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
