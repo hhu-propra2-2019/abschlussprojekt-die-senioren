@@ -413,5 +413,20 @@ letzten EventId eine Änderung stattgefunden hat. Dies liefert eine sehr viel ef
 
 == Risiken
 
-//TODO Risiken absprechen
+=== Implementierung neuer Events
+Die Festlegung der Event, die mögliche Operationen an den Datenstrukturen der Anwendung definieren, erfolgte mit dem Ziel, eine erschöpfende Liste aller sinnvollen Operationen abzubilden.
+Sollte die Anwendung in Zukunft um Funktionalitäten erweitert werden, kann das eine Erweiterung der Event-Liste verlangen.
+In unserer Anwendung sind Events ein Kernbestandteil des Domänen-Modells und werden von äußerden Schichten der Architektur über Services angesteuert.
+Die Implementierung neuer Events erfordert daher Arbeit an einer Reihe von Klassen im Backend der Anwendung:
+
+* Eine neue Event-Klasse, die das IEvent-Interface implementiert, muss erstellt werden
+* Der GroupService muss eine Funktion erhalten, das neue Event als Objekt zu erstellen und auszuführen
+* Der ApplicationServic muss die neue Funktion im GroupService ansteuern können
+* Ggf. müssen im CheckService neue Bedingungen für die Ausführung des Events implementiert werden
+* Ggf. muss das Test-Setup ergänzt werden, falls die Datenstrukturen des Setups einen für neue Events kritischen Fall nicht abdecken
+
+===== Riskominderung
+Der Implementierungsaufwand für neue Events ist dadurch begrenzt, dass existierende Events bisher unabhängig voneinander implementiert werden.
+Auf diese Weise müssen die oben genannten Klassen zwar bearbeitet werden, falls ein neues Event hinzugefügt werden soll, aber es müssen keine alten Events bearbeitet werden.
+Die nötigen Implementierungen stellen daher lediglich Erweiterungen der Klassen dar, die unabhänging vom bereits vorhanden Code geschrieben werden können.
 
