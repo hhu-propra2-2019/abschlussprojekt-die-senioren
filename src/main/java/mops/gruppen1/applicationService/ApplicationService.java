@@ -280,6 +280,14 @@ public class ApplicationService {
     }
 
     /**
+     * @param groupId groupId of the requested group
+     * @return requested Group
+     */
+    public Group getGroup(String groupId) {
+        return groupService.getGroup(groupId);
+    }
+
+    /**
      * start an UpdateMembershipEvent
      *
      * @param userName
