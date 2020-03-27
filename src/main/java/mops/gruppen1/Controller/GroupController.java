@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,14 +76,13 @@ public class GroupController {
                                  @RequestParam(value = "groupModule") String module,
                                  @RequestParam(value = "groupType") String groupType,
                                  @RequestParam(value = "groupDescription", required = false) String groupDescription,
-                                 @RequestParam(value = "csv", required = false) String csvFileName,
-                                 @RequestParam(value = "members", required = false) List<String> members)
+                                 @RequestParam(value = "csv", required = false) String csvFileName)
     {
         if (token != null) {
             Account account = createAccountFromPrincipal(token);
             model.addAttribute("account", account);
             //account - Name gleich Username
-            applicationService.createGroup(groupDescription,groupName,module,account.getName(),groupType,members);
+            applicationService.createGroup(groupDescription,groupName,module,account.getName(),groupType,new ArrayList<String>());
          }
 
         if (search.isPresent()) {
