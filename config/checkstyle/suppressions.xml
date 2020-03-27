@@ -7,5 +7,6 @@
     <suppress checks=".*" files="GruppenbildungApplication.java"/>
     <suppress checks="MagicNumber" files=".*[Tt]est.*.java"/>
     <suppress checks="VisibilityModifier" files=".*Service.java"/>
+    <suppress checks="VisibilityModifier" files=".*[Tt]est.*.java"/>
     <suppress checks="LineLength" files=".*[Tt]est.*.java"/>
 </suppressions>
