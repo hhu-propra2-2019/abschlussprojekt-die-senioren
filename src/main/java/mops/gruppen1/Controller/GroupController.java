@@ -59,7 +59,7 @@ public class GroupController {
 
     @GetMapping("/erstellen")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupCreation(KeycloakAuthenticationToken token, Model model,
+    public String createGroupOverview(KeycloakAuthenticationToken token, Model model,
                                 @RequestParam(name = "search") Optional search) {
         if (search.isPresent()) {
             return searchGroups(search, model);
@@ -69,7 +69,7 @@ public class GroupController {
 
     @PostMapping("/erstellen")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupCreation (KeycloakAuthenticationToken token, Model model,
+    public String createGroup(KeycloakAuthenticationToken token, Model model,
                                  @RequestParam(name = "search") Optional search,
                                  @RequestParam(value = "groupname") String groupName,
                                  @RequestParam(value = "groupModule") String module,
@@ -83,9 +83,9 @@ public class GroupController {
 
     @GetMapping("/description/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String descriptionChange (KeycloakAuthenticationToken token, Model model,
-                                     @RequestParam(name = "search") Optional search,
-                                     @PathVariable("id") String id){
+    public String changeGroupPropertiesOverview(KeycloakAuthenticationToken token, Model model,
+                                      @RequestParam(name = "search") Optional search,
+                                      @PathVariable("id") String id){
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -103,7 +103,7 @@ public class GroupController {
 
     @PostMapping("/description/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String descriptionChange (KeycloakAuthenticationToken token, Model model,
+    public String changeGroupProperties(KeycloakAuthenticationToken token, Model model,
                                      @RequestParam(value = "groupName") String groupname,
                                      @RequestParam(value = "groupDescription") String groupDescription,
                                      @RequestParam(value = "groupType") String groupType,
@@ -118,7 +118,7 @@ public class GroupController {
 
     @GetMapping("/memberships/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String membershipChange(KeycloakAuthenticationToken token, Model model,
+    public String changeMembershipOverview(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(name = "search") Optional search,
                                    @PathVariable("id") String groupId) {
         if (search.isPresent()) {
@@ -135,7 +135,7 @@ public class GroupController {
 
     @PostMapping("/memberships/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String membershipChange(KeycloakAuthenticationToken token, Model model,
+    public String changeMembership(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(value="username") String username,
                                    @RequestParam(value="action") String action,
                                    @PathVariable("id") String groupId) {
@@ -160,7 +160,7 @@ public class GroupController {
 
     @GetMapping("/viewer/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String viewerView (KeycloakAuthenticationToken token, Model model,
+    public String showViewForViewer(KeycloakAuthenticationToken token, Model model,
                               @RequestParam(name = "search") Optional search,
                               @PathVariable("id") String id) {
         if (search.isPresent()) {
@@ -184,7 +184,7 @@ public class GroupController {
 
     @PostMapping("/viewer/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String leaveGroupAsUser(KeycloakAuthenticationToken token, Model model,
+    public String leaveGroupAsViewer(KeycloakAuthenticationToken token, Model model,
                                @PathVariable("id") String groupId) {
         ValidationResult validation = applicationService.isActive(token.getName(), groupId);
         if(validation.isValid()) {
@@ -195,7 +195,7 @@ public class GroupController {
 
     @GetMapping("/admin/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String adminView (KeycloakAuthenticationToken token, Model model,
+    public String showGroupForAdmin(KeycloakAuthenticationToken token, Model model,
                              @RequestParam(name = "search") Optional search,
                              @PathVariable("id") String id) {
         if (search.isPresent()) {
@@ -213,7 +213,7 @@ public class GroupController {
 
     @PostMapping("/admin/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String adminActions(KeycloakAuthenticationToken token, Model model,
+    public String performAdminActions(KeycloakAuthenticationToken token, Model model,
                                @RequestParam(value="action") String action,
                                @PathVariable("id") String groupId) {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
@@ -268,7 +268,7 @@ public class GroupController {
 
     @GetMapping("/groupRequests/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupRequests(KeycloakAuthenticationToken token, Model model,
+    public String showGroupRequests(KeycloakAuthenticationToken token, Model model,
                                 @RequestParam(name = "search") Optional search,
                                 @PathVariable("id") String groupId) {
 
@@ -287,7 +287,7 @@ public class GroupController {
 
     @PostMapping("/groupRequests/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String manageGroupRequest(KeycloakAuthenticationToken token, Model model,
+    public String manageGroupRequests(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(value="username") String username,
                                    @RequestParam(value="action") String action,
                                    @PathVariable("id") String groupId) {
@@ -314,7 +314,7 @@ public class GroupController {
 
     @GetMapping("/searchResults")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupSearch(KeycloakAuthenticationToken token, Model model,
+    public String showSearchGroupResults(KeycloakAuthenticationToken token, Model model,
                               @RequestParam(name = "search") Optional search) {
         if (search.isPresent()) {
             return searchGroups(search, model);
@@ -337,7 +337,7 @@ public class GroupController {
 
     @GetMapping("/requestMessage/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupDescription(KeycloakAuthenticationToken token, Model model,
+    public String showRequestMessageForm(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(name = "search") Optional search,
                                    @PathVariable("id") String groupId){
         if (search.isPresent()) {
@@ -354,7 +354,7 @@ public class GroupController {
 
     @PostMapping("/requestMessage/{id}")
     @Secured({"ROLE_studentin", "ROLE_orga"})
-    public String groupRequest(KeycloakAuthenticationToken token, Model model,
+    public String sendRequestMessage(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(value = "message") String message,
                                    @PathVariable("id") String groupId){
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
