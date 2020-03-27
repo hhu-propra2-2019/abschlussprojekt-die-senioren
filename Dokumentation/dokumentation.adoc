@@ -134,18 +134,28 @@ restringierte (zugangsbeschränkte) Gruppen gesucht werden.
 
 === Blackbox-Sichten der Subsysteme
 
+Die Beschreibung, wie die unterschiedlichen Subsysteme ihre Dienste realisieren, fußt zu großen Teilen auf der in dieser Anwendung prominenten Event-Logik.
+Diese Logik gibt vor, dass die Bearbeitung der Datenstrukturen der Anwendung in Form einzelner unabhängiger Events organisiert ist, die die möglichen Änderungen an den Datenstrukturen definieren.
+Die Liste der zur Verfügung stehenden Events wurde mit dem Ziel formuliert, eine erschöpfende Abbildung aller notwendigen Operationen zu erzielen.
+
+
+Der Aufbau solcher Event-Objekte lässt sich damit grob zusammenfassen, dass sie jeweils die betroffene Gruppe, die beteiligten Personen und die Spezifikationen gewünschter Änderungen enthalten.
+Da unterschiedliche Events auch unterschiedliche Informationen benötigen, unterscheidet sich der genaue Inhalt zwischen den Event-Klassen.
+Jedes Event verfügt über eine *execute*-Methode, die die Ausführung des entsprechenden Events steuert.
+Eine Übersicht über die implementierten Events und deren Inhalte befindet sich im https://github.com/hhu-propra2/abschlussprojekt-die-senioren/wiki/Events[Wiki] des GitHub-Repositories dieser Anwendung
+
 ==== Gruppenerstellung
 
 ===== Verantwortlichkeit
 
-Dieses Subsystem ermöglicht es eine neue Gruppe zu erstellen. +
+Dieses Subsystem ermöglicht es eine neue Gruppe zu erstellen.
 Dabei liest das System Felder eines Formulars ein und wandelt diese dann mittels
 event-basierter Logik in ein neues Gruppen-Objekt um. +
 Folgende Felder sind dabei obligatorisch:
 
 * Gruppenname
 * Veranstaltung (auch _keine Veranstaltung_ möglich)
-* Gruppentyp (Public/Restricted)
+* Gruppentyp (PUBLIC/RESTRICTED)
 * Gruppenbeschreibung
 
 Mitglieder können per Suche (einzeln) oder per CSV-Datei hinzugefügt werden.
@@ -164,9 +174,8 @@ Das Subsystem Gruppenerstellung stellt seine Funktionalität über folgende Klas
 ** Objekte der Group-Klasse repräsentatieren erstellte Gruppen in den Datenstrukturen der Anwendung.
 
 * _mops.gruppen1.domain.events.GroupCreationEvent_
-** Objekte der GroupCreationEvent-Klasse werden bei der Instanziierung mit Werten befüllt,
-die u.a. den oben genannten Feldern eines Gruppenobjektes entsprechen und die Merkmale einer zu erstellenden Gruppe abbilden.
-Diese Objekte verfügen über die Methode *execute*, die ein Group-Objekt mit den eingefügten Werten instaziiert und in die Datensturkturen der Anwendung eingefügt.
+** Die *execute*-Methode eines Objektes der Klasse GroupCreationEvent instanziiert ein Group-Objekt.
+Alle Merkmale der zu erstellenden Gruppe werden dem GroupCreationEvent-Objekt bei der Erstellung eingefügt.
 
 
 ==== Gruppenansicht
@@ -175,9 +184,7 @@ Diese Objekte verfügen über die Methode *execute*, die ein Group-Objekt mit de
 
 Dieses Subsystem bietet die Übersicht einer Gruppe.
 Über diese Ansicht können Gruppenmitglieder die Inhalte einer Gruppe sehen.
-Berechtigte Mitglieder erhalten in der Gruppenansicht auch die Möglichkeit, auf die Verwaltung der Inhalte zuzugreifen.
-Außerdem kann in dieser Ansicht auf die Services der Fremdsysteme für die jeweilige Gruppe per
-Link zugegriffen werden (Material, Abgaben).
+Berechtigte Mitglieder erhalten in der Gruppenansicht auch die Möglichkeit, auf die Verwaltung der Inhalte zuzugreifen..
 Es wird eine Unterscheidung zwischen den Rollen Viewer und Admin getroffen. +
 
 |===
@@ -228,7 +235,6 @@ Außerdem besteht eine Abhängigkeit zur Rollenverteilung, da die Ausführungen 
 Das Subsystem Gruppenverwaltung stellt eine Funktionalität über  Klassen innerhalb des Domänen-Modells bereit.
 Alle Objekte der Event-Klassen werden mit Informationen über die betreffenden Gruppen, den ausführenden User und die gewünschten Änderungen instanziiert,
 um so die Verwaltung der korrekten Gruppe, die Authorisierung des Users und die Umsetzung der Änderungen mit bestimmten Parametern zu garantieren.
-Genauere Informationen zur Erstellung der Event-Objekte sind dem https://github.com/hhu-propra2/abschlussprojekt-die-senioren/wiki/Events[Wiki] des GitHub-Repositories dieser Anwendung zu entnehmen.
 
 * _mops.gruppen1.domain.Group_
 ** Group-Objekte enthalten Methoden, die die Merkmale einer Gruppe bearbeiten, für die die Gruppenverwaltung mögliche Änderungen vorsieht.
@@ -289,26 +295,25 @@ Das Subsystem Gruppenbeitritt stellt eine Funktionalität über Klassen innerhal
 Für weitere Informationen zur Erstellung der unten aufgeführten Event-Objekte sei auf das Wiki des
 GitHub-Repositories dieser Anwendung verwiesen.
 
+* _mops.gruppen1.domain/Membership_
+** Objekte der Membership-Klasse repräsentatieren erstellte Mitgliedschaften in den Datenstrukturen der Anwendung.
+Die Bedeutung dieser Klasse ist an dieser Stelle hervorgehoben, da die Instanziierung eines Membership-Objektes mit einem Gruppenbeitritt einhergeht.
 * _mops.gruppen1.domain.events/MembershipRequestEvent_
-** Die *execute*-Methode im MembershipRequestEvent sorgt dafür, dass eine entsprechende Membership
-für den User und die entsprechende Gruppe instanziiert wird. Hierbei wird allerdings der Membership.Status
-auf PENDING gesetzt (Membership.Type ist per Default VIEWER). Zusätzlich wird die Membership zu der Gruppe
-und den HashMaps ‚groupTo Members‘ und ‚userToMembers‘ (aus dem GroupService) hinzugefügt, sodass ab jetzt auf
-sie zugegriffen werden kann.
+** Die *execute*-Methode eines Objektes der Klasse MembershipRequestEvent sorgt dafür, dass eine entsprechende Membership
+für den User und die entsprechende Gruppe instanziiert wird. Hierbei wird allerdings der Membership-Status
+auf PENDING gesetzt, der Membership-Type ist per Default VIEWER.
+Das erzeugte Membership-Objekt wird in die Datenstrukturen der Anwendung eingefügt und kann dort für zukünftige Events angefordert werden.
 * _mops.gruppen1.domain.events/MembershipAcceptanceEvent_
-** Die *execute*-Methode im MembershipAcceptanceEvent sorgt dafür, dass der Membership.Status auf ACTIVE gesetzt wird.
+** Die *execute*-Methode eines Objektes der Klasse MembershipAcceptanceEvent sorgt dafür, dass der Membership-Status auf ACTIVE gesetzt wird.
 * _mops.gruppen1.domain.events/MembershipRejectionEvent_
-** Die *execute*-methode im MembershipRejectionEvent sorgt dafür, dass der Membership.Status auf REJECTED gesetzt wird.
+** Die *execute*-methode im MembershipRejectionEvent sorgt dafür, dass der Membership-Status auf REJECTED gesetzt wird.
 * _mops.gruppen1.domain.events/MembershipAssignmentEvent_
-** Die *execute*-Methode im MembershipAssigmentEvent sorgt dafür, dass eine neue Membership für den User und die entsprechende
-Gruppe erstellt wird (Memebrship.Type ist auch hier per Default ‚VIEWER’). Diese Membership wird dann dem Gruppenobjekt  und
-den beiden HashMaps ‚groupTo Members‘ und ‚userToMembers‘ (aus dem GroupService) zugefügt. (Hinweis: Ein MebershipAssigmentEvent
-wird nur dann angestoßen, wenn es sich um eine ‚PUBLIC‘-Gruppe handelt und ein direktes Beitreten zur Gruppe möglich ist).
-
-Außerdem sind hier die Java-Klassen
-
-* mops.gruppen1.domain/Membership.java und
-* mops.gruppen1.applicationService/GroupService.java relevant.
+** Die *execute*-Methode eines Objektes der Klasse MembershipAssigmentEvent sorgt dafür, dass eine neue Membership für den User und die entsprechende
+Gruppe erstellt wird (Memebrship-Type ist auch hier per Default VIEWER). Diese Membership wird dann dem Gruppenobjekt und
+den weiteren Datenstrukturen der Anwendung zugefügt.
+*** Hinweis: Ein MembershipAssigmentEvent
+wird durch User nur dann angestoßen, wenn es sich um eine PUBLIC-Gruppe handelt und ein direktes Beitreten zur Gruppe möglich ist oder
+wenn ein User eine neue Gruppe erstellt und ihr automatisch als Admin hinzugefügt wird.
 
 ==== Rollenverteilung
 
