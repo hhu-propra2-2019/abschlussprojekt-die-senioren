@@ -121,7 +121,6 @@ class CheckServiceTest {
     void testIsPublicPositive() {
         //Arrange
         String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
         // Create & add group
         List<Membership> members = new ArrayList<>();
@@ -703,7 +702,7 @@ class CheckServiceTest {
         String groupId = testSetup.groupOne.getGroupId().toString();
 
         //act
-        ValidationResult validationResult = checkService.activeAdminRemainsAfterResignment(userName, groupId, testSetup.groupToMembers);
+        ValidationResult validationResult = checkService.activeAdminRemains(userName, userName, groupId, testSetup.groupToMembers);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
@@ -720,7 +719,7 @@ class CheckServiceTest {
         memberStela.setMembershipType(MembershipType.ADMIN);
 
         //act
-        ValidationResult validationResult = checkService.activeAdminRemainsAfterResignment(userName, groupId, testSetup.groupToMembers);
+        ValidationResult validationResult = checkService.activeAdminRemains(userName, userName, groupId, testSetup.groupToMembers);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();

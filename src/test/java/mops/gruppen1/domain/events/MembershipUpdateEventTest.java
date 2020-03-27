@@ -14,9 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class MembershipUpdateEventTest {
 
-    private final String updatedToAdmin = "ADMIN";
-    private final String updatedToViewer = "VIEWER";
-
     private TestSetup testSetup;
     private String testGroupOneId;
     private String updatedUser;
@@ -30,7 +27,7 @@ class MembershipUpdateEventTest {
         this.testGroupOneId = testSetup.groupOne.getGroupId().toString();
         this.updatedUser = testSetup.memberships.get(1).getUser().getUsername().getUsername();
         this.updatedBy = testSetup.memberships.get(0).getUser().getUsername().getUsername();
-        this.membershipUpdateEvent = new MembershipUpdateEvent(testGroupOneId, updatedUser, updatedBy, updatedToAdmin);
+        this.membershipUpdateEvent = new MembershipUpdateEvent(testGroupOneId, updatedUser, updatedBy);
     }
 
     @Tag("EventTest")
@@ -72,7 +69,7 @@ class MembershipUpdateEventTest {
         String testGroupID = testSetup.groupOne.getGroupId().toString();
         Group groupOne = testSetup.groups.get(testGroupID);
         List<Membership> testMemberlist = groupOne.getMembers();
-        membershipUpdateEvent = new MembershipUpdateEvent(testGroupOneId, updatedUser, updatedBy, updatedToViewer);
+        membershipUpdateEvent = new MembershipUpdateEvent(testGroupOneId, updatedUser, updatedBy);
 
         //act
         membershipUpdateEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
@@ -93,7 +90,7 @@ class MembershipUpdateEventTest {
         String adminMember = testSetup.memberships.get(0).getUser().getUsername().getUsername();
         String updatedBy2 = testSetup.memberships.get(1).getUser().getUsername().getUsername();
         MembershipUpdateEvent membershipUpdateEventToViewer = new MembershipUpdateEvent(testGroupOneId, adminMember,
-                updatedBy2, updatedToViewer);
+                updatedBy2);
 
         //act
         //First: Change viewer to admin who will after that change another admin to viewer.
