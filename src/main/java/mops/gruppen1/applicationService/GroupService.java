@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
+
 import mops.gruppen1.domain.*;
+
 import mops.gruppen1.domain.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -194,7 +196,7 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipAssignmentEvent", membershipAssignmentEvent);
     }
 
-    public ValidationResult requestMembership(String userName, String groupId, String membershipType) {
+    public ValidationResult requestMembership(String userName, String groupId, String membershipType, String membershipRequestMessage) {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
@@ -206,7 +208,7 @@ public class GroupService {
 
         if (validationResult.isValid()) {
             try {
-                performMembershipRequestEvent(userName, groupId, membershipType);
+                performMembershipRequestEvent(userName, groupId, membershipType, membershipRequestMessage);
             } catch (Exception e) {
                 validationResult.addError("Unexpected failure.");
             }
@@ -214,8 +216,8 @@ public class GroupService {
         return validationResult;
     }
 
-    void performMembershipRequestEvent(String userName, String groupId, String membershipType) {
-        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType);
+    void performMembershipRequestEvent(String userName, String groupId, String membershipType, String membershipRequestMessage) {
+        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType, membershipRequestMessage);
         membershipRequestEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipRequestEvent", membershipRequestEvent);
@@ -438,6 +440,39 @@ public class GroupService {
                 .collect(Collectors.toList());
         return requestedUsers;
     }
+
+    public ValidationResult isUserMemberOfGroup(String username, String groupId) {
+        ValidationResult validationResult = checkService.isMember(username, groupId, this.groups, this.users, this.userToMembers);
+
+        return validationResult;
+    }
+
+    public ValidationResult isUserAdminInGroup(String username, String groupId) {
+        ValidationResult validationResult = checkService.isAdmin(username, groupId, this.groups, this.users, this.userToMembers);
+
+        return validationResult;
+    }
+
+    public ValidationResult isGroupActive(String groupId) {
+        List<ValidationResult> validationResults = new ArrayList<>();
+        validationResults.add(checkService.doesGroupExist(groupId, this.groups));
+        validationResults.add(checkService.isGroupActive(groupId, this.groups));
+        ValidationResult validationResult = collectCheck(validationResults);
+
+        return validationResult;
+    }
+
+    public List<User> getActiveUsersOfGroup(String groupId) {
+
+        //Get all memberships for given username
+        List<Membership> members =  groupToMembers.get(groupId);
+
+        //Filter all memberships with deactivated/rejected/pending status
+        List<Membership> activeMembers =  members.stream().filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE).collect(Collectors.toList());
+
+        //Call getUser-method on each membership element of list 'members' and add it to new list of 'users'
+        List<User> users = activeMembers.stream().map(Membership::getUser).collect(Collectors.toList());
+
+        return users;
+    }
 }
-
-

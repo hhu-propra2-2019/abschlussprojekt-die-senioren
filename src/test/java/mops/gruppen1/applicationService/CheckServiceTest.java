@@ -121,7 +121,6 @@ class CheckServiceTest {
     void testIsPublicPositive() {
         //Arrange
         String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
         // Create & add group
         List<Membership> members = new ArrayList<>();
