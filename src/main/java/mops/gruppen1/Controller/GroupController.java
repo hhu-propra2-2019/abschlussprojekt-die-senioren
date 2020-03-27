@@ -157,8 +157,7 @@ public class GroupController {
                 applicationService.deleteMember(username, groupId, account.getName());
             }
             else if(action.equals("change")) {
-                //TODO Methode anpassen, updatedTo Parameter rauslöschen
-                applicationService.updateMembership(username, groupId, account.getName(), "ADMIN");
+                applicationService.updateMembership(username, groupId, account.getName());
             }
         }
         return "redirect:/gruppen1/admin/{id}";
