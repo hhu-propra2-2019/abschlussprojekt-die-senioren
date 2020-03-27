@@ -132,13 +132,10 @@ public class GroupService {
 
     public ValidationResult createUser(String userName) {
         ValidationResult validationResult = checkService.doesUserExist(userName, users);
-        boolean isValid = validationResult.isValid();
-        if (isValid) {
-            try {
-                performUserCreationEvent(userName);
-            } catch (Exception e) {
-                validationResult.addError("Unexpected failure.");
-            }
+        try {
+            performUserCreationEvent(userName);
+        } catch (Exception e) {
+            validationResult.addError("Unexpected failure.");
         }
         return validationResult;
     }
@@ -504,5 +501,10 @@ public class GroupService {
         validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
         ValidationResult validationResult = collectCheck(validationResults);
         return validationResult;
+    }
+
+    public ValidationResult doesUserExist(String userName) {
+        ValidationResult validationResult = checkService.doesUserExist(userName, users);
+        return  validationResult;
     }
 }

@@ -321,7 +321,11 @@ public class ApplicationService {
      * @return ValidationResult that tells whether the user was created successfully
      */
     public ValidationResult createUser(String userName) {
-        ValidationResult validationResult = groupService.createUser(userName);
+        ValidationResult validationResult = new ValidationResult();
+        boolean isValid = groupService.doesUserExist(userName).isValid();
+        if (isValid) {
+            validationResult = groupService.createUser(userName);
+        }
         return validationResult;
     }
 
