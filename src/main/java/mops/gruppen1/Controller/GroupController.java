@@ -56,9 +56,6 @@ public class GroupController {
     @GetMapping("/erstellen")
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String groupCreation(KeycloakAuthenticationToken token, Model model, @RequestParam(name = "search") Optional search) {
-        if (token != null) {
-            model.addAttribute("account", createAccountFromPrincipal(token));
-        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -72,18 +69,9 @@ public class GroupController {
                                  @RequestParam(value = "groupModule") String module,
                                  @RequestParam(value = "groupType") String groupType,
                                  @RequestParam(value = "groupDescription", required = false) String groupDescription,
-                                 @RequestParam(value = "csv", required = false) String csvFileName)
-    {
-        if (token != null) {
-            Account account = createAccountFromPrincipal(token);
-            model.addAttribute("account", account);
-            //account - Name gleich Username
-            applicationService.createGroup(groupDescription,groupName,module,account.getName(),groupType,new ArrayList<String>());
-         }
+                                 @RequestParam(value = "csv", required = false) String csvFileName) {
 
-        if (search.isPresent()) {
-            return searchGroups(search, model);
-        }
+        applicationService.createGroup(groupDescription,groupName,module,token.getName(),groupType,new ArrayList<String>());
         return "redirect:/gruppen1/";
     }
 
@@ -97,19 +85,12 @@ public class GroupController {
         }
         ValidationResult validation = applicationService.isActiveAdmin(token.getName(), id);
         if(validation.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                model.addAttribute("groupId", id);
-                Group group = applicationService.getGroup(id);
-                model.addAttribute("placeholder_groupname", group.getName().toString());
-                model.addAttribute("placeholder_groupdescription", group.getDescription().toString());
-                model.addAttribute("placeholder_grouptype", group.getGroupType().toString());
-            }
-            if (search.isPresent()) {
-                return searchGroups(search, model);
-            }
-            return "changeDescription";
+            model.addAttribute("groupId", id);
+            Group group = applicationService.getGroup(id);
+            model.addAttribute("placeholder_groupname", group.getName().toString());
+            model.addAttribute("placeholder_groupdescription", group.getDescription().toString());
+            model.addAttribute("placeholder_grouptype", group.getGroupType().toString());
+            return "changeProperties";
         }
         return "redirect:/gruppen1/";
     }
@@ -123,11 +104,7 @@ public class GroupController {
                                      @PathVariable("id") String groupId) {
         ValidationResult validation = applicationService.isActiveAdmin(token.getName(), groupId);
         if(validation.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                applicationService.updateGroupProperties(groupId, account.getName(), groupname, groupDescription, groupType);
-            }
+            applicationService.updateGroupProperties(groupId, token.getName(), groupname, groupDescription, groupType);
             return "redirect:/gruppen1/admin/{id}";
         }
         return "redirect:/gruppen1/";
@@ -143,11 +120,8 @@ public class GroupController {
         }
         ValidationResult validation = applicationService.isActiveAdmin(token.getName(), groupId);
         if(validation.isValid()) {
-            if (token != null) {
-                model.addAttribute("account", createAccountFromPrincipal(token));
-                model.addAttribute("groupId", groupId);
-                model.addAttribute("members", applicationService.getMembersOfGroup(groupId));
-            }
+            model.addAttribute("groupId", groupId);
+            model.addAttribute("members", applicationService.getMembersOfGroup(groupId));
             return "changeMemberships";
         }
         return "redirect:/gruppen1/";
@@ -162,12 +136,10 @@ public class GroupController {
         ValidationResult validation = applicationService.isActiveAdmin(token.getName(), groupId);
         if(validation.isValid()) {
             if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
                 if (action.equals("delete")) {
-                    applicationService.deleteMember(username, groupId, account.getName());
+                    applicationService.deleteMember(username, groupId, token.getName());
                 } else if (action.equals("change")) {
-                    applicationService.updateMembership(username, groupId, account.getName());
+                    applicationService.updateMembership(username, groupId, token.getName());
                 }
             }
             return "redirect:/gruppen1/memberships/{id}";
@@ -185,14 +157,11 @@ public class GroupController {
         }
         ValidationResult validation = applicationService.isActive(token.getName(), id);
         if(validation.isValid()) {
-            if (token != null) {
-                model.addAttribute("account", createAccountFromPrincipal(token));
-                model.addAttribute("groupId", id);
-                Group group = applicationService.getGroup(id);
-                model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
-                model.addAttribute("groupDescription", group.getDescription().toString());
-                model.addAttribute("groupName", group.getName().toString());
-            }
+            model.addAttribute("groupId", id);
+            Group group = applicationService.getGroup(id);
+            model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
+            model.addAttribute("groupDescription", group.getDescription().toString());
+            model.addAttribute("groupName", group.getName().toString());
             return "gruppenViewer";
         }
         return "redirect:/gruppen1/";
@@ -204,11 +173,7 @@ public class GroupController {
                                @PathVariable("id") String groupId) {
         ValidationResult validation = applicationService.isActive(token.getName(), groupId);
         if(validation.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                applicationService.resignMembership(account.getName(), groupId);
-            }
+            applicationService.resignMembership(token.getName(), groupId);
         }
         return "redirect:/gruppen1/";
     }
@@ -224,15 +189,12 @@ public class GroupController {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), id);
 
         if (validationResult.isValid()){
-            if (token != null) {
-                model.addAttribute("account", createAccountFromPrincipal(token));
-                model.addAttribute("groupId",id);
-                Group group = applicationService.getGroup(id);
-                model.addAttribute("groupDescription", group.getDescription().toString());
-                model.addAttribute("groupName", group.getName().toString());
-                model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
-                model.addAttribute("numberOfOpenRequests",applicationService.getPendingRequestOfGroup(id).size());
-            }
+            model.addAttribute("groupId",id);
+            Group group = applicationService.getGroup(id);
+            model.addAttribute("groupDescription", group.getDescription().toString());
+            model.addAttribute("groupName", group.getName().toString());
+            model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));
+            model.addAttribute("numberOfOpenRequests",applicationService.getPendingRequestOfGroup(id).size());
             return "gruppenAdmin";
         }
         return "redirect:/gruppen1/";
@@ -246,16 +208,12 @@ public class GroupController {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
 
         if (validationResult.isValid()){
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                if (action.equals("delete")) {
-                    applicationService.deleteGroup(groupId, account.getName());
-                } else if (action.equals("resign")) {
-                    ValidationResult vali = applicationService.resignMembership(account.getName(), groupId);
-                    if (!vali.isValid()) {
-                        return "redirect:/gruppen1/admin/{id}";
-                    }
+            if (action.equals("delete")) {
+                applicationService.deleteGroup(groupId, token.getName());
+            } else if (action.equals("resign")) {
+                ValidationResult vali = applicationService.resignMembership(token.getName(), groupId);
+                if (!vali.isValid()) {
+                    return "redirect:/gruppen1/admin/{id}";
                 }
             }
         }
@@ -286,18 +244,15 @@ public class GroupController {
     public String groupRequests(KeycloakAuthenticationToken token, Model model,
                                 @RequestParam(name = "search") Optional search,
                                 @PathVariable("id") String groupId) {
+
+        if (search.isPresent()) {
+            return searchGroups(search, model);
+        }
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
 
         if (validationResult.isValid()) {
-            if (token != null) {
-                model.addAttribute("account", createAccountFromPrincipal(token));
-                model.addAttribute("groupId", groupId);
-                model.addAttribute("members", applicationService.getPendingRequestOfGroup(groupId));
-
-            }
-            if (search.isPresent()) {
-                return searchGroups(search, model);
-            }
+            model.addAttribute("groupId", groupId);
+            model.addAttribute("members", applicationService.getPendingRequestOfGroup(groupId));
             return "groupRequests";
         }
         return "redirect:/gruppen1/";
@@ -312,17 +267,13 @@ public class GroupController {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
 
         if (validationResult.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
                 if (action.equals("accept")) {
-                    applicationService.acceptMembership(username, groupId, account.getName());
+                    applicationService.acceptMembership(username, groupId, token.getName());
                 } else if (action.equals("reject")) {
-                    applicationService.rejectMembership(username, groupId, account.getName());
+                    applicationService.rejectMembership(username, groupId, token.getName());
                 }
-            }
             return "redirect:/gruppen1/admin/{id}";
-        }
+            }
         return "redirect:/gruppen1/";
     }
 
@@ -331,9 +282,6 @@ public class GroupController {
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String groupSearch(KeycloakAuthenticationToken token, Model model,
                               @RequestParam(name = "search") Optional search) {
-        if (token != null) {
-            model.addAttribute("account", createAccountFromPrincipal(token));
-        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -345,13 +293,9 @@ public class GroupController {
     public String joinPublicGroup(KeycloakAuthenticationToken token, Model model,
                                   @RequestParam(value = "id") String groupId,
                                   @RequestParam(value="action") String action){
-        if (token != null) {
-            Account account = createAccountFromPrincipal(token);
-            model.addAttribute("account", account);
             if(action.equals("assign")) {
-                applicationService.joinGroup(account.getName(), groupId, "");
+                applicationService.joinGroup(token.getName(), groupId, "");
             }
-        }
         return "redirect:/gruppen1/";
     }
 
@@ -368,11 +312,7 @@ public class GroupController {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
 
         if (validationResult.isValid()) {
-            if (token != null) {
-                model.addAttribute("account", createAccountFromPrincipal(token));
-                model.addAttribute("groupId", groupId);
-            }
-
+            model.addAttribute("groupId", groupId);
             return "requestDescription";
         }
         return "redirect:/gruppen1/";
@@ -386,11 +326,7 @@ public class GroupController {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), groupId);
 
         if (validationResult.isValid()) {
-            if (token != null) {
-                Account account = createAccountFromPrincipal(token);
-                model.addAttribute("account", account);
-                applicationService.joinGroup(account.getName(), groupId, message);
-            }
+            applicationService.joinGroup(token.getName(), groupId, message);
         }
         return "redirect:/gruppen1/";
     }
