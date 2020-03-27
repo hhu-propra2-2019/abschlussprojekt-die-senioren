@@ -821,4 +821,100 @@ class GroupServiceTest {
         assertThat(activeMembershipsOfUser).hasSize(1);
         assertThat(activeMembershipsOfUser.get(0)).isEqualTo(testSetup.memberships.get(1));
     }
+
+    @Tag("GroupTest")
+    @Test
+    void testGetActiveMembershipsOfUserWithZeroMembership() {
+        // Arrange
+        String userName = "Milten";
+
+        // Act
+        List<Membership> activeMembershipsOfUser = groupService.getActiveMembershipsOfUser(userName);
+
+        // Assert
+        assertThat(activeMembershipsOfUser).hasSize(0);
+        assertThat(activeMembershipsOfUser).isEmpty();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testSearchGroupsByNamePositiveCheck() {
+        // Arrange
+        String groupName = testSetup.groupOne.getName().toString();
+
+        // Act
+        List<Group> groups = groupService.searchGroupsByName(groupName);
+
+        // Assert
+        assertThat(groups).hasSize(1);
+        assertThat(groups.get(0)).isEqualTo(testSetup.groupOne);
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testSearchGroupsByNameFalseCheckDeactivatedGroup() {
+        // Arrange
+        String groupName = testSetup.groupTwo.getName().toString();
+
+        // Act
+        List<Group> groups = groupService.searchGroupsByName(groupName);
+
+        // Assert
+        assertThat(groups).hasSize(0);
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testSearchGroupsByNameFalseCheck() {
+        // Arrange
+        String groupName = "catSmashedKe32577qwr11412141271247ontokeyboard";
+
+        // Act
+        List<Group> groups = groupService.searchGroupsByName(groupName);
+
+        // Assert
+        assertThat(groups).isEmpty();
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testSearchUserByNamePositiveCheckOneUser() {
+        // Arrange
+        String userName = "Diego";
+
+        // Act
+        List<String> names = groupService.searchUserByName(userName);
+
+        // Assert
+        assertThat(names).hasSize(1);
+        assertThat(names.get(0)).isEqualTo(userName);
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testSearchUserByNamePositiveCheckTwoUsers() {
+        // Arrange
+        String userName = "ST";
+
+        // Act
+        List<String> names = groupService.searchUserByName(userName);
+
+        // Assert
+        assertThat(names).hasSize(2);
+        assertThat(names).contains("Stela");
+        assertThat(names).contains("Steve");
+    }
+
+    @Tag("GroupTest")
+    @Test
+    void testSearchUserByNameFalseCheck() {
+        // Arrange
+        String userName = "Xardas";
+
+        // Act
+        List<String> names = groupService.searchUserByName(userName);
+
+        // Assert
+        assertThat(names).hasSize(0);
+    }
 }
