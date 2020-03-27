@@ -435,21 +435,21 @@ während die Fehlermeldung dazu genutzt werden kann, Nutzern im Frontend rückzu
 
 == Risiken
 
-Die folgenden Risiken wurden zu Beginn des Vorhabens identifiziert. 
+Die folgenden Risiken wurden zu Beginn und während des Vorhabens identifiziert.
 Sie beeinflussten die Planung über die gesamte Projektdauer hinweg. Seit Abschluss der vierten Woche werden sie beherrscht. 
 
 ---
 
 ==== *Inkompatibilitäten und Projektverzögerung durch Aufgabenabgrenzung und Schnittstellendefinitionen zwischen Teilsystemen*
 
-*Risikobeschreibung:*
+===== Risikobeschreibung
 
 Zu Beginn des Vorhabens gibt es lediglich grobe Konzepte der einzelnen Teilsysteme. Die genaue Abgrenzung der Aufgabenbereiche untereinander ist Teil der ersten Projektphase.
 Somit bedarf es eines hohen Maßes an Kommunikations- und Abstimmungsaufwand, um Inkompatibilitäten zwischen den einzelnen Teilsystemen zu verhindern.
 Da die Definition der Rest-API maßgeblich von der Konzeption und Architektur der Teilsysteme abhängt, 
 diese aber auch beeinflusst, ist eine kontinuierliche Verfeinerung über den Verlauf des Projektes unabdingbar.  
 
-*Risikominderung:*
+===== Risikominderung
 
 Durch kontinuierlichen und offenen Austausch mit anderen Projektgruppen, sowie einer agilen Arbeitsweise, können die Schnittstellen an sich ändernde Anforderungen angepasst werden.
 Die Transparenz der Projektrepositories und die Verfügbarkeit von unterschiedlichen Kommunikationskanälen (Skype, Rocketchat,..) erleichtert dies.
@@ -458,12 +458,12 @@ Die Transparenz der Projektrepositories und die Verfügbarkeit von unterschiedli
 
 ==== *Einschränkung der Systemfunktionalitäten durch Ausfall des Gruppensystems*    
 
-*Risikobeschreibung:*
+===== Risikobeschreibung
 
-Aufgrund der Vielzahl von Abhängigkeiten zum Gruppenfindungssystem, hat dieses eine zentrale Funktion innerhalb von Mops.
-Ein Ausfall des Teilsystems, könnte somit trotz der angestrebten Architektur (Self-Contained-Systems) die Gesamtfunktionalität von Mops gefährden.
+Aufgrund der Vielzahl von Abhängigkeiten zum Gruppenfindungssystem hat dieses eine zentrale Funktion innerhalb von Mops.
+Ein Ausfall des Teilsystems könnte somit trotz der angestrebten Architektur (Self-Contained-Systems) die Gesamtfunktionalität von Mops gefährden.
 
-*Risikominderung:*
+===== Risikominderung
 
 Gruppenzuordnungen können in den abhängigen Teilsystemen zwischengespeichert werden und durch Abfragen von Änderungen synchronisiert werden.
 Ein Ausfall birgt somit nur die Gefahr einer zwischenzeitlichen Abweichung des Datenbestands.
@@ -472,12 +472,12 @@ Ein Ausfall birgt somit nur die Gefahr einer zwischenzeitlichen Abweichung des D
 
 ==== *Implementierung neuer Events*
 
-*Risikobeschreibung:*
+===== Risikobeschreibung
 
-Die Festlegung der Event, die mögliche Operationen an den Datenstrukturen der Anwendung definieren, erfolgte mit dem Ziel, eine erschöpfende Liste aller sinnvollen Operationen abzubilden.
+Die Festlegung der Event, die mögliche Operationen an den Datenstrukturen der Anwendung definieren, hat das Ziel, eine erschöpfende Liste aller sinnvollen Operationen abzubilden.
 Sollte die Anwendung in Zukunft um Funktionalitäten erweitert werden, kann das eine Erweiterung der Event-Liste verlangen.
-In unserer Anwendung sind Events ein Kernbestandteil des Domänen-Modells und werden von äußerden Schichten der Architektur über Services angesteuert.
-Die Implementierung neuer Events erfordert daher Arbeit an einer Reihe von Klassen im Backend der Anwendung:
+In unserer Anwendung sind Events ein Kernbestandteil des Domänen-Modells und werden von äußeren Schichten der Architektur über Services angesteuert.
+Die Implementierung neuer Events erfordert daher Arbeiten an einer Reihe von Klassen im Backend der Anwendung:
 
 * Eine neue Event-Klasse, die das IEvent-Interface implementiert, muss erstellt werden.
 * Der GroupService muss eine Funktion erhalten, das neue Event als Objekt zu erstellen und auszuführen.
@@ -485,7 +485,7 @@ Die Implementierung neuer Events erfordert daher Arbeit an einer Reihe von Klass
 * Ggf. müssen im CheckService neue Bedingungen für die Ausführung des Events implementiert werden.
 * Ggf. muss das Test-Setup ergänzt werden, falls die Datenstrukturen des Setups einen für neue Events kritischen Fall nicht abdecken.
 
-*Risikominderung:*
+===== Risikominderung
 
 Der Implementierungsaufwand für neue Events ist dadurch begrenzt, dass existierende Events bisher unabhängig voneinander implementiert werden.
 Auf diese Weise müssen die oben genannten Klassen zwar bearbeitet werden, falls ein neues Event hinzugefügt werden soll, aber es müssen keine alten Events bearbeitet werden.
