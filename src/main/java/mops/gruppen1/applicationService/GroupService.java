@@ -344,6 +344,15 @@ public class GroupService {
         return validationResult;
     }
 
+    public Group getGroup(String groupId) {
+        ValidationResult validationResult = checkService.isGroupActive(groupId, groups);
+        if(validationResult.isValid()) {
+            Group group = groups.get(groupId);
+            return group;
+        }
+        return null;
+    }
+
 
     void performMembershipAcceptanceEvent(String userName, String groupId, String acceptedBy) {
         MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName, acceptedBy);
