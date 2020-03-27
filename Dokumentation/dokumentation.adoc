@@ -251,9 +251,8 @@ Genauere Informationen zur Erstellung der Event-Objekte sind dem Wiki des GitHub
 
 ===== Verantwortlichkeit
 
-Dieses Subsystem ermöglicht es, nach bestehenden Gruppen zu suchen. +
-
-//TODO Matching erklären
+Dieses Subsystem ermöglicht es, nach bestehenden Gruppen zu suchen.
+Das Suchergebnis soll sowohl öffentliche als auch restringierte Gruppen beinhalten.
 
 ===== Abhängigkeiten
 
@@ -261,7 +260,16 @@ Für die Gruppensuche besteht eine Abhängigkeit zur Gruppenverwaltung, da Suche
 Die Gruppenverwaltung realisiert die Löschung einer Gruppe und kann somit bewirken, dass eine Gruppe nicht länger erfolgreich gesucht werden kann.
 
 ===== Schnittstellen
-//TODO Schnittstellen auf Klassenebene hinzufügen
+Die Gruppensuche stellt ihre Funktionalität ebenfalls nicht mittels Klassen auf der Domänen-Ebene bereit,
+da die Suche nach Gruppen keine Bearbeitung bestehender Datenstrukturen der Anwendung impliziert und damit keine
+Schnittstelle zu den bisher definierten Events voraussetzt.
+Stattdessen benötigt die Gruppensuche lediglich Zugriff auf die Datenstrukturen der Anwendung, die alle Gruppen enthalten,
+die von Nutzern gesucht und gefunden werden können.
+Daher stellt die Gruppensuche ihre Funktionalität über folgende Klasse bereit:
+
+* _mops.gruppen1.applicationService.GroupService_
+** Der GroupService enthält die Methode *searchGroupsByName*, die eine Texteingabe entgegennimmt, alle aktiven Gruppen durchsucht und die zurückgibt, deren Name die Eingabe zumindest enthält.
+
 
 ==== Gruppenbeitritt
 
@@ -277,7 +285,7 @@ zuvor über die Suche gefunden wurden.
 Darüber hinaus besteht eine Abhängigkeit zur Rollenverteilung, da restringierten Gruppen nicht ohne die Zustimmung eines Admins beigetreten werden kann.
 
 ===== Schnittstellen
-Das Subsystem Gruppenbeitritt stellt eine Funktionalität über  Klassen innerhalb des Domänen-Modells bereit.
+Das Subsystem Gruppenbeitritt stellt eine Funktionalität über Klassen innerhalb des Domänen-Modells bereit.
 Für weitere Informationen zur Erstellung der unten aufgeführten Event-Objekte sei auf das Wiki des
 GitHub-Repositories dieser Anwendung verwiesen.
 
