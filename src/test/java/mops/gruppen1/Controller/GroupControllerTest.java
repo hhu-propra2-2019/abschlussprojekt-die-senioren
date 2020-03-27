@@ -1,6 +1,7 @@
 package mops.gruppen1.Controller;
 
 import mops.gruppen1.applicationService.ApplicationService;
+import mops.gruppen1.applicationService.ValidationResult;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.events.TestSetup;
 import org.junit.jupiter.api.*;
@@ -22,6 +23,8 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,6 +42,7 @@ class GroupControllerTest {
     MockMvc mvc;
     private TestSetup testSetup;
     private String groupID;
+
 
     @MockBean
     ApplicationService applicationService;
@@ -96,6 +100,8 @@ class GroupControllerTest {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
 
+        when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
+
         mvc.perform(get("/gruppen1/admin/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("gruppenAdmin"));
@@ -118,6 +124,9 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
+
+        when(applicationService.isActive(any(), any())).thenReturn(new ValidationResult());
+
         mvc.perform(get("/gruppen1/viewer/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("gruppenViewer"));
@@ -158,6 +167,9 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
+
+        when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
+
         mvc.perform(get("/gruppen1/description/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeDescription"));
@@ -178,6 +190,9 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
+
+        when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
+
         mvc.perform(get("/gruppen1/memberships/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeMemberships"));
@@ -198,6 +213,9 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
+
+        when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
+
         mvc.perform(get("/gruppen1/groupRequests/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("groupRequests"));
@@ -238,6 +256,9 @@ class GroupControllerTest {
                 true);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(token);
+
+        when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
+
         mvc.perform(get("/gruppen1/requestMessage/{id}",groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("requestDescription"));
