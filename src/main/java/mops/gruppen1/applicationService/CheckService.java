@@ -69,6 +69,11 @@ public class CheckService {
         Group group = groups.get(groupId);
         Membership membership = getMembership(memberships, group);
 
+        if (membership == null) {
+            validationResult.addError("Die Mitgliedschaft existiert nicht.");
+            return validationResult;
+        }
+
         boolean isAdmin = membership.getMembershipType().equals(MembershipType.ADMIN);
         if (isAdmin) {
             return validationResult;
@@ -84,6 +89,10 @@ public class CheckService {
         Group group = groups.get(groupId);
         Membership membership = getMembership(memberships, group);
 
+        if (membership == null) {
+            validationResult.addError("Die Mitgliedschaft existiert nicht.");
+            return validationResult;
+        }
         boolean isActive = membership.getMembershipStatus().equals(MembershipStatus.ACTIVE);
         if (isActive) {
             return validationResult;
@@ -98,6 +107,12 @@ public class CheckService {
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
         Membership membership = getMembership(memberships, group);
+
+        if (membership == null) {
+            validationResult.addError("Die Mitgliedschaft existiert nicht.");
+            return validationResult;
+        }
+
         boolean isPending = membership.getMembershipStatus().equals(MembershipStatus.PENDING);
         if (isPending) {
             return validationResult;
