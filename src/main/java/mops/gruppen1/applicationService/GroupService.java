@@ -132,10 +132,13 @@ public class GroupService {
 
     public ValidationResult createUser(String userName) {
         ValidationResult validationResult = checkService.doesUserExist(userName, users);
-        try {
-            performUserCreationEvent(userName);
-        } catch (Exception e) {
-            validationResult.addError("Unexpected failure.");
+        boolean isValid = validationResult.isValid();
+        if (isValid) {
+            try {
+                performUserCreationEvent(userName);
+            } catch (Exception e) {
+                validationResult.addError("Unexpected failure.");
+            }
         }
         return validationResult;
     }
