@@ -19,10 +19,6 @@ public class Group {
     private User groupCreator;
     private GroupStatus groupStatus;
     private GroupType groupType;
-    private Appointment appointment;
-    private Material material;
-    private Forum forum;
-    private Assignment assignment;
     private Module module;
 
     public Group(List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus, GroupType groupType, Module module) {
@@ -51,14 +47,6 @@ public class Group {
         members.add(membership);
     }
 
-    public void removeMember(Membership membership) {
-        membership.setMembershipStatus(MembershipStatus.DEACTIVATED);
-    }
-
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
-    }
-
     public void setStatus(GroupStatus groupStatus) {
         this.groupStatus = groupStatus;
     }
@@ -75,15 +63,4 @@ public class Group {
         this.groupType = groupType;
     }
 
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
-
-    public void setForum(Forum forum) {
-        this.forum = forum;
-    }
-
-    public void setAssignment(Assignment assignment) {
-        this.assignment = assignment;
-    }
 }
