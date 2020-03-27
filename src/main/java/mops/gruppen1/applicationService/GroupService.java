@@ -475,4 +475,22 @@ public class GroupService {
 
         return users;
     }
+
+    public ValidationResult isAdmin(String userName, String groupId) {
+        ValidationResult validationResult = checkService.isAdmin(userName, groupId, groups, users, userToMembers);
+        return validationResult;
+    }
+
+    public ValidationResult isActive(String userName, String groupId) {
+        ValidationResult validationResult = checkService.isMembershipActive(userName, groupId, groups, users, userToMembers);
+        return validationResult;
+    }
+
+    public ValidationResult isActiveAdmin(String userName, String groupId) {
+        List<ValidationResult> validationResults = new ArrayList<>();
+        validationResults.add(checkService.isAdmin(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
+        return validationResult;
+    }
 }
