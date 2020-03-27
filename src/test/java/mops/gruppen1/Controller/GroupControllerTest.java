@@ -172,7 +172,7 @@ class GroupControllerTest {
 
         mvc.perform(get("/gruppen1/description/{id}",groupID))
                 .andExpect(status().isOk())
-                .andExpect(view().name("changeDescription"));
+                .andExpect(view().name("changeProperties"));
     }
 
     @Tag("controller")
