@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * All Event classes are implementing the execute method, but do not necessarily need all parameters
+ * All Event classes are implementing the execute method, but do not necessarily need all parameters.
  */
 public interface IEvent {
     void execute(HashMap<String, List<Membership>> groupToMembers,
