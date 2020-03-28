@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Service to handle and manage events
+ * Service to handle and manage events.
  */
 @Getter
 @Component
@@ -26,7 +26,7 @@ public class EventService {
     private List<IEvent> events;
 
     /**
-     * Init EventService
+     * Init EventService.
      *
      * @param eventRepo
      */
@@ -36,17 +36,12 @@ public class EventService {
     }
 
     /**
-     * Load all events from the EventRepo
+     * Load all events from the EventRepo.
      */
     public void loadEvents() {
 
         //Get all EventDTO´s from EventRepo
         Iterable<EventDTO> eventDTOS = eventRepo.findAll();
-
-
-        /**
-         * @// TODO: 16.03.20 Investigate if we have to sort eventDTOs by id at this point
-         */
         //Fill list of events
         eventDTOS.forEach(e -> {
             IEvent event = transform(e);
@@ -55,7 +50,7 @@ public class EventService {
     }
 
     /**
-     * Transformation of generic EventDTO to specifc EventType
+     * Transformation of generic EventDTO to specifc EventType.
      *
      * @param eventDTO
      * @return Returns initialized Event
@@ -86,7 +81,8 @@ public class EventService {
     }
 
 
-    public EventDTO createEventDTO(String userName, String groupID, LocalDateTime timestamp, String eventType, IEvent event) {
+    public EventDTO createEventDTO(String userName, String groupID, LocalDateTime timestamp,
+                                   String eventType, IEvent event) {
         ObjectMapper objectMapper = new ObjectMapper();
         String payload = "";
         try {

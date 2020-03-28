@@ -174,7 +174,7 @@ public class CheckService {
     private Membership getMembership(List<Membership> memberships, Group group) {
         Membership membership = null;
 
-        if(memberships == null){
+        if (memberships == null) {
             return null;
         }
 
