@@ -309,7 +309,7 @@ public class ApplicationService {
     }
 
     List<String> extractUsernamesFromCsv(MultipartFile file) throws Exception{
-        List<String> usernames = new ArrayList<>();
+        List<String> usernames;
         try {
             InputStream inputStream = file.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -344,7 +344,7 @@ public class ApplicationService {
     }
 
     public List<String> uploadCsv(MultipartFile file, List<String> usernames) throws Exception {
-        List<String> csvUsernames = new ArrayList<>();
+        List<String> csvUsernames;
         try {
             ValidationResult isCsv = checkFileFormat(file);
             if (!isCsv.isValid()) {
