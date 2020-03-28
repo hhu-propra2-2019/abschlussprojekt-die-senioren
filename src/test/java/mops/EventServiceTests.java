@@ -34,12 +34,12 @@ class EventServiceTests {
         String groupID = "12345";
         String eventType = "TestEvent";
         LocalDateTime timestamp = LocalDateTime.parse("2020-03-02T13:22:14");
-        String testPayload = "{" +
-                "\"groupDescription\": \"This is a group description.\"," +
-                "\"groupType\": \"PUBLIC\"" +
-                "}";
+        String testPayload = "{"
+                + "\"groupDescription\": \"This is a group description.\","
+                + "\"groupType\": \"PUBLIC\""
+                + "}";
 
-        EventDTO testEventDTO = new EventDTO(userName, groupID ,timestamp , eventType, testPayload);
+        EventDTO testEventDTO = new EventDTO(userName, groupID, timestamp , eventType, testPayload);
 
         //act
         IEvent testEvent = eventService.transform(testEventDTO);
@@ -52,7 +52,7 @@ class EventServiceTests {
     void serialize() {
 
         //arrange
-        TestEvent testEvent = new TestEvent("test_user", "99", "TestEvent","This is a group description.","PUBLIC");
+        TestEvent testEvent = new TestEvent("test_user", "99", "TestEvent", "This is a group description.", "PUBLIC");
 
         //act
         EventDTO eventDTO = eventService.createEventDTO("test_user", "99", LocalDateTime.parse("2020-03-13T10:01:33"), "TestEvent", testEvent);
@@ -62,12 +62,12 @@ class EventServiceTests {
         assertThat(eventDTO.getEventType(), is("TestEvent"));
         assertThat(eventDTO.getTimestamp().toString(), is("2020-03-13T10:01:33"));
         assertThat(eventDTO.getGroup(), is("99"));
-        assertThat(eventDTO.getPayload(), is("{" +
-                "\"user\":\"test_user\"," +
-                "\"group\":\"99\"," +
-                "\"eventType\":\"TestEvent\"," +
-                "\"groupDescription\":\"This is a group description.\"," +
-                "\"groupType\":\"PUBLIC\"" +
-                "}"));
+        assertThat(eventDTO.getPayload(), is("{"
+                + "\"user\":\"test_user\","
+                + "\"group\":\"99\","
+                + "\"eventType\":\"TestEvent\","
+                + "\"groupDescription\":\"This is a group description.\","
+                + "\"groupType\":\"PUBLIC\""
+                + "}"));
     }
 }
