@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * object containing outbound attributes of class Group
- * is given to other services via RestService and RestController
+ * Object containing outbound attributes of class Group.
+ * Is given to other services via RestService and RestController.
  */
 @Getter
 @AllArgsConstructor

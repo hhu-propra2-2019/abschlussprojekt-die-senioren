@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * aggregated object for RestController, wrapping all changed groupDAOs with respective latest eventId
+ * Aggregated object for RestController, wrapping all changed groupDAOs with respective latest eventId.
  */
 
 @Getter
