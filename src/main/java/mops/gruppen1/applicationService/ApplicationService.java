@@ -52,28 +52,6 @@ public class ApplicationService {
     }
 
     /**
-     * method returns all groups belonging to a single user
-     *
-     * @param userName
-     * @return List of Groups
-     */
-    public List<Group> getGroupsOfUser(String userName) {
-        List<Group> groups = groupService.getGroupsOfUser(userName);
-        return groups;
-    }
-
-    /**
-     * method returns all groups belonging to a single user who is active in those groups
-     *
-     * @param userName
-     * @return List of groups where user is active
-     */
-    public List<Group> getGroupsWhereUserIsActive(String userName) {
-        List<Group> groups = groupService.getGroupsWhereUserIsActive(userName);
-        return groups;
-    }
-
-    /**
      * method returns all users with a pending membership request to the group
      *
      * @param groupId
@@ -96,17 +74,6 @@ public class ApplicationService {
     }
 
     /**
-     * returns all memberships of the user
-     *
-     * @param userName
-     * @return all memberships of the user
-     */
-    public List<Membership> getMembershipsOfUser(String userName) {
-        List<Membership> memberships = groupService.getMembershipsOfUser(userName);
-        return memberships;
-    }
-
-    /**
      * returns all active memberships of the user
      *
      * @param userName
@@ -126,17 +93,6 @@ public class ApplicationService {
     public List<Group> searchGroupByName(String groupName) {
         List<Group> requestedGroups = groupService.searchGroupsByName(groupName);
         return requestedGroups;
-    }
-
-    /**
-     * returns a list of userNames (as String) whose names fit the given userName
-     *
-     * @param userName
-     * @return list of strings (userNames)
-     */
-    public List<String> searchUserByName(String userName) {
-        List<String> requestedUsers = groupService.searchUserByName(userName);
-        return requestedUsers;
     }
 
     /**
@@ -304,10 +260,6 @@ public class ApplicationService {
         return groupService.getGroup(groupId);
     }
 
-    public HashMap<String, User> getAllUsers() {
-        return groupService.getUsers();
-    }
-
     /**
      * start an UpdateMembershipEvent
      *
@@ -333,11 +285,6 @@ public class ApplicationService {
         if (isValid) {
             validationResult = groupService.createUser(userName);
         }
-        return validationResult;
-    }
-
-     public ValidationResult isAdmin(String userName, String groupId){
-        ValidationResult validationResult = groupService.isAdmin(userName, groupId);
         return validationResult;
     }
 
