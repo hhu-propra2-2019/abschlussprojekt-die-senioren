@@ -1,15 +1,10 @@
-package mops.gruppen1.Controller.Interaction;
+package mops.gruppen1.controller.interaction;
 
 
 import mops.gruppen1.applicationService.RestService;
 import mops.gruppen1.data.DAOs.GroupDAO;
 import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
 import mops.gruppen1.data.DAOs.UserDAO;
-import mops.gruppen1.domain.Group;
-import mops.gruppen1.domain.User;
-import mops.gruppen1.security.Account;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,11 +1,13 @@
-package mops.gruppen1.Controller;
+package mops.gruppen1.controller;
 
 import mops.gruppen1.applicationService.RestService;
 import mops.gruppen1.data.DAOs.GroupDAO;
 import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
 import mops.gruppen1.data.DAOs.UserDAO;
-import mops.gruppen1.domain.GroupStatus;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;

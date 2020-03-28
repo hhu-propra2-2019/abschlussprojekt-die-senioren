@@ -1,13 +1,10 @@
-package mops.gruppen1.Controller;
+package mops.gruppen1.controller;
 
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.AllArgsConstructor;
 import mops.gruppen1.applicationService.ApplicationService;
 import mops.gruppen1.applicationService.ValidationResult;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.Membership;
-import mops.gruppen1.domain.Username;
 import mops.gruppen1.security.Account;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -19,15 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -261,10 +251,7 @@ public class GroupController {
     private boolean isMemberResignmentNotPossible(KeycloakAuthenticationToken token,
                                                   ValidationResult validationResult,
                                                   @PathVariable("id") String groupId) {
-        if (validationResult.isValid()) {
-            return false;
-        }
-        return true;
+        return !validationResult.isValid();
     }
 
 
