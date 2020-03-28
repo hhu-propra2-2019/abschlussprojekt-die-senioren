@@ -15,7 +15,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("mops.gruppen1.Controller.Interaction"))
+                .apis(RequestHandlerSelectors.basePackage("mops.gruppen1.controller.Interaction"))
                 .paths(PathSelectors.any())
                 .build();
     }
