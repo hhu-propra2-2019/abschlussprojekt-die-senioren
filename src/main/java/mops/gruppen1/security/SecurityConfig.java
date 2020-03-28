@@ -81,7 +81,7 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
      * {@link org.springframework.security.access.annotation.Secured} annotation
      * or the JSR-250 Java Standard
      * {@link javax.annotation.security.RolesAllowed} annotation
-     * for Role-based authorization
+     * for Role-based authorization.
      */
     @Configuration
     @EnableGlobalMethodSecurity(
