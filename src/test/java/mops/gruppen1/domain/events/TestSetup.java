@@ -87,9 +87,9 @@ public class TestSetup {
         GroupType groupTypeTwo = GroupType.RESTRICTED;
         GroupType groupTypeThree = GroupType.RESTRICTED;
         Module moduleOne = new Module();
-        moduleOne.setModulename(new Modulename("Info1"));
+        moduleOne.setModulename(new ModuleName("Info1"));
         Module moduleTwo = new Module();
-        moduleTwo.setModulename(new Modulename("Keine Veranstaltung."));
+        moduleTwo.setModulename(new ModuleName("Keine Veranstaltung."));
 
 
         User groupCreatorOne = users.get("Max");

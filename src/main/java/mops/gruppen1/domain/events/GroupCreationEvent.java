@@ -56,7 +56,7 @@ public class GroupCreationEvent implements IEvent {
         User groupCreator = new User(new Username(this.groupCreator));
         GroupType groupType = GroupType.valueOf(this.groupType.toUpperCase());
         Module module = new Module();
-        module.setModulename(new Modulename(groupCourse));
+        module.setModulename(new ModuleName(groupCourse));
 
         return createDependingOnArgs(members, name, description, groupStatus, groupCreator, groupType, module);
     }
