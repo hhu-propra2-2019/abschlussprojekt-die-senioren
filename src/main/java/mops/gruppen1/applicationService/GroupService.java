@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Service to manage the group entities
+ * Service to manage data structures.
  */
 @Getter
 @EqualsAndHashCode
@@ -44,6 +44,9 @@ public class GroupService {
         users = new HashMap<>();
     }
 
+    /**
+     * Load all events from the repository in EventService and execute them.
+     */
     public void init() {
         events.loadEvents();
         List<IEvent> eventList = events.getEvents();
@@ -57,7 +60,7 @@ public class GroupService {
 
     /**
      * calls performGroupCreationEvent to create, execute and save GroupCreationEvent.
-     * Does not include a real validation check because one cannot search for
+     * does not include a real validation check because one cannot search for
      * non-existant groups and every user can create groups.
      *
      * @param groupDescription
@@ -85,7 +88,14 @@ public class GroupService {
         this.lastCreatedGroup = groupCreationEvent.getGroupId();
     }
 
-
+    /**
+     * calls performGroupDeletionEvent to create, execute and save GroupDeletionEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     *
+     * @param groupId
+     * @param userName
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult deleteGroup(String groupId, String userName) {
         List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
         validationResults.add(checkService.isAdmin(userName, groupId, groups, users, userToMembers));
@@ -108,6 +118,17 @@ public class GroupService {
         persistEvent(userName, groupId, "GroupDeletionEvent", groupDeletionEvent);
     }
 
+    /**
+     * calls performGroupPropertyUpdateEvent to create, execute and save GroupPropertyUpdateEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     *
+     * @param groupId
+     * @param updatedBy
+     * @param groupName
+     * @param description
+     * @param groupType
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult updateGroupProperties(String groupId, String updatedBy, String groupName, String description, String groupType) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers));
@@ -130,6 +151,13 @@ public class GroupService {
         persistEvent(updatedBy, groupId, "GroupPropertyUpdateEvent", groupPropertyUpdateEvent);
     }
 
+    /**
+     * calls performUserCreationEvent to create, execute and save UserCreationEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     *
+     * @param userName
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult createUser(String userName) {
         ValidationResult validationResult = checkService.doesUserExist(userName, users);
         try {
@@ -148,6 +176,16 @@ public class GroupService {
         persistEvent(userCreationEvent.getUsername(), null, "UserCreationEvent", userCreationEvent);
     }
 
+    /**
+     * calls performMembershipAssignmentEvent to create, execute and save MembershipAssignmentEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     * this method explicitly refers to public groups, which is a necessary destinction in ApplicationService.
+     *
+     * @param userName
+     * @param groupId
+     * @param membershipType
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult assignMembershipToPublicGroup(String userName, String groupId, String membershipType) {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
@@ -168,6 +206,16 @@ public class GroupService {
         return validationResult;
     }
 
+    /**
+     * calls performMembershipAssignmentEvent to create, execute and save MembershipAssignmentEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     * this method explicitly refers to restricted groups, which is a necessary destinction in ApplicationService.
+     *
+     * @param userName
+     * @param groupId
+     * @param membershipType
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult assignMembershipToRestrictedGroup(String userName, String groupId, String membershipType) {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
@@ -196,6 +244,16 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipAssignmentEvent", membershipAssignmentEvent);
     }
 
+    /**
+     * calls performMembershipRequestEvent to create, execute and save MembershipRequestEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     *
+     * @param userName
+     * @param groupId
+     * @param membershipType
+     * @param membershipRequestMessage
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult requestMembership(String userName, String groupId, String membershipType, String membershipRequestMessage) {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
@@ -223,6 +281,14 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipRequestEvent", membershipRequestEvent);
     }
 
+    /**
+     * calls performMembershipResignmentEvent to create, execute and save MembershipResignmentEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     *
+     * @param userName
+     * @param groupId
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult resignMembership(String userName, String groupId) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isGroupActive(groupId, groups));
@@ -248,6 +314,15 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipResignmentEvent", memberResignmentEvent);
     }
 
+    /**
+     * calls performMembershipRejectionEvent to create, execute and save MembershipRejectionEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     *
+     * @param userName
+     * @param groupId
+     * @param rejectedBy
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult rejectMembership(String userName, String groupId, String rejectedBy) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isRestricted(groupId, groups));
@@ -273,6 +348,15 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipRejectionEvent", membershipRejectionEvent);
     }
 
+    /**
+     * calls performMemberDeletionEvent to create, execute and save MemberDeletionEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     *
+     * @param userName
+     * @param groupId
+     * @param deletedBy
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult deleteMembership(String userName, String groupId, String deletedBy) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isGroupActive(groupId, groups));
@@ -300,6 +384,15 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipDeletionEvent", memberDeletionEvent);
     }
 
+    /**
+     * calls performMembershipUpdateEvent to create, execute and save MembershipUpdateEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     *
+     * @param userName
+     * @param groupId
+     * @param updatedBy
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult updateMembership(String userName, String groupId, String updatedBy) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isGroupActive(groupId, groups));
@@ -326,6 +419,15 @@ public class GroupService {
         persistEvent(userName, groupId, "MembershipUpdateEvent", membershipUpdateEvent);
     }
 
+    /**
+     * calls performMembershipAcceptanceEvent to create, execute and save MembershipAcceptanceEvent.
+     * runs checks from CheckService that ensure no restrictions are violated.
+     *
+     * @param userName
+     * @param groupId
+     * @param acceptedBy
+     * @return ValidationResult that tells whether the event was successfully executed or why it was not.
+     */
     public ValidationResult acceptMembership(String userName, String groupId, String acceptedBy) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isRestricted(groupId, groups));
@@ -342,15 +444,6 @@ public class GroupService {
             }
         }
         return validationResult;
-    }
-
-    public Group getGroup(String groupId) {
-        ValidationResult validationResult = checkService.isGroupActive(groupId, groups);
-        if(validationResult.isValid()) {
-            Group group = groups.get(groupId);
-            return group;
-        }
-        return null;
     }
 
 
@@ -377,6 +470,15 @@ public class GroupService {
             }
         }
         return validationResult;
+    }
+
+    public Group getGroup(String groupId) {
+        ValidationResult validationResult = checkService.isGroupActive(groupId, groups);
+        if(validationResult.isValid()) {
+            Group group = groups.get(groupId);
+            return group;
+        }
+        return null;
     }
 
     public List<Membership> getMembersOfGroup(String groupId) {
