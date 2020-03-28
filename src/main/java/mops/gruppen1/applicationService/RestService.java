@@ -1,11 +1,11 @@
 package mops.gruppen1.applicationService;
 
-import mops.gruppen1.data.DAOs.GroupDAO;
-import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
-import mops.gruppen1.data.DAOs.UserDAO;
-import mops.gruppen1.data.EventIdOnly;
-import mops.gruppen1.data.EventRepo;
-import mops.gruppen1.data.GroupIdOnly;
+import mops.gruppen1.data.IEventIdOnly;
+import mops.gruppen1.data.IEventRepo;
+import mops.gruppen1.data.IGroupIdOnly;
+import mops.gruppen1.data.daos.GroupDAO;
+import mops.gruppen1.data.daos.UpdatedGroupsDAO;
+import mops.gruppen1.data.daos.UserDAO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,10 @@ import java.util.List;
 public class RestService {
 
     GroupService groupService;
-    EventRepo eventRepo;
+    IEventRepo eventRepo;
 
     @Autowired
-    public RestService(GroupService groupService, EventRepo eventRepo) {
+    public RestService(GroupService groupService, IEventRepo eventRepo) {
         this.groupService = groupService;
         this.eventRepo = eventRepo;
     }
@@ -75,8 +75,8 @@ public class RestService {
 
     private UpdatedGroupsDAO createUpdatedGroupsDAOs(Long oldEventId, Long latestEventId) {
         UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(latestEventId);
-        List<GroupIdOnly> changedGroupIds = eventRepo.findDistinctByIdAfter(oldEventId);
-        for (GroupIdOnly groupId : changedGroupIds) {
+        List<IGroupIdOnly> changedGroupIds = eventRepo.findDistinctByIdAfter(oldEventId);
+        for (IGroupIdOnly groupId : changedGroupIds) {
             String id = groupId.getGroup();
             GroupDAO groupDAO = createGroupDAO(id);
             updatedGroupsDAO.addGroupDAO(groupDAO);
@@ -88,7 +88,7 @@ public class RestService {
      * @return the id of the event that was last recently stored in the Repo
      */
     private Long getLatestEventId() {
-        List<EventIdOnly> latestEventIdAsList = eventRepo.findTopByOrderByIdDesc();
+        List<IEventIdOnly> latestEventIdAsList = eventRepo.findTopByOrderByIdDesc();
         Long latestEventId = latestEventIdAsList.get(0).getId();
         return latestEventId;
     }

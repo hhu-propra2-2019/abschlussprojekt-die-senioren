@@ -1,4 +1,4 @@
-package mops.gruppen1.Controller;
+package mops.gruppen1.controller;
 
 import mops.gruppen1.applicationService.ApplicationService;
 import mops.gruppen1.applicationService.ValidationResult;

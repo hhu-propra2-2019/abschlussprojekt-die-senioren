@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import mops.gruppen1.data.EventDTO;
-import mops.gruppen1.data.EventRepo;
+import mops.gruppen1.data.IEventRepo;
 import mops.gruppen1.domain.events.IEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class EventService {
 
-    final EventRepo eventRepo;
+    final IEventRepo eventRepo;
     private final String eventClassPath = "mops.gruppen1.domain.events.";
     private List<IEvent> events;
 
@@ -30,7 +30,7 @@ public class EventService {
      *
      * @param eventRepo
      */
-    public EventService(EventRepo eventRepo) {
+    public EventService(IEventRepo eventRepo) {
         this.eventRepo = eventRepo;
         events = new ArrayList<IEvent>();
     }
