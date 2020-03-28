@@ -75,12 +75,21 @@ public class EventService {
             return null;
         }
     }
-
+    
     public void saveToRepository(EventDTO eventDTO) {
         eventRepo.save(eventDTO);
     }
 
 
+    /**
+     * Method receives parameters and uses them to create an EventDTO.
+     * @param userName
+     * @param groupID
+     * @param timestamp
+     * @param eventType
+     * @param event
+     * @return EVentDTO with given parameters.
+     */
     public EventDTO createEventDTO(String userName, String groupID, LocalDateTime timestamp,
                                    String eventType, IEvent event) {
         ObjectMapper objectMapper = new ObjectMapper();
