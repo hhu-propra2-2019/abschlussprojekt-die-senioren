@@ -1,9 +1,9 @@
 package mops.gruppen1.controller;
 
 import mops.gruppen1.applicationService.RestService;
-import mops.gruppen1.data.DAOs.GroupDAO;
-import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
-import mops.gruppen1.data.DAOs.UserDAO;
+import mops.gruppen1.data.daos.GroupDAO;
+import mops.gruppen1.data.daos.UpdatedGroupsDAO;
+import mops.gruppen1.data.daos.UserDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;

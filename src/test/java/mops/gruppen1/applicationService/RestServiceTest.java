@@ -1,9 +1,9 @@
 package mops.gruppen1.applicationService;
 
-import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
 import mops.gruppen1.data.EventIdOnly;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.data.GroupIdOnly;
+import mops.gruppen1.data.daos.UpdatedGroupsDAO;
 import mops.gruppen1.domain.Module;
 import mops.gruppen1.domain.*;
 import org.junit.jupiter.api.BeforeEach;

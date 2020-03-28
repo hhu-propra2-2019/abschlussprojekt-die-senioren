@@ -2,9 +2,9 @@ package mops.gruppen1.controller.interaction;
 
 
 import mops.gruppen1.applicationService.RestService;
-import mops.gruppen1.data.DAOs.GroupDAO;
-import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
-import mops.gruppen1.data.DAOs.UserDAO;
+import mops.gruppen1.data.daos.GroupDAO;
+import mops.gruppen1.data.daos.UpdatedGroupsDAO;
+import mops.gruppen1.data.daos.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

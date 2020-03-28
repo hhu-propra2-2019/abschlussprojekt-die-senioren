@@ -1,16 +1,15 @@
 package mops.gruppen1.applicationService;
 
-import mops.gruppen1.data.DAOs.GroupDAO;
-import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
-import mops.gruppen1.data.DAOs.UserDAO;
 import mops.gruppen1.data.EventIdOnly;
 import mops.gruppen1.data.EventRepo;
 import mops.gruppen1.data.GroupIdOnly;
+import mops.gruppen1.data.daos.GroupDAO;
+import mops.gruppen1.data.daos.UpdatedGroupsDAO;
+import mops.gruppen1.data.daos.UserDAO;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.UserDataHandler;
 
 import java.util.ArrayList;
 import java.util.List;

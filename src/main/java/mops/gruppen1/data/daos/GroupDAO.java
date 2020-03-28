@@ -1,4 +1,4 @@
-package mops.gruppen1.data.DAOs;
+package mops.gruppen1.data.daos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
