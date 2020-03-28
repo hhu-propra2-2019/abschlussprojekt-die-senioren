@@ -59,4 +59,4 @@ Um die Anwendung zu starten, muss *vor* dem clonen des Projektes lokal der
 Befehl `git config --global core.autocrlf false` ausgeführt werden.
 
 Ist das Projekt anschließend gecloned, kann die Anwendung mit dem Befehl `docker-compose up --build`
-aus dem Root - Verzeichnis des Projektes gestartet werden.
+aus dem Root-Verzeichnis des Projektes gestartet werden.
