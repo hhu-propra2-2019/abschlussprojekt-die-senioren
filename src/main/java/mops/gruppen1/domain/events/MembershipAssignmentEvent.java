@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * For public Groups:
- * Create a Membership with Status 'ACTIVE'
+ * Create a Membership with Status 'ACTIVE'.
  * Add Membership to groupToMembers and userToMembers
  */
 @AllArgsConstructor
@@ -26,7 +26,8 @@ public class MembershipAssignmentEvent implements IEvent {
 
 
     @Override
-    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
+            List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         User user = users.get(userName);
         MembershipType membershipType = MembershipType.valueOf(this.membershipType);
