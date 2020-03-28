@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Manages the Logout-Mapping
+ */
 @Controller
 public class LogOutController {
     @GetMapping("/logout")
