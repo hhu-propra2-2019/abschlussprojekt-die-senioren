@@ -35,7 +35,6 @@ public class MembershipUpdateEvent implements IEvent {
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
             List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-        //TODO Prüfe, dass ein Member sich selbst nicht ändern kann(updatedBy ungleich memberId)
         List<Membership> memberships = userToMembers.get(userName);
         Membership membership = getMembership(memberships, groupId);
         changeMembershipType(membership);
