@@ -1,6 +1,5 @@
 package mops.gruppen1.data.daos;
 
-
 import lombok.Getter;
 
 import java.util.ArrayList;

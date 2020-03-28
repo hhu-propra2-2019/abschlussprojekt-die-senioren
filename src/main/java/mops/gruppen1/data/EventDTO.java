@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * DTO for Events
+ * DTO for Events.
  */
 @Data
 @Entity
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class EventDTO {
 
+    private final int columnLengthForPayload = 2000;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +26,7 @@ public class EventDTO {
     @Column(columnDefinition = "TIMESTAMP", name = "eventTimeStamp")
     private LocalDateTime timestamp;
     private String eventType;
-    @Column(length = 2000)
+    @Column(length = columnLengthForPayload)
     private String payload;
     public EventDTO(String user, String group, LocalDateTime timestamp, String eventType, String payload) {
         this.user = user;

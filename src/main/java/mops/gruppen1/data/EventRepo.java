@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Repository to fetch event data from database
+ * Repository to fetch event data from database.
  */
 @Repository
 public interface EventRepo extends PagingAndSortingRepository<EventDTO, Long> {
