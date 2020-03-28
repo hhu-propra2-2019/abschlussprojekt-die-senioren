@@ -70,7 +70,8 @@ public class GroupService {
      * @param groupType
      * @return ValidationResult (always successful)
      */
-    public ValidationResult createGroup(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
+    public ValidationResult createGroup(String groupDescription, String groupName, String groupCourse,
+                                        String groupCreator, String groupType) {
         ValidationResult validationResult = new ValidationResult();
         try {
             performGroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
@@ -80,8 +81,10 @@ public class GroupService {
         return validationResult;
     }
 
-    void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
-        GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName, groupCourse, groupCreator, groupType);
+    void performGroupCreationEvent(String groupDescription, String groupName, String groupCourse,
+                                   String groupCreator, String groupType) {
+        GroupCreationEvent groupCreationEvent = new GroupCreationEvent(groupDescription, groupName,
+                groupCourse, groupCreator, groupType);
         groupCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(groupCreator, groupCreationEvent.getGroupId(), "GroupCreationEvent", groupCreationEvent);
@@ -129,7 +132,8 @@ public class GroupService {
      * @param groupType
      * @return ValidationResult that tells whether the event was successfully executed or why it was not.
      */
-    public ValidationResult updateGroupProperties(String groupId, String updatedBy, String groupName, String description, String groupType) {
+    public ValidationResult updateGroupProperties(String groupId, String updatedBy, String groupName,
+                                                  String description, String groupType) {
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isAdmin(updatedBy, groupId, groups, users, userToMembers));
         validationResults.add(checkService.isGroupActive(groupId, groups));
@@ -144,8 +148,10 @@ public class GroupService {
         return validationResult;
     }
 
-    void performGroupPropertyUpdateEvent(String groupId, String updatedBy, String groupName, String description, String groupType) {
-        GroupPropertyUpdateEvent groupPropertyUpdateEvent = new GroupPropertyUpdateEvent(groupId, updatedBy, groupName, description, groupType);
+    void performGroupPropertyUpdateEvent(String groupId, String updatedBy, String groupName,
+                                         String description, String groupType) {
+        GroupPropertyUpdateEvent groupPropertyUpdateEvent = new GroupPropertyUpdateEvent(groupId, updatedBy, groupName,
+                description, groupType);
         groupPropertyUpdateEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(updatedBy, groupId, "GroupPropertyUpdateEvent", groupPropertyUpdateEvent);
@@ -238,7 +244,8 @@ public class GroupService {
 
 
     void performMembershipAssignmentEvent(String userName, String groupId, String membershipType) {
-        MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, userName, membershipType);
+        MembershipAssignmentEvent membershipAssignmentEvent = new MembershipAssignmentEvent(groupId, userName,
+                membershipType);
         membershipAssignmentEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipAssignmentEvent", membershipAssignmentEvent);
@@ -254,7 +261,8 @@ public class GroupService {
      * @param membershipRequestMessage
      * @return ValidationResult that tells whether the event was successfully executed or why it was not.
      */
-    public ValidationResult requestMembership(String userName, String groupId, String membershipType, String membershipRequestMessage) {
+    public ValidationResult requestMembership(String userName, String groupId,
+                                              String membershipType, String membershipRequestMessage) {
         /*
             TODO check if group is assigned to a module/course, user has to be assigned to it as well
          */
@@ -274,8 +282,10 @@ public class GroupService {
         return validationResult;
     }
 
-    void performMembershipRequestEvent(String userName, String groupId, String membershipType, String membershipRequestMessage) {
-        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName, membershipType, membershipRequestMessage);
+    void performMembershipRequestEvent(String userName, String groupId,
+                                       String membershipType, String membershipRequestMessage) {
+        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupId, userName,
+                membershipType, membershipRequestMessage);
         membershipRequestEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipRequestEvent", membershipRequestEvent);
@@ -448,7 +458,8 @@ public class GroupService {
 
 
     void performMembershipAcceptanceEvent(String userName, String groupId, String acceptedBy) {
-        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName, acceptedBy);
+        MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName,
+                acceptedBy);
         membershipAcceptanceEvent.execute(groupToMembers, userToMembers, users, groups);
 
         persistEvent(userName, groupId, "MembershipAcceptanceEvent", membershipAcceptanceEvent);
@@ -474,7 +485,7 @@ public class GroupService {
 
     public Group getGroup(String groupId) {
         ValidationResult validationResult = checkService.isGroupActive(groupId, groups);
-        if(validationResult.isValid()) {
+        if (validationResult.isValid()) {
             Group group = groups.get(groupId);
             return group;
         }
@@ -553,13 +564,15 @@ public class GroupService {
     }
 
     public ValidationResult isUserMemberOfGroup(String username, String groupId) {
-        ValidationResult validationResult = checkService.isMember(username, groupId, this.groups, this.users, this.userToMembers);
+        ValidationResult validationResult = checkService.isMember(username, groupId, this.groups,
+                this.users, this.userToMembers);
 
         return validationResult;
     }
 
     public ValidationResult isUserAdminInGroup(String username, String groupId) {
-        ValidationResult validationResult = checkService.isAdmin(username, groupId, this.groups, this.users, this.userToMembers);
+        ValidationResult validationResult = checkService.isAdmin(username, groupId, this.groups,
+                this.users, this.userToMembers);
 
         return validationResult;
     }
@@ -579,7 +592,9 @@ public class GroupService {
         List<Membership> members =  groupToMembers.get(groupId);
 
         //Filter all memberships with deactivated/rejected/pending status
-        List<Membership> activeMembers =  members.stream().filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE).collect(Collectors.toList());
+        List<Membership> activeMembers =  members.stream()
+                .filter(m -> m.getMembershipStatus() == MembershipStatus.ACTIVE)
+                .collect(Collectors.toList());
 
         //Call getUser-method on each membership element of list 'members' and add it to new list of 'users'
         List<User> users = activeMembers.stream().map(Membership::getUser).collect(Collectors.toList());
@@ -593,7 +608,8 @@ public class GroupService {
     }
 
     public ValidationResult isActive(String userName, String groupId) {
-        ValidationResult validationResult = checkService.isMembershipActive(userName, groupId, groups, users, userToMembers);
+        ValidationResult validationResult = checkService.isMembershipActive(userName, groupId,
+                groups, users, userToMembers);
         return validationResult;
     }
 
