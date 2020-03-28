@@ -49,7 +49,7 @@ Im Wiki befinden sich verschiedenste Dokumentationen zu einzelnen Aspekten des P
 
 *Linux und MacOS*
 
-Um die Anwendung zu starten, muss der Befehl `docker-compose up` aus dem Root - Verzeichnis
+Um die Anwendung zu starten, muss der Befehl `docker-compose up` aus dem Root-Verzeichnis
 des Projektes heraus ausgeführt werden. +
 Danach läuft die Anwendung auf Port 8080. (localhost:8080/gruppen1/)
 
