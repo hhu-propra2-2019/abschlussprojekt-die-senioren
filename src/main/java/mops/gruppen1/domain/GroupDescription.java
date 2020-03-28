@@ -11,6 +11,9 @@ import lombok.Getter;
 public class GroupDescription {
     private String description;
 
+    /**
+     * @return Value of description.
+     */
     @Override
     public String toString() {
         return description;
