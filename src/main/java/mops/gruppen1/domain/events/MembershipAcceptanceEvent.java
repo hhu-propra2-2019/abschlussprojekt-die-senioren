@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * change status of Membership to 'Active'
+ * change status of Membership to 'ACTIVE'.
  */
 @Getter
 @EqualsAndHashCode
@@ -26,7 +26,8 @@ public class MembershipAcceptanceEvent implements IEvent {
     private String acceptedBy;
 
     @Override
-    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
+            List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
 

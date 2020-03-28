@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 
 /**
- * Service that controls calls to GroupService
+ * Service that controls calls to GroupService.
  */
 @Service
 @Getter
@@ -30,7 +30,7 @@ public class ApplicationService {
     }
 
     /**
-     * method returns all members belonging to the requested group
+     * method returns all members belonging to the requested group.
      *
      * @param groupId
      * @return List of Memberships
@@ -41,7 +41,7 @@ public class ApplicationService {
     }
 
     /**
-     * method returns all active members belonging to the requested group
+     * method returns all active members belonging to the requested group.
      *
      * @param groupId
      * @return List of Active Memberships
@@ -52,7 +52,7 @@ public class ApplicationService {
     }
 
     /**
-     * method returns all users with a pending membership request to the group
+     * method returns all users with a pending membership request to the group.
      *
      * @param groupId
      * @return List of Memberships
@@ -63,7 +63,7 @@ public class ApplicationService {
     }
 
     /**
-     * returns number of pending requests to a group
+     * returns number of pending requests to a group.
      *
      * @param groupId
      * @return number of pending requests
@@ -74,7 +74,7 @@ public class ApplicationService {
     }
 
     /**
-     * returns all active memberships of the user
+     * returns all active memberships of the user.
      *
      * @param userName
      * @return all active memberships of the user
@@ -85,7 +85,7 @@ public class ApplicationService {
     }
 
     /**
-     * returns List of all Groups whose groupName fits the given group name
+     * returns List of all Groups whose groupName fits the given group name.
      *
      * @param groupName
      * @return list of groups
@@ -96,8 +96,8 @@ public class ApplicationService {
     }
 
     /**
-     * start a GroupCreationEvent and one or several MembershipAssignmentEvents
-     * MemberShipAssignmentEvent for the GroupCreator always occurs, but is optional for additional members
+     * start a GroupCreationEvent and one or several MembershipAssignmentEvents.
+     * MemberShipAssignmentEvent for the GroupCreator always occurs, but is optional for additional members.
      *
      * @param groupDescription
      * @param groupName
@@ -126,7 +126,8 @@ public class ApplicationService {
         return collectCheck(validationResults);
     }
 
-    private void addMembersToGroup(String groupCreator, String groupType, List<String> users, List<ValidationResult> validationResults) {
+    private void addMembersToGroup(String groupCreator, String groupType,
+                                   List<String> users, List<ValidationResult> validationResults) {
         if (groupType.equals("PUBLIC")) {
             addMembersToPublicGroup(groupCreator, groupType, users, validationResults);
         } else {
@@ -134,26 +135,32 @@ public class ApplicationService {
         }
     }
 
-    private void addMembersToRestrictedGroup(String groupCreator, String groupType, List<String> users, List<ValidationResult> validationResults) {
+    private void addMembersToRestrictedGroup(String groupCreator, String groupType,
+                                             List<String> users, List<ValidationResult> validationResults) {
         validationResults
-                .add(groupService.assignMembershipToRestrictedGroup(groupCreator, groupService.getLastCreatedGroup(), "ADMIN"));
+                .add(groupService.assignMembershipToRestrictedGroup(groupCreator,
+                        groupService.getLastCreatedGroup(), "ADMIN"));
         for (String user : users) {
             validationResults
-                    .add(groupService.assignMembershipToRestrictedGroup(user, groupService.getLastCreatedGroup(), "VIEWER"));
+                    .add(groupService.assignMembershipToRestrictedGroup(user,
+                            groupService.getLastCreatedGroup(), "VIEWER"));
         }
     }
 
-    private void addMembersToPublicGroup(String groupCreator, String groupType, List<String> users, List<ValidationResult> validationResults) {
+    private void addMembersToPublicGroup(String groupCreator, String groupType,
+                                         List<String> users, List<ValidationResult> validationResults) {
         validationResults
-                .add(groupService.assignMembershipToPublicGroup(groupCreator, groupService.getLastCreatedGroup(), "ADMIN"));
+                .add(groupService.assignMembershipToPublicGroup(groupCreator,
+                        groupService.getLastCreatedGroup(), "ADMIN"));
         for (String user : users) {
             validationResults
-                    .add(groupService.assignMembershipToPublicGroup(user, groupService.getLastCreatedGroup(), "VIEWER"));
+                    .add(groupService.assignMembershipToPublicGroup(user,
+                            groupService.getLastCreatedGroup(), "VIEWER"));
         }
     }
 
     /**
-     * start a GroupDeletionEvent
+     * start a GroupDeletionEvent.
      *
      * @param groupId
      * @param userName
@@ -165,7 +172,7 @@ public class ApplicationService {
     }
 
     /**
-     * start GroupPropertyUpdateEvent
+     * start GroupPropertyUpdateEvent.
      *
      * @param groupId
      * @param updatedBy
@@ -182,7 +189,7 @@ public class ApplicationService {
     }
 
     /**
-     * Start a MembershipDeletionEvent
+     * Start a MembershipDeletionEvent.
      *
      * @param userName
      * @param groupId
@@ -195,7 +202,7 @@ public class ApplicationService {
     }
 
     /**
-     * Start a MembershipResignmentEvent
+     * Start a MembershipResignmentEvent.
      *
      * @param userName
      * @param groupId
@@ -207,7 +214,7 @@ public class ApplicationService {
     }
 
     /**
-     * start a MembershipAcceptanceEvent
+     * start a MembershipAcceptanceEvent.
      *
      * @param userName
      * @param groupId
@@ -220,7 +227,8 @@ public class ApplicationService {
     }
 
     /**
-     * this method starts a MembershipAssignmentEvent if the given group is public and a MembershipRequestEvent if the group is restricted
+     * this method starts a MembershipAssignmentEvent if the given group is public
+     * and a MembershipRequestEvent if the group is restricted.
      * assumes that a user who joins a group does so as a viewer and never directly as an admin
      *
      * @param userName
@@ -240,7 +248,7 @@ public class ApplicationService {
     }
 
     /**
-     * start a MembershipRejectionEvent
+     * start a MembershipRejectionEvent.
      *
      * @param userName
      * @param groupId
@@ -253,6 +261,8 @@ public class ApplicationService {
     }
 
     /**
+     * get a specified group by id.
+     *
      * @param groupId groupId of the requested group
      * @return requested Group
      */
@@ -261,7 +271,7 @@ public class ApplicationService {
     }
 
     /**
-     * start an UpdateMembershipEvent
+     * start an UpdateMembershipEvent.
      *
      * @param userName
      * @param groupId
@@ -274,7 +284,7 @@ public class ApplicationService {
     }
 
     /**
-     * start a UserCreationEvent
+     * start a UserCreationEvent.
      *
      * @param userName
      * @return ValidationResult that tells whether the user was created successfully
@@ -288,12 +298,12 @@ public class ApplicationService {
         return validationResult;
     }
 
-    public ValidationResult isActive(String userName, String groupId){
+    public ValidationResult isActive(String userName, String groupId) {
         ValidationResult validationResult = groupService.isActive(userName, groupId);
         return validationResult;
     }
 
-    public ValidationResult isActiveAdmin(String userName, String groupId){
+    public ValidationResult isActiveAdmin(String userName, String groupId) {
         ValidationResult validationResult = groupService.isActiveAdmin(userName, groupId);
         return validationResult;
     }
@@ -308,7 +318,7 @@ public class ApplicationService {
         return validationResult;
     }
 
-    List<String> extractUsernamesFromCsv(MultipartFile file) throws Exception{
+    List<String> extractUsernamesFromCsv(MultipartFile file) throws Exception {
         List<String> usernames = new ArrayList<>();
         try {
             InputStream inputStream = file.getInputStream();
@@ -328,15 +338,17 @@ public class ApplicationService {
         return usernames;
     }
 
-    private ValidationResult checkFileFormat(MultipartFile file){
+    private ValidationResult checkFileFormat(MultipartFile file) {
         ValidationResult result = new ValidationResult();
         String filename = file.getOriginalFilename();
-        if (filename.length() < 5) {
+        final int minimalFilenameLength = 5;
+        if (filename.length() < minimalFilenameLength) {
             result.addError("Kein gültiger Dateiname");
             return result;
         }
-        String format = filename.substring(filename.length() - 4);
-        if (format.equals(".csv")){
+        final int positionOfEndingCharactersInFilename = 4;
+        String format = filename.substring(filename.length() - positionOfEndingCharactersInFilename);
+        if (format.equals(".csv")) {
             return result;
         }
         result.addError("Diese Datei ist keine Csv-Datei");
@@ -358,6 +370,5 @@ public class ApplicationService {
                 .collect(Collectors.toList());
         return combinedUsernames;
     }
-    //TODO alle Veranstaltungen als Liste (noch nicht möglich)
 }
 
