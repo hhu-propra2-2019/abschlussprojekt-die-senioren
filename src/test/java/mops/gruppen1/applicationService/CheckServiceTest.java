@@ -74,7 +74,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -102,7 +102,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Mathe"));
+        module.setModulename(new ModuleName("Mathe"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -130,7 +130,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Keine Veranstaltung."));
+        module.setModulename(new ModuleName("Keine Veranstaltung."));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -158,7 +158,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.RESTRICTED;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -186,7 +186,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.RESTRICTED;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -214,7 +214,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -255,7 +255,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -301,7 +301,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -347,7 +347,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -393,7 +393,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -439,7 +439,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -486,7 +486,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -532,7 +532,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -579,7 +579,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -626,7 +626,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -673,7 +673,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();

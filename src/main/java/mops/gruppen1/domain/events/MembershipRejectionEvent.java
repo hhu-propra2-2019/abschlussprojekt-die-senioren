@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * change status of Membership to 'REJECTED'
+ * change status of Membership to 'REJECTED'.
  */
 @Getter
 @EqualsAndHashCode
@@ -27,7 +27,8 @@ public class MembershipRejectionEvent implements IEvent {
     private String rejectedBy;
 
     @Override
-    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
+            List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
 

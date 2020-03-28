@@ -1,10 +1,13 @@
-package mops.gruppen1.Controller;
+package mops.gruppen1.controller;
 
 import mops.gruppen1.applicationService.ApplicationService;
 import mops.gruppen1.applicationService.ValidationResult;
 import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.events.TestSetup;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
@@ -24,31 +27,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-/**
- * Test for Controller
- * - Might have to be updated after Keycloak update
- */
 @AutoConfigureMockMvc
 @SpringBootTest
 class GroupControllerTest {
     @Autowired
-    MockMvc mvc;
+    private MockMvc mvc;
     private TestSetup testSetup;
     private String groupID;
 
 
     @MockBean
-    ApplicationService applicationService;
+    private ApplicationService applicationService;
 
     @Autowired
-    WebApplicationContext context;
+    private WebApplicationContext context;
 
     @BeforeEach
     public void setup() {
@@ -62,7 +60,7 @@ class GroupControllerTest {
         when(applicationService.getGroup(groupID)).thenReturn(testgroup);
     }
 
-    
+
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Index - Seite.")
     @Test
@@ -102,7 +100,7 @@ class GroupControllerTest {
 
         when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
 
-        mvc.perform(get("/gruppen1/admin/{id}",groupID))
+        mvc.perform(get("/gruppen1/admin/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("gruppenAdmin"));
     }
@@ -170,7 +168,7 @@ class GroupControllerTest {
 
         when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
 
-        mvc.perform(get("/gruppen1/description/{id}",groupID))
+        mvc.perform(get("/gruppen1/description/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeProperties"));
     }
@@ -193,7 +191,7 @@ class GroupControllerTest {
 
         when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
 
-        mvc.perform(get("/gruppen1/memberships/{id}",groupID))
+        mvc.perform(get("/gruppen1/memberships/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeMemberships"));
     }
@@ -216,7 +214,7 @@ class GroupControllerTest {
 
         when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
 
-        mvc.perform(get("/gruppen1/groupRequests/{id}",groupID))
+        mvc.perform(get("/gruppen1/groupRequests/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("groupRequests"));
     }
@@ -259,7 +257,7 @@ class GroupControllerTest {
 
         when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
 
-        mvc.perform(get("/gruppen1/requestMessage/{id}",groupID))
+        mvc.perform(get("/gruppen1/requestMessage/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("requestDescription"));
     }

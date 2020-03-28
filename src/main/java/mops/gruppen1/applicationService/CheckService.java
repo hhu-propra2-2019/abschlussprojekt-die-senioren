@@ -5,6 +5,12 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Methods in CheckService receive a value to be tested and datastructures
+ * to be tested against.
+ * Each method returns a ValidationResult that tells whether the test passed
+ * or not and if so, why it did not pass.
+ */
 @Component
 public class CheckService {
 
@@ -82,8 +88,10 @@ public class CheckService {
         return validationResult;
     }
 
-    public ValidationResult isMembershipActive(String userName, String groupId, HashMap<String, Group> groups,
-                                               HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
+    public ValidationResult isMembershipActive(String userName, String groupId,
+                                               HashMap<String, Group> groups,
+                                               HashMap<String, User> users,
+                                               HashMap<String, List<Membership>> userToMembers) {
         ValidationResult validationResult = new ValidationResult();
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
@@ -101,8 +109,10 @@ public class CheckService {
         return validationResult;
     }
 
-    public ValidationResult isMembershipPending(String userName, String groupId, HashMap<String, Group> groups,
-                                                HashMap<String, User> users, HashMap<String, List<Membership>> userToMembers) {
+    public ValidationResult isMembershipPending(String userName, String groupId,
+                                                HashMap<String, Group> groups,
+                                                HashMap<String, User> users,
+                                                HashMap<String, List<Membership>> userToMembers) {
         ValidationResult validationResult = new ValidationResult();
         List<Membership> memberships = userToMembers.get(userName);
         Group group = groups.get(groupId);
@@ -153,11 +163,13 @@ public class CheckService {
                                                HashMap<String, List<Membership>> groupToMembers) {
         ValidationResult validationResult = new ValidationResult();
         List<Membership> memberships = groupToMembers.get(groupId);
-        Membership membership = memberships.stream().filter(m -> m.getUser().getUsername().toString().equals(modifiedBy)).findFirst().orElse(null);
+        Membership membership = memberships.stream()
+                .filter(m -> m.getUser().getUsername().toString().equals(modifiedBy)).findFirst().orElse(null);
         boolean isAdmin = membership.getMembershipType().equals(MembershipType.ADMIN);
         if (isAdmin && modifiedBy.equals(modifiedUser)) {
 
-            long adminCount = memberships.stream().filter(m -> m.getMembershipType().equals(MembershipType.ADMIN)).count();
+            long adminCount = memberships.stream().
+                    filter(m -> m.getMembershipType().equals(MembershipType.ADMIN)).count();
             if (adminCount < 2) {
                 validationResult.addError("Es muss zuerst ein anderer Administrator bestimmt werden.");
             }
@@ -168,7 +180,9 @@ public class CheckService {
     private Membership getMembership(List<Membership> memberships, Group group) {
         Membership membership = null;
 
-        if(memberships == null) return null;
+        if (memberships == null) {
+            return null;
+        }
 
         for (Membership m : memberships) {
             if (m.getGroup().equals(group)) {
