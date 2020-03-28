@@ -2,7 +2,7 @@ package mops;
 
 import mops.gruppen1.applicationService.EventService;
 import mops.gruppen1.data.EventDTO;
-import mops.gruppen1.data.EventRepo;
+import mops.gruppen1.data.IEventRepo;
 import mops.gruppen1.domain.events.IEvent;
 import mops.gruppen1.domain.events.TestEvent;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,7 @@ class EventServiceTests {
 
     @BeforeEach
     public void setUp() {
-        EventRepo eventRepoMock = mock(EventRepo.class);
+        IEventRepo eventRepoMock = mock(IEventRepo.class);
         this.eventService = new EventService(eventRepoMock);
     }
 

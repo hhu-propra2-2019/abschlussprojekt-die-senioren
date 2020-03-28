@@ -1,8 +1,8 @@
 package mops.gruppen1.applicationService;
 
-import mops.gruppen1.data.EventIdOnly;
-import mops.gruppen1.data.EventRepo;
-import mops.gruppen1.data.GroupIdOnly;
+import mops.gruppen1.data.IEventIdOnly;
+import mops.gruppen1.data.IEventRepo;
+import mops.gruppen1.data.IGroupIdOnly;
 import mops.gruppen1.data.daos.UpdatedGroupsDAO;
 import mops.gruppen1.domain.Module;
 import mops.gruppen1.domain.*;
@@ -29,18 +29,18 @@ public class RestServiceTest {
     public void setUp() {
 
         GroupService groupServiceMock = mock(GroupService.class);
-        EventRepo eventRepoMock = mock(EventRepo.class);
+        IEventRepo eventRepoMock = mock(IEventRepo.class);
         this.restService = new RestService(groupServiceMock, eventRepoMock);
 
         // mock findTopByOrderByIdDesc - return 2L in eventIdList
-        List<EventIdOnly> latestEventIdAsListMock = new ArrayList<>();
-        EventIdOnly eventId = () -> 2L;
+        List<IEventIdOnly> latestEventIdAsListMock = new ArrayList<>();
+        IEventIdOnly eventId = () -> 2L;
         latestEventIdAsListMock.add(eventId);
         when(restService.eventRepo.findTopByOrderByIdDesc()).thenReturn(latestEventIdAsListMock);
 
         // mock findAllByIdAfter - return list with groupOneId
-        List<GroupIdOnly> groupsChangedMock = new ArrayList<>();
-        GroupIdOnly groupOneId = () -> "groupOneId";
+        List<IGroupIdOnly> groupsChangedMock = new ArrayList<>();
+        IGroupIdOnly groupOneId = () -> "groupOneId";
         groupsChangedMock.add(groupOneId);
         when(restService.eventRepo.findDistinctByIdAfter(any())).thenReturn(groupsChangedMock);
 

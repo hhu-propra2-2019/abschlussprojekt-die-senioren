@@ -9,9 +9,9 @@ import java.util.List;
  * Repository to fetch event data from database.
  */
 @Repository
-public interface EventRepo extends PagingAndSortingRepository<EventDTO, Long> {
-    List<EventIdOnly> findTopByOrderByIdDesc();
+public interface IEventRepo extends PagingAndSortingRepository<EventDTO, Long> {
+    List<IEventIdOnly> findTopByOrderByIdDesc();
 
-    List<GroupIdOnly> findDistinctByIdAfter(Long id);
+    List<IGroupIdOnly> findDistinctByIdAfter(Long id);
 
 }
