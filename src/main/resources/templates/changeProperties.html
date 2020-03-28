@@ -43,7 +43,8 @@
                 </div>
                 <div class="form-group">
                     <label for="GruppenTypWählen">Neuer Gruppentyp</label>
-                    <select th:name="groupType" class="custom-select" id="GruppenTypWählen" required>
+                    <select th:name="groupType" class="custom-select" th:placeholder="${placeholder_grouptype}"
+                            id="GruppenTypWählen" required>
                         <option value="PUBLIC">Public</option>
                         <option value="RESTRICTED">Restricted</option>
                     </select>
