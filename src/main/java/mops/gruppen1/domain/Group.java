@@ -21,7 +21,8 @@ public class Group {
     private GroupType groupType;
     private Module module;
 
-    public Group(List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator, GroupStatus groupStatus, GroupType groupType, Module module) {
+    public Group(List<Membership> members, GroupName name, GroupDescription groupDescription, User groupCreator,
+                 GroupStatus groupStatus, GroupType groupType, Module module) {
         this.members = members;
         this.groupId = UUID.randomUUID();
         this.name = name;
@@ -32,7 +33,8 @@ public class Group {
         this.module = module;
     }
 
-    public Group(List<Membership> members, UUID groupId, GroupName name, GroupDescription description, User groupCreator, GroupStatus groupStatus, GroupType groupType, Module module) {
+    public Group(List<Membership> members, UUID groupId, GroupName name, GroupDescription description,
+                 User groupCreator, GroupStatus groupStatus, GroupType groupType, Module module) {
         this.members = members;
         this.groupId = groupId;
         this.name = name;

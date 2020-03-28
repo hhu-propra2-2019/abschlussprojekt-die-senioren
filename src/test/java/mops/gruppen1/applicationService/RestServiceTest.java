@@ -51,7 +51,7 @@ public class RestServiceTest {
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("ino1"));
+        module.setModulename(new ModuleName("ino1"));
         Group groupOne = new Group(members, name, groupDescription, groupCreator, groupStatus, groupType, module);
         HashMap<String, Group> groupsMocked = new HashMap<>();
         groupsMocked.put("groupOneId", groupOne);

@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * class provides testing environment
- * 3 groups with 2 users each
- * GroupOne is active, GroupTwo is deactivated, GroupThree is active but restricted
+ * Class provides testing environment.
+ * 3 groups with 2 users each.
+ * GroupOne is active, GroupTwo is deactivated, GroupThree is active but restricted.
  */
 public class TestSetup {
     public HashMap<String, List<Membership>> groupToMembers = new HashMap<>();
@@ -87,9 +87,9 @@ public class TestSetup {
         GroupType groupTypeTwo = GroupType.RESTRICTED;
         GroupType groupTypeThree = GroupType.RESTRICTED;
         Module moduleOne = new Module();
-        moduleOne.setModulename(new Modulename("Info1"));
+        moduleOne.setModulename(new ModuleName("Info1"));
         Module moduleTwo = new Module();
-        moduleTwo.setModulename(new Modulename("Keine Veranstaltung."));
+        moduleTwo.setModulename(new ModuleName("Keine Veranstaltung."));
 
 
         User groupCreatorOne = users.get("Max");

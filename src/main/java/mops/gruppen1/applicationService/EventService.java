@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Service to handle and manage events
+ * Service to handle and manage events.
  */
 @Getter
 @Component
@@ -22,11 +22,11 @@ import java.util.List;
 public class EventService {
 
     final IEventRepo eventRepo;
-    private final String EventClassPath = "mops.gruppen1.domain.events.";
+    private final String eventClassPath = "mops.gruppen1.domain.events.";
     private List<IEvent> events;
 
     /**
-     * Init EventService
+     * Init EventService.
      *
      * @param eventRepo
      */
@@ -36,17 +36,12 @@ public class EventService {
     }
 
     /**
-     * Load all events from the EventRepo
+     * Load all events from the EventRepo.
      */
     public void loadEvents() {
 
         //Get all EventDTO´s from EventRepo
         Iterable<EventDTO> eventDTOS = eventRepo.findAll();
-
-
-        /**
-         * @// TODO: 16.03.20 Investigate if we have to sort eventDTOs by id at this point
-         */
         //Fill list of events
         eventDTOS.forEach(e -> {
             IEvent event = transform(e);
@@ -55,7 +50,7 @@ public class EventService {
     }
 
     /**
-     * Transformation of generic EventDTO to specifc EventType
+     * Transformation of generic EventDTO to specifc EventType.
      *
      * @param eventDTO
      * @return Returns initialized Event
@@ -68,7 +63,7 @@ public class EventService {
         try {
 
             //Get specifc classType for eventDTO
-            Class<IEvent> classType = (Class<IEvent>) Class.forName(EventClassPath + eventDTO.getEventType());
+            Class<IEvent> classType = (Class<IEvent>) Class.forName(eventClassPath + eventDTO.getEventType());
 
             //Deserialize Json-Payload
             IEvent event = objectMapper.readValue(eventDTO.getPayload(), classType);
@@ -86,7 +81,17 @@ public class EventService {
     }
 
 
-    public EventDTO createEventDTO(String userName, String groupID, LocalDateTime timestamp, String eventType, IEvent event) {
+    /**
+     * Method receives parameters and uses them to create an EventDTO.
+     * @param userName
+     * @param groupID
+     * @param timestamp
+     * @param eventType
+     * @param event
+     * @return EVentDTO with given parameters.
+     */
+    public EventDTO createEventDTO(String userName, String groupID, LocalDateTime timestamp,
+                                   String eventType, IEvent event) {
         ObjectMapper objectMapper = new ObjectMapper();
         String payload = "";
         try {

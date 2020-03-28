@@ -27,11 +27,11 @@ public class MembershipRequestEventTest {
 
         Username username = new Username("Willi will beitreten");
 
-        MembershipType Type = MembershipType.VIEWER;
-        String membershipType = Type.toString();
+        MembershipType type = MembershipType.VIEWER;
+        String membershipType = type.toString();
         String message = "ich will hier rein.. Ich bin ein Star";
 
-        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupThreeID, username.getUsername(), membershipType,message);
+        MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupThreeID, username.getUsername(), membershipType, message);
 
         //Act
         membershipRequestEvent.execute(testSetup.groupToMembers, testSetup.userToMembers, testSetup.users, testSetup.groups);
@@ -52,8 +52,8 @@ public class MembershipRequestEventTest {
 
         Username username = new Username("Willi will beitreten");
 
-        MembershipType Type = MembershipType.VIEWER;
-        String membershipType = Type.toString();
+        MembershipType type = MembershipType.VIEWER;
+        String membershipType = type.toString();
         String message = "ich will hier rein.. Ich bin ein Star";
 
         MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupThreeID, username.getUsername(), membershipType, message);
@@ -77,8 +77,8 @@ public class MembershipRequestEventTest {
 
         Username username = new Username("Willi will beitreten");
 
-        MembershipType Type = MembershipType.VIEWER;
-        String membershipType = Type.toString();
+        MembershipType type = MembershipType.VIEWER;
+        String membershipType = type.toString();
         String message = "ich will hier rein.. Ich bin ein Star";
 
         MembershipRequestEvent membershipRequestEvent = new MembershipRequestEvent(groupThreeID, username.getUsername(), membershipType, message);

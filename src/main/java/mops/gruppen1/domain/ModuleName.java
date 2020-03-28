@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public class Modulename {
+public class ModuleName {
 
-    private String modulename;
+    private String moduleName;
 }

@@ -33,24 +33,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-/**
- * Test for Controller
- * - Might have to be updated after Keycloak update
- */
 @AutoConfigureMockMvc
 @SpringBootTest
 class GroupControllerTest {
     @Autowired
-    MockMvc mvc;
+    private MockMvc mvc;
     private TestSetup testSetup;
     private String groupID;
 
 
     @MockBean
-    ApplicationService applicationService;
+    private ApplicationService applicationService;
 
     @Autowired
-    WebApplicationContext context;
+    private WebApplicationContext context;
 
     @BeforeEach
     public void setup() {
@@ -64,7 +60,7 @@ class GroupControllerTest {
         when(applicationService.getGroup(groupID)).thenReturn(testgroup);
     }
 
-    
+
     @Tag("controller")
     @DisplayName("Teste Verbindung zur Index - Seite.")
     @Test
@@ -104,7 +100,7 @@ class GroupControllerTest {
 
         when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
 
-        mvc.perform(get("/gruppen1/admin/{id}",groupID))
+        mvc.perform(get("/gruppen1/admin/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("gruppenAdmin"));
     }
@@ -172,7 +168,7 @@ class GroupControllerTest {
 
         when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
 
-        mvc.perform(get("/gruppen1/description/{id}",groupID))
+        mvc.perform(get("/gruppen1/description/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeProperties"));
     }
@@ -195,7 +191,7 @@ class GroupControllerTest {
 
         when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
 
-        mvc.perform(get("/gruppen1/memberships/{id}",groupID))
+        mvc.perform(get("/gruppen1/memberships/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("changeMemberships"));
     }
@@ -218,7 +214,7 @@ class GroupControllerTest {
 
         when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
 
-        mvc.perform(get("/gruppen1/groupRequests/{id}",groupID))
+        mvc.perform(get("/gruppen1/groupRequests/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("groupRequests"));
     }
@@ -261,7 +257,7 @@ class GroupControllerTest {
 
         when(applicationService.isActiveAdmin(any(), any())).thenReturn(new ValidationResult());
 
-        mvc.perform(get("/gruppen1/requestMessage/{id}",groupID))
+        mvc.perform(get("/gruppen1/requestMessage/{id}", groupID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("requestDescription"));
     }
