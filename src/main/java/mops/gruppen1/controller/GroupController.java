@@ -58,15 +58,14 @@ public class GroupController {
     public String index(KeycloakAuthenticationToken token, Model model,
                         @RequestParam(name = "search") Optional search) {
         if (token != null) {
-            Account account = createAccountFromPrincipal(token);
-            model.addAttribute("account", account);
-            String userName = account.getName();
-            List<Membership> memberships = applicationService.getActiveMembershipsOfUser(account.getName());
-            model.addAttribute("memberships", memberships);
+            model.addAttribute("account", createAccountFromPrincipal(token));
         }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
+        String userName = token.getName();
+        List<Membership> memberships = applicationService.getActiveMembershipsOfUser(token.getName());
+        model.addAttribute("memberships", memberships);
         return "index";
     }
 
@@ -74,6 +73,9 @@ public class GroupController {
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String createGroupOverview(KeycloakAuthenticationToken token, Model model,
                                 @RequestParam(name = "search") Optional search) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -89,10 +91,6 @@ public class GroupController {
                                  @RequestParam(value = "groupDescription", required = false) String groupDescription,
                                  @RequestParam(value = "file", required = false) MultipartFile file,
                                  @RequestParam(value = "members", required = false) List<String> members) {
-        Account account = createAccountFromPrincipal(token);
-        model.addAttribute("account", account);
-        //account - Name gleich Username
-
         try {
             if (!file.isEmpty()) {
                 members = applicationService.uploadCsv(file, members);
@@ -101,7 +99,7 @@ public class GroupController {
             model.addAttribute("message", e.getMessage());
             return "redirect:/gruppen1/erstellen";
         }
-        applicationService.createGroup(groupDescription, groupName, module, account.getName(), groupType, members);
+        applicationService.createGroup(groupDescription, groupName, module, token.getName(), groupType, members);
         return "redirect:/gruppen1/";
     }
 
@@ -110,6 +108,9 @@ public class GroupController {
     public String changeGroupPropertiesOverview(KeycloakAuthenticationToken token, Model model,
                                       @RequestParam(name = "search") Optional search,
                                       @PathVariable("id") String id) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -145,6 +146,9 @@ public class GroupController {
     public String changeMembershipOverview(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(name = "search") Optional search,
                                    @PathVariable("id") String groupId) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -187,6 +191,9 @@ public class GroupController {
     public String showViewForViewer(KeycloakAuthenticationToken token, Model model,
                               @RequestParam(name = "search") Optional search,
                               @PathVariable("id") String id) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -222,6 +229,9 @@ public class GroupController {
     public String showGroupForAdmin(KeycloakAuthenticationToken token, Model model,
                              @RequestParam(name = "search") Optional search,
                              @PathVariable("id") String id) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -271,6 +281,9 @@ public class GroupController {
                                 @RequestParam(name = "search") Optional search,
                                 @PathVariable("id") String groupId) {
 
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -315,6 +328,9 @@ public class GroupController {
     @Secured({"ROLE_studentin", "ROLE_orga"})
     public String showSearchGroupResults(KeycloakAuthenticationToken token, Model model,
                               @RequestParam(name = "search") Optional search) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
@@ -339,6 +355,9 @@ public class GroupController {
     public String showRequestMessageForm(KeycloakAuthenticationToken token, Model model,
                                    @RequestParam(name = "search") Optional search,
                                    @PathVariable("id") String groupId) {
+        if (token != null) {
+            model.addAttribute("account", createAccountFromPrincipal(token));
+        }
         if (search.isPresent()) {
             return searchGroups(search, model);
         }
