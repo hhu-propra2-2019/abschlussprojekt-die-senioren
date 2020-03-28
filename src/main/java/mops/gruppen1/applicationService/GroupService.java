@@ -292,7 +292,7 @@ public class GroupService {
     }
 
     /**
-     * calls performMembershipResignmentEvent to create, execute and save MembershipResignmentEvent.
+     * calls performMemberResignmentEvent to create, execute and save MemberResignmentEvent.
      * runs checks from CheckService that ensure no restrictions are violated.
      *
      * @param userName
