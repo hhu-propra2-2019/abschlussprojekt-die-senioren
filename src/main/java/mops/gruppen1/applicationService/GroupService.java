@@ -256,9 +256,6 @@ public class GroupService {
      */
     public ValidationResult requestMembership(String userName, String groupId,
                                               String membershipType, String membershipRequestMessage) {
-        /*
-            TODO check if group is assigned to a module/course, user has to be assigned to it as well
-         */
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isRestricted(groupId, groups));
         validationResults.add(checkService.isGroupActive(groupId, groups));
