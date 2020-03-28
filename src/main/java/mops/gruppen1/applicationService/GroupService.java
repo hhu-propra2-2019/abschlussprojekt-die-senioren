@@ -344,6 +344,15 @@ public class GroupService {
         return validationResult;
     }
 
+    public Group getGroup(String groupId) {
+        ValidationResult validationResult = checkService.isGroupActive(groupId, groups);
+        if(validationResult.isValid()) {
+            Group group = groups.get(groupId);
+            return group;
+        }
+        return null;
+    }
+
 
     void performMembershipAcceptanceEvent(String userName, String groupId, String acceptedBy) {
         MembershipAcceptanceEvent membershipAcceptanceEvent = new MembershipAcceptanceEvent(groupId, userName, acceptedBy);
@@ -474,5 +483,28 @@ public class GroupService {
         List<User> users = activeMembers.stream().map(Membership::getUser).collect(Collectors.toList());
 
         return users;
+    }
+
+    public ValidationResult isAdmin(String userName, String groupId) {
+        ValidationResult validationResult = checkService.isAdmin(userName, groupId, groups, users, userToMembers);
+        return validationResult;
+    }
+
+    public ValidationResult isActive(String userName, String groupId) {
+        ValidationResult validationResult = checkService.isMembershipActive(userName, groupId, groups, users, userToMembers);
+        return validationResult;
+    }
+
+    public ValidationResult isActiveAdmin(String userName, String groupId) {
+        List<ValidationResult> validationResults = new ArrayList<>();
+        validationResults.add(checkService.isAdmin(userName, groupId, groups, users, userToMembers));
+        validationResults.add(checkService.isMembershipActive(userName, groupId, groups, users, userToMembers));
+        ValidationResult validationResult = collectCheck(validationResults);
+        return validationResult;
+    }
+
+    public ValidationResult doesUserExist(String userName) {
+        ValidationResult validationResult = checkService.doesUserExist(userName, users);
+        return  validationResult;
     }
 }
