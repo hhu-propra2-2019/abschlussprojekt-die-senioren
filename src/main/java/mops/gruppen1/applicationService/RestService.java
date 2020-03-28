@@ -10,13 +10,12 @@ import mops.gruppen1.domain.Group;
 import mops.gruppen1.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.UserDataHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * this class manages the interaction with external systems
+ * this class manages the interaction with external systems.
  * - by providing information if relevant changes have happened since the last request
  * - by sending DAOs of Groups if necessary
  */
@@ -53,7 +52,9 @@ public class RestService {
     public boolean isUserAdminInGroup(String username, String groupId) {
 
         // When user is not a member of the group, return false
-        if(!isUserInGroup(username, groupId)) return false;
+        if (!isUserInGroup(username, groupId)) {
+            return false;
+        }
 
         ValidationResult validationResult = groupService.isUserAdminInGroup(username, groupId);
         return validationResult.isValid();
@@ -97,13 +98,14 @@ public class RestService {
     }
 
     /**
-     * creates a DAO with necessary attributes retrieved from domain group
+     * creates a DAO with necessary attributes retrieved from domain group.
      *
      * @param groupId is groupId
      */
     private GroupDAO createGroupDAO(String groupId) {
         Group group = groupService.getGroups().get(groupId);
-        return new GroupDAO(groupId, group.getName().toString(), group.getDescription().toString(), group.getGroupStatus().toString());
+        return new GroupDAO(groupId, group.getName().toString(),
+                group.getDescription().toString(), group.getGroupStatus().toString());
     }
 
     public boolean doesActiveGroupExist(String groupId) {
