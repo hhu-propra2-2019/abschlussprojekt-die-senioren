@@ -5,6 +5,12 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Methods in CheckService receive a value to be tested and datastructures
+ * to be tested against.
+ * Each method returns a ValidationResult that tells whether the test passed
+ * or not and if so, why it did not pass.
+ */
 @Component
 public class CheckService {
 
