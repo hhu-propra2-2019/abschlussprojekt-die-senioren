@@ -34,7 +34,8 @@ public class MemberDeletionEvent implements IEvent {
      * @param groups         Hashmap that maps a String(groupId) to memberships within the group.
      */
     @Override
-    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
+            List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         Membership toBeDeleted = findRemovedMember(groupId, userToMembers);
         deactivateMembership(toBeDeleted);
     }
