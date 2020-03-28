@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Edit MembershipType 'ADMIN' or 'VIEWER' of Membership
+ * Edit MembershipType 'ADMIN' or 'VIEWER' of Membership.
  */
 @AllArgsConstructor
 @NoArgsConstructor
@@ -57,7 +57,7 @@ public class MembershipUpdateEvent implements IEvent {
     }
 
     /**
-     * finds the membership of the user in the group
+     * finds the membership of the user in the group.
      *
      * @param memberships The user's memberships
      * @param groupId     The group in which the user becomes ADMIN or VIEWER
