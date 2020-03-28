@@ -178,7 +178,6 @@ public class GroupService {
         UserCreationEvent userCreationEvent = new UserCreationEvent(userName);
         userCreationEvent.execute(groupToMembers, userToMembers, users, groups);
 
-        //TODO is there a user that creates other users?
         persistEvent(userCreationEvent.getUsername(), null, "UserCreationEvent", userCreationEvent);
     }
 
@@ -193,9 +192,6 @@ public class GroupService {
      * @return ValidationResult that tells whether the event was successfully executed or why it was not.
      */
     public ValidationResult assignMembershipToPublicGroup(String userName, String groupId, String membershipType) {
-        /*
-            TODO check if group is assigned to a module/course, user has to be assigned to it as well
-         */
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isPublic(groupId, groups));
         validationResults.add(checkService.isGroupActive(groupId, groups));
@@ -223,9 +219,6 @@ public class GroupService {
      * @return ValidationResult that tells whether the event was successfully executed or why it was not.
      */
     public ValidationResult assignMembershipToRestrictedGroup(String userName, String groupId, String membershipType) {
-        /*
-            TODO check if group is assigned to a module/course, user has to be assigned to it as well
-         */
         List<ValidationResult> validationResults = new ArrayList<>();
         validationResults.add(checkService.isRestricted(groupId, groups));
         validationResults.add(checkService.isGroupActive(groupId, groups));
