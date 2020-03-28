@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-
 class ApplicationServiceTest {
 
     TestSetup testSetup;
@@ -34,6 +33,7 @@ class ApplicationServiceTest {
     }
 
     @Tag("ApplicationServiceTest")
+    @DisplayName("test createGroup Method")
     @Test
     void createGroup() {
         // Arrange
@@ -48,9 +48,9 @@ class ApplicationServiceTest {
         users.add(stela);
         users.add(vartras);
 
-        when(applicationService.groupService.checkService.doesUserExist(any(),any()))
+        when(applicationService.groupService.checkService.doesUserExist(any(), any()))
                 .thenReturn(new ValidationResult());
-        when(applicationService.groupService.checkService.isPublic(any(),any()))
+        when(applicationService.groupService.checkService.isPublic(any(), any()))
                 .thenReturn(new ValidationResult());
         when(applicationService.groupService.checkService.isGroupActive(any(), any()))
                 .thenReturn(new ValidationResult());
@@ -58,7 +58,7 @@ class ApplicationServiceTest {
                 .thenReturn(new ValidationResult());
 
         // Act
-        ValidationResult validationResult = applicationService.createGroup(groupDescription, groupName, groupCourse, groupCreator, groupType, users);
+        applicationService.createGroup(groupDescription, groupName, groupCourse, groupCreator, groupType, users);
 
         // Assert
         assertThat(testSetup.groups).hasSize(4);
@@ -67,6 +67,7 @@ class ApplicationServiceTest {
 
 
     @Tag("ApplicationServiceTest")
+    @DisplayName("test joinGroup Method for public groups")
     @Test
     void joinGroupMembershipAssignment() {
         // Arrange
@@ -74,7 +75,7 @@ class ApplicationServiceTest {
         String groupId = testSetup.groupOne.getGroupId().toString();
         String requestMessage = "Bist du hier der Anführer?";
 
-        when(applicationService.groupService.checkService.isPublic(any(),any()))
+        when(applicationService.groupService.checkService.isPublic(any(), any()))
                 .thenReturn(new ValidationResult());
         when(applicationService.groupService.checkService.isGroupActive(any(), any()))
                 .thenReturn(new ValidationResult());
@@ -82,7 +83,7 @@ class ApplicationServiceTest {
                 .thenReturn(new ValidationResult());
 
         // Act
-        ValidationResult validationResult = applicationService.joinGroup(userName, groupId, requestMessage);
+        applicationService.joinGroup(userName, groupId, requestMessage);
 
         // Assert
         verify(applicationService.groupService.checkService, times(1)).isPublic(any(), any());
@@ -92,6 +93,7 @@ class ApplicationServiceTest {
     }
 
     @Tag("ApplicationServiceTest")
+    @DisplayName("test joinGroup Method for restricted groups")
     @Test
     void joinGroupMembershipRequest() {
         // Arrange
@@ -99,7 +101,7 @@ class ApplicationServiceTest {
         String groupId = testSetup.groupThree.getGroupId().toString();
         String requestMessage = "Bist du hier der Anführer?";
 
-        when(applicationService.groupService.checkService.isRestricted(any(),any()))
+        when(applicationService.groupService.checkService.isRestricted(any(), any()))
                 .thenReturn(new ValidationResult());
         when(applicationService.groupService.checkService.isGroupActive(any(), any()))
                 .thenReturn(new ValidationResult());
@@ -107,7 +109,7 @@ class ApplicationServiceTest {
                 .thenReturn(new ValidationResult());
 
         // Act
-        ValidationResult validationResult = applicationService.joinGroup(userName, groupId, requestMessage);
+        applicationService.joinGroup(userName, groupId, requestMessage);
 
         // Assert
         verify(applicationService.groupService.checkService, times(1)).isRestricted(any(), any());
@@ -115,11 +117,11 @@ class ApplicationServiceTest {
         verify(applicationService.groupService.checkService, times(1)).isNotMember(any(), any(), any(), any(), any());
         verify(applicationService.groupService.checkService, times(0)).isPublic(any(), any());
     }
-  
-      @Tag("ApplicationServiceTest")
+
+    @Tag("ApplicationServiceTest")
     @DisplayName("testuploadCsv_FilenameTooShort")
     @Test
-    public void testUploadCsvFilenameTooShort(){
+    public void testUploadCsvFilenameTooShort() {
         //Arrange
         MultipartFile multipartFile = mock(MultipartFile.class);
         List<String> usernames = new ArrayList<>();
@@ -127,7 +129,7 @@ class ApplicationServiceTest {
 
         //Act & Assert
         Throwable thrown = assertThrows(Exception.class, ()
-                -> applicationService.uploadCsv(multipartFile,usernames));
+                -> applicationService.uploadCsv(multipartFile, usernames));
 
         assertThat(thrown.getMessage()).isEqualTo("Kein gültiger Dateiname");
     }
@@ -135,7 +137,7 @@ class ApplicationServiceTest {
     @Tag("ApplicationServiceTest")
     @DisplayName("testuploadCsv_WrongFileFormat")
     @Test
-    public void testUploadCsvWrongFileFormat(){
+    public void testUploadCsvWrongFileFormat() {
         //Arrange
         MultipartFile multipartFile = mock(MultipartFile.class);
         List<String> usernames = new ArrayList<>();
@@ -143,7 +145,7 @@ class ApplicationServiceTest {
 
         //Act & Assert
         Throwable thrown = assertThrows(Exception.class, ()
-                -> applicationService.uploadCsv(multipartFile,usernames));
+                -> applicationService.uploadCsv(multipartFile, usernames));
 
         assertThat(thrown.getMessage()).isEqualTo("Diese Datei ist keine Csv-Datei");
     }
@@ -151,7 +153,7 @@ class ApplicationServiceTest {
     @Tag("ApplicationServiceTest")
     @DisplayName("testuploadCsv_ValidInputFile")
     @Test
-    public void testUploadCsvValidInputFile(){
+    public void testUploadCsvValidInputFile() {
         //Arrange
         MultipartFile multipartFile = mock(MultipartFile.class);
         List<String> csvUsernames = new ArrayList<>();
@@ -164,14 +166,14 @@ class ApplicationServiceTest {
 
         try {
             when(applicationService1.extractUsernamesFromCsv(any())).thenReturn(csvUsernames);
+        } catch (Exception e) {
         }
-        catch(Exception e) {}
 
         //Act
         try {
-            resultList =  applicationService.uploadCsv(multipartFile, usernames);
+            resultList = applicationService.uploadCsv(multipartFile, usernames);
+        } catch (Exception e) {
         }
-        catch(Exception e) {}
 
         //Assert
         assertThat(resultList.contains("user1"));
