@@ -22,7 +22,7 @@ import java.util.List;
 public class EventService {
 
     final EventRepo eventRepo;
-    private final String EventClassPath = "mops.gruppen1.domain.events.";
+    private final String eventClassPath = "mops.gruppen1.domain.events.";
     private List<IEvent> events;
 
     /**
@@ -63,7 +63,7 @@ public class EventService {
         try {
 
             //Get specifc classType for eventDTO
-            Class<IEvent> classType = (Class<IEvent>) Class.forName(EventClassPath + eventDTO.getEventType());
+            Class<IEvent> classType = (Class<IEvent>) Class.forName(eventClassPath + eventDTO.getEventType());
 
             //Deserialize Json-Payload
             IEvent event = objectMapper.readValue(eventDTO.getPayload(), classType);
