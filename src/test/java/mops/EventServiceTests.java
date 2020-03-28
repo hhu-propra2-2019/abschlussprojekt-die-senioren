@@ -39,7 +39,7 @@ class EventServiceTests {
                 + "\"groupType\": \"PUBLIC\""
                 + "}";
 
-        EventDTO testEventDTO = new EventDTO(userName, groupID, timestamp , eventType, testPayload);
+        EventDTO testEventDTO = new EventDTO(userName, groupID, timestamp, eventType, testPayload);
 
         //act
         IEvent testEvent = eventService.transform(testEventDTO);

@@ -409,7 +409,7 @@ public class InteractionControllerTests {
         //Arrange
         List<GroupDAO> groupDAOs = new ArrayList<>();
         GroupDAO groupDAO1 = new GroupDAO("testGroup", "groupName", "This is a description.", "ACTIVE");
-        GroupDAO groupDAO2 = new GroupDAO("testGroup", "groupName", "Info1","This is a description.", "ACTIVE");
+        GroupDAO groupDAO2 = new GroupDAO("testGroup", "groupName", "Info1", "This is a description.", "ACTIVE");
         groupDAOs.add(groupDAO1);
         groupDAOs.add(groupDAO2);
         when(restServiceMock.getGroupsOfUser(any())).thenReturn(groupDAOs);
