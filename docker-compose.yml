@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  application:
+  gruppen:
     build: .
     ports:
       - "8080:8080"
@@ -14,5 +14,5 @@ services:
       - "MYSQL_ROOT_PASSWORD=password"
       - "MYSQL_DATABASE=gruppen"
 
-    # volumes:
-    #   - "./mysql/db/storage:/var/lib/mysql"
+     volumes:
+       - "./mysql/db/storage:/var/lib/mysql"
