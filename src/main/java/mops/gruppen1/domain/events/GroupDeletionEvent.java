@@ -24,11 +24,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class GroupDeletionEvent implements IEvent {
 
-    String groupId;
-    String deletedByUser;
+    private String groupId;
+    private String deletedByUser;
 
     @Override
-    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers,
+                        HashMap<String, List<Membership>> userToMembers,
+                        HashMap<String, User> users, HashMap<String, Group> groups) {
         Group group = groups.get(groupId);
         groupToMembers.remove(groupId);
         group.setStatus(GroupStatus.DEACTIVATED);
@@ -36,7 +38,7 @@ public class GroupDeletionEvent implements IEvent {
     }
 
     /**
-     * method deletes memberships that map to deleted groups from userToMember Hash-Map
+     * method deletes memberships that map to deleted groups from userToMember Hash-Map.
      *
      * @param userToMembers
      * @param groups
@@ -45,7 +47,9 @@ public class GroupDeletionEvent implements IEvent {
         Group group = groups.get(groupId);
         for (Map.Entry<String, List<Membership>> entry : userToMembers.entrySet()) {
             List<Membership> memberships = entry.getValue();
-            List<Membership> newMemberships = memberships.stream().filter(member -> !member.getGroup().equals(group)).collect(Collectors.toList());
+            List<Membership> newMemberships = memberships.stream()
+                    .filter(member -> !member.getGroup().equals(group))
+                    .collect(Collectors.toList());
             entry.setValue(newMemberships);
         }
     }
