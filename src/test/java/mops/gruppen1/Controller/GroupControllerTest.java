@@ -33,10 +33,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-/**
- * Test for Controller.
- * - Might have to be updated after Keycloak update
- */
 @AutoConfigureMockMvc
 @SpringBootTest
 class GroupControllerTest {
