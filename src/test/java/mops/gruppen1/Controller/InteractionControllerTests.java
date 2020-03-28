@@ -4,7 +4,6 @@ import mops.gruppen1.applicationService.RestService;
 import mops.gruppen1.data.DAOs.GroupDAO;
 import mops.gruppen1.data.DAOs.UpdatedGroupsDAO;
 import mops.gruppen1.data.DAOs.UserDAO;
-import mops.gruppen1.domain.GroupStatus;
 import org.junit.jupiter.api.*;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
@@ -58,7 +57,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("IsUserInGroup_missingUserName")
     @Test
-    void testIsUserInGroup_missingUsername() throws Exception {
+    void testIsUserInGroupMissingUsername() throws Exception {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/isUserInGroup")
@@ -69,7 +68,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("IsUserInGroup_missingGroupId")
     @Test
-    void testIsUserInGroup_missingGroupId() throws Exception {
+    void testIsUserInGroupMissingGroupId() throws Exception {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/isUserInGroup")
@@ -80,7 +79,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("IsUserInGroup_AllParamsMissing")
     @Test
-    void testIsUserInGroup_AllParamsMissing() throws Exception {
+    void testIsUserInGroupAllParamsMissing() throws Exception {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/isUserInGroup"))
@@ -91,10 +90,10 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("IsUserInGroup_True")
     @Test
-    void testIsUserInGroup_True() throws Exception {
+    void testIsUserInGroupTrue() throws Exception {
 
         //Arrange
-        when(restServiceMock.isUserInGroup(any(),any())).thenReturn(true);
+        when(restServiceMock.isUserInGroup(any(), any())).thenReturn(true);
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/isUserInGroup")
@@ -108,10 +107,10 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("IsUserInGroup_False")
     @Test
-    void testIsUserInGroup_False() throws Exception {
+    void testIsUserInGroupFalse() throws Exception {
 
         //Arrange
-        when(restServiceMock.isUserInGroup(any(),any())).thenReturn(false);
+        when(restServiceMock.isUserInGroup(any(), any())).thenReturn(false);
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/isUserInGroup")
@@ -126,7 +125,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("isUserAdminInGroup_missingUserName")
     @Test
-    void testisUserAdminInGroup_missingUsername() throws Exception {
+    void testisUserAdminInGroupMissingUsername() throws Exception {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/isUserAdminInGroup")
@@ -137,7 +136,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("isUserAdminInGroup_missingGroupId")
     @Test
-    void testisUserAdminInGroup_missingGroupId() throws Exception {
+    void testisUserAdminInGroupMissingGroupId() throws Exception {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/isUserAdminInGroup")
@@ -148,7 +147,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("isUserAdminInGroup_AllParamsMissing")
     @Test
-    void testisUserAdminInGroup_AllParamsMissing() throws Exception {
+    void testisUserAdminInGroupAllParamsMissing() throws Exception {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/isUserAdminInGroup"))
@@ -159,10 +158,10 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("isUserAdminInGroup_True")
     @Test
-    void testisUserAdminInGroup_True() throws Exception {
+    void testisUserAdminInGroupTrue() throws Exception {
 
         //Arrange
-        when(restServiceMock.isUserAdminInGroup(any(),any())).thenReturn(true);
+        when(restServiceMock.isUserAdminInGroup(any(), any())).thenReturn(true);
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/isUserAdminInGroup")
@@ -176,10 +175,10 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("isUserAdminInGroup_False")
     @Test
-    void testisUserAdminInGroup_False() throws Exception {
+    void testisUserAdminInGroupFalse() throws Exception {
 
         //Arrange
-        when(restServiceMock.isUserAdminInGroup(any(),any())).thenReturn(false);
+        when(restServiceMock.isUserAdminInGroup(any(), any())).thenReturn(false);
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/isUserAdminInGroup")
@@ -193,7 +192,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("doesGroupExist_missingGroupId")
     @Test
-    void testdoesGroupExist_missingGroupId() throws Exception {
+    void testdoesGroupExistMissingGroupId() throws Exception {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/doesGroupExist"))
@@ -204,14 +203,14 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("doesGroupExist_False")
     @Test
-    void testdoesGroupExist_False() throws Exception {
+    void testdoesGroupExistFalse() throws Exception {
 
         //Arrange
         when(restServiceMock.doesActiveGroupExist(any())).thenReturn(false);
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/doesGroupExist")
-                .param("groupId","testGroup"))
+                .param("groupId", "testGroup"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.doesGroupExist").value(false));
@@ -220,14 +219,14 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("doesGroupExist_True")
     @Test
-    void testdoesGroupExist_True() throws Exception {
+    void testdoesGroupExistTrue() throws Exception {
 
         //Arrange
         when(restServiceMock.doesActiveGroupExist(any())).thenReturn(true);
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/doesGroupExist")
-                .param("groupId","testGroup"))
+                .param("groupId", "testGroup"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.doesGroupExist").value(true));
@@ -236,11 +235,11 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("returnAllGroups_incompatibleParameter")
     @Test
-    void testreturnAllGroups_incompatibleParameter() throws Exception {
+    void testreturnAllGroupsIncompatibleParameter() throws Exception {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/returnAllGroups")
-                .param("lastEventId","x"))
+                .param("lastEventId", "x"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -248,7 +247,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("returnAllGroups_noUpdatedGroups")
     @Test
-    void testreturnAllGroups_noUpdatedGroups() throws Exception {
+    void testreturnAllGroupsNoUpdatedGroups() throws Exception {
 
         //Arrange
         UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(2);
@@ -256,7 +255,7 @@ public class InteractionControllerTests {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/returnAllGroups")
-                .param("lastEventId","2"))
+                .param("lastEventId", "2"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.eventId").value(2))
@@ -267,18 +266,18 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("returnAllGroups_withOneUpdatedGroup")
     @Test
-    void testreturnAllGroups_withOneUpdatedGroup() throws Exception {
+    void testreturnAllGroupsWithOneUpdatedGroup() throws Exception {
 
         //Arrange
         UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(3);
-        GroupDAO groupDAO = new GroupDAO("testGroup","groupName","This is a description.", "ACTIVE");
+        GroupDAO groupDAO = new GroupDAO("testGroup", "groupName", "This is a description.", "ACTIVE");
         updatedGroupsDAO.addGroupDAO(groupDAO);
 
         when(restServiceMock.getUpdatedGroups(any())).thenReturn(updatedGroupsDAO);
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/returnAllGroups")
-                .param("lastEventId","2"))
+                .param("lastEventId", "2"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.eventId").value(3))
@@ -291,12 +290,12 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("returnAllGroups_withTwoUpdatedGroups")
     @Test
-    void testreturnAllGroups_withTwoUpdatedGroups() throws Exception {
+    void testreturnAllGroupsWithTwoUpdatedGroups() throws Exception {
 
         //Arrange
         UpdatedGroupsDAO updatedGroupsDAO = new UpdatedGroupsDAO(3);
-        GroupDAO groupDAO1 = new GroupDAO("testGroup","groupName","This is a description.", "ACTIVE");
-        GroupDAO groupDAO2 = new GroupDAO("testGroup","groupName", "Info1","This is a description.", "ACTIVE");
+        GroupDAO groupDAO1 = new GroupDAO("testGroup", "groupName", "This is a description.", "ACTIVE");
+        GroupDAO groupDAO2 = new GroupDAO("testGroup", "groupName", "Info1", "This is a description.", "ACTIVE");
         updatedGroupsDAO.addGroupDAO(groupDAO1);
         updatedGroupsDAO.addGroupDAO(groupDAO2);
 
@@ -304,7 +303,7 @@ public class InteractionControllerTests {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/returnAllGroups")
-                .param("lastEventId","2"))
+                .param("lastEventId", "2"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.eventId").value(3))
@@ -322,7 +321,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("returnUsersOfGroup_missingGroupid")
     @Test
-    void testreturnUsersOfGroup_missingGroupId() throws Exception {
+    void testreturnUsersOfGroupMissingGroupId() throws Exception {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/returnUsersOfGroup"))
@@ -333,7 +332,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("returnUsersOfGroup_noUsers")
     @Test
-    void testreturnUsersOfGroup_noUsers() throws Exception {
+    void testreturnUsersOfGroupNoUsers() throws Exception {
 
         //Arrange
         List<UserDAO> userDAOs = new ArrayList<>();
@@ -351,7 +350,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("returnUsersOfGroup_twoUsers")
     @Test
-    void testreturnUsersOfGroup_twoUsers() throws Exception {
+    void testreturnUsersOfGroupTwoUsers() throws Exception {
 
         //Arrange
         List<UserDAO> userDAOs = new ArrayList<>();
@@ -373,7 +372,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("returnGroupsOfUsers_missingUserName")
     @Test
-    void testreturnGroupsOfUsers_missingGroupId() throws Exception {
+    void testreturnGroupsOfUsersMissingGroupId() throws Exception {
 
         //Act & Assert
         this.mvc.perform(get("/gruppen1/returnGroupsOfUsers"))
@@ -384,7 +383,7 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("returnGroupsOfUsers_noGroups")
     @Test
-    void testreturnGroupsOfUsers_noGroups() throws Exception {
+    void testreturnGroupsOfUsersNoGroups() throws Exception {
 
         //Arrange
         List<GroupDAO> groupDAOs = new ArrayList<>();
@@ -402,12 +401,12 @@ public class InteractionControllerTests {
     @Tag("InteractionController")
     @DisplayName("returnGroupsOfUsers_twoUsers")
     @Test
-    void testreturnGroupsOfUsers_twoUsers() throws Exception {
+    void testreturnGroupsOfUsersTwoUsers() throws Exception {
 
         //Arrange
         List<GroupDAO> groupDAOs = new ArrayList<>();
-        GroupDAO groupDAO1 = new GroupDAO("testGroup","groupName","This is a description.", "ACTIVE");
-        GroupDAO groupDAO2 = new GroupDAO("testGroup","groupName", "Info1","This is a description.", "ACTIVE");
+        GroupDAO groupDAO1 = new GroupDAO("testGroup", "groupName", "This is a description.", "ACTIVE");
+        GroupDAO groupDAO2 = new GroupDAO("testGroup", "groupName", "Info1","This is a description.", "ACTIVE");
         groupDAOs.add(groupDAO1);
         groupDAOs.add(groupDAO2);
         when(restServiceMock.getGroupsOfUser(any())).thenReturn(groupDAOs);
