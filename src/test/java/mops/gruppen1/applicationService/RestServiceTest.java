@@ -7,13 +7,12 @@ import mops.gruppen1.data.daos.UpdatedGroupsDAO;
 import mops.gruppen1.domain.Module;
 import mops.gruppen1.domain.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -62,6 +61,7 @@ public class RestServiceTest {
 
     @Tag("RestServiceTest")
     @Test
+    @DisplayName("GetUpdatedGroupsWithNoUpdatedGroups")
     void testGetUpdatedGroupsWithNoUpdatedGroups() {
         //Arrange
         UpdatedGroupsDAO updatedGroupsDAO;
@@ -75,6 +75,7 @@ public class RestServiceTest {
 
     @Tag("RestServiceTest")
     @Test
+    @DisplayName("GetUpdatedGroupsWithUpdatedGroups")
     void testGetUpdatedGroupsWithUpdatedGroups() {
         //Arrange
         UpdatedGroupsDAO updatedGroupsDAO;
