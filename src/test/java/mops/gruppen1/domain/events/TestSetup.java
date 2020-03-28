@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * class provides testing environment
- * 3 groups with 2 users each
- * GroupOne is active, GroupTwo is deactivated, GroupThree is active but restricted
+ * Class provides testing environment.
+ * 3 groups with 2 users each.
+ * GroupOne is active, GroupTwo is deactivated, GroupThree is active but restricted.
  */
 public class TestSetup {
     public HashMap<String, List<Membership>> groupToMembers = new HashMap<>();
