@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * create new Group with attributes groupId, name, description and, if added, GroupStatus (to 'active')
+ * create new Group with attributes groupId, name, description and, if added, GroupStatus (to 'active').
  * Add Group to HashSet Groups
  */
 @Getter
@@ -29,10 +29,9 @@ public class GroupCreationEvent implements IEvent {
     private String groupCourse;
     private String groupCreator;
     private String groupType;
-    //TODO how to handle optional groupCourse?
 
-
-    public GroupCreationEvent(String groupDescription, String groupName, String groupCourse, String groupCreator, String groupType) {
+    public GroupCreationEvent(String groupDescription, String groupName, String groupCourse,
+                              String groupCreator, String groupType) {
         this.groupDescription = groupDescription;
         this.groupName = groupName;
         this.groupCourse = groupCourse;
@@ -41,7 +40,9 @@ public class GroupCreationEvent implements IEvent {
     }
 
     @Override
-    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers,
+                        HashMap<String, List<Membership>> userToMembers,
+                        HashMap<String, User> users, HashMap<String, Group> groups) {
         Group newGroup = createGroup();
         this.groupId = newGroup.getGroupId().toString();
         groups.put(groupId, newGroup);
@@ -61,10 +62,13 @@ public class GroupCreationEvent implements IEvent {
         return createDependingOnArgs(members, name, description, groupStatus, groupCreator, groupType, module);
     }
 
-    private Group createDependingOnArgs(List<Membership> members, GroupName name, GroupDescription description, GroupStatus groupStatus, User groupCreator, GroupType groupType, Module module) {
+    private Group createDependingOnArgs(List<Membership> members, GroupName name,
+                                        GroupDescription description, GroupStatus groupStatus,
+                                        User groupCreator, GroupType groupType, Module module) {
         if (groupId == null) {
             return new Group(members, name, description, groupCreator, groupStatus, groupType, module);
         }
-        return new Group(members, UUID.fromString(groupId), name, description, groupCreator, groupStatus, groupType, module);
+        return new Group(members, UUID.fromString(groupId), name, description,
+                groupCreator, groupStatus, groupType, module);
     }
 }
