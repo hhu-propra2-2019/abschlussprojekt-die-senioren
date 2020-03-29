@@ -193,7 +193,7 @@ Die Liste der zur Verfügung stehenden Events wurde mit dem Ziel formuliert, ein
 Der Aufbau solcher Event-Objekte lässt sich damit grob zusammenfassen, dass sie jeweils die betroffene Gruppe, die beteiligten Personen und die Spezifikationen gewünschter Änderungen enthalten.
 Da unterschiedliche Events auch unterschiedliche Informationen benötigen, unterscheidet sich der genaue Inhalt zwischen den Event-Klassen.
 Jedes Event verfügt über eine *execute*-Methode, die die Ausführung des entsprechenden Events steuert.
-Eine Übersicht über die implementierten Events und deren Inhalte befindet sich im https://github.com/hhu-propra2/abschlussprojekt-die-senioren/wiki/Events[Wiki] des GitHub-Repositories dieser Anwendung
+Eine Übersicht über die implementierten Events und deren Inhalte befindet sich im https://github.com/hhu-propra2/abschlussprojekt-die-senioren/wiki/Events[Wiki] des GitHub-Repositories dieser Anwendung.
 
 ==== Gruppenerstellung
 
@@ -235,7 +235,7 @@ Alle Merkmale der zu erstellenden Gruppe werden dem GroupCreationEvent-Objekt be
 
 Dieses Subsystem bietet die Übersicht einer Gruppe.
 Über diese Ansicht können Gruppenmitglieder die Inhalte einer Gruppe sehen.
-Berechtigte Mitglieder erhalten in der Gruppenansicht auch die Möglichkeit, auf die Verwaltung der Inhalte zuzugreifen..
+Berechtigte Mitglieder erhalten in der Gruppenansicht auch die Möglichkeit, auf die Verwaltung der Inhalte zuzugreifen.
 Es wird eine Unterscheidung zwischen den Rollen Viewer und Admin getroffen. +
 
 |===
@@ -437,7 +437,7 @@ Users zu einer Gruppe entschieden. Im Domänen-Modell wird dadurch Komplexität 
 Gruppenerstellung reduziert, und es wird eine klare Trennung der Verantwortlichkeiten entsprechender Event-Klassen
 garantiert. In der Service-Schicht wird dann sichergestellt, dass für eine Gruppenerstellung die richtigen Events angestoßen
 werden. Wenn ein User eine Gruppe erstellt, so wird durch den ApplicationService sichergestellt, dass neben dem GroupCreationEvent
-auch das entsprechende Event des Gruppenbeitritts (MembershipAssignmentEvent) ausgeführt wird. Aud der Ebene der Events wollten
+auch das entsprechende Event des Gruppenbeitritts (MembershipAssignmentEvent) ausgeführt wird. Auf der Ebene der Events wollten
 wir hier eine unnötige Kopplung vermeiden.
 
 ==== User-Management: Gruppenlöschungen vs. Gruppe verlassen
