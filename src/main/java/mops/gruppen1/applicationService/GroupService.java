@@ -381,7 +381,7 @@ public class GroupService {
         MemberDeletionEvent memberDeletionEvent = new MemberDeletionEvent(groupId, userName, deletedBy);
         memberDeletionEvent.execute(groupToMembers, userToMembers, users, groups);
 
-        persistEvent(userName, groupId, "MembershipDeletionEvent", memberDeletionEvent);
+        persistEvent(userName, groupId, "MemberDeletionEvent", memberDeletionEvent);
     }
 
     /**
