@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Module {
 
     private List<User> users;
-    private Modulename modulename;
+    private ModuleName modulename;
     private UUID id;
     private ModuleSemester moduleSemester;
 }

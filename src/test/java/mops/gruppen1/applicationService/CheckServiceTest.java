@@ -74,7 +74,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -102,7 +102,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Mathe"));
+        module.setModulename(new ModuleName("Mathe"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -121,7 +121,6 @@ class CheckServiceTest {
     void testIsPublicPositive() {
         //Arrange
         String userName1 = "groupCreator";
-        User user1 = new User(new Username(userName1));
 
         // Create & add group
         List<Membership> members = new ArrayList<>();
@@ -131,7 +130,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.ACTIVE;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Keine Veranstaltung."));
+        module.setModulename(new ModuleName("Keine Veranstaltung."));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -159,7 +158,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.RESTRICTED;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -187,7 +186,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.RESTRICTED;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -215,7 +214,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -256,7 +255,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -302,7 +301,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -348,7 +347,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -394,7 +393,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -440,7 +439,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -487,7 +486,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -533,7 +532,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -580,7 +579,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -627,7 +626,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -674,7 +673,7 @@ class CheckServiceTest {
         GroupStatus groupStatus = GroupStatus.DEACTIVATED;
         GroupType groupType = GroupType.PUBLIC;
         Module module = new Module();
-        module.setModulename(new Modulename("Info1"));
+        module.setModulename(new ModuleName("Info1"));
         Group group = new Group(members, groupName, description, groupCreator, groupStatus, groupType, module);
 
         HashMap groups = new HashMap<String, Group>();
@@ -703,7 +702,7 @@ class CheckServiceTest {
         String groupId = testSetup.groupOne.getGroupId().toString();
 
         //act
-        ValidationResult validationResult = checkService.activeAdminRemainsAfterResignment(userName, groupId, testSetup.groupToMembers);
+        ValidationResult validationResult = checkService.activeAdminRemains(userName, userName, groupId, testSetup.groupToMembers);
 
         //assert
         assertThat(validationResult.isValid()).isFalse();
@@ -720,7 +719,7 @@ class CheckServiceTest {
         memberStela.setMembershipType(MembershipType.ADMIN);
 
         //act
-        ValidationResult validationResult = checkService.activeAdminRemainsAfterResignment(userName, groupId, testSetup.groupToMembers);
+        ValidationResult validationResult = checkService.activeAdminRemains(userName, userName, groupId, testSetup.groupToMembers);
 
         //assert
         assertThat(validationResult.isValid()).isTrue();

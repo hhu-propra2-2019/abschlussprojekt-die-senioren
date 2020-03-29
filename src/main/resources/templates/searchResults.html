@@ -40,18 +40,25 @@
                 <tbody th:remove="all-but-first">
                 <tr th:each="group:${matchedGroups}">
                     <td class="h6" th:text="${group.name.name}">Gruppe 1</td>
-                    <td class="h6" th:text="${group.module.modulename.modulename}">Keine</td>
+                    <td class="h6" th:text="${group.module.modulename.moduleName}">Keine</td>
                     <td class="h6" th:text="${group.groupType}">Public</td>
                     <td class="h6" th:text="${group.description.description}">Gruppenbeschreibung I</td>
                     <td>
-                        <!-- TODO: Anpassen des Redirects nach Beitritt -->
-                        <!-- TODO: Falls kein Knopf da ist, keinen Knopf anzeigen -->
-                        <div class="form-group">
-                            <form class="form" method="post" th:action="@{/gruppen1/searchResults}">
-                                <button  class="btn btn-success rounded-bottom offset-2" type="submit"
-                                         th:value="${group.groupId}" th:name="id">Beitreten
-                                </button>
-                            </form>
+                        <div th:switch="${group.groupType}">
+                            <span th:case="${T(mops.gruppen1.domain.GroupType).PUBLIC}">
+                                    <form class="form" method="post" th:action="@{/gruppen1/searchResults}">
+                                        <input type="hidden" th:value="assign" th:name="action"/>
+                                        <button  class="btn btn-success rounded-bottom offset-2" type="submit"
+                                             th:value="${group.groupId}" th:name="id">Beitreten
+                                        </button>
+                                    </form>
+                            </span>
+                            <span th:case="${T(mops.gruppen1.domain.GroupType).RESTRICTED}">
+                                <a class="btn btn-outline-secondary  offset-2"
+                                   th:href="@{/gruppen1/requestMessage/{id}(id=${group.groupId})}">
+                                    Beantragen
+                                </a>
+                            </span>
                         </div>
                     </td>
                 </tr>

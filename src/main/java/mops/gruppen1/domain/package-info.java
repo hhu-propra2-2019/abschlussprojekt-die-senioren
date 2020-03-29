@@ -1,4 +1,4 @@
 /**
- * This package contains all the entities neccessary to represent our domain.
+ * This package contains all the entities necessary to represent our domain.
  */
 package mops.gruppen1.domain;

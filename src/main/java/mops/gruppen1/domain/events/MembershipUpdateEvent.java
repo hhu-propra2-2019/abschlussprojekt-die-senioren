@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Edit MembershipType 'ADMIN' or 'VIEWER' of Membership
+ * Edit MembershipType 'ADMIN' or 'VIEWER' of Membership.
  */
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,10 +26,15 @@ public class MembershipUpdateEvent implements IEvent {
     private String updatedBy;
     private String updatedTo;
 
+    public MembershipUpdateEvent(String groupId, String userName, String updatedBy) {
+        this.groupId = groupId;
+        this.userName = userName;
+        this.updatedBy = updatedBy;
+    }
+
     @Override
     public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
             List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
-        //TODO Prüfe, dass ein Member sich selbst nicht ändern kann(updatedBy ungleich memberId)
         List<Membership> memberships = userToMembers.get(userName);
         Membership membership = getMembership(memberships, groupId);
         changeMembershipType(membership);
@@ -41,15 +46,17 @@ public class MembershipUpdateEvent implements IEvent {
      * @param membership The membership whose type is to be changes.
      */
     private void changeMembershipType(Membership membership) {
-        if (updatedTo.equalsIgnoreCase("VIEWER")) {
-            membership.setMembershipType(MembershipType.VIEWER);
-        } else if (updatedTo.equalsIgnoreCase("ADMIN")) {
+        if (membership.getMembershipType().equals(MembershipType.VIEWER)) {
             membership.setMembershipType(MembershipType.ADMIN);
+            this.updatedTo = "ADMIN";
+        } else {
+            membership.setMembershipType(MembershipType.VIEWER);
+            this.updatedTo = "VIEWER";
         }
     }
 
     /**
-     * finds the membership of the user in the group
+     * finds the membership of the user in the group.
      *
      * @param memberships The user's memberships
      * @param groupId     The group in which the user becomes ADMIN or VIEWER

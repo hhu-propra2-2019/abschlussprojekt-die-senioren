@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Change attribute Status in Membership to DEACTIVATED.
- * Delete Membership from Groups ?
+ * Delete Membership from Groups?
  */
 @Getter
 @EqualsAndHashCode
@@ -26,7 +26,7 @@ public class MemberResignmentEvent implements IEvent {
     private String leavingUserName;
 
     /**
-     * Deactivates the given membership in all datastructures
+     * Deactivates the given membership in all datastructures.
      *
      * @param groupToMembers Hashmap that maps a String(groupId) to a list of memberships.
      * @param userToMembers  Hashmap that maps a String(userId) to a list of memberships
@@ -34,7 +34,8 @@ public class MemberResignmentEvent implements IEvent {
      * @param groups         Hashmap that maps a String(groupId) to memberships within the group.
      */
     @Override
-    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String, List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
+    public void execute(HashMap<String, List<Membership>> groupToMembers, HashMap<String,
+            List<Membership>> userToMembers, HashMap<String, User> users, HashMap<String, Group> groups) {
         List<Membership> memberships = userToMembers.get(leavingUserName);
         Group group = groups.get(groupId);
 
@@ -53,7 +54,7 @@ public class MemberResignmentEvent implements IEvent {
     }
 
     /**
-     * finds the membership of the user in the group they are leaving
+     * finds the membership of the user in the group they are leaving.
      *
      * @param memberships The user's memberships
      * @param groupId     The Group the user is leaving
