@@ -205,7 +205,7 @@ public class GroupController {
         return "redirect:/gruppen1/";
     }
 
-    private void fillModelforDetailPages(Model model, @PathVariable("id") String id) {
+    private void fillModelForDetailPages(Model model, @PathVariable("id") String id) {
         model.addAttribute("groupId", id);
         Group group = applicationService.getGroup(id);
         model.addAttribute("members", applicationService.getActiveMembersOfGroup(id));

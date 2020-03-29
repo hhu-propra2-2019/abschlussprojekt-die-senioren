@@ -184,7 +184,7 @@ public class GroupService {
     /**
      * calls performMembershipAssignmentEvent to create, execute and save MembershipAssignmentEvent.
      * runs checks from CheckService that ensure no restrictions are violated.
-     * this method explicitly refers to public groups, which is a necessary destinction in ApplicationService.
+     * this method explicitly refers to public groups, which is a necessary distinction in ApplicationService.
      *
      * @param userName
      * @param groupId
