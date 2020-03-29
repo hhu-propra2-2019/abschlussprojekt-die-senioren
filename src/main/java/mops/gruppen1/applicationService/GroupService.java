@@ -311,7 +311,7 @@ public class GroupService {
         MemberResignmentEvent memberResignmentEvent = new MemberResignmentEvent(groupId, userName);
         memberResignmentEvent.execute(groupToMembers, userToMembers, users, groups);
 
-        persistEvent(userName, groupId, "MembershipResignmentEvent", memberResignmentEvent);
+        persistEvent(userName, groupId, "MemberResignmentEvent", memberResignmentEvent);
     }
 
     /**
