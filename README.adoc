@@ -6,7 +6,7 @@
 
 === Problemstatement
 
-Das primäre Ziel des Projektes ist, eine Self-Contained-System bereitzustellen, welches die
+Das primäre Ziel des Projektes ist, ein Self-Contained-System bereitzustellen, welches die
 Funktion der
 
 * Gruppenbildung
