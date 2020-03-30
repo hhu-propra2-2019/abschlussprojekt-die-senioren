@@ -199,7 +199,7 @@ public class GroupController {
         }
         ValidationResult validation = applicationService.isActive(token.getName(), id);
         if (validation.isValid()) {
-            fillModelforDetailPages(model, id);
+            fillModelForDetailPages(model, id);
             return "gruppenViewer";
         }
         return "redirect:/gruppen1/";
@@ -238,7 +238,7 @@ public class GroupController {
         ValidationResult validationResult = applicationService.isActiveAdmin(token.getName(), id);
 
         if (validationResult.isValid()) {
-            fillModelforDetailPages(model, id);
+            fillModelForDetailPages(model, id);
             model.addAttribute("numberOfOpenRequests", applicationService.countPendingRequestOfGroup(id));
             return "gruppenAdmin";
         }

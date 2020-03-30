@@ -401,7 +401,7 @@ Die Überprüfung, ob Bedingungen erfüllt werden, basiert in unserer Anwendung 
 
 Alle Daten, die an der Ausführung eines Events beteiligt sind und für die Bedingungen gelten, werden auf ihre Gültigkeit im Sinne des Events überprüft.
 Die Durchführung solcher Überprüfungen erzeugt je ein ValidationResult-Objekt, das auf die Validität (negativer Test auf Bedingungsverletzung) bzw. Invalidität (positiver Test auf Bedingungsverletzung) hinweist.
-Nach der Durchführung aller Überprüfungen werden die ereugten ValidationResult-Objekte gesammelt ausgewertet, um ein neues ValidationResult-Objekt anzulegen, dass die Ergebnisse aller vorangegangen Überprüfungen in einem Objekt zusammenfasst.
+Nach der Durchführung aller Überprüfungen werden die erzeugten ValidationResult-Objekte gesammelt ausgewertet, um ein neues ValidationResult-Objekt anzulegen, dass die Ergebnisse aller vorangegangen Überprüfungen in einem Objekt zusammenfasst.
 Sollte bei den Überprüfungen mindestens eine Bedingungsverletzung festgestellt worden sein, weist auch das neue ValidationResult-Objekt auf die Invalidität der Daten hin.
 Wenn das passiert, wird Workflow zur Ausführung des Events noch vor Erstellung des Event-Objektes abgebrochen.
 
@@ -468,7 +468,7 @@ nicht mehr mit abgebildet werden können.
 
 ==== Schnittstelle zu den anderen Teilsystemen
 
-Wir haben uns dazu entschieden, Gruppeninformation in Form eines GroupDAOS nach außen zu geben. GroupDAOs besitzen diejenigen
+Wir haben uns dazu entschieden, Gruppeninformation in Form eines GroupDAOs nach außen zu geben. GroupDAOs besitzen diejenigen
 Attribute eines Gruppenobjekts, die von anderen Teilsystemen benötigt werden. Hierzu erfolgte eine Absprache mit den anderen Teilsystemen.
 GroupDAOs werden in ein UpdatedGroupsDAO verpackt, welches eine Liste von GroupDAOs und die letzte in der Datenbank
 gespeicherte EventId beinhaltet. Diese EventId repräsentiert den aktuellen Stand aller Änderungen in unserem System.
@@ -540,4 +540,4 @@ Die Implementierung neuer Events erfordert daher Arbeiten an einer Reihe von Kla
 
 Der Implementierungsaufwand für neue Events ist dadurch begrenzt, dass existierende Events bisher unabhängig voneinander implementiert werden.
 Auf diese Weise müssen die oben genannten Klassen zwar bearbeitet werden, falls ein neues Event hinzugefügt werden soll, aber es müssen keine alten Events bearbeitet werden.
-Die nötigen Implementierungen stellen daher lediglich Erweiterungen der Klassen dar, die unabhänging vom bereits vorhanden Code geschrieben werden können.
+Die nötigen Implementierungen stellen daher lediglich Erweiterungen der Klassen dar, die unabhänging vom bereits vorhandenen Code geschrieben werden können.
